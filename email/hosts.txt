@@ -1,0 +1,11 @@
+# Email Protocol Collection Hosts File
+# Three roles: mail client, mail server, DNS resolver
+
+# Mail Client (sends/receives email via SMTP/POP3/IMAP)
+192.168.1.151           💻 Mail Client
+
+# Mail Server (Postfix on AWS — handles SMTP, POP3, IMAP)
+52.91.199.108           📧 Mail Server
+
+# DNS Resolver (gateway — resolves MX records for mail routing)
+192.168.1.1             🔍 DNS Resolver

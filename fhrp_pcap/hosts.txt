@@ -1,0 +1,106 @@
+# FHRP Protocol Collection Hosts
+# HSRP, VRRP, GLBP, IRDP, IPv6 Anycast
+
+# Router MACs (R1 is consistently higher priority than R2 across all captures)
+aa:bb:cc:00:01:20	🎯 R1 (Active/Master/AVG)
+aa:bb:cc:00:02:20	💤 R2 (Standby/Backup)
+aa:bb:cc:00:04:20	🖥 R4
+aa:bb:cc:00:05:20	🖥 R5
+aa:bb:cc:00:06:20	🖥 R6
+
+# HSRP Virtual MACs
+00:00:0c:07:ac:0a	🖥 HSRPv1 VMAC
+00:00:0c:9f:f0:14	🖥 HSRPv2 VMAC
+
+# VRRP Virtual MAC
+00:00:5e:00:01:1e	🖥 VRRP VMAC
+
+# GLBP Virtual MACs
+00:07:b4:00:28:01	🖥 GLBP AVF-1
+00:07:b4:00:28:02	🖥 GLBP AVF-2
+
+# L2 Multicast
+01:00:5e:00:00:01	📡 All Hosts
+01:00:5e:00:00:02	📡 All Routers
+01:00:5e:00:00:12	📡 VRRP
+01:00:5e:00:00:66	📡 HSRPv2/GLBP
+01:00:0c:cd:cd:cd	📡 Cisco L2 Multicast
+ff:ff:ff:ff:ff:ff	📡 Broadcast
+
+# Common Loopback
+10.0.0.3	🖥 R3
+
+# HSRPv1 (192.168.10.x)
+192.168.10.1	🎯 R1 (Active)
+192.168.10.2	💤 R2 (Standby)
+192.168.10.4	🌐 VIP
+
+# IRDP (192.168.15.x) — no elected roles
+192.168.15.1	🖥 R1
+192.168.15.2	🖥 R2
+192.168.15.6	🖥 R6
+
+# HSRPv2 (192.168.20.x)
+192.168.20.1	🎯 R1 (Active)
+192.168.20.2	💤 R2 (Standby)
+192.168.20.4	🌐 VIP
+
+# VRRP (192.168.30.x)
+192.168.30.1	🎯 R1 (Master)
+192.168.30.2	💤 R2 (Backup)
+192.168.30.4	🌐 VIP
+
+# GLBP (192.168.40.x)
+192.168.40.1	🎯 R1 (AVG)
+192.168.40.2	💤 R2 (Standby AVG)
+192.168.40.4	🌐 AVG VIP
+192.168.40.5	🖥 AVF
+
+# IPv4 Multicast
+224.0.0.1	📡 All Hosts
+224.0.0.2	📡 All Routers
+224.0.0.18	📡 VRRP
+224.0.0.102	📡 HSRPv2/GLBP
+255.255.255.255	📡 Broadcast
+
+# IPv6 Loopback
+fc00::3	🖥 R3
+
+# IPv6 Link-Local (shared across FHRP captures)
+fe80::1	🎯 R1
+fe80::2	💤 R2
+fe80::4	🖥 R4
+fe80::5	🖥 R5
+
+# IPv6 HSRPv2 (fc00:192:168:16::)
+fc00:192:168:16::1	🎯 R1 (Active)
+fc00:192:168:16::2	💤 R2 (Standby)
+fc00:192:168:16::4	🌐 VIP
+
+# IPv6 VRRPv3 (fc00:192:168:36::)
+fc00:192:168:36::1	🎯 R1 (Master)
+fc00:192:168:36::2	💤 R2 (Backup)
+fc00:192:168:36::4	🌐 VIP
+
+# IPv6 GLBP (fc00:192:168:46::)
+fc00:192:168:46::1	🎯 R1 (AVG)
+fc00:192:168:46::2	💤 R2 (Standby AVG)
+fc00:192:168:46::4	🌐 AVG VIP
+fc00:192:168:46::5	🖥 AVF
+
+# IPv6 Anycast (fc00:192:168:50::) — no FHRP election here
+fc00:192:168:50::1	🖥 R1
+fc00:192:168:50::2	🖥 R2
+fc00:192:168:50::5	🖥 R5
+fc00:192:168:50::ffff	🌐 Anycast VIP
+
+# HSRP/GLBP Virtual MAC link-local
+fe80::5:73ff:fea0:10	🖥 HSRP VMAC
+fe80::7:b4ff:fe00:2e00	🖥 GLBP VMAC
+fe80::3636	🖥 VRRP VMAC
+
+# IPv6 Multicast
+ff02::1	📡 All Nodes
+ff02::2	📡 All Routers
+ff02::12	📡 VRRP
+ff02::66	📡 HSRP/GLBP

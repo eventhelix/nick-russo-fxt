@@ -1,0 +1,34 @@
+# Ethernet OAM Protocol Collection Hosts
+# CFM, Y.1731, E-LMI, 802.3 OAM PDU
+
+# CFM L3/L7 Core Switches (Nokia/Alcatel)
+00:90:3d:74:7e:00	🖥 Core-A
+00:90:3d:9e:c3:00	🖥 Core-B
+
+# CFM L7 Edge Switches (CUSTOMER domain MEPs — send CCMs, handle LBM/LTM/DMM)
+00:90:3d:e7:fb:00	📍 Edge-A (MEP, Customer)
+00:90:3d:e7:fb:01	📍 Edge-B (MEP + Link OAM peer)
+
+# E-LMI / Link OAM Peer
+00:90:3d:9e:c3:01	🖥 Edge-C (Link OAM / E-LMI Network)
+
+# CFM Provider MEP Endpoints (send CCMs in PROVIDER domain)
+00:1e:7a:7e:29:bf	📍 MEP-A (Provider)
+00:1e:e6:c3:a5:bf	📍 MEP-B (Provider)
+
+# CFM Multicast
+01:80:c2:00:00:33	📡 CFM L3 Multicast
+01:80:c2:00:00:37	📡 CFM L7 Multicast
+01:80:c2:00:00:3b	📡 CFM Linktrace
+01:80:c2:00:00:3f	📡 CFM Linktrace
+
+# OAM PDU / E-LMI Multicast
+01:80:c2:00:00:02	📡 Slow Protocols
+01:80:c2:00:00:07	📡 E-LMI Multicast
+
+# Broadcast
+ff:ff:ff:ff:ff:ff	📡 Broadcast
+
+# IP (CFM core)
+192.168.0.3	🖥 Core-A
+192.168.0.4	🖥 Core-B

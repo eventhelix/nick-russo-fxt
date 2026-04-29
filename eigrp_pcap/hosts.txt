@@ -1,0 +1,54 @@
+# EIGRP Protocol Collection Hosts
+
+# Loopback/OTP Addresses
+10.0.0.1	🎯 R1 (OTP Hub)
+10.0.0.4	🖥 R4
+10.0.0.6	🖥 R6
+
+# IPv4 Point-to-Point Links
+10.1.2.1	🖥 R1
+10.1.2.2	🖥 R2
+10.1.3.1	🖥 R1
+10.1.3.3	🖥 R3
+10.2.4.2	🖥 R2
+10.2.4.4	🖥 R4
+10.2.7.2	🖥 R2
+10.2.7.7	📍 R7 (Stub)
+10.3.4.3	🖥 R3
+10.3.4.4	🖥 R4
+10.3.5.3	🖥 R3
+10.3.5.5	🖥 R5
+
+# Interop (classic/named mode)
+172.16.48.4	🖥 R4
+172.16.48.8	🖥 R8
+
+# OTP (Over-The-Top) Tunnel Endpoints
+203.0.113.1	🎯 R1 (OTP Hub)
+203.0.113.2	🔽 R2 (OTP Spoke)
+203.0.113.3	🔽 R3 (OTP Spoke)
+
+# EIGRP Multicast
+224.0.0.10	📡 EIGRP Multicast
+
+# IPv6 Link-Local
+fe80::1	🖥 R1
+fe80::2	🖥 R2
+fe80::3	🖥 R3
+fe80::4	🖥 R4
+fe80::5	🖥 R5
+fe80::7	📍 R7 (Stub)
+fe80::8	🖥 R8
+
+# IPv6 Global/ULA
+fc00::1	🖥 R1
+fc00:10:3:5::3	🖥 R3
+fc00:10:3:5::5	🖥 R5
+
+# IPv6 OTP Tunnel Endpoints
+fc00:203:0:113::1	🎯 R1 (OTP Hub)
+fc00:203:0:113::2	🔽 R2 (OTP Spoke)
+fc00:203:0:113::3	🔽 R3 (OTP Spoke)
+
+# EIGRP IPv6 Multicast
+ff02::a	📡 EIGRP Multicast

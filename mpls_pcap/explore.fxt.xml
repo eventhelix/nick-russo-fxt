@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+MPLS ecosystem: LDP, NHRP, RSVP-TE, PIM, BFD, MPLS Echo, GRE, ICMP
+
+Emoji story for MPLS lifecycle:
+  LDP:    👋 Hello → 🏷 Label Mapping → 🔄 Withdrawal/Release → ⚠️ Notification
+  NHRP:   📝 Registration → 🔍 Resolution → 🗑 Purge → 🚫 Error
+  RSVP:   🛤 PATH → ✅ RESV → 🚫 PATH ERROR → 🗑 TEAR
+  PIM:    👋 Hello → 🌲 Join/Prune
+  BFD:    🔴 Down / 🟡 Init / 🟢 Up
+  MPLS:   🏷 Label forwarding
+  Echo:   📡 Request → ✅ Reply
+-->
+<FXT>
+
+  <!-- ============================================================
+       LDP (Label Distribution Protocol)
+       ============================================================ -->
+
+  <!-- LDP Hello (UDP, before TCP templates) -->
+  <udp-message style="sea-green">
+    <opcode regex-match="Message Type: (.*) \(0x\w+\)" regex-replace="👋 LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">ldp.msg.tlv.hello.hold</param>
+    <param regex-match=".*Targeted Hello.* (.*)" regex-replace="🎯 Type: $1">ldp.msg.tlv.hello.targeted</param>
+    <param regex-match="(Transport Address): (.*)" regex-replace="🌐 $1: $2">ldp.msg.tlv.ipv4.taddr</param>
+    <remark regex-match=".*" regex-replace="💡 LDP Hello — periodic UDP multicast (224.0.0.2) for neighbor discovery; discovered LSRs then open a TCP session to exchange labels and session parameters">ldp</remark>
+  </udp-message>
+
+  <!-- LDP Hello IPv6 -->
+  <udpv6-message style="sea-green">
+    <opcode regex-match="Message Type: (.*) \(0x\w+\)" regex-replace="👋 LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">ldp.msg.tlv.hello.hold</param>
+    <param regex-match=".*Targeted Hello.* (.*)" regex-replace="🎯 Type: $1">ldp.msg.tlv.hello.targeted</param>
+    <param regex-match="(Transport Address): (.*)" regex-replace="🌐 $1: $2">ldp.msg.tlv.ipv6.taddr</param>
+    <remark regex-match=".*" regex-replace="💡 LDP Hello — periodic UDP multicast (224.0.0.2) for neighbor discovery; discovered LSRs then open a TCP session to exchange labels and session parameters">ldp</remark>
+  </udpv6-message>
+
+  <!-- LDP Notification (over TCP) - before other LDP messages -->
+  <tcp-message style="magenta">
+    <opcode regex-match="Message Type: (Notification Message) \(0x\w+\)" regex-replace="⚠️ LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <param regex-match=".*= Status Data: (.*)" regex-replace="📋 Status: $1">ldp.msg.tlv.status.data</param>
+    <param>ldp.msg.tlv.pwstatus.code</param>
+  </tcp-message>
+
+  <!-- LDP Label Mapping (over TCP) -->
+  <tcp-message style="royal-blue">
+    <opcode regex-match="Message Type: (Label Mapping Message) \(0x\w+\)" regex-replace="🏷 LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <param regex-match="(FEC Element.*Prefix): (.*)" regex-replace="🌐 $1: $2">ldp.msg.tlv.fec.pfval</param>
+    <param>ldp.msg.tlv.fec.len</param>
+    <param regex-match=".*Generic Label: (\d+).*" regex-replace="🏷 Label: $1">ldp.msg.tlv.generic.label</param>
+    <param regex-match="(PW ID): (.*)" regex-replace="🔗 $1: $2">ldp.msg.tlv.fec.pw.pwid</param>
+    <param>ldp.msg.tlv.fec.pw.pwtype</param>
+    <param>ldp.msg.tlv.fec.type</param>
+    <param regex-match="(Root Node Address): (.*)" regex-replace="🌲 $1: $2">ldp.msg.tlv.ldp_p2mp.ipv4_rtnodeaddr</param>
+    <remark regex-match=".*" regex-replace="💡 LDP Label Mapping — advertises a local label binding for a FEC (prefix) to the peer; downstream LSR assigns labels and propagates upstream to build the LSP hop by hop">ldp</remark>
+  </tcp-message>
+
+  <!-- LDP Initialization (over TCP) -->
+  <tcp-message style="teal">
+    <opcode regex-match="Message Type: (Initialization Message) \(0x\w+\)" regex-replace="🤝 LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <remark regex-match=".*" regex-replace="💡 LDP Initialization — negotiates session parameters (keepalive timer, label advertisement mode: DU vs DoD, path vector limit); both LSRs must agree or session is torn down with a Notification">ldp</remark>
+  </tcp-message>
+
+  <!-- LDP Label Withdrawal / Release / Request (over TCP) -->
+  <tcp-message style="goldenrod">
+    <opcode regex-match="Message Type: (.*Message) \(0x\w+\)" regex-replace="🔄 LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <param regex-match="(FEC Element.*Prefix): (.*)" regex-replace="🌐 $1: $2">ldp.msg.tlv.fec.pfval</param>
+    <param regex-match=".*Generic Label: (\d+).*" regex-replace="🏷 Label: $1">ldp.msg.tlv.generic.label</param>
+    <param regex-match="(PW ID): (.*)" regex-replace="🔗 $1: $2">ldp.msg.tlv.fec.pw.pwid</param>
+    <param>ldp.msg.tlv.fec.type</param>
+    <param regex-match="(Root Node Address): (.*)" regex-replace="🌲 $1: $2">ldp.msg.tlv.ldp_p2mp.ipv4_rtnodeaddr</param>
+  </tcp-message>
+
+  <!-- LDP Notification (over TCPv6) -->
+  <tcpv6-message style="magenta">
+    <opcode regex-match="Message Type: (Notification Message) \(0x\w+\)" regex-replace="⚠️ LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <param regex-match=".*= Status Data: (.*)" regex-replace="📋 Status: $1">ldp.msg.tlv.status.data</param>
+    <param>ldp.msg.tlv.pwstatus.code</param>
+  </tcpv6-message>
+
+  <!-- LDP Label Mapping (over TCPv6) -->
+  <tcpv6-message style="royal-blue">
+    <opcode regex-match="Message Type: (Label Mapping Message) \(0x\w+\)" regex-replace="🏷 LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <param regex-match="(FEC Element.*Prefix): (.*)" regex-replace="🌐 $1: $2">ldp.msg.tlv.fec.pfval</param>
+    <param>ldp.msg.tlv.fec.len</param>
+    <param regex-match=".*Generic Label: (\d+).*" regex-replace="🏷 Label: $1">ldp.msg.tlv.generic.label</param>
+    <param regex-match="(PW ID): (.*)" regex-replace="🔗 $1: $2">ldp.msg.tlv.fec.pw.pwid</param>
+    <param>ldp.msg.tlv.fec.pw.pwtype</param>
+    <param>ldp.msg.tlv.fec.type</param>
+    <param regex-match="(Root Node Address): (.*)" regex-replace="🌲 $1: $2">ldp.msg.tlv.ldp_p2mp.ipv4_rtnodeaddr</param>
+    <remark regex-match=".*" regex-replace="💡 LDP Label Mapping — advertises a local label binding for a FEC (prefix) to the peer; downstream LSR assigns labels and propagates upstream to build the LSP hop by hop">ldp</remark>
+  </tcpv6-message>
+
+  <!-- LDP Initialization (over TCPv6) -->
+  <tcpv6-message style="teal">
+    <opcode regex-match="Message Type: (Initialization Message) \(0x\w+\)" regex-replace="🤝 LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <remark regex-match=".*" regex-replace="💡 LDP Initialization — negotiates session parameters (keepalive timer, label advertisement mode: DU vs DoD, path vector limit); both LSRs must agree or session is torn down with a Notification">ldp</remark>
+  </tcpv6-message>
+
+  <!-- LDP generic (over TCPv6) -->
+  <tcpv6-message style="goldenrod">
+    <opcode regex-match="Message Type: (.*Message) \(0x\w+\)" regex-replace="🔄 LDP $1">ldp.msg.type</opcode>
+    <param regex-match="(LSR ID): (.*)" regex-replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
+    <param regex-match="(FEC Element.*Prefix): (.*)" regex-replace="🌐 $1: $2">ldp.msg.tlv.fec.pfval</param>
+    <param regex-match=".*Generic Label: (\d+).*" regex-replace="🏷 Label: $1">ldp.msg.tlv.generic.label</param>
+    <param regex-match="(PW ID): (.*)" regex-replace="🔗 $1: $2">ldp.msg.tlv.fec.pw.pwid</param>
+    <param>ldp.msg.tlv.fec.type</param>
+    <param regex-match="(Root Node Address): (.*)" regex-replace="🌲 $1: $2">ldp.msg.tlv.ldp_p2mp.ipv4_rtnodeaddr</param>
+  </tcpv6-message>
+
+  <!-- ============================================================
+       NHRP (Next Hop Resolution Protocol — DMVPN)
+       ============================================================ -->
+
+  <!-- NHRP Registration Request (spoke → hub) -->
+  <ip-message style="sea-green">
+    <opcode regex-match=".*NHRP (Registration Request) \(\d+\)" regex-replace="📝 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+    <param regex-match="(Holding Time): (.*)" regex-replace="⏱ $1: $2">nhrp.htime</param>
+  </ip-message>
+
+  <!-- NHRP Registration Reply (hub → spoke) -->
+  <ip-message style="forest-green">
+    <opcode regex-match=".*NHRP (Registration Reply) \(\d+\)" regex-replace="✅ NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+    <param regex-match="(Holding Time): (.*)" regex-replace="⏱ $1: $2">nhrp.htime</param>
+  </ip-message>
+
+  <!-- NHRP Resolution Request (spoke → hub: resolve for spoke-to-spoke) -->
+  <ip-message style="royal-blue">
+    <opcode regex-match=".*NHRP (Resolution Request) \(\d+\)" regex-replace="🔍 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- NHRP Resolution Reply (hub → spoke: resolved NBMA for direct tunnel) -->
+  <ip-message style="cerulean">
+    <opcode regex-match=".*NHRP (Resolution Reply) \(\d+\)" regex-replace="✅ NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Client NBMA Address): (.*)" regex-replace="📥 $1: $2">nhrp.client.nbma.addr</param>
+    <param regex-match="(Client Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.client.prot.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+    <param regex-match="(Holding Time): (.*)" regex-replace="⏱ $1: $2">nhrp.htime</param>
+  </ip-message>
+
+  <!-- NHRP Purge Request -->
+  <ip-message style="magenta">
+    <opcode regex-match=".*NHRP (Purge Request) \(\d+\)" regex-replace="🗑 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- NHRP Purge Reply -->
+  <ip-message style="magenta">
+    <opcode regex-match=".*NHRP (Purge Reply) \(\d+\)" regex-replace="🗑 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- NHRP Error Indication -->
+  <ip-message style="crimson">
+    <opcode regex-match=".*NHRP (Error Indication) \(\d+\)" regex-replace="🚫 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- NHRP generic fallback -->
+  <ip-message style="amethyst">
+    <opcode regex-match=".*NHRP (.*) \(\d+\)" regex-replace="🔄 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- ============================================================
+       MPLS Label Forwarding
+       ============================================================ -->
+
+  <!-- MPLS (label visible inside GRE or standalone) -->
+  <ip-message style="goldenrod">
+    <opcode regex-match=".*MPLS Label: (.+?) \(.*" regex-replace="🏷 MPLS Label $1">mpls.label</opcode>
+    <param regex-match=".*MPLS TTL: (\d+)" regex-replace="⏳ MPLS TTL: $1">mpls.ttl</param>
+    <param regex-match=".*Bottom Of Label Stack: (\d)" regex-replace="📦 Bottom: $1">mpls.bottom</param>
+    <param regex-match=".*Experimental Bits: (\d+)" regex-replace="🔧 EXP: $1">mpls.exp</param>
+    <param regex-match="(GRE Key): (.*)" regex-replace="🔑 $1: $2">gre.key</param>
+    <param regex-match="Type: (.*) \(\d+\)" regex-replace="📦 Inner: $1">icmp.type</param>
+  </ip-message>
+
+  <!-- ============================================================
+       PIM (Protocol Independent Multicast)
+       ============================================================ -->
+
+  <!-- PIM Hello -->
+  <ip-message style="sea-green">
+    <opcode regex-match=".*Type: (Hello) \(\d+\)" regex-replace="👋 PIM $1">pim.type</opcode>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(DR Priority): (.*)" regex-replace="🏆 $1: $2">pim.dr_priority</param>
+    <param regex-match="(Generation ID): (.*)" regex-replace="🆔 $1: $2">pim.generation_id</param>
+  </ip-message>
+
+  <!-- PIM Join/Prune -->
+  <ip-message style="royal-blue">
+    <opcode regex-match=".*Type: (Join/Prune) \(\d+\)" regex-replace="🌲 PIM $1">pim.type</opcode>
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param>pim.numgroups</param>
+    <param>pim.numjoins</param>
+    <param>pim.numprunes</param>
+    <param regex-match="(Source): (.*)" regex-replace="📤 $1: $2">pim.source</param>
+  </ip-message>
+
+  <!-- PIM generic -->
+  <ip-message style="amethyst">
+    <opcode regex-match=".*Type: (.*?) \(\d+\)" regex-replace="🔄 PIM $1">pim.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Source): (.*)" regex-replace="📤 $1: $2">pim.source</param>
+  </ip-message>
+
+  <!-- ============================================================
+       GRE (fallback for non-NHRP/non-MPLS/non-PIM)
+       ============================================================ -->
+
+  <ip-message style="steel-blue">
+    <opcode regex-match="Protocol Type: (.*) \(0x\w+\)" regex-replace="🔗 GRE $1">gre.proto</opcode>
+    <param regex-match="(GRE Key): (.*)" regex-replace="🔑 $1: $2">gre.key</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">gre.sequence_number</param>
+    <param regex-match="Type: (.*) \(\d+\)" regex-replace="📦 Inner: $1">icmp.type</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <!-- ============================================================
+       ICMP (error types before Echo)
+       ============================================================ -->
+
+  <ip-message style="crimson">
+    <opcode display="brief" regex-match="^3$" regex-replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+  </ip-message>
+
+  <ip-message style="goldenrod">
+    <opcode display="brief" regex-match="^11$" regex-replace="⏳ ICMP Time Exceeded">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+  </ip-message>
+
+  <!-- ICMP Echo Request -->
+  <ip-message style="royal-blue">
+    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+  </ip-message>
+
+  <!-- ICMP Echo Reply -->
+  <ip-message style="forest-green">
+    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <param>icmp.resp_to</param>
+    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmp.resptime</param>
+    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+  </ip-message>
+
+  <!-- ICMP generic -->
+  <ip-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMP Type $1">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+  </ip-message>
+
+  <!-- ============================================================
+       TDP (Cisco Tag Distribution Protocol)
+       ============================================================ -->
+
+  <tcp-message style="amethyst">
+    <opcode regex-match="^711$" regex-replace="🔖 TDP" display="brief">tcp.dstport</opcode>
+    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 Flags: $1">tcp.flags</param>
+    <param regex-match="(Data.*): (.*)" regex-replace="📏 $1: $2">data.len</param>
+  </tcp-message>
+
+  <tcp-message style="amethyst">
+    <opcode regex-match="^711$" regex-replace="🔖 TDP" display="brief">tcp.srcport</opcode>
+    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 Flags: $1">tcp.flags</param>
+    <param regex-match="(Data.*): (.*)" regex-replace="📏 $1: $2">data.len</param>
+  </tcp-message>
+
+  <!-- TDP Hello (UDP port 711) -->
+  <udp-message style="sea-green">
+    <opcode regex-match="^711$" regex-replace="👋 TDP Hello" display="brief">udp.dstport</opcode>
+    <param regex-match="(Data.*): (.*)" regex-replace="📏 $1: $2">data.len</param>
+  </udp-message>
+
+  <!-- ============================================================
+       TCP generic (last TCP template)
+       ============================================================ -->
+
+  <tcp-message style="steel-blue">
+    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+    <param>tcp.stream</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       OSPF
+       ============================================================ -->
+
+  <ip-message style="crimson">
+    <opcode regex-match="Message Type: (.*) \(\d+\)" regex-replace="🗺 OSPF $1">ospf.msg</opcode>
+    <param regex-match="(Source OSPF Router): (.*)" regex-replace="🆔 $1: $2">ospf.srcrouter</param>
+    <param regex-match="(Area ID): (.*)" regex-replace="🌐 $1: $2">ospf.area_id</param>
+    <param>ospf.lsa</param>
+    <param regex-match=".*Multi-Topology Routing.* (.*)" regex-replace="🔀 MT Routing: $1">ospf.v2.options.mt</param>
+  </ip-message>
+
+  <!-- ============================================================
+       IS-IS
+       ============================================================ -->
+
+  <mac-message style="amethyst">
+    <opcode regex-match=".*PDU Type: (L2 LSP) \(\d+\)" regex-replace="📢 IS-IS $1">isis.type</opcode>
+    <param regex-match="(LSP ID): (.*)" regex-replace="🆔 $1: $2">isis.lsp.lsp_id</param>
+    <param regex-match="(Hostname): (.*)" regex-replace="🏷 $1: $2">isis.lsp.hostname</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">isis.lsp.sequence_number</param>
+    <param>isis.lsp.clv_te_router_id</param>
+    <param>isis.lsp.ext_is_reachability.is_neighbor_id</param>
+    <param>isis.lsp.maximum_link_bandwidth</param>
+    <param regex-match="(IPv4 prefix): (.*)" regex-replace="🌐 $1: $2">isis.lsp.ext_ip_reachability.ipv4_prefix</param>
+  </mac-message>
+
+  <mac-message style="cerulean">
+    <opcode regex-match=".*PDU Type: (L2 CSNP) \(\d+\)" regex-replace="📋 IS-IS $1">isis.type</opcode>
+    <param regex-match="(Source ID): (.*)" regex-replace="🆔 $1: $2">isis.csnp.source_id</param>
+    <param>isis.csnp.lsp_id</param>
+    <param>isis.csnp.lsp_seq_num</param>
+  </mac-message>
+
+  <mac-message style="teal">
+    <opcode regex-match=".*PDU Type: (L2 PSNP) \(\d+\)" regex-replace="🔍 IS-IS $1">isis.type</opcode>
+    <param regex-match="(Source ID): (.*)" regex-replace="🆔 $1: $2">isis.psnp.source_id</param>
+  </mac-message>
+
+  <mac-message style="crimson">
+    <opcode regex-match=".*PDU Type: (.*) \(\d+\)" regex-replace="🔄 IS-IS $1">isis.type</opcode>
+  </mac-message>
+
+  <!-- ============================================================
+       RSVP-TE (Traffic Engineering)
+       ============================================================ -->
+
+  <!-- RSVP PATH -->
+  <ip-message style="royal-blue">
+    <opcode regex-match="Message Type: (PATH Message)\. .*" regex-replace="🛤 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Tunnel ID): (.*)" regex-replace="🔗 $1: $2">rsvp.session.tunnel_id</param>
+    <param regex-match="(Sender Address): (.*)" regex-replace="📤 $1: $2">rsvp.sender.ip</param>
+    <param regex-match="(Session Name): (.*)" regex-replace="🏷 $1: $2">rsvp.session_attribute.name</param>
+    <param regex-match="(Setup Priority): (.*)" regex-replace="🏆 $1: $2">rsvp.session_attribute.setup_priority</param>
+    <param regex-match="(Hold Priority): (.*)" regex-replace="🏆 $1: $2">rsvp.session_attribute.hold_priority</param>
+    <param regex-match="(Explicit Route): (.*)" regex-replace="🛤 $1: $2">rsvp.explicit_route</param>
+    <param regex-match="(Label Request): (.*)" regex-replace="🏷 $1: $2">rsvp.label_request</param>
+    <param regex-match="(Traffic Specification): (.*)" regex-replace="📊 $1: $2">rsvp.tspec</param>
+  </ip-message>
+
+  <!-- RSVP RESV -->
+  <ip-message style="forest-green">
+    <opcode regex-match="Message Type: (RESV Message)\. .*" regex-replace="✅ RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Tunnel ID): (.*)" regex-replace="🔗 $1: $2">rsvp.session.tunnel_id</param>
+    <param regex-match=".*Label: (\d+).*" regex-replace="🏷 Label: $1">rsvp.label</param>
+    <param regex-match="(Style): (.*)" regex-replace="🔧 $1: $2">rsvp.style</param>
+    <param regex-match="(Flow Specification): (.*)" regex-replace="📊 $1: $2">rsvp.flowspec</param>
+  </ip-message>
+
+  <!-- RSVP PATH ERROR -->
+  <ip-message style="crimson">
+    <opcode regex-match="Message Type: (PATH ERROR Message)\. .*" regex-replace="🚫 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Tunnel ID): (.*)" regex-replace="🔗 $1: $2">rsvp.session.tunnel_id</param>
+    <param regex-match="(Error Code): (.*)" regex-replace="📋 $1: $2">rsvp.error.error_code</param>
+    <param regex-match="(Error Value): (.*)" regex-replace="📋 $1: $2">rsvp.error_value</param>
+    <param regex-match="(Error Node): (.*)" regex-replace="🌐 $1: $2">rsvp.error.error_node_ipv4</param>
+    <param regex-match="(Sender Address): (.*)" regex-replace="📤 $1: $2">rsvp.sender.ip</param>
+  </ip-message>
+
+  <!-- RSVP PATH TEAR -->
+  <ip-message style="magenta">
+    <opcode regex-match="Message Type: (PATH TEAR Message)\. .*" regex-replace="🗑 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Tunnel ID): (.*)" regex-replace="🔗 $1: $2">rsvp.session.tunnel_id</param>
+    <param regex-match="(Sender Address): (.*)" regex-replace="📤 $1: $2">rsvp.sender.ip</param>
+  </ip-message>
+
+  <!-- RSVP RESV TEAR -->
+  <ip-message style="magenta">
+    <opcode regex-match="Message Type: (RESV TEAR Message)\. .*" regex-replace="🗑 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Tunnel ID): (.*)" regex-replace="🔗 $1: $2">rsvp.session.tunnel_id</param>
+    <param regex-match="(Style): (.*)" regex-replace="🔧 $1: $2">rsvp.style</param>
+    <param regex-match="(Sender Address): (.*)" regex-replace="📤 $1: $2">rsvp.sender.ip</param>
+  </ip-message>
+
+  <!-- RSVP generic fallback -->
+  <ip-message style="steel-blue">
+    <opcode regex-match="Message Type: (.*)\. .*" regex-replace="🔄 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Tunnel ID): (.*)" regex-replace="🔗 $1: $2">rsvp.session.tunnel_id</param>
+    <param regex-match="(Sender Address): (.*)" regex-replace="📤 $1: $2">rsvp.sender.ip</param>
+    <param regex-match="(Error Code): (.*)" regex-replace="📋 $1: $2">rsvp.error.error_code</param>
+    <param regex-match="(Error Value): (.*)" regex-replace="📋 $1: $2">rsvp.error_value</param>
+  </ip-message>
+
+  <!-- ============================================================
+       BFD (Bidirectional Forwarding Detection)
+       Traffic-light state machine: 🔴 Down, 🟡 Init, 🟢 Up
+       ============================================================ -->
+
+  <udp-message style="goldenrod">
+    <opcode regex-match=".*Session State: (Down) \(.*\)" regex-replace="🔴 BFD $1">bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="📋 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+  </udp-message>
+
+  <udp-message style="goldenrod">
+    <opcode regex-match=".*Session State: (Init) \(.*\)" regex-replace="🟡 BFD $1">bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="📋 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+  </udp-message>
+
+  <udp-message style="goldenrod">
+    <opcode regex-match=".*Session State: (Up) \(.*\)" regex-replace="🟢 BFD $1">bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="📋 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+  </udp-message>
+
+  <!-- BFD generic (AdminDown or other states) -->
+  <udp-message style="goldenrod">
+    <opcode regex-match=".*Session State: (.*) \(.*\)" regex-replace="🔵 BFD $1">bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="📋 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+  </udp-message>
+
+  <!-- ============================================================
+       LDPv6 over TCP / UDP (catch-all)
+       ============================================================ -->
+
+  <tcpv6-message style="royal-blue">
+    <opcode regex-match=".*" regex-replace="🏷 LDP">ldp.msg.type</opcode>
+    <param>ldp.msg.type</param>
+    <param>ldp.fec.wildcard</param>
+  </tcpv6-message>
+
+  <udpv6-message style="royal-blue">
+    <opcode regex-match=".*" regex-replace="👋 LDP Hello">ldp.msg.type</opcode>
+    <param>ldp.msg.type</param>
+  </udpv6-message>
+
+  <!-- ============================================================
+       MPLS-TP BFD (runs over Associated Channel - G-ACh)
+       ============================================================ -->
+
+  <udp-message style="goldenrod">
+    <opcode regex-match=".*Session State: (.*) \(.*\)" regex-replace="🔵 BFD $1">bfd.sta</opcode>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+  </udp-message>
+
+  <!-- ============================================================
+       ICMPv6 for MPLS IPv6
+       ============================================================ -->
+
+  <ipv6-message style="royal-blue">
+    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+  </ipv6-message>
+
+  <ipv6-message style="forest-green">
+    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+  </ipv6-message>
+
+  <!-- MPLS over IPv6 tunnel -->
+  <ipv6-message style="goldenrod">
+    <opcode regex-match=".*MPLS Label: (.+?) \(.*" regex-replace="🏷 MPLS Label $1">mpls.label</opcode>
+    <param regex-match=".*MPLS TTL: (\d+)" regex-replace="⏳ MPLS TTL: $1">mpls.ttl</param>
+    <param regex-match=".*Bottom Of Label Stack: (\d)" regex-replace="📦 Bottom: $1">mpls.bottom</param>
+    <param regex-match="Type: (.*) \(\d+\)" regex-replace="📦 Inner: $1">icmp.type</param>
+  </ipv6-message>
+
+  <!-- ============================================================
+       MPLS Echo (LSP Verification)
+       ============================================================ -->
+
+  <!-- MPLS Echo Request over UDP -->
+  <udp-message style="royal-blue">
+    <opcode regex-match="Message Type: (MPLS Echo Request) \(\d+\)" regex-replace="📡 $1">mpls_echo.msg_type</opcode>
+    <param>mpls_echo.reply_mode</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">mpls_echo.sequence</param>
+    <param>mpls_echo.tlv.fec.type</param>
+    <param regex-match="(IPv4 prefix): (.*)" regex-replace="🌐 $1: $2">mpls_echo.tlv.fec.ldp_ipv4</param>
+    <param>mpls_echo.tlv.fec.ldp_ipv4_mask</param>
+  </udp-message>
+
+  <!-- MPLS Echo Reply over UDP -->
+  <udp-message style="forest-green">
+    <opcode regex-match="Message Type: (MPLS Echo Reply) \(\d+\)" regex-replace="✅ $1">mpls_echo.msg_type</opcode>
+    <param regex-match="(Return Code): (.*)" regex-replace="📋 $1: $2">mpls_echo.return_code</param>
+    <param>mpls_echo.return_subcode</param>
+    <param>mpls_echo.reply_mode</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">mpls_echo.sequence</param>
+  </udp-message>
+
+  <!-- MPLS Echo generic over UDP -->
+  <udp-message style="steel-blue">
+    <opcode regex-match="Message Type: (.*) \(\d+\)" regex-replace="🔄 $1">mpls_echo.msg_type</opcode>
+    <param>mpls_echo.reply_mode</param>
+    <param regex-match="(Return Code): (.*)" regex-replace="📋 $1: $2">mpls_echo.return_code</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">mpls_echo.sequence</param>
+  </udp-message>
+
+  <!-- MPLS Echo Request inside MPLS (PW Associated Channel) -->
+  <mac-message style="royal-blue">
+    <opcode regex-match="Message Type: (MPLS Echo Request) \(\d+\)" regex-replace="📡 $1">mpls_echo.msg_type</opcode>
+    <param>mpls_echo.reply_mode</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">mpls_echo.sequence</param>
+    <param>mpls_echo.tlv.fec.type</param>
+    <param regex-match="(IPv4 prefix): (.*)" regex-replace="🌐 $1: $2">mpls_echo.tlv.fec.ldp_ipv4</param>
+  </mac-message>
+
+  <!-- MPLS Echo Reply inside MPLS (PW Associated Channel) -->
+  <mac-message style="forest-green">
+    <opcode regex-match="Message Type: (MPLS Echo Reply) \(\d+\)" regex-replace="✅ $1">mpls_echo.msg_type</opcode>
+    <param regex-match="(Return Code): (.*)" regex-replace="📋 $1: $2">mpls_echo.return_code</param>
+    <param>mpls_echo.return_subcode</param>
+    <param>mpls_echo.reply_mode</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">mpls_echo.sequence</param>
+  </mac-message>
+
+  <!-- MPLS Echo generic inside MPLS -->
+  <mac-message style="steel-blue">
+    <opcode regex-match="Message Type: (.*) \(\d+\)" regex-replace="🔄 $1">mpls_echo.msg_type</opcode>
+    <param>mpls_echo.reply_mode</param>
+    <param regex-match="(Return Code): (.*)" regex-replace="📋 $1: $2">mpls_echo.return_code</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">mpls_echo.sequence</param>
+  </mac-message>
+
+  <!-- ============================================================
+       BFD inside MPLS (MPLS-TP BFD over PW-ACH)
+       ============================================================ -->
+
+  <mac-message style="goldenrod">
+    <opcode regex-match=".*Session State: (Down) \(.*\)" regex-replace="🔴 BFD $1">bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="📋 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+    <param regex-match=".*Poll: (Set).*" regex-replace="📡 Poll">bfd.flags.p</param>
+    <param regex-match=".*Final: (Set).*" regex-replace="✅ Final">bfd.flags.f</param>
+  </mac-message>
+
+  <mac-message style="goldenrod">
+    <opcode regex-match=".*Session State: (Init) \(.*\)" regex-replace="🟡 BFD $1">bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="📋 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+    <param regex-match=".*Poll: (Set).*" regex-replace="📡 Poll">bfd.flags.p</param>
+    <param regex-match=".*Final: (Set).*" regex-replace="✅ Final">bfd.flags.f</param>
+  </mac-message>
+
+  <mac-message style="goldenrod">
+    <opcode regex-match=".*Session State: (Up) \(.*\)" regex-replace="🟢 BFD $1">bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="📋 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+    <param regex-match=".*Poll: (Set).*" regex-replace="📡 Poll">bfd.flags.p</param>
+    <param regex-match=".*Final: (Set).*" regex-replace="✅ Final">bfd.flags.f</param>
+  </mac-message>
+
+  <!-- BFD generic inside MPLS -->
+  <mac-message style="goldenrod">
+    <opcode regex-match=".*Session State: (.*) \(.*\)" regex-replace="🔵 BFD $1">bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="📋 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+  </mac-message>
+
+  <!-- MPLS-TP CC (Continuity Check) message -->
+  <mac-message style="cerulean">
+    <opcode regex-match="Channel Type: (.*)" regex-replace="🔗 PW-ACH $1">pwach.channel_type</opcode>
+  </mac-message>
+
+  <!-- ARP -->
+  <mac-message style="amethyst">
+    <opcode regex-match="Opcode: request.*" regex-replace="🔍 ARP Request">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <mac-message style="forest-green">
+    <opcode regex-match="Opcode: reply.*" regex-replace="✅ ARP Reply">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <mac-message style="amethyst">
+    <opcode regex-match="Opcode: (.*)" regex-replace="🔄 ARP $1">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+</FXT>

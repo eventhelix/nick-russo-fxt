@@ -1,0 +1,61 @@
+# OSPF Protocol Collection Hosts
+
+# OSPFv2 Point-to-Point Links (no DR/BDR elections)
+10.1.5.1	🖥 R1
+10.1.5.5	🖥 R5
+10.1.10.1	🖥 R1
+10.1.10.10	🖥 R10
+10.2.7.2	🖥 R2
+10.2.7.7	🖥 R7
+10.3.4.3	🖥 R3
+10.3.4.4	🖥 R4
+10.4.8.4	🖥 R4
+10.4.8.8	🖥 R8
+10.5.6.5	🖥 R5
+10.5.6.6	🖥 R6
+
+# Multi-Access Segment (DR Election) — R3 wins priority 33, R1/R2 are DROTHER (priority 0)
+10.0.123.1	🚪 R1 (ABR/ASBR)
+10.0.123.2	🌐 R2 (ABR)
+10.0.123.3	🎯 R3 (DR, ABR)
+
+# Loopbacks on structural routers
+10.0.0.4	🚪 R4 (ABR/ASBR)
+10.0.0.10	🚪 R10 (ASBR)
+
+# Point-to-Multipoint Segment
+10.3.49.3	🖥 R3
+10.3.49.4	🖥 R4
+10.3.49.9	🖥 R9
+
+# Unnumbered Links
+203.0.113.2	🖥 R2
+203.0.113.4	🖥 R4
+
+# Group Membership LSA
+192.0.2.1	🖥 R1
+
+# OSPFv2 Multicast
+224.0.0.5	📡 AllSPFRouters
+224.0.0.6	📡 AllDRouters
+
+# OSPFv3 Link-Local
+fe80::1	🖥 R1
+fe80::2	🖥 R2
+fe80::3	🖥 R3
+fe80::4	🖥 R4
+fe80::5	🖥 R5
+fe80::6	🖥 R6
+fe80::7	🖥 R7
+fe80::8	🖥 R8
+fe80::9	🖥 R9
+fe80::10	🖥 R10
+
+# OSPFv3 Global/ULA
+fc00::5	🖥 R5
+fc00:10:1:5::1	🖥 R1
+fc00:10:1:5::5	🖥 R5
+
+# OSPFv3 Multicast
+ff02::5	📡 AllSPFRouters
+ff02::6	📡 AllDRouters

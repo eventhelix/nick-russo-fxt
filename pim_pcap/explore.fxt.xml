@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  PIM Protocol FXT Template (Improved)
+  =====================================
+
+  Protocol Overview:
+  - PIM (Protocol Independent Multicast) is a multicast routing protocol
+  - PIMv2 runs over IP protocol 103
+  - Works with any unicast routing protocol (hence "Protocol Independent")
+  - Two main variants: PIM-SM (Sparse Mode) and PIM-DM (Dense Mode)
+
+  PIMv2 Message Types:
+  - Hello (0)                      - Neighbor discovery and keepalive
+  - Register (1)                   - First-hop router encapsulates multicast to RP
+  - Register-Stop (2)              - RP tells source DR to stop Register messages
+  - Join/Prune (3)                 - Join or prune multicast tree branches
+  - Bootstrap (4)                  - Bootstrap Router (BSR) messages
+  - Assert (5)                     - Forwarder election on multi-access networks
+  - Graft (6)                      - Request to join upstream (PIM-DM only)
+  - Graft-Ack (7)                  - Acknowledgment of Graft (PIM-DM only)
+  - Candidate-RP-Advertisement (8) - RP candidate announcement to BSR
+
+  PIMv1 Message Codes:
+  - Query (0)                      - Neighbor query
+  - Register (1)                   - Register with RP
+  - Register-Stop (2)              - Stop sending Register
+  - Join/Prune (3)                 - Join/Prune tree
+  - RP-Reachable (4)               - RP reachability announcement
+  - Assert (5)                     - Assert for forwarder election
+  - Graft (6)                      - Graft request
+  - Graft-Ack (7)                  - Graft acknowledgment
+
+  Multicast Addresses:
+  - 224.0.0.13 (ALL-PIM-ROUTERS)   - PIMv2 Hello destination
+  - 224.0.0.2  (ALL-ROUTERS)       - PIMv1 messages
+  - ff02::d                        - PIMv2 IPv6 ALL-PIM-ROUTERS
+
+  Key PDML Fields:
+  - pim.type                       - PIMv2 message type
+  - pim.code                       - PIMv1 message code
+  - pim.version                    - PIM version (1 or 2)
+  - pim.holdtime                   - Neighbor holdtime (seconds)
+  - pim.dr_priority                - Designated Router priority
+  - pim.generation_id              - Generation ID for neighbor tracking
+  - pim.upstream_neighbor          - Upstream neighbor address
+  - pim.numgroups                  - Number of multicast groups
+  - pim.group                      - Multicast group address
+  - pim.numjoins                   - Number of join sources
+  - pim.join_ip                    - Source to join
+  - pim.numprunes                  - Number of prune sources
+  - pim.prune_ip                   - Source to prune
+  - pim.rp                         - Rendezvous Point address
+  - pim.source                     - Multicast source address
+
+  Sample pcaps:
+  - PIM-SM_join_prune.cap          - PIM-SM Hello and Join/Prune messages
+  - pim-reg.pcap                   - PIMv2 Register messages (IPv6)
+-->
+<FXT>
+  <!-- =================================================================
+       PIMv2 Messages (IPv4)
+       ================================================================= -->
+
+  <!-- Hello - Neighbor discovery and keepalive -->
+  <ip-message style="amethyst">
+    <opcode regex-match=".*Type: (Hello).*" regex-replace="👋 PIM $1">pim.type</opcode>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(DR Priority): (.*)" regex-replace="🏆 $1: $2">pim.dr_priority</param>
+    <param regex-match="(Generation ID): (.*)" regex-replace="🆔 $1: $2">pim.generation_id</param>
+    <param>pim.state_refresh_interval</param>
+  </ip-message>
+
+  <!-- Register-Stop - RP tells DR to stop sending Register (BEFORE Register) -->
+  <ip-message style="magenta">
+    <opcode
+            regex-match=".*Type: (Register-stop).*"
+            regex-replace="🛑 PIM Register-Stop"
+        >pim.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Source): (.*)" regex-replace="📤 $1: $2">pim.source</param>
+  </ip-message>
+
+  <!-- Register - Encapsulated multicast data to RP -->
+  <ip-message style="royal-blue">
+    <opcode
+            regex-match=".*Type: (Register).*"
+            regex-replace="📨 PIM $1"
+        >pim.type</opcode>
+    <param regex-match=".*= (Border: .*)" regex-replace="$1">pim.register_flag.border</param>
+    <param regex-match=".*= (Null-Register: .*)" regex-replace="$1">pim.register_flag.null_register</param>
+  </ip-message>
+
+  <!-- Join/Prune - Join or leave multicast tree -->
+  <ip-message style="forest-green">
+    <opcode
+            regex-match=".*Type: (Join/Prune).*"
+            regex-replace="🌲 PIM $1"
+        >pim.type</opcode>
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Num Groups): (.*)" regex-replace="🔢 $1: $2">pim.numgroups</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Num Joins): (.*)" regex-replace="🌲 $1: $2">pim.numjoins</param>
+    <param regex-match="(IP address): (.*)" regex-replace="🌲 Join: $2">pim.join_ip</param>
+    <param regex-match="(Num Prunes): (.*)" regex-replace="✂ $1: $2">pim.numprunes</param>
+    <param regex-match="(IP address): (.*)" regex-replace="✂ Prune: $2">pim.prune_ip</param>
+  </ip-message>
+
+  <!-- Bootstrap - BSR election and RP-set distribution -->
+  <ip-message style="amethyst">
+    <opcode
+            regex-match=".*Type: (Bootstrap).*"
+            regex-replace="📢 PIM $1"
+        >pim.type</opcode>
+
+    <param regex-match="(BSR Address): (.*)" regex-replace="🌐 $1: $2">pim.bsr_address</param>
+    <param regex-match="(BSR Priority): (.*)" regex-replace="🏆 $1: $2">pim.bsr_priority</param>
+    <param>pim.fragment_tag</param>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">pim.rp</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+  </ip-message>
+
+  <!-- Assert - Forwarder election on multi-access network -->
+  <ip-message style="crimson">
+    <opcode
+            regex-match=".*Type: (Assert).*"
+            regex-replace="⚔ PIM $1"
+        >pim.type</opcode>
+
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Source): (.*)" regex-replace="📤 $1: $2">pim.source</param>
+    <param regex-match=".*= Metric Preference: (\d+)" regex-replace="📊 Metric Pref: $1">pim.metric_pref</param>
+    <param>pim.metric</param>
+  </ip-message>
+
+  <!-- DF Election - Bidir PIM Designated Forwarder election -->
+  <ip-message style="goldenrod">
+    <opcode
+            regex-match=".*Type: (DF election).*"
+            regex-replace="🗳 PIM $1"
+        >pim.type</opcode>
+
+    <param regex-match=".*DF Subtype: (.*)" regex-replace="📋 Subtype: $1">pim.df_elect.subtype</param>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">pim.rp</param>
+    <param>pim.unicast</param>
+    <param>pim.metric_pref</param>
+    <param>pim.metric</param>
+  </ip-message>
+
+  <!-- Graft - Request to rejoin upstream (PIM-DM) -->
+  <ip-message style="sea-green">
+    <opcode regex-match=".*Type: (Graft).*" regex-replace="🌱 PIM $1">pim.type</opcode>
+
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Num Groups): (.*)" regex-replace="🔢 $1: $2">pim.numgroups</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Num Joins): (.*)" regex-replace="🌲 $1: $2">pim.numjoins</param>
+    <param regex-match="(IP address): (.*)" regex-replace="🌲 Join: $2">pim.join_ip</param>
+  </ip-message>
+
+  <!-- Graft-Ack - Acknowledgment of Graft (PIM-DM) -->
+  <ip-message style="teal">
+    <opcode
+            regex-match=".*Type: (Graft-Ack).*"
+            regex-replace="✅ PIM $1"
+        >pim.type</opcode>
+
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Num Groups): (.*)" regex-replace="🔢 $1: $2">pim.numgroups</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+  </ip-message>
+
+  <!-- Candidate-RP-Advertisement - RP candidate to BSR -->
+  <ip-message style="amethyst">
+    <opcode
+            regex-match=".*Type: (Candidate-RP-Advertisement).*"
+            regex-replace="📡 PIM C-RP-Adv"
+        >pim.type</opcode>
+
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">pim.rp</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(Num Groups): (.*)" regex-replace="🔢 $1: $2">pim.numgroups</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+  </ip-message>
+
+  <!-- Generic PIMv2 message (fallback) -->
+  <ip-message style="amethyst">
+    <opcode regex-match=".*Type: (.*?) \(\d+\)" regex-replace="🔄 PIM $1">pim.type</opcode>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Num Groups): (.*)" regex-replace="🔢 $1: $2">pim.numgroups</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+  </ip-message>
+
+  <!-- =================================================================
+       PIMv2 Messages (IPv6)
+       ================================================================= -->
+
+  <!-- Hello - IPv6 -->
+  <ipv6-message style="amethyst">
+    <opcode regex-match=".*Type: (Hello).*" regex-replace="👋 PIMv6 $1">pim.type</opcode>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(DR Priority): (.*)" regex-replace="🏆 $1: $2">pim.dr_priority</param>
+    <param regex-match="(Generation ID): (.*)" regex-replace="🆔 $1: $2">pim.generation_id</param>
+  </ipv6-message>
+
+  <!-- Register-Stop - IPv6 (BEFORE Register) -->
+  <ipv6-message style="magenta">
+    <opcode regex-match=".*Type: (Register-stop).*" regex-replace="🛑 PIMv6 Register-Stop">pim.type</opcode>
+    <param>pim.group_ip6</param>
+    <param>pim.source_ip6</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Source): (.*)" regex-replace="📤 $1: $2">pim.source</param>
+  </ipv6-message>
+
+  <!-- Register - IPv6 -->
+  <ipv6-message style="royal-blue">
+    <opcode regex-match=".*Type: (Register).*" regex-replace="📨 PIMv6 $1">pim.type</opcode>
+    <param regex-match=".*= (Border: .*)" regex-replace="$1">pim.register_flag.border</param>
+    <param regex-match=".*= (Null-Register: .*)" regex-replace="$1">pim.register_flag.null_register</param>
+  </ipv6-message>
+
+  <!-- Join/Prune - IPv6 -->
+  <ipv6-message style="forest-green">
+    <opcode regex-match=".*Type: (Join/Prune).*" regex-replace="🌲 PIMv6 $1">pim.type</opcode>
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(Num Groups): (.*)" regex-replace="🔢 $1: $2">pim.numgroups</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Num Joins): (.*)" regex-replace="🌲 $1: $2">pim.numjoins</param>
+    <param regex-match="(IP address): (.*)" regex-replace="🌲 Join: $2">pim.join_ip</param>
+    <param regex-match="(Num Prunes): (.*)" regex-replace="✂ $1: $2">pim.numprunes</param>
+    <param regex-match="(IP address): (.*)" regex-replace="✂ Prune: $2">pim.prune_ip</param>
+  </ipv6-message>
+
+  <!-- Bootstrap - IPv6 -->
+  <ipv6-message style="amethyst">
+    <opcode regex-match=".*Type: (Bootstrap).*" regex-replace="📢 PIMv6 $1">pim.type</opcode>
+    <param regex-match="(BSR Address): (.*)" regex-replace="🌐 $1: $2">pim.bsr_address</param>
+    <param regex-match="(BSR Priority): (.*)" regex-replace="🏆 $1: $2">pim.bsr_priority</param>
+    <param>pim.fragment_tag</param>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">pim.rp</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+  </ipv6-message>
+
+  <!-- Assert - IPv6 -->
+  <ipv6-message style="crimson">
+    <opcode regex-match=".*Type: (Assert).*" regex-replace="⚔ PIMv6 $1">pim.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Source): (.*)" regex-replace="📤 $1: $2">pim.source</param>
+    <param regex-match=".*= Metric Preference: (\d+)" regex-replace="📊 Metric Pref: $1">pim.metric_pref</param>
+    <param>pim.metric</param>
+  </ipv6-message>
+
+  <!-- DF Election - IPv6 -->
+  <ipv6-message style="goldenrod">
+    <opcode regex-match=".*Type: (DF election).*" regex-replace="🗳 PIMv6 $1">pim.type</opcode>
+    <param regex-match=".*DF Subtype: (.*)" regex-replace="📋 Subtype: $1">pim.df_elect.subtype</param>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">pim.rp</param>
+    <param>pim.unicast</param>
+    <param>pim.metric_pref</param>
+    <param>pim.metric</param>
+  </ipv6-message>
+
+  <!-- C-RP-Adv - IPv6 -->
+  <ipv6-message style="amethyst">
+    <opcode regex-match=".*Type: (Candidate-RP-Advertisement).*" regex-replace="📡 PIMv6 C-RP-Adv">pim.type</opcode>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">pim.rp</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(Num Groups): (.*)" regex-replace="🔢 $1: $2">pim.numgroups</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+  </ipv6-message>
+
+  <!-- Generic PIMv2 IPv6 message (fallback) -->
+  <ipv6-message style="steel-blue">
+    <opcode regex-match=".*Type: (.*?) \(\d+\)" regex-replace="🔄 PIMv6 $1">pim.type</opcode>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Num Groups): (.*)" regex-replace="🔢 $1: $2">pim.numgroups</param>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+  </ipv6-message>
+
+  <!-- =================================================================
+       PIMv1 Messages (Legacy)
+       ================================================================= -->
+
+  <!-- PIMv1 Query (neighbor discovery, code 0) -->
+  <ip-message style="amethyst">
+    <opcode
+            regex-match=".*Code: (Query).*"
+            regex-replace="🔍 PIMv1 $1"
+        >pim.code</opcode>
+    <param regex-match=".*Mode: (.*) \(\d+\)" regex-replace="🔧 Mode: $1">pim.mode</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+  </ip-message>
+
+  <!-- PIMv1 RP-Reachable -->
+  <ip-message style="sea-green">
+    <opcode
+            regex-match=".*Code: (RP-Reachable).*"
+            regex-replace="📡 PIMv1 $1"
+        >pim.code</opcode>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param>pim.group_address</param>
+    <param>pim.group_mask</param>
+    <param>pim.rp_address</param>
+  </ip-message>
+
+  <!-- Generic PIMv1 message (fallback) -->
+  <ip-message style="sea-green">
+    <opcode regex-match=".*Code: (.*?) \(\d+\)" regex-replace="🔄 PIMv1 $1">pim.code</opcode>
+    <param>pim.group_address</param>
+    <param>pim.group_mask</param>
+    <param>pim.rp_address</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+    <param regex-match="(DR Priority): (.*)" regex-replace="🏆 $1: $2">pim.dr_priority</param>
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+  </ip-message>
+
+  <!-- MSDP Source-Active (carries multicast source announcements between RPs) -->
+  <tcp-message style="royal-blue">
+    <opcode regex-match="Type: (IPv4 Source-Active) \(\d+\)" regex-replace="📢 MSDP $1">msdp.type</opcode>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">msdp.sa.rp_addr</param>
+    <param regex-match="(Entry Count): (.*)" regex-replace="🔢 $1: $2">msdp.sa.entry_count</param>
+    <param regex-match="(Group Address): (.*)" regex-replace="👥 $1: $2">msdp.sa.group_addr</param>
+    <param regex-match="(Source Address): (.*)" regex-replace="📤 $1: $2">msdp.sa.src_addr</param>
+    <param>msdp.sa.sprefix_len</param>
+  </tcp-message>
+
+  <!-- MSDP KeepAlive -->
+  <tcp-message style="sea-green dashed">
+    <opcode regex-match="Type: (KeepAlive) \(\d+\)" regex-replace="💓 MSDP $1">msdp.type</opcode>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+  </tcp-message>
+
+  <!-- MSDP generic fallback -->
+  <tcp-message style="goldenrod">
+    <opcode regex-match="Type: (.*) \(\d+\)" regex-replace="🔄 MSDP $1">msdp.type</opcode>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">msdp.sa.rp_addr</param>
+    <param regex-match="(Group Address): (.*)" regex-replace="👥 $1: $2">msdp.sa.group_addr</param>
+    <param regex-match="(Source Address): (.*)" regex-replace="📤 $1: $2">msdp.sa.src_addr</param>
+  </tcp-message>
+
+  <!-- PIMv1 Auto-RP (uses IGMP, pim.code field) -->
+  <ip-message style="crimson">
+    <opcode regex-match=".*Code: (.*).*" regex-replace="🔄 PIMv1 $1">pim.code</opcode>
+    <param>pim.code</param>
+  </ip-message>
+
+  <!-- Auto-RP Announcement (RP candidate → 224.0.1.39) -->
+  <udp-message style="cerulean">
+    <opcode regex-match=".*Packet type: (RP announcement) \(\d+\)" regex-replace="📡 Auto-RP $1">auto_rp.type</opcode>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">auto_rp.rp_addr</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">auto_rp.holdtime</param>
+    <param>auto_rp.group_num</param>
+    <param regex-match="(Group Prefix): (.*)" regex-replace="👥 $1: $2">auto_rp.group_prefix</param>
+    <param>auto_rp.mask_len</param>
+    <param regex-match=".*Sign: (.*)" regex-replace="Sign: $1">auto_rp.prefix_sign</param>
+  </udp-message>
+
+  <!-- Auto-RP Mapping (mapping agent → 224.0.1.40) -->
+  <udp-message style="goldenrod">
+    <opcode regex-match=".*Packet type: (RP mapping) \(\d+\)" regex-replace="📋 Auto-RP $1">auto_rp.type</opcode>
+    <param>auto_rp.rp_count</param>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">auto_rp.rp_addr</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">auto_rp.holdtime</param>
+    <param>auto_rp.group_num</param>
+    <param regex-match="(Group Prefix): (.*)" regex-replace="👥 $1: $2">auto_rp.group_prefix</param>
+    <param>auto_rp.mask_len</param>
+  </udp-message>
+
+  <!-- Auto-RP generic fallback -->
+  <udp-message style="amethyst">
+    <opcode regex-match=".*Packet type: (.*) \(\d+\)" regex-replace="🔄 Auto-RP $1">auto_rp.type</opcode>
+    <param regex-match="(RP Address): (.*)" regex-replace="🌐 $1: $2">auto_rp.rp_addr</param>
+    <param>auto_rp.rp_count</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">auto_rp.holdtime</param>
+  </udp-message>
+
+  <!-- TCP generic (MSDP session setup SYN/ACK, etc.) -->
+  <tcp-message style="steel-blue">
+    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+    <param>tcp.options.md5.digest</param>
+  </tcp-message>
+
+</FXT>

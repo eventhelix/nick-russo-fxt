@@ -1,0 +1,28 @@
+# QoS Protocol Collection Hosts
+# DSCP, ECN, RSVP, PFC, 802.3x Pause
+
+# DSCP / ECN / IPP
+192.168.15.1	🖥 R1
+192.168.15.5	🖥 R5
+
+# ECN Mark
+10.1.3.1	🖥 R1
+10.2.3.2	🖥 R2
+
+# RSVP VoIP Path (R1-R2-R3-R4-R5)
+10.1.2.1	🖥 R1
+10.1.2.2	🖥 R2
+10.2.3.2	🖥 R2
+10.2.3.3	🖥 R3
+10.3.4.3	🖥 R3
+10.3.4.4	🖥 R4
+10.4.5.4	🖥 R4
+10.4.5.5	🖥 R5
+
+# IPv6 DSCP
+fc00:192:168:15::1	🖥 R1
+fc00:192:168:15::5	🖥 R5
+
+# 802.3x / PFC Pause Frames (Layer 2)
+00:00:00:00:00:02	📡 Pause Sender
+01:80:c2:00:00:01	📡 Pause Multicast

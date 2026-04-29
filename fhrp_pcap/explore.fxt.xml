@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+FHRP (First Hop Redundancy Protocols) Explore Template
+
+Covers HSRP, HSRPv2, VRRP, GLBP, and IRDP with opcode emojis
+that tell the redundancy lifecycle story:
+  - 💓 Hello/Keepalive - routers advertising their presence
+  - 👑 Coup           - router seizing the active role
+  - 🏳 Resign         - router stepping down from active
+  - 📢 Advertise      - group state advertisement
+  - 📡 Advertisement  - periodic VRRP/IRDP announcements
+  - 🔍 Solicitation   - requesting router information
+-->
+
+<FXT>
+
+  <!-- ============================================================
+       HSRP (Hot Standby Router Protocol)
+       ============================================================ -->
+
+  <!-- HSRP Hello (Opcode 0) -->
+  <udp-message style="forest-green">
+    <opcode display="brief" regex-match="^0$" regex-replace="💓 HSRP Hello">hsrp.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp.state</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">hsrp.priority</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp.virt_ip</param>
+    <param regex-match="(Hellotime): (.*)" regex-replace="⏱ $1: $2">hsrp.hellotime</param>
+    <param regex-match="(Holdtime): (.*)" regex-replace="⏱ $1: $2">hsrp.holdtime</param>
+  </udp-message>
+
+  <!-- HSRP Coup (Opcode 1) -->
+  <udp-message style="amethyst dotted">
+    <opcode display="brief" regex-match="^1$" regex-replace="👑 HSRP Coup">hsrp.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp.state</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">hsrp.priority</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp.virt_ip</param>
+  </udp-message>
+
+  <!-- HSRP Resign (Opcode 2) -->
+  <udp-message style="magenta">
+    <opcode display="brief" regex-match="^2$" regex-replace="🏳 HSRP Resign">hsrp.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp.state</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">hsrp.priority</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp.virt_ip</param>
+  </udp-message>
+
+  <!-- HSRP Advertise (Opcode 3) -->
+  <udp-message style="sea-green">
+    <opcode display="brief" regex-match="^3$" regex-replace="📢 HSRP Advertise">hsrp.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp.adv.state</param>
+    <param>hsrp.adv.activegrp</param>
+    <param>hsrp.adv.passivegrp</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp.virt_ip</param>
+  </udp-message>
+
+  <!-- Generic HSRP fallback -->
+  <udp-message style="crimson">
+    <opcode regex-match="Op Code: (.+)" regex-replace="🔄 HSRP $1">hsrp.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp.state</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">hsrp.priority</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp.virt_ip</param>
+  </udp-message>
+
+  <!-- ============================================================
+       VRRP (Virtual Router Redundancy Protocol)
+       ============================================================ -->
+
+  <!-- VRRP v2 -->
+  <ip-message style="amethyst">
+    <opcode regex-match="Version 2, Packet type 1 \((.+)\)" regex-replace="📡 VRRPv2 $1">vrrp.typever</opcode>
+    <param regex-match="(Virtual Rtr ID): (.*)" regex-replace="👥 $1: $2">vrrp.virt_rtr_id</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">vrrp.prio</param>
+    <param regex-match="(Adver Int): (.*)" regex-replace="⏱ $1: $2">vrrp.adver_int</param>
+    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">vrrp.ip_addr</param>
+  </ip-message>
+
+  <!-- VRRP v3 -->
+  <ipv6-message style="amethyst">
+    <opcode regex-match="Version 3, Packet type 1 \((.+)\)" regex-replace="📡 VRRPv3 $1">vrrp.typever</opcode>
+    <param regex-match="(Virtual Rtr ID): (.*)" regex-replace="👥 $1: $2">vrrp.virt_rtr_id</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">vrrp.prio</param>
+    <param regex-match="(Adver Int): (.*)" regex-replace="⏱ $1: $2">vrrp.adver_int</param>
+  </ipv6-message>
+
+  <!-- ============================================================
+       GLBP (Gateway Load Balancing Protocol)
+       ============================================================ -->
+
+  <!-- GLBP -->
+  <udp-message style="forest-green">
+    <opcode regex-match="Type: (Hello) \(\d+\)" regex-replace="💓 GLBP $1">glbp.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">glbp.group</param>
+    <param regex-match="(VG State): (.*)" regex-replace="🔄 $1: $2">glbp.hello.vgstate</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">glbp.hello.priority</param>
+    <param regex-match="(Virtual IPv6 Address): (.*)" regex-replace="🌐 $1: $2">glbp.hello.virtualipv6</param>
+    <param regex-match="(Owner ID): (.*)" regex-replace="🆔 $1: $2">glbp.ownerid</param>
+    <param regex-match="(VF State): (.*)" regex-replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
+    <param regex-match="(Virtual MAC): (.*)" regex-replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
+  </udp-message>
+
+  <udp-message style="cerulean">
+    <opcode regex-match="Type: (Request/Response) \(\d+\)" regex-replace="🔄 GLBP $1">glbp.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">glbp.group</param>
+    <param regex-match="(VG State): (.*)" regex-replace="🔄 $1: $2">glbp.hello.vgstate</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">glbp.hello.priority</param>
+    <param regex-match="(Owner ID): (.*)" regex-replace="🆔 $1: $2">glbp.ownerid</param>
+    <param regex-match="(VF State): (.*)" regex-replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
+    <param regex-match="(Virtual MAC): (.*)" regex-replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
+  </udp-message>
+
+  <!-- GLBP fallback -->
+  <udp-message style="forest-green">
+    <opcode regex-match="Type: (.*) \(\d+\)" regex-replace="🔄 GLBP $1">glbp.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">glbp.group</param>
+    <param regex-match="(VG State): (.*)" regex-replace="🔄 $1: $2">glbp.hello.vgstate</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">glbp.hello.priority</param>
+    <param regex-match="(Virtual IPv6 Address): (.*)" regex-replace="🌐 $1: $2">glbp.hello.virtualipv6</param>
+    <param regex-match="(Owner ID): (.*)" regex-replace="🆔 $1: $2">glbp.ownerid</param>
+    <param regex-match="(VF State): (.*)" regex-replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
+    <param regex-match="(Virtual MAC): (.*)" regex-replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
+  </udp-message>
+
+  <!-- ============================================================
+       HSRPv2 over IPv6
+       ============================================================ -->
+
+  <udpv6-message style="forest-green">
+    <opcode regex-match="Op Code: (Hello) .*" regex-replace="💓 HSRPv2 $1">hsrp2.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp2.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp2.state</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">hsrp2.priority</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp2.virt_ip_v6</param>
+    <param regex-match="(Hellotime): (.*)" regex-replace="⏱ $1: $2">hsrp2.hellotime</param>
+    <param regex-match="(Holdtime): (.*)" regex-replace="⏱ $1: $2">hsrp2.holdtime</param>
+  </udpv6-message>
+
+  <udpv6-message style="amethyst dotted">
+    <opcode regex-match="Op Code: (Coup) .*" regex-replace="👑 HSRPv2 $1">hsrp2.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp2.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp2.state</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">hsrp2.priority</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp2.virt_ip_v6</param>
+  </udpv6-message>
+
+  <udpv6-message style="magenta">
+    <opcode regex-match="Op Code: (Resign) .*" regex-replace="🏳 HSRPv2 $1">hsrp2.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp2.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp2.state</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">hsrp2.priority</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp2.virt_ip_v6</param>
+  </udpv6-message>
+
+  <udpv6-message style="crimson">
+    <opcode regex-match="Op Code: (.*) \(\d+\)" regex-replace="🔄 HSRPv2 $1">hsrp2.opcode</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">hsrp2.group</param>
+    <param regex-match="(State): (.*)" regex-replace="🔄 $1: $2">hsrp2.state</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">hsrp2.priority</param>
+    <param regex-match="(Virtual IP Address): (.*)" regex-replace="🌐 $1: $2">hsrp2.virt_ip_v6</param>
+  </udpv6-message>
+
+  <!-- ============================================================
+       GLBP over IPv6
+       ============================================================ -->
+
+  <udpv6-message style="forest-green">
+    <opcode regex-match="Type: (Hello) \(\d+\)" regex-replace="💓 GLBP $1">glbp.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">glbp.group</param>
+    <param regex-match="(VG State): (.*)" regex-replace="🔄 $1: $2">glbp.hello.vgstate</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">glbp.hello.priority</param>
+    <param regex-match="(Virtual IPv6 Address): (.*)" regex-replace="🌐 $1: $2">glbp.hello.virtualipv6</param>
+    <param regex-match="(Owner ID): (.*)" regex-replace="🆔 $1: $2">glbp.ownerid</param>
+    <param regex-match="(VF State): (.*)" regex-replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
+    <param regex-match="(Virtual MAC): (.*)" regex-replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
+  </udpv6-message>
+
+  <udpv6-message style="cerulean">
+    <opcode regex-match="Type: (Request/Response) \(\d+\)" regex-replace="🔄 GLBP $1">glbp.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">glbp.group</param>
+    <param regex-match="(VG State): (.*)" regex-replace="🔄 $1: $2">glbp.hello.vgstate</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">glbp.hello.priority</param>
+    <param regex-match="(Owner ID): (.*)" regex-replace="🆔 $1: $2">glbp.ownerid</param>
+    <param regex-match="(VF State): (.*)" regex-replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
+    <param regex-match="(Virtual MAC): (.*)" regex-replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
+  </udpv6-message>
+
+  <udpv6-message style="forest-green">
+    <opcode regex-match="Type: (.*) \(\d+\)" regex-replace="🔄 GLBP $1">glbp.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">glbp.group</param>
+    <param regex-match="(VG State): (.*)" regex-replace="🔄 $1: $2">glbp.hello.vgstate</param>
+    <param regex-match="(Priority): (.*)" regex-replace="🏆 $1: $2">glbp.hello.priority</param>
+    <param regex-match="(Virtual IPv6 Address): (.*)" regex-replace="🌐 $1: $2">glbp.hello.virtualipv6</param>
+    <param regex-match="(Owner ID): (.*)" regex-replace="🆔 $1: $2">glbp.ownerid</param>
+    <param regex-match="(VF State): (.*)" regex-replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
+    <param regex-match="(Virtual MAC): (.*)" regex-replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
+  </udpv6-message>
+
+  <!-- ============================================================
+       IRDP (ICMP Router Discovery Protocol)
+       ============================================================ -->
+
+  <ip-message style="steel-blue">
+    <opcode display="brief" regex-match="^9$" regex-replace="📡 ICMP Router Advertisement">icmp.type</opcode>
+    <param regex-match="(Router Address): (.*)" regex-replace="🌐 $1: $2">icmp.router_address</param>
+    <param regex-match="(Preference Level): (.*)" regex-replace="🏆 $1: $2">icmp.pref_level</param>
+    <param regex-match="(Lifetime): (.*)" regex-replace="⏱ $1: $2">icmp.lifetime</param>
+    <param>icmp.num_addrs</param>
+  </ip-message>
+
+  <ip-message style="steel-blue">
+    <opcode display="brief" regex-match="^10$" regex-replace="🔍 ICMP Router Solicitation">icmp.type</opcode>
+  </ip-message>
+
+  <!-- ============================================================
+       ICMP (supporting protocol)
+       ============================================================ -->
+
+  <ip-message style="royal-blue">
+    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <ip-message style="forest-green">
+    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <param>icmp.resp_to</param>
+  </ip-message>
+
+  <!-- ============================================================
+       ARP
+       ============================================================ -->
+
+  <mac-message style="amethyst">
+    <opcode regex-match="Opcode: request.*" regex-replace="🔍 ARP Request">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <mac-message style="forest-green">
+    <opcode regex-match="Opcode: reply.*" regex-replace="✅ ARP Reply">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- ARP fallback -->
+  <mac-message style="amethyst">
+    <opcode regex-match="Opcode: (.*)" regex-replace="🔄 ARP $1">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- ============================================================
+       ICMPv6 (supporting protocol)
+       ============================================================ -->
+
+  <ipv6-message style="royal-blue">
+    <opcode display="brief" regex-match="^135$" regex-replace="🔍 ICMPv6 Neighbor Solicitation">icmpv6.type</opcode>
+    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.ns.target_address</param>
+    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+  </ipv6-message>
+
+  <ipv6-message style="forest-green">
+    <opcode display="brief" regex-match="^136$" regex-replace="📣 ICMPv6 Neighbor Advertisement">icmpv6.type</opcode>
+    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.na.target_address</param>
+    <param>icmpv6.nd.na.flag</param>
+    <param regex-match="(Target Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.target_linkaddr</param>
+  </ipv6-message>
+
+  <ipv6-message style="sea-green">
+    <opcode display="brief" regex-match="^134$" regex-replace="📡 ICMPv6 Router Advertisement">icmpv6.type</opcode>
+    <param regex-match="(Router Lifetime): (.*)" regex-replace="⏱ $1: $2">icmpv6.nd.ra.router_lifetime</param>
+    <param regex-match="(Prefix): (.*)" regex-replace="🌐 $1: $2">icmpv6.opt.prefix</param>
+    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+  </ipv6-message>
+
+  <ipv6-message style="steel-blue">
+    <opcode display="brief" regex-match="^133$" regex-replace="🔍 ICMPv6 Router Solicitation">icmpv6.type</opcode>
+    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+  </ipv6-message>
+
+  <ipv6-message style="royal-blue">
+    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+  </ipv6-message>
+
+  <ipv6-message style="forest-green">
+    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param>icmpv6.resp_to</param>
+  </ipv6-message>
+
+</FXT>

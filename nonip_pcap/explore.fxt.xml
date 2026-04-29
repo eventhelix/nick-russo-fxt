@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FXT>
+
+  <!-- ARP Request -->
+  <mac-message style="amethyst">
+    <opcode
+            regex-match="Opcode: (request .*)"
+            regex-replace="🔍 ARP $1"
+        >arp.opcode</opcode>
+    <param>arp.src.hw_mac</param>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="🌐 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="🎯 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- ARP Reply -->
+  <mac-message style="amethyst">
+    <opcode
+            regex-match="Opcode: (reply .*)"
+            regex-replace="🔍 ARP $1"
+        >arp.opcode</opcode>
+    <param>arp.src.hw_mac</param>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="🌐 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="🎯 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- LLDP -->
+  <mac-message style="royal-blue">
+    <opcode regex-match=".*" regex-replace="🏷️ LLDP">lldp.pdu_type</opcode>
+    <param regex-match="(System Name): (.*)" regex-replace="🏷️ $1: $2">lldp.tlv.system.name</param>
+    <param regex-match="(Chassis Id): (.*)" regex-replace="🆔 $1: $2">lldp.chassis.id.mac</param>
+    <param>lldp.port.id</param>
+    <param>lldp.port.desc</param>
+  </mac-message>
+
+  <!-- CDP -->
+  <mac-message style="sea-green">
+    <opcode regex-match="^Device ID: (.*)" regex-replace="🏷️ CDP $1">cdp.deviceid</opcode>
+    <param regex-match="(Platform): (.*)" regex-replace="🖥️ $1: $2">cdp.platform</param>
+    <param regex-match="(Sent through Interface): (.*)" regex-replace="🔌 $1: $2">cdp.portid</param>
+    <param>cdp.native_vlan</param>
+    <param>cdp.duplex</param>
+  </mac-message>
+
+  <!-- VTP Summary Advertisement -->
+  <mac-message style="goldenrod">
+    <opcode regex-match="Code: (Summary Advertisement).*" regex-replace="📋 VTP $1">vtp.code</opcode>
+    <param>vtp.version</param>
+    <param regex-match="(Management Domain): (.*)" regex-replace="🏠 $1: $2">vtp.md</param>
+    <param regex-match="(Configuration Revision Number): (.*)" regex-replace="🔢 $1: $2">vtp.conf_rev_num</param>
+    <param regex-match="(Updater Identity): (.*)" regex-replace="🆔 $1: $2">vtp.upd_id</param>
+  </mac-message>
+
+  <!-- VTP Subset Advertisement (carries VLAN details) -->
+  <mac-message style="sea-green">
+    <opcode regex-match="Code: (Subset Advertisement).*" regex-replace="📦 VTP $1">vtp.code</opcode>
+    <param>vtp.version</param>
+    <param regex-match="(Management Domain): (.*)" regex-replace="🏠 $1: $2">vtp.md</param>
+    <param regex-match="(Configuration Revision Number): (.*)" regex-replace="🔢 $1: $2">vtp.conf_rev_num</param>
+    <param regex-match="(ISL VLAN ID): (.*)" regex-replace="🏷️ $1: $2">vtp.vlan_info.isl_vlan_id</param>
+    <param regex-match="(VLAN Name): (.*)" regex-replace="🏷️ $1: $2">vtp.vlan_info.vlan_name</param>
+  </mac-message>
+
+  <!-- VTP Advertisement Request (new switch requesting VLANs) -->
+  <mac-message style="cerulean">
+    <opcode regex-match="Code: (Advertisement Request).*" regex-replace="❓ VTP $1">vtp.code</opcode>
+    <param>vtp.version</param>
+    <param regex-match="(Management Domain): (.*)" regex-replace="🏠 $1: $2">vtp.md</param>
+  </mac-message>
+
+  <!-- VTP generic fallback -->
+  <mac-message style="steel-blue">
+    <opcode regex-match="Code: (.*) \(0x\w+\)" regex-replace="📨 VTP $1">vtp.code</opcode>
+    <param>vtp.version</param>
+    <param regex-match="(Management Domain): (.*)" regex-replace="🏠 $1: $2">vtp.md</param>
+  </mac-message>
+
+  <!-- DTP -->
+  <mac-message style="steel-blue">
+    <opcode regex-match=".*Administrative Status: (.*) \(0x\w+\)" regex-replace="🔗 DTP $1">dtp.tas</opcode>
+    <param regex-match="(Domain): (.*)" regex-replace="🏠 $1: $2">dtp.domain</param>
+    <param>dtp.senderid</param>
+    <param regex-match=".*= Trunk Operating Status: (.*)" regex-replace="🔗 Operating: $1">dtp.tos</param>
+    <param regex-match=".*= Trunk Administrative Type: (.*)" regex-replace="🔗 Admin Type: $1">dtp.tat</param>
+  </mac-message>
+
+  <!-- LACP -->
+  <mac-message style="royal-blue">
+    <opcode regex-match="Actor State Flags: (.*)" regex-replace="🔗 LACP $1">lacp.actor.state_str</opcode>
+    <param regex-match="(Actor System ID): (.*)" regex-replace="🆔 $1: $2">lacp.actor.sysid</param>
+    <param regex-match="(Actor Port): (.*)" regex-replace="🔌 $1: $2">lacp.actor.port</param>
+    <param regex-match="(Actor Key): (.*)" regex-replace="🔑 $1: $2">lacp.actor.key</param>
+    <param>lacp.actor.state</param>
+    <param>lacp.partner.sysid</param>
+    <param>lacp.partner.state</param>
+  </mac-message>
+
+  <!-- PAgP -->
+  <mac-message style="steel-blue">
+    <opcode regex-match="Flags: (.*)" regex-replace="🔗 PAgP $1">pagp.flags</opcode>
+    <param regex-match="(Local Device ID): (.*)" regex-replace="🆔 $1: $2">pagp.localdevid</param>
+    <param regex-match="(Partner Device ID): (.*)" regex-replace="🤝 $1: $2">pagp.partnerdevid</param>
+    <param>pagp.tlvdevname</param>
+    <param>pagp.tlvportname</param>
+    <param>pagp.localgroupifindex</param>
+  </mac-message>
+
+  <!-- UDLD -->
+  <mac-message style="goldenrod">
+    <opcode regex-match=".*Opcode: (.*) \(\d+\)" regex-replace="🔍 UDLD $1">udld.opcode</opcode>
+    <param>udld.device_id</param>
+    <param>udld.sent_through_interface</param>
+    <param>udld.flags</param>
+  </mac-message>
+
+  <!-- STP -->
+  <mac-message style="crimson">
+    <opcode regex-match="BPDU Type: (.*) \(.*\)" regex-replace="🌲 STP $1">stp.type</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.flags</param>
+  </mac-message>
+
+  <!-- RARP (Reverse ARP) -->
+  <mac-message style="amethyst">
+    <opcode regex-match="Opcode: (.*)" regex-replace="🔄 RARP $1">arp.opcode</opcode>
+    <param>arp.src.hw_mac</param>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="🌐 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="🎯 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- Cisco vPC Keepalive (UDP port 3200) -->
+  <udp-message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="💓 vPC Keepalive">udp.payload</opcode>
+    <param>data.len</param>
+  </udp-message>
+
+  <!-- Cisco CFS over LLC/SNAP (vPC peer link, PID 0x8843) -->
+  <mac-message style="steel-blue">
+    <opcode regex-match="PID: .* \((0x8843)\)" regex-replace="🔄 Cisco CFS $1">llc.cisco_pid</opcode>
+    <param>data.len</param>
+  </mac-message>
+
+  <!-- LLC/SNAP fallback for other Cisco PIDs -->
+  <mac-message style="steel-blue">
+    <opcode regex-match="PID: (.*)" regex-replace="LLC $1">llc.cisco_pid</opcode>
+    <param>data.len</param>
+  </mac-message>
+
+  <!-- LLC Data fallback via <message> (undecoded LLC) -->
+  <message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="LLC Data">llc.dsap</opcode>
+    <param>data.len</param>
+    <source><address>eth.src</address></source>
+    <destination><address>eth.dst</address></destination>
+  </message>
+
+</FXT>

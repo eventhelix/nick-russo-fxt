@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+NetFlow v5/v9 and IPFIX (v10) flow export over UDP
+
+Emoji story: 📊 flow telemetry export
+Version keycaps: 5️⃣ v5, 9️⃣ v9 (tests multi-codepoint rendering)
+-->
+<FXT>
+
+  <!-- NetFlow v5 -->
+  <udp-message style="royal-blue">
+    <opcode regex-match="Version: (5)" regex-replace="📊 5️⃣ NetFlow v$1">cflow.version</opcode>
+    <param regex-match="(Count): (.*)" regex-replace="🔢 $1: $2">cflow.count</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">cflow.sequence</param>
+    <param regex-match="(SrcAddr): (.*)" regex-replace="📤 $1: $2">cflow.srcaddr</param>
+    <param regex-match="(DstAddr): (.*)" regex-replace="📥 $1: $2">cflow.dstaddr</param>
+    <param regex-match="(SrcPort): (.*)" regex-replace="📤 $1: $2">cflow.srcport</param>
+    <param regex-match="(DstPort): (.*)" regex-replace="📥 $1: $2">cflow.dstport</param>
+    <param regex-match="(Protocol): (.*)" regex-replace="🔗 $1: $2">cflow.protocol</param>
+    <param regex-match="(Octets): (.*)" regex-replace="📏 $1: $2">cflow.octets</param>
+    <param regex-match="(Packets): (.*)" regex-replace="📦 $1: $2">cflow.packets</param>
+    <param regex-match="(NextHop): (.*)" regex-replace="🌐 $1: $2">cflow.nexthop</param>
+    <param>cflow.tos</param>
+  </udp-message>
+
+  <!-- NetFlow v9 -->
+  <udp-message style="forest-green">
+    <opcode regex-match="Version: (9)" regex-replace="📊 9️⃣ NetFlow v$1">cflow.version</opcode>
+    <param regex-match="(Count): (.*)" regex-replace="🔢 $1: $2">cflow.count</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">cflow.sequence</param>
+    <param regex-match="(SrcAddr): (.*)" regex-replace="📤 $1: $2">cflow.srcaddr</param>
+    <param regex-match="(DstAddr): (.*)" regex-replace="📥 $1: $2">cflow.dstaddr</param>
+    <param regex-match="(SrcPort): (.*)" regex-replace="📤 $1: $2">cflow.srcport</param>
+    <param regex-match="(DstPort): (.*)" regex-replace="📥 $1: $2">cflow.dstport</param>
+    <param regex-match="(Protocol): (.*)" regex-replace="🔗 $1: $2">cflow.protocol</param>
+    <param regex-match="(Octets): (.*)" regex-replace="📏 $1: $2">cflow.octets</param>
+    <param regex-match="(Packets): (.*)" regex-replace="📦 $1: $2">cflow.packets</param>
+    <param regex-match="(Template Id): (.*)" regex-replace="🏷 $1: $2">cflow.template_id</param>
+  </udp-message>
+
+  <!-- IPFIX (NetFlow v10) -->
+  <udp-message style="amethyst">
+    <opcode regex-match="Version: (10)" regex-replace="📊 IPFIX (v$1)">cflow.version</opcode>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">cflow.sequence</param>
+    <param regex-match="(Observation Domain Id): (.*)" regex-replace="🆔 $1: $2">cflow.od_id</param>
+    <param regex-match="(SrcAddr): (.*)" regex-replace="📤 $1: $2">cflow.srcaddr</param>
+    <param regex-match="(DstAddr): (.*)" regex-replace="📥 $1: $2">cflow.dstaddr</param>
+    <param regex-match="(SrcPort): (.*)" regex-replace="📤 $1: $2">cflow.srcport</param>
+    <param regex-match="(DstPort): (.*)" regex-replace="📥 $1: $2">cflow.dstport</param>
+    <param regex-match="(Protocol): (.*)" regex-replace="🔗 $1: $2">cflow.protocol</param>
+    <param regex-match="(Octets): (.*)" regex-replace="📏 $1: $2">cflow.octets</param>
+    <param regex-match="(Packets): (.*)" regex-replace="📦 $1: $2">cflow.packets</param>
+    <param regex-match="(Template Id): (.*)" regex-replace="🏷 $1: $2">cflow.template_id</param>
+    <param regex-match="(FlowSet Id): (.*)" regex-replace="🏷 $1: $2">cflow.flowset_id</param>
+  </udp-message>
+
+  <!-- NetFlow generic fallback -->
+  <udp-message style="steel-blue">
+    <opcode regex-match="Version: (.*)" regex-replace="📊 NetFlow v$1">cflow.version</opcode>
+    <param regex-match="(Count): (.*)" regex-replace="🔢 $1: $2">cflow.count</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">cflow.sequence</param>
+    <param regex-match="(SrcAddr): (.*)" regex-replace="📤 $1: $2">cflow.srcaddr</param>
+    <param regex-match="(DstAddr): (.*)" regex-replace="📥 $1: $2">cflow.dstaddr</param>
+    <param regex-match="(Octets): (.*)" regex-replace="📏 $1: $2">cflow.octets</param>
+    <param regex-match="(Packets): (.*)" regex-replace="📦 $1: $2">cflow.packets</param>
+  </udp-message>
+
+  <!-- NetFlow v9 over IPv6 -->
+  <udpv6-message style="forest-green">
+    <opcode regex-match="Version: (9)" regex-replace="📊 9️⃣ NetFlow v$1">cflow.version</opcode>
+    <param regex-match="(Count): (.*)" regex-replace="🔢 $1: $2">cflow.count</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">cflow.sequence</param>
+    <param regex-match="(Octets): (.*)" regex-replace="📏 $1: $2">cflow.octets</param>
+    <param regex-match="(Packets): (.*)" regex-replace="📦 $1: $2">cflow.packets</param>
+    <param regex-match="(Protocol): (.*)" regex-replace="🔗 $1: $2">cflow.protocol</param>
+    <param regex-match="(Template Id): (.*)" regex-replace="🏷 $1: $2">cflow.template_id</param>
+  </udpv6-message>
+
+  <!-- IPFIX over IPv6 -->
+  <udpv6-message style="amethyst">
+    <opcode regex-match="Version: (10)" regex-replace="📊 IPFIX (v$1)">cflow.version</opcode>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">cflow.sequence</param>
+    <param regex-match="(Observation Domain Id): (.*)" regex-replace="🆔 $1: $2">cflow.od_id</param>
+    <param regex-match="(Octets): (.*)" regex-replace="📏 $1: $2">cflow.octets</param>
+    <param regex-match="(Packets): (.*)" regex-replace="📦 $1: $2">cflow.packets</param>
+    <param regex-match="(Protocol): (.*)" regex-replace="🔗 $1: $2">cflow.protocol</param>
+    <param regex-match="(Template Id): (.*)" regex-replace="🏷 $1: $2">cflow.template_id</param>
+    <param regex-match="(FlowSet Id): (.*)" regex-replace="🏷 $1: $2">cflow.flowset_id</param>
+  </udpv6-message>
+
+  <!-- NetFlow generic IPv6 fallback -->
+  <udpv6-message style="steel-blue">
+    <opcode regex-match="Version: (.*)" regex-replace="📊 NetFlow v$1">cflow.version</opcode>
+    <param regex-match="(Count): (.*)" regex-replace="🔢 $1: $2">cflow.count</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">cflow.sequence</param>
+    <param regex-match="(Octets): (.*)" regex-replace="📏 $1: $2">cflow.octets</param>
+    <param regex-match="(Packets): (.*)" regex-replace="📦 $1: $2">cflow.packets</param>
+  </udpv6-message>
+
+</FXT>

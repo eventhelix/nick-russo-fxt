@@ -1,0 +1,11 @@
+# NetFlow Protocol Collection Hosts
+# NetFlow v5/v9/v10 (IPFIX)
+
+# IPv4
+10.0.0.2	📤 R2 (Exporter)
+10.0.0.3	📊 R3 (Collector)
+10.0.0.4	🖥 R4
+
+# IPv6
+fc00::2	📤 R2 (Exporter)
+fc00::3	📊 R3 (Collector)

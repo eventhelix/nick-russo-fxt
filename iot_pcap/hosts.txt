@@ -1,0 +1,11 @@
+# IoT Protocol Collection Hosts
+# CoAP and MQTT
+
+# Client (CoAP + MQTT)
+192.168.1.151	💻 Client
+
+# CoAP Server
+52.45.123.182	🖥 CoAP Server
+
+# MQTT Broker
+5.196.95.208	🖥 MQTT Broker

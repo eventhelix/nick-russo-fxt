@@ -1,0 +1,35 @@
+# Legacy Protocol Collection Hosts
+# IPX, AppleTalk, DECnet, DLSw, CLNS
+
+# AppleTalk (Phase 1 & 2)
+c2:01:50:d1:00:00	🖥 R1
+c2:02:50:e0:00:00	🖥 R2
+
+# IPX / CLNS IS-IS / CLNS ISO-IGRP / IPX EIGRP
+c2:01:50:d1:00:20	🖥 R1
+c2:02:50:e0:00:20	🖥 R2
+
+# DECnet DNA Routing
+aa:00:04:00:01:04	🖥 R1
+aa:00:04:00:02:04	🖥 R2
+ab:00:00:03:00:00	📡 DECnet Routers
+ab:00:00:04:00:00	📡 DECnet End Nodes
+
+# DLSw Bridging (MAC + IP tunnel endpoints)
+c2:01:5a:37:00:01	🖥 R1
+c2:02:5a:46:00:01	🖥 R2
+203.0.113.1	🖥 R1
+203.0.113.2	🖥 R2
+
+# CLNS IS-IS / ES-IS Multicast
+01:80:c2:00:00:14	📡 All L1 IS
+01:80:c2:00:00:15	📡 All L2 IS
+09:00:2b:00:00:04	📡 All ES
+09:00:2b:00:00:05	📡 All IS
+
+# AppleTalk Multicast
+09:00:07:ff:ff:ff	📡 AppleTalk Broadcast
+09:00:07:00:00:64	📡 AppleTalk Zone
+
+# Broadcast
+ff:ff:ff:ff:ff:ff	📡 Broadcast

@@ -1,0 +1,9 @@
+# BFD Protocol Collection Hosts
+
+# Multi-hop BFD (loopback peers)
+10.0.0.1	🖥 R1
+10.0.0.3	🖥 R3
+
+# Single-hop BFD (direct link)
+10.1.2.1	🖥 R1
+10.1.2.2	🖥 R2

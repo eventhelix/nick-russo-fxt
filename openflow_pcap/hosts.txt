@@ -1,0 +1,11 @@
+# OpenFlow SDN Protocol Collection Hosts
+
+# OVS Switches (Open vSwitch)
+192.168.218.138	🔀 OVS Switch A
+192.168.218.139	🔀 OVS Switch B
+192.168.218.140	🔀 OVS Switch C
+192.168.218.141	🔀 OVS Switch D
+
+# SDN Controllers
+34.207.175.8	🧠 SDN Controller
+34.207.230.109	🧠 SDN Controller B

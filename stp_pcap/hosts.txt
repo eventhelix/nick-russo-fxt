@@ -1,0 +1,35 @@
+# STP Protocol Collection Hosts
+
+# Lab Switches (STP/MST/PVST BPDUs)
+aa:bb:cc:00:01:00	🌳 SW1 (Root Bridge)
+aa:bb:cc:00:03:00	📡 SW3
+aa:bb:cc:00:03:11	📡 Gi1.SW3
+aa:bb:cc:00:04:11	📡 Gi1.SW4
+
+# UplinkFast Switches (real hardware)
+00:23:5d:c9:5a:97	📡 SW-A
+00:23:5d:c9:5a:98	📡 SW-B
+e4:d3:f1:8e:88:17	📡 Gi17.SW-C
+e4:d3:f1:8e:88:18	📡 Gi18.SW-C
+
+# FlexLink Switches (real hardware)
+00:23:5d:c9:5a:c1	📡 Gi1.SW-D
+00:23:5d:c9:5a:c2	📡 Gi2.SW-D
+54:ee:75:f0:ed:e1	📡 SW-E
+e4:d3:f1:8e:88:40	📡 Gi0.SW-F
+e4:d3:f1:8e:88:41	📡 Gi1.SW-F
+e4:d3:f1:8e:88:42	📡 Gi2.SW-F
+e4:d3:f1:8e:88:43	📡 Gi3.SW-F
+e4:d3:f1:8e:88:44	📡 Gi4.SW-F
+e4:d3:f1:8e:88:45	📡 Gi5.SW-F
+
+# STP Multicast
+01:80:c2:00:00:00	📡 STP Multicast
+01:00:0c:cc:cc:cd	📡 Cisco PVST+
+01:00:0c:cd:cd:cd	📡 Cisco L2 Multicast
+
+# FlexLink IP (ICMP reachability)
+10.0.10.1	📡 SW1
+10.0.10.2	📡 SW2
+10.0.20.1	📡 SW1
+10.0.20.2	📡 SW2

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Ethernet OAM: 802.1ag CFM, 802.3ah OAM PDU, E-LMI
+
+Emoji story for Ethernet OAM lifecycle:
+  CFM: 💓 CCM (heartbeat), 📡/✅ LBM/LBR (ping), 🔎/📋 LTM/LTR (traceroute),
+       🚨 AIS (alarm), ⏱/🕐 DMM/DMR (delay), 📊 SLM/SLR (loss)
+  OAM: ℹ Information, 🔄 Loopback Control
+  E-LMI: 🔍 Status Enquiry, 📋 Status
+-->
+<FXT>
+
+  <!-- ============================================================
+       CFM (802.1ag Connectivity Fault Management)
+       ============================================================ -->
+
+  <!-- CFM CCM (Continuity Check — heartbeat) -->
+  <mac-message style="forest-green">
+    <opcode regex-match=".*\((CCM)\) \(\d+\)" regex-replace="💓 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match="(MD Name.*): (.*)" regex-replace="🏷 $1: $2">cfm.maid.md_name.string</param>
+    <param regex-match="(Short MA Name.*): (.*)" regex-replace="🏷 $1: $2">cfm.maid.ma_name.id</param>
+    <param regex-match=".*Endpoint Identifier: (\d+)" regex-replace="🆔 MEP ID: $1">cfm.mep_id</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">cfm.ccm.seq_num</param>
+    <param regex-match="(Port Status): (.*)" regex-replace="🔗 $1: $2">cfm.tlv.port_status.value</param>
+    <param regex-match="(Interface Status): (.*)" regex-replace="🔗 $1: $2">cfm.tlv.intf_status.value</param>
+  </mac-message>
+
+  <!-- CFM LBM (Loopback Message — CFM ping) -->
+  <mac-message style="royal-blue">
+    <opcode regex-match=".*\((LBM)\) \(\d+\)" regex-replace="📡 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">cfm.lbm.lbr.transaction_id</param>
+  </mac-message>
+
+  <!-- CFM LBR (Loopback Reply) -->
+  <mac-message style="cerulean">
+    <opcode regex-match=".*\((LBR)\) \(\d+\)" regex-replace="✅ CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">cfm.lbm.lbr.transaction_id</param>
+  </mac-message>
+
+  <!-- CFM LTM (Linktrace Message — CFM traceroute) -->
+  <mac-message style="goldenrod">
+    <opcode regex-match=".*\((LTM)\) \(\d+\)" regex-replace="🔎 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">cfm.ltm.ltr.transaction_id</param>
+    <param regex-match="(TTL): (.*)" regex-replace="⏳ $1: $2">cfm.ltm.ltr.ttl</param>
+    <param regex-match="(Original MAC Address): (.*)" regex-replace="📤 $1: $2">cfm.ltm.orig_addr</param>
+    <param regex-match="(Target MAC Address): (.*)" regex-replace="🎯 $1: $2">cfm.ltm.target_addr</param>
+  </mac-message>
+
+  <!-- CFM LTR (Linktrace Reply) -->
+  <mac-message style="teal">
+    <opcode regex-match=".*\((LTR)\) \(\d+\)" regex-replace="📋 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">cfm.ltm.ltr.transaction_id</param>
+    <param regex-match="(TTL): (.*)" regex-replace="⏳ $1: $2">cfm.ltm.ltr.ttl</param>
+    <param regex-match="(Relay Action): (.*)" regex-replace="🔄 $1: $2">cfm.ltr.relay_action</param>
+    <param regex-match="(MAC Address): (.*)" regex-replace="🔗 $1: $2">cfm.tlv.reply_egress.mac_address</param>
+    <param regex-match="(Interface Name): (.*)" regex-replace="🔗 $1: $2">cfm.tlv.reply_ing_egr.portid.intf_name</param>
+  </mac-message>
+
+  <!-- CFM AIS (Alarm Indication Signal) -->
+  <mac-message style="crimson">
+    <opcode regex-match=".*\((AIS)\) \(\d+\)" regex-replace="🚨 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match=".*Period: (.*)" regex-replace="⏱ Period: $1">cfm.ais.flags.Period</param>
+  </mac-message>
+
+  <!-- CFM 1DM (Y.1731 One-way Delay Measurement) -->
+  <mac-message style="amethyst">
+    <opcode regex-match=".*\((1DM)\) \(\d+\)" regex-replace="⏱ CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match="(TxTimestampf): (.*)" regex-replace="🕐 $1: $2">cfm.odm.dmm.dmr.txtimestampf</param>
+  </mac-message>
+
+  <!-- CFM DMM (Y.1731 Delay Measurement Message) -->
+  <mac-message style="sea-green">
+    <opcode regex-match=".*\((DMM)\) \(\d+\)" regex-replace="⏱ CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match="(TxTimestampf): (.*)" regex-replace="🕐 $1: $2">cfm.odm.dmm.dmr.txtimestampf</param>
+  </mac-message>
+
+  <!-- CFM DMR (Y.1731 Delay Measurement Reply) -->
+  <mac-message style="forest-green">
+    <opcode regex-match=".*\((DMR)\) \(\d+\)" regex-replace="🕐 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match="(RxTimestampf): (.*)" regex-replace="🕐 $1: $2">cfm.odm.dmm.dmr.rxtimestampf</param>
+    <param regex-match="(TxTimestampb): (.*)" regex-replace="🕐 $1: $2">cfm.dmm.dmr.txtimestampb</param>
+  </mac-message>
+
+  <!-- CFM SLM (Y.1731 Synthetic Loss Message) -->
+  <mac-message style="sea-green">
+    <opcode regex-match=".*\((SLM)\) \(\d+\)" regex-replace="📊 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match=".*Source MEP ID: (\d+)" regex-replace="🆔 Src MEP: $1">cfm.slm.slr.src_mep_id</param>
+    <param regex-match="(Test ID): (.*)" regex-replace="🆔 $1: $2">cfm.slm.slr.test_id</param>
+    <param regex-match="(TxFCf): (.*)" regex-replace="📤 $1: $2">cfm.slm.slr.txfcf</param>
+  </mac-message>
+
+  <!-- CFM SLR (Y.1731 Synthetic Loss Reply) -->
+  <mac-message style="forest-green">
+    <opcode regex-match=".*\((SLR)\) \(\d+\)" regex-replace="📊 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+    <param regex-match=".*Source MEP ID: (\d+)" regex-replace="🆔 Src MEP: $1">cfm.slm.slr.src_mep_id</param>
+    <param regex-match=".*Responder MEP ID: (\d+)" regex-replace="🆔 Rsp MEP: $1">cfm.slr.rsp_mep_id</param>
+    <param regex-match="(Test ID): (.*)" regex-replace="🆔 $1: $2">cfm.slm.slr.test_id</param>
+    <param regex-match="(TxFCf): (.*)" regex-replace="📤 $1: $2">cfm.slm.slr.txfcf</param>
+    <param regex-match="(TxFCb): (.*)" regex-replace="📥 $1: $2">cfm.slr.txfcb</param>
+  </mac-message>
+
+  <!-- CFM VSM (Vendor-Specific) -->
+  <mac-message style="steel-blue">
+    <opcode regex-match=".*\((VSM)\) \(\d+\)" regex-replace="🔧 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+  </mac-message>
+
+  <!-- CFM generic fallback -->
+  <mac-message style="steel-blue">
+    <opcode regex-match=".*OpCode: (.*) \(\d+\)" regex-replace="🔄 CFM $1">cfm.opcode</opcode>
+    <param regex-match=".*CFM MD Level: (\d+)" regex-replace="📊 MD Level: $1">cfm.md_level</param>
+  </mac-message>
+
+  <!-- ============================================================
+       OAM PDU (802.3ah)
+       ============================================================ -->
+
+  <mac-message style="sea-green">
+    <opcode regex-match=".*code: (Information) \(0x\w+\)" regex-replace="ℹ OAM $1">oampdu.code</opcode>
+    <param>oampdu.flags</param>
+    <param>oampdu.info.oamConfig</param>
+    <param>oampdu.info.oampduConfig</param>
+  </mac-message>
+
+  <mac-message style="royal-blue">
+    <opcode regex-match=".*code: (Loopback Control) \(0x\w+\)" regex-replace="🔄 OAM $1">oampdu.code</opcode>
+    <param>oampdu.flags</param>
+  </mac-message>
+
+  <mac-message style="amethyst">
+    <opcode regex-match=".*code: (.*) \(0x\w+\)" regex-replace="🔄 OAM $1">oampdu.code</opcode>
+    <param>oampdu.flags</param>
+  </mac-message>
+
+  <!-- ============================================================
+       E-LMI (Ethernet Local Management Interface)
+       ============================================================ -->
+
+  <mac-message style="royal-blue">
+    <opcode regex-match=".*type: (Status enquiry) \(0x\w+\)" regex-replace="🔍 E-LMI $1">elmi.message_type</opcode>
+    <param regex-match="(Send Sequence Number): (.*)" regex-replace="🔢 $1: $2">elmi.snd_seq_num</param>
+    <param regex-match="(Receive Sequence Number): (.*)" regex-replace="🔢 $1: $2">elmi.rcv_seq_num</param>
+    <param regex-match="(Report Type): (.*)" regex-replace="📋 $1: $2">elmi.report_type</param>
+  </mac-message>
+
+  <mac-message style="forest-green">
+    <opcode regex-match=".*type: (Status) \(0x\w+\)" regex-replace="📋 E-LMI $1">elmi.message_type</opcode>
+    <param regex-match="(Send Sequence Number): (.*)" regex-replace="🔢 $1: $2">elmi.snd_seq_num</param>
+    <param regex-match="(Receive Sequence Number): (.*)" regex-replace="🔢 $1: $2">elmi.rcv_seq_num</param>
+    <param regex-match="(Report Type): (.*)" regex-replace="📋 $1: $2">elmi.report_type</param>
+    <param regex-match="(Data Instance): (.*)" regex-replace="🔢 $1: $2">elmi.data_instance</param>
+    <param regex-match="(UNI ID): (.*)" regex-replace="🆔 $1: $2">elmi.sub_info.uni_id</param>
+    <param regex-match="(EVC ID): (.*)" regex-replace="🆔 $1: $2">elmi.sub_info.evc_id</param>
+    <param regex-match="(EVC Reference ID): (.*)" regex-replace="🆔 $1: $2">elmi.evc.refid</param>
+    <param regex-match=".*EVC Status Type: (.*)" regex-replace="📋 EVC Status: $1">elmi.evc.status</param>
+    <param regex-match="(Map Type): (.*)" regex-replace="🔗 $1: $2">elmi.map_type</param>
+  </mac-message>
+
+  <mac-message style="amethyst">
+    <opcode regex-match=".*type: (.*) \(0x\w+\)" regex-replace="🔄 E-LMI $1">elmi.message_type</opcode>
+    <param regex-match="(Send Sequence Number): (.*)" regex-replace="🔢 $1: $2">elmi.snd_seq_num</param>
+    <param regex-match="(Receive Sequence Number): (.*)" regex-replace="🔢 $1: $2">elmi.rcv_seq_num</param>
+  </mac-message>
+
+  <!-- DNS -->
+  <udp-message style="steel-blue">
+    <opcode display="brief" regex-match="^0$" regex-replace="🔍 DNS Query">dns.flags.opcode</opcode>
+    <param regex-match="(Name): (.*)" regex-replace="🌐 $1: $2">dns.qry.name</param>
+    <param>dns.qry.type</param>
+    <param regex-match="(Address): (.*)" regex-replace="🌐 $1: $2">dns.a</param>
+    <param regex-match="(AAAA Address): (.*)" regex-replace="🌐 $1: $2">dns.aaaa</param>
+  </udp-message>
+
+</FXT>

@@ -1,0 +1,61 @@
+# IP Tunnel Protocol Collection Hosts
+# GRE, DMVPN, LISP, IP-in-IP, AMT, NOS, RBSCP, ERSPAN
+
+# GRE / DMVPN / IP-in-IP Tunnel Endpoints
+203.0.113.1	🎯 R1 (DMVPN Hub/NHS)
+203.0.113.2	🖥 R2
+192.0.2.2	🔽 R2 (DMVPN Spoke)
+198.51.100.3	🖥 R3
+
+# GRE Entropy / ERSPAN (outer)
+100.64.0.4	🖥 R4
+100.64.0.5	🖥 R5
+100.64.0.99	📡 ERSPAN Dest
+
+# GRE Entropy (inner)
+10.4.5.4	🖥 R4
+10.4.5.5	🖥 R5
+
+# AMT Multicast Group
+232.0.0.12	📡 SSM Group
+
+# ERSPAN (mirrored OSPF traffic)
+192.168.0.4	🖥 R4
+192.168.0.5	🖥 R5
+224.0.0.5	📡 OSPF AllSPF
+
+# LISP (Map Server/Resolver/xTR)
+10.0.123.1	🎯 R1 (LISP MS/MR)
+10.0.123.2	🔽 R2 (LISP xTR)
+10.0.123.3	🔽 R3 (LISP xTR)
+10.0.123.4	🔽 R4 (LISP ITR)
+
+# LISP PxTR Native
+10.0.0.2	🖥 R2
+8.8.8.8	🌐 Google DNS
+
+# AMT (Automatic Multicast Tunneling)
+10.0.0.3	🖥 R3
+10.0.0.4	🖥 R4
+10.1.3.1	🖥 R1
+10.2.4.2	🖥 R2
+
+# LISP IID100 VRF Inner
+192.168.102.2	🖥 R2
+192.168.103.3	🖥 R3
+fc00:192:168:102::2	🖥 R2
+fc00:192:168:103::3	🖥 R3
+
+# NOS KAQ9
+10.1.2.1	🖥 R1
+10.1.2.2	🖥 R2
+192.168.0.1	🖥 R1
+192.168.0.2	🖥 R2
+
+# IPv6 LISP PxTR Native
+fc00::2	🖥 R2
+::8:8:8:8	🌐 Google DNS v6
+
+# IPv6 AMT
+fc00:10:1:3::1	🖥 R1
+fc00:10:2:4::2	🖥 R2

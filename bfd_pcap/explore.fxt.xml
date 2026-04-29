@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+FXT file for BFD (Bidirectional Forwarding Detection) protocol visualization.
+
+This sample demonstrates:
+   - BFD Control message extraction over UDP
+   - State-based message differentiation (Down, Init, Up, AdminDown)
+   - Discriminator, timing, and authentication parameter extraction
+   - Regex transformations for BFD bitfield display values
+
+BFD State Machine:
+   AdminDown(0) -> Down(1) -> Init(2) -> Up(3)
+
+For session-aware BFD tracking, see sessions.fxt.xml
+-->
+<FXT>
+
+  <!-- ============================================================
+       BFD PROTOCOL MESSAGES
+       ============================================================ -->
+
+  <!-- BFD Down State - Initial state, no connectivity -->
+  <udp-message style="goldenrod">
+    <opcode
+            regex-match=".*Session State: (Down) \(.*\)"
+            regex-replace="🔴 BFD $1"
+        >bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.required_min_echo_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+    <param>bfd.flags</param>
+    <param>bfd.auth.type</param>
+  </udp-message>
+
+  <!-- BFD Init State - Transitioning to established -->
+  <udp-message style="royal-blue">
+    <opcode
+            regex-match=".*Session State: (Init) \(.*\)"
+            regex-replace="🟡 BFD $1"
+        >bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.required_min_echo_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+    <param>bfd.flags</param>
+    <param>bfd.auth.type</param>
+  </udp-message>
+
+  <!-- BFD Up State - Adjacency established -->
+  <udp-message style="forest-green">
+    <opcode
+            regex-match=".*Session State: (Up) \(.*\)"
+            regex-replace="🟢 BFD $1"
+        >bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.required_min_echo_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+    <param>bfd.flags</param>
+    <param>bfd.auth.type</param>
+  </udp-message>
+
+  <!-- BFD AdminDown State - Administratively shut down -->
+  <udp-message style="brick">
+    <opcode
+            regex-match=".*Session State: (AdminDown) \(.*\)"
+            regex-replace="🛑 BFD $1"
+        >bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.required_min_echo_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+    <param>bfd.flags</param>
+    <param>bfd.auth.type</param>
+  </udp-message>
+
+  <!-- Generic BFD fallback (catches any state not matched above) -->
+  <udp-message style="steel-blue">
+    <opcode
+            regex-match=".*Session State: (.*) \(.*\)"
+            regex-replace="📨 BFD $1"
+        >bfd.sta</opcode>
+    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param>bfd.required_min_echo_interval</param>
+    <param>bfd.detect_time_multiplier</param>
+    <param>bfd.flags</param>
+    <param>bfd.auth.type</param>
+  </udp-message>
+
+</FXT>

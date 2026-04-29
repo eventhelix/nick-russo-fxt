@@ -1,0 +1,31 @@
+# Meraki Cloud-Managed Device Initialization Hosts
+
+# Meraki devices
+192.168.1.164	📡 Meraki MR20 AP
+192.168.1.165	📹 Meraki MV12WE Camera
+192.168.1.196	🔒 Meraki MX64 Firewall
+
+# Meraki device MACs
+34:56:fe:50:08:78	📡 Meraki MR20 AP
+34:56:fe:a2:c1:83	📹 Meraki MV12WE Camera
+68:3a:1e:2f:7a:25	🔒 Meraki MX64 Firewall
+
+# Network infrastructure
+192.168.1.1	🏠 Default Gateway
+48:5d:36:c9:c9:6b	🏠 Default Gateway
+
+# Meraki Cloud Dashboard
+209.206.48.192	☁ Meraki Cloud
+209.206.49.163	☁ Meraki Cloud
+209.206.52.99	☁ Meraki Cloud
+
+# DNS Resolvers
+208.67.220.220	🔍 OpenDNS
+208.67.222.222	🔍 OpenDNS
+8.8.8.8	🔍 Google DNS
+8.8.4.4	🔍 Google DNS
+
+# Broadcast / Special
+0.0.0.0	📡 No IP
+255.255.255.255	📡 Broadcast
+ff:ff:ff:ff:ff:ff	📡 Broadcast

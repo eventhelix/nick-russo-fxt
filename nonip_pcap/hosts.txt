@@ -1,0 +1,29 @@
+# Non-IP Protocol Collection Hosts
+# ARP, CDP, LLDP, VTP, DTP, LACP, PAgP, UDLD, vPC, RARP
+
+# Lab Routers (ARP, CDP, LLDP)
+aa:bb:cc:00:01:00	🖥 R1
+aa:bb:cc:00:02:00	🖥 R2
+
+# Lab Switches (VTP, DTP, LACP, PAgP, UDLD)
+aa:bb:cc:00:02:20	📡 SW-A
+aa:bb:cc:00:03:20	📡 SW-B
+
+# Nexus 9K vPC Peer (CFS over LLC)
+00:81:c4:f7:1e:51	📡 N9K-A
+e0:0e:da:4a:af:d1	📡 N9K-B
+
+# Nexus 9K vPC Keepalive (UDP/IP)
+00:81:c4:f7:1e:4f	📡 N9K-A
+e0:0e:da:4a:af:cf	📡 N9K-B
+192.0.2.1	📡 N9K-A
+192.0.2.2	📡 N9K-B
+
+# RARP
+00:58:f6:09:a7:00	💻 RARP Client
+
+# Multicast/Broadcast
+ff:ff:ff:ff:ff:ff	📡 Broadcast
+01:00:0c:cc:cc:cc	📡 Cisco L2 Multicast
+01:80:c2:00:00:02	📡 Slow Protocols
+01:80:c2:00:00:0e	📡 LLDP Multicast

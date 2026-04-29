@@ -1,0 +1,10 @@
+# File Transfer Protocol Collection Hosts
+# FTP, FTPS, SFTP, TFTP
+
+# IPv4
+10.1.4.4	💻 Client
+10.2.5.5	🖥 Server
+
+# IPv6
+fc00:10:1:4::4	💻 Client
+fc00:10:2:5::5	🖥 Server

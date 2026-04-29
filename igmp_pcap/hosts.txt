@@ -1,0 +1,57 @@
+# IGMP / MLD Protocol Collection Hosts
+
+# IGMPv1/v2/v3 + Mtrace
+10.1.4.1	❓ R1 (Querier)
+10.1.4.4	👥 R4 (Host)
+
+# Mtrace
+10.1.3.3	🖥 R3
+10.2.5.2	🖥 R2
+
+# SSM-DNS (PIM + IGMP)
+10.0.0.6	🖥 R6
+10.0.0.8	🖥 R8
+10.0.0.9	🖥 R9
+10.3.6.3	👥 R3 (Host)
+10.3.6.6	❓ R6 (Querier)
+10.6.7.6	🖥 R6
+
+# SSM-URD (PIM + IGMP)
+10.0.0.3	🖥 R3
+10.0.0.4	🖥 R4
+10.1.2.1	🖥 R1
+10.2.3.2	🖥 R2
+3.94.203.105	🌐 URD Server
+
+# IPv4 Multicast
+224.0.0.1	📡 All Hosts
+224.0.0.2	📡 All Routers
+224.0.0.13	📡 PIM
+224.0.0.22	📡 IGMPv3
+232.0.0.1	📡 SSM Group
+232.3.3.3	📡 SSM Group
+239.1.1.1	📡 ASM Group
+239.2.2.2	📡 ASM Group
+
+# MLD IPv6 Link-Local
+fe80::1	❓ R1 (Querier)
+fe80::3	👥 R3 (Host)
+fe80::4	👥 R4 (Host)
+fe80::6	🖥 R6
+
+# MLD IPv6 Global/ULA
+fc00::6	🖥 R6
+fc00::8	🖥 R8
+fc00::9	🖥 R9
+fc00:10:3:6::3	🖥 R3
+
+# IPv6 Multicast
+ff02::1	📡 All Nodes
+ff02::2	📡 All Routers
+ff02::d	📡 PIMv6
+ff02::16	📡 MLDv2
+ff02::1:ff00:4	📡 Solicited Node
+ff08::1	📡 Org-Scope Group
+ff08::2	📡 Org-Scope Group
+ff38::1	📡 SSM Group
+ff38::3	📡 SSM Group

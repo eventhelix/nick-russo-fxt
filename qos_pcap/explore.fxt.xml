@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+QoS Protocol Collection:
+  - RSVP PATH/RESV/CONFIRM for VoIP bandwidth reservation
+  - MPLS with EXP bits for QoS marking
+  - ICMP/ICMPv6 Echo with DSCP markings
+  - TCP ECN (Explicit Congestion Notification) negotiation
+  - Ethernet 802.3x Pause (link-level flow control)
+  - 802.1Qbb PFC (Priority-based Flow Control)
+-->
+<FXT>
+
+  <!-- ============================================================
+       RSVP (Resource Reservation Protocol)
+       ============================================================ -->
+
+  <!-- RSVP PATH -->
+  <ip-message style="royal-blue">
+    <opcode regex-match="Message Type: (PATH) Message.*" regex-replace="🎫 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Protocol): (.*)" regex-replace="🔗 $1: $2">rsvp.session.proto</param>
+    <param regex-match="(Port): (.*)" regex-replace="🔗 $1: $2">rsvp.session.port</param>
+    <param regex-match="(Sender Address): (.*)" regex-replace="📤 $1: $2">rsvp.sender.ip</param>
+    <param regex-match="(Token Bucket Rate): (.*)" regex-replace="🏎 $1: $2">rsvp.tspec.token_bucket_rate</param>
+    <param regex-match="(Peak Data Rate): (.*)" regex-replace="🏎 $1: $2">rsvp.tspec.peak_data_rate</param>
+  </ip-message>
+
+  <!-- RSVP RESV -->
+  <ip-message style="sea-green">
+    <opcode regex-match="Message Type: (RESV) Message.*" regex-replace="✅ RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Style): (.*)" regex-replace="🔧 $1: $2">rsvp.style</param>
+    <param regex-match="(Rate): (.*)" regex-replace="🏎 $1: $2">rsvp.flowspec.rate</param>
+    <param regex-match="(Token Bucket Rate): (.*)" regex-replace="🏎 $1: $2">rsvp.flowspec.token_bucket_rate</param>
+  </ip-message>
+
+  <!-- RSVP CONFIRM -->
+  <ip-message style="forest-green">
+    <opcode regex-match="Message Type: (CONFIRM) Message.*" regex-replace="🎉 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Receiver Address): (.*)" regex-replace="📥 $1: $2">rsvp.confirm.receiver_address_ipv4</param>
+    <param regex-match="(Error Code): (.*)" regex-replace="📋 $1: $2">rsvp.error.error_code</param>
+    <param regex-match="(Error Node): (.*)" regex-replace="🌐 $1: $2">rsvp.error.error_node_ipv4</param>
+  </ip-message>
+
+  <!-- RSVP PATH ERROR -->
+  <ip-message style="brick wave">
+    <opcode regex-match="Message Type: (PATHERR) Message.*" regex-replace="🚨 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Error Code): (.*)" regex-replace="📋 $1: $2">rsvp.error.error_code</param>
+    <param regex-match="(Error Node): (.*)" regex-replace="🌐 $1: $2">rsvp.error.error_node_ipv4</param>
+    <param regex-match="(Error Value): (.*)" regex-replace="📋 $1: $2">rsvp.error_value</param>
+  </ip-message>
+
+  <!-- RSVP RESV ERROR -->
+  <ip-message style="brick wave">
+    <opcode regex-match="Message Type: (RESVERR) Message.*" regex-replace="🚨 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Error Code): (.*)" regex-replace="📋 $1: $2">rsvp.error.error_code</param>
+    <param regex-match="(Error Node): (.*)" regex-replace="🌐 $1: $2">rsvp.error.error_node_ipv4</param>
+    <param regex-match="(Error Value): (.*)" regex-replace="📋 $1: $2">rsvp.error_value</param>
+  </ip-message>
+
+  <!-- RSVP PATH TEAR -->
+  <ip-message style="goldenrod">
+    <opcode regex-match="Message Type: (PATHTEAR) Message.*" regex-replace="🗑️ RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Sender Address): (.*)" regex-replace="📤 $1: $2">rsvp.sender.ip</param>
+  </ip-message>
+
+  <!-- RSVP RESV TEAR -->
+  <ip-message style="goldenrod">
+    <opcode regex-match="Message Type: (RESVTEAR) Message.*" regex-replace="🗑️ RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+  </ip-message>
+
+  <!-- RSVP generic fallback -->
+  <ip-message style="steel-blue">
+    <opcode regex-match="Message Type: (.*) Message.*" regex-replace="📨 RSVP $1">rsvp.msg</opcode>
+    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">rsvp.session.ip</param>
+    <param regex-match="(Sender Address): (.*)" regex-replace="📤 $1: $2">rsvp.sender.ip</param>
+  </ip-message>
+
+  <!-- ============================================================
+       MPLS
+       ============================================================ -->
+
+  <ip-message style="goldenrod">
+    <opcode regex-match=".*" regex-replace="🏷️ MPLS">mpls.label</opcode>
+    <param regex-match=".*Label: (\d+)" regex-replace="🏷 Label: $1">mpls.label</param>
+    <param regex-match=".*MPLS Experimental Bits: (\d+)" regex-replace="🔧 EXP: $1">mpls.exp</param>
+    <param regex-match=".*MPLS TTL: (\d+)" regex-replace="⏳ TTL: $1">mpls.ttl</param>
+    <param regex-match=".*Codepoint: (Default) \(\d+\)" regex-replace="🎯 DSCP: 📦 $1 — Best Effort, no guarantees">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Class Selector 1) \(\d+\)" regex-replace="🎯 DSCP: 📦 $1 — Scavenger, low priority bulk">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Assured Forwarding 1\d) \(\d+\)" regex-replace="🎯 DSCP: 📋 $1 — Bulk Data, AF PHB">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Class Selector 2) \(\d+\)" regex-replace="🎯 DSCP: 📋 $1 — OAM, network management">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Assured Forwarding 2\d) \(\d+\)" regex-replace="🎯 DSCP: 📋 $1 — Transactional Data, AF PHB">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Class Selector 3) \(\d+\)" regex-replace="🎯 DSCP: 📡 $1 — Signaling, call setup">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Assured Forwarding 3\d) \(\d+\)" regex-replace="🎯 DSCP: 🎬 $1 — Streaming Video, AF PHB">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Class Selector 4) \(\d+\)" regex-replace="🎯 DSCP: 🎬 $1 — Real-Time Interactive">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Assured Forwarding 4\d) \(\d+\)" regex-replace="🎯 DSCP: 📹 $1 — Multimedia Conferencing, AF PHB">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Class Selector 5) \(\d+\)" regex-replace="🎯 DSCP: 📹 $1 — Broadcast Video">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Expedited Forwarding) \(\d+\)" regex-replace="🎯 DSCP: 🎤 $1 — VoIP, EF PHB (low latency)">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Class Selector 6) \(\d+\)" regex-replace="🎯 DSCP: 🔧 $1 — Network Control, routing">ip.dsfield.dscp</param>
+    <param regex-match=".*Codepoint: (Class Selector 7) \(\d+\)" regex-replace="🎯 DSCP: 🔧 $1 — Reserved, highest priority">ip.dsfield.dscp</param>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ip.dsfield.dscp</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+  </ip-message>
+
+  <!-- ============================================================
+       ICMP with QoS DSCP markings
+       ============================================================ -->
+
+  <!-- ICMP Echo Request -->
+  <ip-message style="cerulean">
+    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ip.dsfield.dscp</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <!-- ICMP Echo Reply -->
+  <ip-message style="sea-green">
+    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ip.dsfield.dscp</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <!-- ICMP generic -->
+  <ip-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="📨 ICMP Type $1">icmp.type</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ip.dsfield.dscp</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+  </ip-message>
+
+  <!-- ============================================================
+       TCP with ECN (Explicit Congestion Notification)
+       ============================================================ -->
+
+  <!-- TCP SYN with ECN -->
+  <tcp-message style="cerulean">
+    <opcode regex-match=".*Flags:.*\((SYN, ECE, CWR)\)" regex-replace="🔗 TCP $1 (ECN)">tcp.flags</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ip.dsfield.dscp</param>
+    <param regex-match=".*Explicit Congestion Notification: (.*) \(\d+\)" regex-replace="🚦 ECN: $1">ip.dsfield.ecn</param>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+  </tcp-message>
+
+  <!-- TCP SYN-ACK with ECE (ECN capable) -->
+  <tcp-message style="sea-green">
+    <opcode regex-match=".*Flags:.*\((SYN, ACK, ECE)\)" regex-replace="✅ TCP $1 (ECN)">tcp.flags</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ip.dsfield.dscp</param>
+    <param regex-match=".*Explicit Congestion Notification: (.*) \(\d+\)" regex-replace="🚦 ECN: $1">ip.dsfield.ecn</param>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+  </tcp-message>
+
+  <!-- TCP generic -->
+  <tcp-message style="steel-blue">
+    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="📦 TCP ($1)">tcp.flags</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ip.dsfield.dscp</param>
+    <param regex-match=".*Explicit Congestion Notification: (.*) \(\d+\)" regex-replace="🚦 ECN: $1">ip.dsfield.ecn</param>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       ICMPv6 with QoS DSCP markings
+       ============================================================ -->
+
+  <ipv6-message style="cerulean">
+    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ipv6.tclass.dscp</param>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+  </ipv6-message>
+
+  <ipv6-message style="sea-green">
+    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ipv6.tclass.dscp</param>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+  </ipv6-message>
+
+  <ipv6-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="📨 ICMPv6 Type $1">icmpv6.type</opcode>
+    <param regex-match=".*Differentiated Services Codepoint: (.*) \(\d+\)" regex-replace="🎯 DSCP: $1">ipv6.tclass.dscp</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+  </ipv6-message>
+
+  <!-- ============================================================
+       Ethernet Flow Control
+       ============================================================ -->
+
+  <!-- 802.1Qbb PFC (Priority-based Flow Control) — BEFORE 802.3x Pause since both contain "Pause" -->
+  <mac-message style="orchid">
+    <opcode regex-match=".*CBFC.*" regex-replace="⏸️ 802.1Qbb PFC">macc.opcode</opcode>
+    <param regex-match="CBFC Class Enable Vector: (.*)" regex-replace="🔧 Enabled: $1">macc.cbfc.enbv</param>
+    <param regex-match="C0: (.*)" regex-replace="📦 C0 Best Effort: $1">macc.cbfc.pause_time.c0</param>
+    <param regex-match="C1: (.*)" regex-replace="📦 C1 Background: $1">macc.cbfc.pause_time.c1</param>
+    <param regex-match="C2: (.*)" regex-replace="📦 C2 Spare: $1">macc.cbfc.pause_time.c2</param>
+    <param regex-match="C3: (.*)" regex-replace="📋 C3 Critical: $1">macc.cbfc.pause_time.c3</param>
+    <param regex-match="C4: (.*)" regex-replace="🎬 C4 Video Stream: $1">macc.cbfc.pause_time.c4</param>
+    <param regex-match="C5: (.*)" regex-replace="📹 C5 Video Conf: $1">macc.cbfc.pause_time.c5</param>
+    <param regex-match="C6: (.*)" regex-replace="🎤 C6 Voice: $1">macc.cbfc.pause_time.c6</param>
+    <param regex-match="C7: (.*)" regex-replace="🔧 C7 Network Ctrl: $1">macc.cbfc.pause_time.c7</param>
+  </mac-message>
+
+  <!-- 802.3x Pause (link-level flow control) -->
+  <mac-message style="amethyst">
+    <opcode regex-match=".*Pause.*" regex-replace="⏸️ 802.3x Pause">macc.opcode</opcode>
+    <param regex-match="pause_time: (.*)" regex-replace="⏱ Pause: $1">macc.pause_time</param>
+  </mac-message>
+
+</FXT>

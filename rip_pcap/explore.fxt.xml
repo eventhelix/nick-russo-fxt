@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  RIP Protocol FXT Template (Improved)
+  =====================================
+
+  Protocol Overview:
+  - RIP (Routing Information Protocol) is a distance-vector interior gateway protocol
+  - RIPv1 (RFC 1058) - Classful routing, no subnet mask support, broadcast-based
+  - RIPv2 (RFC 2453) - Classless routing with subnet masks, multicast to 224.0.0.9
+  - RIPng (RFC 2080) - RIP for IPv6, multicast to ff02::9
+  - Uses UDP port 520 for RIPv1/v2, UDP port 521 for RIPng
+
+  RIP Command Types (rip.command):
+  - 1 = Request     - Request routing table information from neighbors
+  - 2 = Response    - Send routing table information (periodic or triggered)
+  - 3 = Traceon     - Obsolete debugging command
+  - 4 = Traceoff    - Obsolete debugging command
+  - 5 = Reserved    - Reserved for SUN Microsystems internal use
+
+  RIP Metric:
+  - Hop count (1-15), where 16 = infinity (unreachable)
+  - Route poisoning uses metric 16 to advertise unreachable networks
+  - Triggered updates sent immediately when topology changes
+
+  RIP Timers (default values):
+  - Update timer:    30 seconds (periodic Response broadcasts)
+  - Invalid timer:   180 seconds (mark route invalid if no update)
+  - Holddown timer:  180 seconds (ignore updates for route in holddown)
+  - Flush timer:     240 seconds (remove route from table)
+
+  RIPv2 Enhancements:
+  - Subnet masks (CIDR support)
+  - Next-hop addresses for better routing decisions
+  - Route tags for external route identification
+  - Simple password or MD5 authentication
+
+  Key PDML Fields:
+  - rip.command        - Command type (1=Request, 2=Response)
+  - rip.version        - RIP version (1 or 2)
+  - rip.ip             - Destination IP address (route entry)
+  - rip.netmask        - Subnet mask (RIPv2 only)
+  - rip.next_hop       - Next hop address (RIPv2 only)
+  - rip.metric         - Hop count metric (1-16)
+  - rip.family         - Address family (2 = IP)
+  - rip.route_tag      - Route tag for external routes (RIPv2)
+  - rip.auth.type      - Authentication type (RIPv2)
+  - rip.auth.passwd    - Authentication password (RIPv2)
+
+  Multicast/Broadcast Addresses:
+  - 224.0.0.9  - RIPv2 multicast address (AllRIPRouters)
+  - ff02::9    - RIPng multicast address
+  - Broadcast  - RIPv1 uses subnet broadcast
+
+  Sample pcaps:
+  - RIPv2_subnet_down.cap - RIPv2 routing updates showing subnet changes
+-->
+<FXT>
+  <!-- =================================================================
+       RIP Request Messages
+       ================================================================= -->
+
+  <!-- RIP Request - Request routing information from neighbors
+       Sent on startup or when specific route information is needed
+       An empty Request (metric 16, address 0.0.0.0) requests full table -->
+  <udp-message style="sea-green">
+    <opcode
+            regex-match="Command: (Request) \(\d+\)"
+            regex-replace="❓ RIP $1"
+        >rip.command</opcode>
+    <param>rip.version</param>
+    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">rip.ip</param>
+    <param>rip.netmask</param>
+    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">rip.metric</param>
+  </udp-message>
+
+  <!-- =================================================================
+       RIP Response Messages
+       ================================================================= -->
+
+  <!-- RIP Response - Send routing table information
+       Sent periodically (every 30 seconds) or as triggered updates
+       Contains up to 25 route entries per packet -->
+  <udp-message style="sea-green dashed">
+    <opcode
+            regex-match="Command: (Response) \(\d+\)"
+            regex-replace="📢 RIP $1"
+        >rip.command</opcode>
+    <param>rip.version</param>
+    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">rip.ip</param>
+    <param>rip.netmask</param>
+    <param regex-match="(Next Hop): (.*)" regex-replace="➡️ $1: $2">rip.next_hop</param>
+    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">rip.metric</param>
+    <param>rip.route_tag</param>
+  </udp-message>
+
+  <!-- =================================================================
+       RIP Legacy/Debug Messages (Obsolete)
+       ================================================================= -->
+
+  <!-- RIP Traceon - Obsolete debugging command (type 3)
+       Originally used to enable tracing on RIP daemon -->
+  <udp-message style="amethyst">
+    <opcode
+            regex-match="Command: (Traceon) \(\d+\)"
+            regex-replace="RIP $1 (Obsolete)"
+        >rip.command</opcode>
+    <param>rip.version</param>
+  </udp-message>
+
+  <!-- RIP Traceoff - Obsolete debugging command (type 4)
+       Originally used to disable tracing on RIP daemon -->
+  <udp-message style="amethyst">
+    <opcode
+            regex-match="Command: (Traceoff) \(\d+\)"
+            regex-replace="RIP $1 (Obsolete)"
+        >rip.command</opcode>
+    <param>rip.version</param>
+  </udp-message>
+
+  <!-- =================================================================
+       Generic RIP Message (Fallback)
+       ================================================================= -->
+
+  <!-- Generic RIP message - catches any unmatched RIP command types -->
+  <udp-message style="steel-blue">
+    <opcode
+            regex-match="Command: (.*) \(\d+\)"
+            regex-replace="📨 RIP $1"
+        >rip.command</opcode>
+    <param>rip.version</param>
+    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">rip.ip</param>
+    <param>rip.netmask</param>
+    <param regex-match="(Next Hop): (.*)" regex-replace="➡️ $1: $2">rip.next_hop</param>
+    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">rip.metric</param>
+  </udp-message>
+
+  <!-- RIPng Request (IPv6) -->
+  <udpv6-message style="forest-green">
+    <opcode regex-match="Command: (Request) \(\d+\)" regex-replace="❓ RIPng $1">ripng.cmd</opcode>
+    <param regex-match="(IPv6 Prefix): (.*)" regex-replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
+    <param>ripng.rte.prefix_length</param>
+    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">ripng.rte.metric</param>
+    <param>ripng.rte.route_tag</param>
+  </udpv6-message>
+
+  <!-- RIPng Response (IPv6) -->
+  <udpv6-message style="forest-green dashed">
+    <opcode regex-match="Command: (Response) \(\d+\)" regex-replace="📢 RIPng $1">ripng.cmd</opcode>
+    <param regex-match="(IPv6 Prefix): (.*)" regex-replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
+    <param>ripng.rte.prefix_length</param>
+    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">ripng.rte.metric</param>
+    <param>ripng.rte.route_tag</param>
+  </udpv6-message>
+
+  <!-- RIPng generic fallback -->
+  <udpv6-message style="steel-blue">
+    <opcode regex-match="Command: (.*) \(\d+\)" regex-replace="📨 RIPng $1">ripng.cmd</opcode>
+    <param regex-match="(IPv6 Prefix): (.*)" regex-replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
+    <param>ripng.rte.prefix_length</param>
+    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">ripng.rte.metric</param>
+    <param>ripng.rte.route_tag</param>
+  </udpv6-message>
+
+</FXT>

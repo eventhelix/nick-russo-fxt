@@ -1,0 +1,59 @@
+# Segment Routing Protocol Collection Hosts
+# SR-MPLS (IGP, BGP-LS, PCEP, OAM) and SRv6
+
+# IS-IS IGP MACs (real hardware)
+00:3b:8d:e6:a1:04	🖥 R1
+00:3b:8d:b0:83:04	🖥 R2
+00:3b:8d:41:51:04	🖥 R3
+
+# SRv6 FAL2 MACs
+50:00:00:01:00:03	🖥 R1
+50:00:00:02:00:03	🖥 R2
+50:00:00:06:00:00	🖥 R6
+50:00:00:07:00:00	🖥 R7
+
+# SRv6 uSID MACs
+50:00:00:03:00:03	🖥 R3
+50:00:00:05:00:03	🖥 R5
+
+# IS-IS / ES-IS Multicast
+01:80:c2:00:00:15	📡 All L2 IS
+09:00:2b:00:00:05	📡 All IS
+
+# Loopbacks (SR-MPLS core)
+10.0.0.1	🖥 R1
+10.0.0.2	🖥 R2
+
+# OSPF IGP Init
+10.0.234.2	🖥 R2
+10.0.234.3	🖥 R3
+10.0.234.4	🖥 R4
+
+# OAM
+10.3.4.3	🖥 R3
+127.0.0.1	🖥 LSPV Loopback
+
+# SRv6 uSID
+10.32.0.6	🖥 R6
+10.32.0.7	🖥 R7
+
+# SRv6 FAL2
+40.6.7.6	🖥 R6
+40.6.7.7	🖥 R7
+
+# OSPF Multicast
+224.0.0.5	📡 AllSPFRouters
+224.0.0.6	📡 AllDRouters
+
+# SRv6 IPv6 Loopbacks
+2001:1010::10	🖥 R10
+2001:1111::1	🖥 R1
+2001:5555::5	🖥 R5
+
+# SRv6 Inner Link Addresses
+2001:10:32:6::6	🖥 R6
+2001:10:32:7::7	🖥 R7
+
+# SRv6 uSID SIDs (transit/endpoint)
+2001:db88:1103:1102:1101:e002::	📡 uSID Path
+2001:db88:1105:e002::	📡 uSID Path

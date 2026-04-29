@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  STP/RSTP/FlexLink visualization with story-telling emojis.
+  RSTP convergence: ⚠️️ TC → 📋 Proposal → ✅ Agreement → 📖 Learning → 🌲 Forwarding
+-->
+<FXT>
+
+  <!-- Rapid STP BPDU with Topology Change -->
+  <mac-message style="crimson" priority="100">
+    <opcode regex-match=".*Topology Change.*" regex-replace="⚠️️ RSTP Topology Change">stp.flags</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.root.cost</param>
+    <param>stp.port</param>
+    <param regex-match=".*= Port Role: (.*)" regex-replace="🔌 Port Role: $1">stp.flags.port_role</param>
+    <param regex-match=".*= Forwarding: (.*)" regex-replace="Forwarding: $1">stp.flags.forwarding</param>
+    <param regex-match=".*= Learning: (.*)" regex-replace="Learning: $1">stp.flags.learning</param>
+  </mac-message>
+
+  <!-- Rapid STP BPDU with Proposal -->
+  <mac-message style="tangerine" priority="90">
+    <opcode regex-match=".*Proposal.*" regex-replace="📋 RSTP Proposal">stp.flags</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.root.cost</param>
+    <param>stp.port</param>
+    <param regex-match=".*= Port Role: (.*)" regex-replace="🔌 Port Role: $1">stp.flags.port_role</param>
+    <param regex-match=".*= Forwarding: (.*)" regex-replace="Forwarding: $1">stp.flags.forwarding</param>
+    <param regex-match=".*= Learning: (.*)" regex-replace="Learning: $1">stp.flags.learning</param>
+  </mac-message>
+
+  <!-- Rapid STP BPDU with Agreement -->
+  <mac-message style="forest-green" priority="90">
+    <opcode regex-match=".*Agreement.*" regex-replace="✅ RSTP Agreement">stp.flags</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.root.cost</param>
+    <param>stp.port</param>
+    <param regex-match=".*= Port Role: (.*)" regex-replace="🔌 Port Role: $1">stp.flags.port_role</param>
+    <param regex-match=".*= Forwarding: (.*)" regex-replace="Forwarding: $1">stp.flags.forwarding</param>
+    <param regex-match=".*= Learning: (.*)" regex-replace="Learning: $1">stp.flags.learning</param>
+  </mac-message>
+
+  <!-- Rapid STP BPDU - Forwarding state -->
+  <mac-message style="sea-green" priority="80">
+    <opcode regex-match=".*Forwarding.*" regex-replace="🌲 RSTP Forwarding">stp.flags</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.root.cost</param>
+    <param>stp.port</param>
+    <param regex-match=".*= Port Role: (.*)" regex-replace="🔌 Port Role: $1">stp.flags.port_role</param>
+  </mac-message>
+
+  <!-- Rapid STP BPDU - Learning state -->
+  <mac-message style="royal-blue" priority="70">
+    <opcode regex-match=".*Learning.*" regex-replace="📖 RSTP Learning">stp.flags</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.root.cost</param>
+    <param>stp.port</param>
+    <param regex-match=".*= Port Role: (.*)" regex-replace="🔌 Port Role: $1">stp.flags.port_role</param>
+  </mac-message>
+
+  <!-- Generic Rapid STP BPDU -->
+  <mac-message style="teal" priority="50">
+    <opcode regex-match=".*Rapid.*" regex-replace="🌲 RSTP BPDU">stp.type</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.root.cost</param>
+    <param>stp.port</param>
+    <param>stp.flags</param>
+  </mac-message>
+
+  <!-- Legacy STP (802.1D) Configuration BPDU -->
+  <mac-message style="slate" priority="40">
+    <opcode regex-match=".*Configuration.*" regex-replace="🌲 STP Config BPDU">stp.type</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.root.cost</param>
+    <param>stp.port</param>
+    <param>stp.hello</param>
+    <param>stp.forward</param>
+    <param>stp.max_age</param>
+  </mac-message>
+
+  <!-- Topology Change Notification BPDU -->
+  <mac-message style="magenta" priority="60">
+    <opcode regex-match=".*Topology Change Notification.*" regex-replace="⚠️ STP TCN">stp.type</opcode>
+    <param>stp.version</param>
+  </mac-message>
+
+  <!-- Fallback: Any STP BPDU -->
+  <mac-message style="steel-blue" priority="-10">
+    <opcode regex-match=".*: (.*) \(.*\)" regex-replace="🌲 STP $1">stp.type</opcode>
+    <param regex-match="(Bridge System ID Extension.*): (.*)" regex-replace="🆔 Bridge: $2">stp.bridge.hw</param>
+    <param regex-match="(Root System ID Extension.*): (.*)" regex-replace="👑 Root: $2">stp.root.hw</param>
+    <param>stp.root.cost</param>
+    <param>stp.port</param>
+    <param>stp.flags</param>
+  </mac-message>
+
+  <!-- ARP -->
+  <mac-message style="amethyst">
+    <opcode regex-match="Opcode: (request|reply) .*" regex-replace="🔍 ARP $1">arp.opcode</opcode>
+    <param>arp.src.hw_mac</param>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="🌐 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="🎯 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- FlexLink MAT flush (ARP) -->
+  <mac-message style="goldenrod">
+    <opcode regex-match="Opcode: .*" regex-replace="🔄 FlexLink MAT Flush (ARP)">arp.opcode</opcode>
+    <param>arp.hw.type</param>
+    <param>data.len</param>
+  </mac-message>
+
+  <!-- FlexLink MAT flush (IPX) -->
+  <mac-message style="goldenrod">
+    <opcode regex-match="Packet Type: (.*)" regex-replace="🔄 FlexLink MAT Flush (IPX $1)">ipx.packet_type</opcode>
+    <param>ipx.src</param>
+    <param>ipx.dst</param>
+  </mac-message>
+
+  <!-- FlexLink MAT flush (LLC/SNAP) -->
+  <mac-message style="goldenrod">
+    <opcode regex-match="PID: (.*)" regex-replace="🔄 FlexLink MAT Flush (LLC $1)">llc.cisco_pid</opcode>
+    <param>data.len</param>
+  </mac-message>
+
+  <!-- FlexLink MAT flush (LLAP) -->
+  <mac-message style="goldenrod">
+    <opcode regex-match="Type: (.*)" regex-replace="🔄 FlexLink MAT Flush (LLAP $1)">llap.type</opcode>
+    <param>data.len</param>
+  </mac-message>
+
+  <!-- ICMP Echo Request -->
+  <ip-message style="royal-blue">
+    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param>icmp.ident</param>
+    <param>icmp.seq</param>
+  </ip-message>
+
+  <!-- ICMP Echo Reply -->
+  <ip-message style="forest-green">
+    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param>icmp.ident</param>
+    <param>icmp.seq</param>
+  </ip-message>
+
+  <!-- ICMP generic -->
+  <ip-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="📨 ICMP Type $1">icmp.type</opcode>
+    <param>icmp.code</param>
+  </ip-message>
+
+</FXT>

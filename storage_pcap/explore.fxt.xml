@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Storage Protocols: iSCSI, NFS v3, SMB2/CIFS
+
+Emoji story for each protocol:
+
+  iSCSI: 🔐 Login → 📋 Text (SendTargets) → 📡 SCSI Command →
+         📥 Data In / 📤 Data Out → ✅ SCSI Response → 🛑 Logout
+
+  NFS:   📋 GETATTR → 🔐 ACCESS → 📥 READ / 📤 WRITE → 📋 READDIR
+
+  SMB2:  🤝 Negotiate → 🔐 Session Setup → 📂 Tree Connect →
+         📄 Create → 📥 Read / 📤 Write → 📋 GetInfo → 🔒 Close → 🛑 Logoff
+
+Captures: iSCSI login/CHAP/data, NFS init/download/upload/auth, SMB init/download/upload
+-->
+<FXT>
+
+  <!-- ============================================================
+       iSCSI PROTOCOL (per-opcode emojis)
+       ============================================================ -->
+
+  <!-- iSCSI Login Command -->
+  <tcp-message style="amethyst" bookmark="true">
+    <opcode regex-match=".*Opcode: (Login Command) \(.*" regex-replace="🔐 iSCSI $1">iscsi.opcode</opcode>
+    <param regex-match="Initiator Name: (.*)" regex-replace="💻 Initiator: $1">iscsi.login.initiator_name</param>
+    <param regex-match="Target Name: (.*)" regex-replace="🖥 Target: $1">iscsi.login.target_name</param>
+    <param regex-match="Session Type: (.*)" regex-replace="📋 Session: $1">iscsi.login.session_type</param>
+    <param regex-match="Auth Method: (.*)" regex-replace="🔐 Auth: $1">iscsi.login.auth_method</param>
+    <remark regex-match=".*" regex-replace="💡 iSCSI Login — initiator authenticates to target; session type is Discovery (find targets) or Normal (attach LUN); auth can be None or CHAP">iscsi</remark>
+  </tcp-message>
+
+  <!-- iSCSI Login Response -->
+  <tcp-message style="sea-green">
+    <opcode regex-match=".*Opcode: (Login Response) \(.*" regex-replace="🔐 iSCSI $1">iscsi.opcode</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">iscsi.login.status</param>
+    <param regex-match="Target Alias: (.*)" regex-replace="🖥 Alias: $1">iscsi.login.target_alias</param>
+    <param regex-match="Max Recv Data Segment Length: (.*)" regex-replace="📦 MaxRecv: $1">iscsi.login.max_recv_data_segment_length</param>
+    <remark regex-match=".*" regex-replace="💡 Login Response — target accepts/rejects login; negotiates parameters (max burst, R2T, data ordering) that govern subsequent SCSI data transfers">iscsi</remark>
+  </tcp-message>
+
+  <!-- iSCSI Text Command (SendTargets discovery) -->
+  <tcp-message style="cerulean">
+    <opcode regex-match=".*Opcode: (Text Command) \(.*" regex-replace="📋 iSCSI $1">iscsi.opcode</opcode>
+    <param regex-match="Send Targets: (.*)" regex-replace="🔍 SendTargets: $1">iscsi.login.send_targets</param>
+    <remark regex-match=".*" regex-replace="💡 iSCSI Text Command — SendTargets=All asks the target portal for a list of all available iSCSI targets (IQN names) and their portal addresses">iscsi</remark>
+  </tcp-message>
+
+  <!-- iSCSI Text Response -->
+  <tcp-message style="sea-green">
+    <opcode regex-match=".*Opcode: (Text Response) \(.*" regex-replace="📋 iSCSI $1">iscsi.opcode</opcode>
+    <param regex-match="Target Name: (.*)" regex-replace="🖥 Target: $1">iscsi.login.target_name</param>
+    <param regex-match="Target Address: (.*)" regex-replace="🌐 Address: $1">iscsi.login.target_address</param>
+    <remark regex-match=".*" regex-replace="💡 Text Response — lists available IQN targets and portal addresses (IP:port,TPGT); initiator picks a target and opens a Normal login session to attach its LUNs">iscsi</remark>
+  </tcp-message>
+
+  <!-- iSCSI SCSI Command (initiator → target) -->
+  <tcp-message style="royal-blue">
+    <opcode regex-match=".*Opcode: SCSI (Command) \(.*" regex-replace="📡 iSCSI $1">iscsi.opcode</opcode>
+    <param display="brief" regex-match="(.*)" regex-replace="💾 LUN: $1">scsi.lun</param>
+    <param display="brief" regex-match="(.*)" regex-replace="📦 Expected: $1 bytes">iscsi.scsicommand.expecteddatatransferlength</param>
+    <remark regex-match=".*" regex-replace="💡 iSCSI Command — initiator sends SCSI CDB to a specific LUN (Logical Unit Number = virtual disk on the target); LUN 0 is typically device discovery, higher LUNs are data volumes">iscsi</remark>
+  </tcp-message>
+
+  <!-- iSCSI SCSI Data In (target → initiator read data) -->
+  <tcp-message style="teal">
+    <opcode regex-match=".*Opcode: SCSI (Data In) \(.*" regex-replace="📥 iSCSI $1">iscsi.opcode</opcode>
+    <param display="brief" regex-match="(.*)" regex-replace="💾 LUN: $1">scsi.lun</param>
+  </tcp-message>
+
+  <!-- iSCSI Ready To Transfer (R2T) -->
+  <tcp-message style="tangerine">
+    <opcode regex-match=".*Opcode: (Ready To Transfer) \(.*" regex-replace="📦 iSCSI R2T">iscsi.opcode</opcode>
+    <param display="brief" regex-match="(.*)" regex-replace="📦 Requested: $1 bytes">iscsi.desireddatalength</param>
+    <remark regex-match=".*" regex-replace="💡 R2T (Ready To Transfer) — target tells initiator it can send the next data burst; controls flow for large writes to prevent target buffer overflow">iscsi</remark>
+  </tcp-message>
+
+  <!-- iSCSI SCSI Response -->
+  <tcp-message style="forest-green">
+    <opcode regex-match=".*Opcode: SCSI (Response) \(.*" regex-replace="✅ iSCSI $1">iscsi.opcode</opcode>
+    <param regex-match="Response: (.*)" regex-replace="📋 $1">iscsi.scsiresponse.response</param>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">iscsi.scsiresponse.status</param>
+  </tcp-message>
+
+  <!-- iSCSI Logout Response -->
+  <tcp-message style="magenta">
+    <opcode regex-match=".*Opcode: (Logout Response) \(.*" regex-replace="🛑 iSCSI $1">iscsi.opcode</opcode>
+    <param regex-match="Response: (.*)" regex-replace="📋 $1">iscsi.logout.response</param>
+    <remark regex-match=".*" regex-replace="💡 iSCSI Logout — graceful session teardown; initiator releases LUN access before TCP connection close">iscsi</remark>
+  </tcp-message>
+
+  <!-- iSCSI Generic fallback -->
+  <tcp-message style="steel-blue">
+    <opcode regex-match=".*Opcode: (.+?) \(.*" regex-replace="📡 iSCSI $1">iscsi.opcode</opcode>
+    <param display="brief" regex-match="(.*)" regex-replace="💾 LUN: $1">scsi.lun</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       SMB2 PROTOCOL (per-command emojis)
+       ============================================================ -->
+
+  <!-- SMB2 Negotiate -->
+  <tcp-message style="royal-blue" bookmark="true">
+    <opcode regex-match="Command: (Negotiate Protocol) \(\d+\)" regex-replace="🤝 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Dialect: (.*)" regex-replace="📋 Dialect: $1">smb2.dialect</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+    <remark regex-match=".*" regex-replace="💡 SMB2 Negotiate — client and server agree on SMB dialect (2.0/2.1/3.0/3.1.1), capabilities, and security mode; higher dialects add encryption and multichannel">smb2</remark>
+  </tcp-message>
+
+  <!-- SMB2 Session Setup -->
+  <tcp-message style="amethyst" bookmark="true">
+    <opcode regex-match="Command: (Session Setup) \(\d+\)" regex-replace="🔐 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Account: (.*)" regex-replace="👤 Account: $1">smb2.acct</param>
+    <param regex-match="Domain: (.*)" regex-replace="🏠 Domain: $1">smb2.domain</param>
+    <param regex-match="Host: (.*)" regex-replace="🖥 Host: $1">smb2.host</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+    <remark regex-match=".*" regex-replace="💡 SMB2 Session Setup — NTLM or Kerberos authentication; STATUS_MORE_PROCESSING_REQUIRED means multi-round SPNEGO/NTLM challenge-response in progress">smb2</remark>
+  </tcp-message>
+
+  <!-- SMB2 Tree Connect -->
+  <tcp-message style="cerulean" bookmark="true">
+    <opcode regex-match="Command: (Tree Connect) \(\d+\)" regex-replace="📂 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Tree: (.*)" regex-replace="📂 Share: $1">smb2.tree</param>
+    <param regex-match="Share Type: (.*)" regex-replace="📋 Type: $1">smb2.share_type</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+    <remark regex-match=".*" regex-replace="💡 SMB2 Tree Connect — maps to a network share (\\\\server\\share); share types: Disk (files), Pipe (IPC$), Print; must connect before any file operations">smb2</remark>
+  </tcp-message>
+
+  <!-- SMB2 Tree Disconnect -->
+  <tcp-message style="forest-green">
+    <opcode regex-match="Command: (Tree Disconnect) \(\d+\)" regex-replace="📂 SMB2 $1">smb2.cmd</opcode>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- SMB2 Create (Open/Create File) -->
+  <tcp-message style="tangerine">
+    <opcode regex-match="Command: (Create) \(\d+\)" regex-replace="📄 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Filename: (.*)" regex-replace="📄 File: $1">smb2.filename</param>
+    <param regex-match="Disposition: (.*)" regex-replace="📋 Disposition: $1">smb2.create.disposition</param>
+    <param regex-match="Create Action: (.*)" regex-replace="📋 Action: $1">smb2.create.action</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+    <remark regex-match=".*" regex-replace="💡 SMB2 Create — opens or creates a file/directory; disposition controls behavior: Open (must exist), Create (must not exist), Overwrite, OpenOrCreate">smb2</remark>
+  </tcp-message>
+
+  <!-- SMB2 Close -->
+  <tcp-message style="goldenrod">
+    <opcode regex-match="Command: (Close) \(\d+\)" regex-replace="🔒 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Filename: (.*)" regex-replace="📄 File: $1">smb2.filename</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- SMB2 Read -->
+  <tcp-message style="teal">
+    <opcode regex-match="Command: (Read) \(\d+\)" regex-replace="📥 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Read Length: (.*)" regex-replace="📦 Length: $1">smb2.read_length</param>
+    <param regex-match="File Offset: (.*)" regex-replace="📋 Offset: $1">smb2.file_offset</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- SMB2 Write -->
+  <tcp-message style="sea-green">
+    <opcode regex-match="Command: (Write) \(\d+\)" regex-replace="📤 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Write Length: (.*)" regex-replace="📦 Length: $1">smb2.write_length</param>
+    <param regex-match="File Offset: (.*)" regex-replace="📋 Offset: $1">smb2.file_offset</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- SMB2 Query Info -->
+  <tcp-message style="plum">
+    <opcode regex-match="Command: (GetInfo) \(\d+\)" regex-replace="📋 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Class: (.*)" regex-replace="📋 Class: $1">smb2.class</param>
+    <param regex-match="InfoLevel: (.*)" regex-replace="📋 Level: $1">smb2.file_info.infolevel</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- SMB2 Set Info -->
+  <tcp-message style="orchid">
+    <opcode regex-match="Command: (SetInfo) \(\d+\)" regex-replace="📝 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Class: (.*)" regex-replace="📋 Class: $1">smb2.class</param>
+    <param regex-match="InfoLevel: (.*)" regex-replace="📋 Level: $1">smb2.file_info.infolevel</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- SMB2 Find (Query Directory) -->
+  <tcp-message style="cerulean">
+    <opcode regex-match="Command: (Find) \(\d+\)" regex-replace="🔍 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Search Pattern: (.*)" regex-replace="🔍 Pattern: $1">smb2.find.pattern</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+    <remark regex-match=".*" regex-replace="💡 SMB2 Find — queries directory contents matching a pattern (e.g., *.txt); equivalent to 'dir' or 'ls' on the remote share">smb2</remark>
+  </tcp-message>
+
+  <!-- SMB2 Ioctl -->
+  <tcp-message style="slate">
+    <opcode regex-match="Command: (Ioctl) \(\d+\)" regex-replace="🔧 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Function: (.*)" regex-replace="🔧 Function: $1">smb2.ioctl.function</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- SMB2 Logoff -->
+  <tcp-message style="magenta" bookmark="true">
+    <opcode regex-match="Command: (Logoff) \(\d+\)" regex-replace="🛑 SMB2 $1">smb2.cmd</opcode>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- SMB2 Generic fallback -->
+  <tcp-message style="steel-blue">
+    <opcode regex-match="Command: (.*) \(\d+\)" regex-replace="📡 SMB2 $1">smb2.cmd</opcode>
+    <param regex-match="Filename: (.*)" regex-replace="📄 File: $1">smb2.filename</param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(SUCCESS).*" regex-replace="✅ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(MORE_PROCESSING_REQUIRED|PENDING).*" regex-replace="⏳ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(ACCESS_DENIED|LOGON_FAILURE).*" regex-replace="🚫 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(OBJECT_NAME_NOT_FOUND|NO_SUCH_FILE|BAD_NETWORK_NAME|NOT_FOUND|OBJECT_PATH_NOT_FOUND).*" regex-replace="🔍 $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match=".*STATUS_(FILE_CLOSED|OBJECT_NAME_COLLISION).*" regex-replace="❌ $1">smb2.nt_status</value>
+    </param>
+    <param>
+      <name regex-match=".*Response.*" regex-replace="📋 NT Status">smb2.flags.response</name>
+      <value regex-match="NT Status: .*STATUS_(\w+).*" regex-replace="📋 $1">smb2.nt_status</value>
+    </param>
+  </tcp-message>
+
+  <!-- ============================================================
+       SMB1/CIFS (legacy)
+       ============================================================ -->
+
+  <tcp-message style="slate dashed">
+    <opcode regex-match="SMB Command: (Negotiate Protocol) \(0x[0-9a-f]+\)" regex-replace="🤝 SMB1 $1">smb.cmd</opcode>
+    <param>smb.nt_status</param>
+    <remark regex-match=".*" regex-replace="💡 SMB1 Negotiate — legacy protocol; modern clients start with SMB1 then upgrade to SMB2/3 during dialect negotiation">smb</remark>
+  </tcp-message>
+
+  <tcp-message style="slate dashed">
+    <opcode regex-match="SMB Command: (.*) \(0x[0-9a-f]+\)" regex-replace="📡 SMB1 $1">smb.cmd</opcode>
+    <param>smb.nt_status</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       NFS v3 (over UDP and TCP)
+       ============================================================ -->
+
+  <!-- NFS GETATTR -->
+  <udp-message style="royal-blue">
+    <opcode regex-match="V3 Procedure: (GETATTR).*" regex-replace="📋 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="Type: (.*)" regex-replace="📄 Type: $1">nfs.fattr3.type</param>
+    <param regex-match="size: (.*)" regex-replace="📦 Size: $1">nfs.fattr3.size</param>
+    <param regex-match="uid: (.*)" regex-replace="👤 UID: $1">nfs.fattr3.uid</param>
+    <param regex-match="Mode: (.*)" regex-replace="🔐 Mode: $1">nfs.mode3</param>
+    <remark regex-match=".*" regex-replace="💡 NFS GETATTR — returns file metadata (type, size, owner, permissions, timestamps) for the given file handle; called frequently to check if cached data is stale">nfs</remark>
+  </udp-message>
+
+  <!-- NFS ACCESS -->
+  <udp-message style="amethyst">
+    <opcode regex-match="V3 Procedure: (ACCESS).*" regex-replace="🔐 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <remark regex-match=".*" regex-replace="💡 NFS ACCESS — checks read/write/execute permissions on a file handle; returns bitmask of allowed operations without actually performing them">nfs</remark>
+  </udp-message>
+
+  <!-- NFS READ -->
+  <udp-message style="teal">
+    <opcode regex-match="V3 Procedure: (READ).*" regex-replace="📥 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="count: (.*)" regex-replace="📦 Count: $1">nfs.count3</param>
+    <param regex-match="offset: (.*)" regex-replace="📋 Offset: $1">nfs.offset3</param>
+    <param regex-match="EOF: (.*)" regex-replace="🏁 EOF: $1">nfs.read.eof</param>
+    <remark regex-match=".*" regex-replace="💡 NFS READ — reads data from file at offset; NFSv3 is stateless so every READ carries the full file handle (no open/close)">nfs</remark>
+  </udp-message>
+
+  <!-- NFS WRITE -->
+  <udp-message style="sea-green">
+    <opcode regex-match="V3 Procedure: (WRITE).*" regex-replace="📤 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="count: (.*)" regex-replace="📦 Count: $1">nfs.count3</param>
+    <param regex-match="Stable: (.*)" regex-replace="💾 Stable: $1">nfs.write.stable</param>
+    <param regex-match="Committed: (.*)" regex-replace="💾 Committed: $1">nfs.write.committed</param>
+    <remark regex-match=".*" regex-replace="💡 NFS WRITE — Stable=UNSTABLE means data cached in server memory (fast but risky); requires COMMIT to flush to disk">nfs</remark>
+  </udp-message>
+
+  <!-- NFS COMMIT -->
+  <udp-message style="forest-green" bookmark="true">
+    <opcode regex-match="V3 Procedure: (COMMIT).*" regex-replace="✅ NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <remark regex-match=".*" regex-replace="💡 NFS COMMIT — flushes unstable writes to server disk; server verifier changes if it rebooted (client must re-send data)">nfs</remark>
+  </udp-message>
+
+  <!-- NFS LOOKUP -->
+  <udp-message style="cerulean">
+    <opcode regex-match="V3 Procedure: (LOOKUP).*" regex-replace="🔍 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="contents: (.*)" regex-replace="📄 Name: $1">nfs.name</param>
+    <remark regex-match=".*" regex-replace="💡 NFS LOOKUP — resolves a filename to a file handle within a directory; NFS3ERR_NOENT means file doesn't exist (expected before CREATE)">nfs</remark>
+  </udp-message>
+
+  <!-- NFS CREATE -->
+  <udp-message style="tangerine" bookmark="true">
+    <opcode regex-match="V3 Procedure: (CREATE).*" regex-replace="📝 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="contents: (.*)" regex-replace="📄 Name: $1">nfs.name</param>
+    <param regex-match="Create Mode: (.*)" regex-replace="📋 Mode: $1">nfs.createmode</param>
+    <remark regex-match=".*" regex-replace="💡 NFS CREATE — creates a new file and returns its file handle; client typically does LOOKUP first to check if name exists">nfs</remark>
+  </udp-message>
+
+  <!-- NFS SETATTR -->
+  <udp-message style="orchid">
+    <opcode regex-match="V3 Procedure: (SETATTR).*" regex-replace="📝 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="Mode: (.*)" regex-replace="🔐 Mode: $1">nfs.mode3</param>
+    <remark regex-match=".*" regex-replace="💡 NFS SETATTR — modifies file attributes (permissions, size, timestamps); used after CREATE to set initial file properties">nfs</remark>
+  </udp-message>
+
+  <!-- NFS MKDIR/REMOVE/RMDIR/RENAME -->
+  <udp-message style="tangerine">
+    <opcode regex-match="V3 Procedure: (MKDIR|REMOVE|RMDIR|RENAME).*" regex-replace="📝 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="contents: (.*)" regex-replace="📄 Name: $1">nfs.name</param>
+  </udp-message>
+
+  <!-- NFS READDIR/READDIRPLUS -->
+  <udp-message style="cerulean">
+    <opcode regex-match="V3 Procedure: (READDIR|READDIRPLUS).*" regex-replace="📋 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+  </udp-message>
+
+  <!-- NFS FSSTAT -->
+  <udp-message style="slate">
+    <opcode regex-match="V3 Procedure: (FSSTAT).*" regex-replace="📋 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="Total bytes: (.*)" regex-replace="💾 Total: $1">nfs.fsstat3_resok.tbytes</param>
+    <param regex-match="Free bytes: (.*)" regex-replace="💾 Free: $1">nfs.fsstat3_resok.fbytes</param>
+    <remark regex-match=".*" regex-replace="💡 NFS FSSTAT — returns filesystem space usage (total/free/available bytes and inodes); equivalent to 'df' command">nfs</remark>
+  </udp-message>
+
+  <!-- NFS FSINFO/PATHCONF -->
+  <udp-message style="slate">
+    <opcode regex-match="V3 Procedure: (FSINFO|PATHCONF).*" regex-replace="📋 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <remark regex-match=".*" regex-replace="💡 NFS FSINFO returns max read/write sizes; PATHCONF returns filename limits and case sensitivity">nfs</remark>
+  </udp-message>
+
+  <!-- NFS NULL (keepalive/ping) -->
+  <udp-message style="slate dotted">
+    <opcode regex-match="V3 Procedure: (NULL).*" regex-replace="💓 NFS $1">nfs.procedure_v3</opcode>
+    <remark regex-match=".*" regex-replace="💡 NFS NULL — no-op RPC used as keepalive or to verify the NFS service is reachable before mounting">nfs</remark>
+  </udp-message>
+
+  <!-- NFS Generic -->
+  <udp-message style="royal-blue dashed">
+    <opcode regex-match="V3 Procedure: (\w+).*" regex-replace="📡 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+  </udp-message>
+
+  <!-- ============================================================
+       Mount (v1 and v3 — UDP)
+       ============================================================ -->
+
+  <!-- Mount MNT (attach filesystem) -->
+  <udp-message style="forest-green" bookmark="true">
+    <opcode regex-match="V[13] Procedure: (MNT).*" regex-replace="📂 Mount $1">mount.procedure_v3</opcode>
+    <param regex-match="contents: (.*)" regex-replace="📂 Path: $1">mount.path</param>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">mount.status</param>
+    <remark regex-match=".*" regex-replace="💡 NFS Mount — client mounts a remote export path; server returns a root file handle for all subsequent NFS operations on that filesystem">mount</remark>
+  </udp-message>
+
+  <!-- Mount EXPORT (showmount -e) -->
+  <udp-message style="cerulean" bookmark="true">
+    <opcode regex-match="V[13] Procedure: (EXPORT).*" regex-replace="📋 Mount $1">mount.procedure_v1</opcode>
+    <param regex-match="Export List Entry: (.*)" regex-replace="📂 $1">mount.export.entry</param>
+    <remark regex-match=".*" regex-replace="💡 Mount EXPORT — equivalent to 'showmount -e'; lists all exported filesystems and their allowed client networks">mount</remark>
+  </udp-message>
+
+  <!-- Mount UMNT (unmount) -->
+  <udp-message style="magenta">
+    <opcode regex-match="V[13] Procedure: (UMNT).*" regex-replace="📂 Mount $1">mount.procedure_v3</opcode>
+    <param regex-match="contents: (.*)" regex-replace="📂 Path: $1">mount.path</param>
+  </udp-message>
+
+  <!-- Mount Generic -->
+  <udp-message style="forest-green">
+    <opcode regex-match="V[13] Procedure: (\w+).*" regex-replace="📂 Mount $1">mount.procedure_v3</opcode>
+    <param regex-match="contents: (.*)" regex-replace="📂 Path: $1">mount.path</param>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">mount.status</param>
+  </udp-message>
+
+  <!-- Mount v1 Generic (for EXPORT in v1 captures) -->
+  <udp-message style="forest-green">
+    <opcode regex-match="V[13] Procedure: (\w+).*" regex-replace="📂 Mount $1">mount.procedure_v1</opcode>
+    <param regex-match="Export List Entry: (.*)" regex-replace="📂 $1">mount.export.entry</param>
+  </udp-message>
+
+  <!-- ============================================================
+       Portmap / rpcbind (v2 — UDP)
+       ============================================================ -->
+
+  <!-- Portmap GETPORT -->
+  <udp-message style="slate">
+    <opcode regex-match="V2 Procedure: (GETPORT).*" regex-replace="📋 Portmap $1">portmap.procedure_v2</opcode>
+    <param regex-match="Program: (.*)" regex-replace="📡 Program: $1">portmap.prog</param>
+    <param regex-match="Port: (.*)" regex-replace="🔢 Port: $1">portmap.port</param>
+    <remark regex-match=".*" regex-replace="💡 Portmap GETPORT — client asks which port a given RPC program (NFS=100003, MOUNT=100005) listens on; required because NFS uses dynamic ports">portmap</remark>
+  </udp-message>
+
+  <!-- Portmap NULL -->
+  <udp-message style="slate dotted">
+    <opcode regex-match="V2 Procedure: (NULL).*" regex-replace="💓 Portmap $1">portmap.procedure_v2</opcode>
+    <remark regex-match=".*" regex-replace="💡 Portmap NULL — connectivity check to verify the portmap/rpcbind service is reachable on port 111">portmap</remark>
+  </udp-message>
+
+  <!-- Portmap Generic -->
+  <udp-message style="slate">
+    <opcode regex-match="V2 Procedure: (\w+).*" regex-replace="📋 Portmap $1">portmap.procedure_v2</opcode>
+    <param regex-match="Program: (.*)" regex-replace="📡 Program: $1">portmap.prog</param>
+  </udp-message>
+
+  <!-- Generic RPC (UDP) -->
+  <udp-message style="steel-blue">
+    <opcode regex-match="Message Type: (.*)" regex-replace="📡 RPC $1">rpc.msgtyp</opcode>
+    <param regex-match="Program: (.*)" regex-replace="📡 Program: $1">rpc.program</param>
+    <param regex-match="Procedure: (.*)" regex-replace="📋 Procedure: $1">rpc.procedure</param>
+  </udp-message>
+
+  <!-- ============================================================
+       NFS v3 / Mount / RPC over TCP
+       ============================================================ -->
+
+  <tcp-message style="royal-blue">
+    <opcode regex-match="V3 Procedure: (GETATTR).*" regex-replace="📋 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+    <param regex-match="size: (.*)" regex-replace="📦 Size: $1">nfs.fattr3.size</param>
+  </tcp-message>
+
+  <tcp-message style="teal">
+    <opcode regex-match="V3 Procedure: (READ).*" regex-replace="📥 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+  </tcp-message>
+
+  <tcp-message style="sea-green">
+    <opcode regex-match="V3 Procedure: (WRITE).*" regex-replace="📤 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+  </tcp-message>
+
+  <tcp-message style="forest-green">
+    <opcode regex-match="V3 Procedure: (COMMIT).*" regex-replace="✅ NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+  </tcp-message>
+
+  <tcp-message style="slate dotted">
+    <opcode regex-match="V3 Procedure: (NULL).*" regex-replace="💓 NFS $1">nfs.procedure_v3</opcode>
+  </tcp-message>
+
+  <tcp-message style="royal-blue dashed">
+    <opcode regex-match="V3 Procedure: (\w+).*" regex-replace="📡 NFS $1">nfs.procedure_v3</opcode>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">nfs.status3</param>
+  </tcp-message>
+
+  <tcp-message style="forest-green">
+    <opcode regex-match="V[13] Procedure: (\w+).*" regex-replace="📂 Mount $1">mount.procedure_v3</opcode>
+    <param regex-match="contents: (.*)" regex-replace="📂 Path: $1">mount.path</param>
+    <param regex-match="Status: (.*)" regex-replace="📋 Status: $1">mount.status</param>
+  </tcp-message>
+
+  <!-- Portmap over TCP -->
+  <tcp-message style="slate">
+    <opcode regex-match="V2 Procedure: (\w+).*" regex-replace="📋 Portmap $1">portmap.procedure_v2</opcode>
+    <param regex-match="Program: (.*)" regex-replace="📡 Program: $1">portmap.prog</param>
+    <param regex-match="Port: (.*)" regex-replace="🔢 Port: $1">portmap.port</param>
+  </tcp-message>
+
+  <!-- RPC over TCP -->
+  <tcp-message style="steel-blue">
+    <opcode regex-match="Message Type: (.*)" regex-replace="📡 RPC $1">rpc.msgtyp</opcode>
+    <param regex-match="Program: (.*)" regex-replace="📡 Program: $1">rpc.program</param>
+    <param regex-match="Procedure: (.*)" regex-replace="📋 Procedure: $1">rpc.procedure</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       TCP TRANSPORT (SYN/FIN/RST only)
+       ============================================================ -->
+
+  <tcp-message style="graphite dotted">
+    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+
+  <tcp-message style="graphite dotted">
+    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+
+  <tcp-message style="crimson dotted">
+    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+
+</FXT>

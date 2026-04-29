@@ -1,0 +1,22 @@
+# Pcaps are NOT redistributed in this repo. If users drop them in for
+# local rendering, ignore them so they don't accidentally get committed.
+*.pcap
+*.pcapng
+*.cap
+
+# Rendered output should not be committed.
+output/
+output_*/
+*.pdf
+*.html
+*_viewer.html
+*.ndjson
+*.json
+*.gz
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

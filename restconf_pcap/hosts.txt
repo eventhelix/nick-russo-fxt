@@ -1,0 +1,5 @@
+# RESTCONF Protocol Collection Hosts File
+# Cisco NSO (Network Services Orchestrator) management via RESTCONF
+
+192.168.254.11	💻 Postman (RESTCONF Client)
+10.10.20.50	🎛️ Cisco NSO (RESTCONF Server)

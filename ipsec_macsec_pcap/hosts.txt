@@ -1,0 +1,37 @@
+# IPsec / MACsec Protocol Collection Hosts
+
+# IPsec Tunnel Endpoints (direct + GRE)
+10.1.2.1	🖥 R1
+10.2.3.2	🖥 R2
+10.3.4.4	🖥 R4
+
+# NAT-T (translated address)
+192.168.0.6	🖥 R6
+10.6.6.6	🖥 R6
+
+# MGRE Spoke
+10.3.4.6	🖥 R6
+
+# GRE Inner Tunnel (NAT-T)
+172.16.46.4	🖥 R4
+172.16.46.6	🖥 R6
+
+# GET VPN — KS receives GDOI Registrations and originates Rekeys over 232.2.2.2;
+# R3 and R5 are Group Members that receive the rekeys.
+10.2.3.3	👥 R3 (GETVPN GM)
+10.4.5.5	👥 R5 (GETVPN GM)
+203.0.113.1	🗝️ R1 (GETVPN KS)
+203.0.113.2	🖥 R2
+203.0.113.4	🖥 R4
+
+# GET VPN Multicast
+224.0.0.13	📡 PIM
+232.2.2.2	📡 GDOI Multicast
+
+# MACsec (Layer 2)
+00:fc:ba:f3:f0:86	🔒 SW-A
+00:fc:ba:f3:f0:87	🔒 SW-B
+
+# L2 Multicast / Broadcast
+01:80:c2:00:00:03	📡 LLDP Multicast
+ff:ff:ff:ff:ff:ff	📡 Broadcast

@@ -1,0 +1,56 @@
+# PIM / MSDP Protocol Collection Hosts
+
+# PIM Routers (10.x.y.z links)
+10.1.7.1	📤 R1 (Source)
+10.2.3.2	🖥 R2
+10.3.46.3	📥 R3 (Last-hop)
+10.3.46.4	🖥 R4
+10.3.46.6	🖥 R6
+10.5.7.5	📡 R5 (BSR)
+10.5.7.7	🖥 R7
+
+# PIM Loopbacks
+10.0.0.5	🎯 R5 (RP)
+10.0.0.6	🎯 R6 (Candidate RP)
+
+# PIM DM Multicast Source
+10.9.10.10	📤 R10 (DM Source)
+
+# PIMv1 Legacy
+192.168.12.1	🖥 R1
+192.168.12.2	🖥 R2
+192.168.0.2	🖥 R2
+
+# MSDP Peers (inter-domain RP)
+172.16.58.5	🔗 R5 (MSDP)
+172.16.58.8	🔗 R8 (MSDP)
+172.16.68.6	🔗 R6 (MSDP)
+172.16.68.8	🔗 R8 (MSDP)
+
+# IPv4 Multicast
+224.0.0.2	📡 All Routers
+224.0.0.13	📡 PIM
+224.0.1.39	📡 Auto-RP Announce
+224.0.1.40	📡 Auto-RP Discovery
+225.2.2.2	📡 ASM Group
+225.10.10.10	📡 ASM Group
+226.2.2.2	📡 ASM Group
+
+# IPv6 PIM Routers (link-local)
+fe80::3	📥 R3 (Last-hop)
+fe80::5	🖥 R5
+fe80::7	🖥 R7
+
+# IPv6 PIM Loopbacks
+fc00::5	🎯 R5 (RP)
+fc00::6	🎯 R6 (Candidate RP)
+fc00::7	🖥 R7
+
+# IPv6 PIM Links
+fc00:10:1:7::1	📤 R1 (Source)
+fc00:10:1:7::7	🖥 R7
+fc00:10:2:3::2	🖥 R2
+
+# IPv6 Multicast
+ff02::d	📡 PIMv6
+ff0e::225:2222	📡 ASM Group

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  OSPF Protocol FXT Template (Improved)
+  ======================================
+
+  Protocol Overview:
+  - OSPF (Open Shortest Path First) is a link-state interior gateway protocol
+  - OSPFv2 runs over IPv4 using IP protocol 89 (not TCP/UDP)
+  - OSPFv3 runs over IPv6 using the same protocol number
+  - Routers exchange topology information to build a complete network map
+
+  OSPF Message Types:
+  - Hello Packet (1)       - Neighbor discovery and keepalive
+  - DB Description (2)     - Database description during adjacency formation
+  - LS Request (3)         - Request for specific Link State Advertisements
+  - LS Update (4)          - LSA flooding to neighbors
+  - LS Acknowledge (5)     - Acknowledgment of received LSAs
+
+  OSPF Neighbor State Machine:
+  1. Down      - No Hello received
+  2. Init      - Hello received, but router not seen in neighbor list
+  3. 2-Way     - Bidirectional communication established
+  4. ExStart   - Master/Slave negotiation for DB exchange
+  5. Exchange  - DB Description packets exchanged
+  6. Loading   - LS Request/Update exchange
+  7. Full      - Adjacency fully established
+
+  Multicast Addresses:
+  - 224.0.0.5 (AllSPFRouters) - All OSPF routers
+  - 224.0.0.6 (AllDRouters)   - Designated Routers only
+  - ff02::5   - OSPFv3 AllSPFRouters
+  - ff02::6   - OSPFv3 AllDRouters
+
+  Key PDML Fields:
+  - ospf.msg                           - Message type
+  - ospf.srcrouter                     - Source OSPF Router ID
+  - ospf.area_id                       - OSPF Area ID
+  - ospf.version                       - OSPF version (2 or 3)
+  - ospf.hello.hello_interval          - Hello interval in seconds
+  - ospf.hello.router_dead_interval    - Dead interval in seconds
+  - ospf.hello.designated_router       - Designated Router IP
+  - ospf.hello.backup_designated_router - Backup DR IP
+  - ospf.hello.active_neighbor         - Active neighbor list
+  - ospf.hello.router_priority         - Router priority for DR election
+  - ospf.dbd                           - DB Description flags
+  - ospf.db.dd_sequence                - DD sequence number
+  - ospf.lsa                           - Link State Advertisement
+  - ospf.advrouter                     - Advertising Router
+  - ospf.lsa.id                        - LSA Link State ID
+
+  Sample pcaps:
+  - ospf.cap                       - Basic OSPF adjacency formation
+  - OSPF_broadcast_adjacencies.cap - Multiple routers on broadcast network
+  - OSPFv3_with_AH.cap            - OSPFv3 with Authentication Header
+  - ospf over gre tunnel.cap      - OSPF encapsulated in GRE tunnel
+-->
+<FXT>
+  <!-- =================================================================
+       OSPFv2 Messages (IPv4)
+       ================================================================= -->
+
+  <!-- Hello Packet - Neighbor discovery and keepalive -->
+  <ip-message style="forest-green">
+    <opcode
+            regex-match="Message Type: (Hello Packet) \(\d+\)"
+            regex-replace="👋 OSPF $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.hello.network_mask</param>
+    <param>ospf.hello.hello_interval</param>
+    <param>ospf.hello.router_dead_interval</param>
+    <param>ospf.hello.router_priority</param>
+    <param regex-match="Designated Router: (.*)" regex-replace="👑 Designated Router: $1">ospf.hello.designated_router</param>
+    <param regex-match="Backup Designated Router: (.*)" regex-replace="👑 Backup Designated Router: $1">ospf.hello.backup_designated_router</param>
+    <param regex-match="Active Neighbor: (.*)" regex-replace="👥 Active Neighbor: $1">ospf.hello.active_neighbor</param>
+    <param>ospf.v2.options</param>
+  </ip-message>
+
+  <!-- DB Description - Database synchronization -->
+  <ip-message style="royal-blue">
+    <opcode
+            regex-match="Message Type: (DB Description) \(\d+\)"
+            regex-replace="📋 OSPF $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.dbd</param>
+    <param>ospf.db.dd_sequence</param>
+    <param>ospf.db.interface_mtu</param>
+    <param>ospf.v2.options</param>
+    <param>ospf.lsa</param>
+    <param>ospf.lsa.id</param>
+    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+  </ip-message>
+
+  <!-- LS Request - Request specific LSAs -->
+  <ip-message style="amethyst">
+    <opcode
+            regex-match="Message Type: (LS Request) \(\d+\)"
+            regex-replace="🔍 OSPF $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.lsa.id</param>
+    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+  </ip-message>
+
+  <!-- LS Update - Flood LSAs to neighbors -->
+  <ip-message style="sea-green dashed">
+    <opcode
+            regex-match="Message Type: (LS Update) \(\d+\)"
+            regex-replace="📢 OSPF $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.lsa</param>
+    <param>ospf.lsa.id</param>
+    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param regex-match="Sequence Number: (.*)" regex-replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
+    <param regex-match=".*= (LS Age .*)$" regex-replace="$1">ospf.lsa.age</param>
+    <param>ospf.lsa.router</param>
+    <param>ospf.lsa.asext</param>
+  </ip-message>
+
+  <!-- LS Acknowledge - Acknowledge received LSAs -->
+  <ip-message style="teal dashed">
+    <opcode
+            regex-match="Message Type: (LS Acknowledge) \(\d+\)"
+            regex-replace="✅ OSPF $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.lsa.id</param>
+    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param regex-match="Sequence Number: (.*)" regex-replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
+  </ip-message>
+
+  <!-- Generic OSPF message (fallback for any unmatched types) -->
+  <ip-message style="steel-blue">
+    <opcode
+            regex-match="Message Type: (.*) \(\d+\)"
+            regex-replace="📨 OSPF $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.version</param>
+    <param>ospf.packet_length</param>
+  </ip-message>
+
+  <!-- =================================================================
+       OSPFv3 Messages (IPv6)
+       ================================================================= -->
+
+  <!-- Hello Packet - OSPFv3 -->
+  <ipv6-message style="forest-green">
+    <opcode
+            regex-match="Message Type: (Hello Packet) \(\d+\)"
+            regex-replace="👋 OSPFv3 $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.v3.instance_id</param>
+    <param>ospf.hello.hello_interval</param>
+    <param>ospf.hello.router_dead_interval</param>
+    <param>ospf.hello.router_priority</param>
+    <param regex-match="Designated Router: (.*)" regex-replace="👑 Designated Router: $1">ospf.hello.designated_router</param>
+    <param regex-match="Backup Designated Router: (.*)" regex-replace="👑 Backup Designated Router: $1">ospf.hello.backup_designated_router</param>
+    <param regex-match="Active Neighbor: (.*)" regex-replace="👥 Active Neighbor: $1">ospf.hello.active_neighbor</param>
+    <param>ospf.v3.options</param>
+  </ipv6-message>
+
+  <!-- DB Description - OSPFv3 -->
+  <ipv6-message style="royal-blue">
+    <opcode
+            regex-match="Message Type: (DB Description) \(\d+\)"
+            regex-replace="📋 OSPFv3 $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.v3.instance_id</param>
+    <param>ospf.dbd</param>
+    <param>ospf.db.dd_sequence</param>
+    <param>ospf.db.interface_mtu</param>
+    <param>ospf.v3.options</param>
+    <param>ospf.lsa</param>
+    <param>ospf.lsa.id</param>
+    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+  </ipv6-message>
+
+  <!-- LS Request - OSPFv3 -->
+  <ipv6-message style="amethyst">
+    <opcode
+            regex-match="Message Type: (LS Request) \(\d+\)"
+            regex-replace="🔍 OSPFv3 $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.v3.instance_id</param>
+    <param>ospf.lsa.id</param>
+    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+  </ipv6-message>
+
+  <!-- LS Update - OSPFv3 -->
+  <ipv6-message style="sea-green dashed">
+    <opcode
+            regex-match="Message Type: (LS Update) \(\d+\)"
+            regex-replace="📢 OSPFv3 $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.v3.instance_id</param>
+    <param>ospf.lsa</param>
+    <param>ospf.lsa.id</param>
+    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param regex-match="Sequence Number: (.*)" regex-replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
+    <param regex-match=".*= (LS Age .*)$" regex-replace="$1">ospf.lsa.age</param>
+  </ipv6-message>
+
+  <!-- LS Acknowledge - OSPFv3 -->
+  <ipv6-message style="teal dashed">
+    <opcode
+            regex-match="Message Type: (LS Acknowledge) \(\d+\)"
+            regex-replace="✅ OSPFv3 $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.v3.instance_id</param>
+    <param>ospf.lsa.id</param>
+    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param regex-match="Sequence Number: (.*)" regex-replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
+  </ipv6-message>
+
+  <!-- Generic OSPFv3 message (fallback) -->
+  <ipv6-message style="steel-blue">
+    <opcode
+            regex-match="Message Type: (.*) \(\d+\)"
+            regex-replace="📨 OSPFv3 $1"
+        >ospf.msg</opcode>
+    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param>ospf.v3.instance_id</param>
+    <param>ospf.version</param>
+    <param>ospf.packet_length</param>
+  </ipv6-message>
+
+  <!-- ESP (for OSPFv3 with ESP null encryption) -->
+  <ipv6-message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="ESP">esp.spi</opcode>
+    <param>esp.spi</param>
+    <param>esp.sequence</param>
+  </ipv6-message>
+
+  <ip-message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="ESP">esp.spi</opcode>
+    <param>esp.spi</param>
+    <param>esp.sequence</param>
+  </ip-message>
+
+</FXT>

@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+File Transfer Protocols: FTP, FTPS, SFTP, TFTP
+
+Emoji story for FTP lifecycle:
+  🤝 220 Ready → 🔐 USER/PASS → 📂 CWD/PWD → 📋 LIST →
+  🔗 PASV → 📥 RETR / 📤 STOR → 🛑 QUIT
+
+  TFTP: 📥 Read Request → 📦 Data → ✅ ACK
+  SFTP: 🤝 SSH Protocol → 🔐 Key Exchange → 🔒 Encrypted
+-->
+<FXT>
+
+  <!-- ============================================================
+       FTP Commands (per-command emojis tell the transfer story)
+       ============================================================ -->
+
+  <!-- FTP Authentication -->
+  <tcp-message style="amethyst" bookmark="true">
+    <opcode regex-match="Request command: (USER)" regex-replace="👤 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="👤 Username: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 FTP login step 1: client identifies itself">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="amethyst" bookmark="true">
+    <opcode regex-match="Request command: (PASS)" regex-replace="🔐 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 FTP login step 2: password sent in cleartext (use FTPS for encryption)">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="teal" bookmark="true">
+    <opcode regex-match="Request command: (AUTH)" regex-replace="🔒 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔐 Method: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Upgrade to TLS/SSL encryption — all subsequent commands and data are protected">ftp</remark>
+  </tcp-message>
+
+  <!-- FTP Navigation -->
+  <tcp-message style="sea-green">
+    <opcode regex-match="Request command: (PWD)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Print current working directory on the server">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="sea-green">
+    <opcode regex-match="Request command: (CWD)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📂 Path: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Change to a different directory on the server">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="sea-green">
+    <opcode regex-match="Request command: (CDUP)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Move up to the parent directory">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="sea-green">
+    <opcode regex-match="Request command: (MKD)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📂 Directory: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Create a new directory on the server">ftp</remark>
+  </tcp-message>
+
+  <!-- FTP Directory Listing -->
+  <tcp-message style="cerulean">
+    <opcode regex-match="Request command: (LIST)" regex-replace="📋 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📂 Path: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Request directory listing — server opens data connection to send file list">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="cerulean">
+    <opcode regex-match="Request command: (NLST)" regex-replace="📋 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📂 Path: $2">ftp.request.arg</param>
+  </tcp-message>
+
+  <!-- FTP File Transfer -->
+  <tcp-message style="royal-blue" bookmark="true">
+    <opcode regex-match="Request command: (RETR)" regex-replace="📥 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 File: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Download file from server — data sent over separate data connection">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="forest-green" bookmark="true">
+    <opcode regex-match="Request command: (STOR)" regex-replace="📤 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 File: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Upload file to server — data sent over separate data connection">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="forest-green">
+    <opcode regex-match="Request command: (APPE)" regex-replace="📤 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 File: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Append data to existing file on server">ftp</remark>
+  </tcp-message>
+
+  <!-- FTP File Operations -->
+  <tcp-message style="tangerine">
+    <opcode regex-match="Request command: (DELE)" regex-replace="❌ FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 File: $2">ftp.request.arg</param>
+  </tcp-message>
+
+  <tcp-message style="tangerine">
+    <opcode regex-match="Request command: (RNFR)" regex-replace="✏ FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 From: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Rename step 1: specify the file to rename">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="tangerine">
+    <opcode regex-match="Request command: (RNTO)" regex-replace="✏ FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 To: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Rename step 2: specify the new name">ftp</remark>
+  </tcp-message>
+
+  <!-- FTP Data Channel Setup -->
+  <tcp-message style="cerulean">
+    <opcode regex-match="Request command: (PASV)" regex-replace="🔗 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Passive mode: server provides IP:port for client to connect data channel">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="cerulean">
+    <opcode regex-match="Request command: (EPSV)" regex-replace="🔗 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Extended passive mode (IPv6 compatible): server provides port number only">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="cerulean">
+    <opcode regex-match="Request command: (PORT)" regex-replace="🔗 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔗 $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Active mode: client provides IP:port for server to connect data channel">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="cerulean">
+    <opcode regex-match="Request command: (EPRT)" regex-replace="🔗 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔗 $2">ftp.request.arg</param>
+  </tcp-message>
+
+  <!-- FTP Transfer Settings -->
+  <tcp-message style="slate">
+    <opcode regex-match="Request command: (TYPE)" regex-replace="🔧 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔧 Mode: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Set transfer type: A=ASCII (text), I=Image/Binary">ftp</remark>
+  </tcp-message>
+
+  <!-- FTP System/Info -->
+  <tcp-message style="slate dashed">
+    <opcode regex-match="Request command: (FEAT)" regex-replace="🤝 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 List server features and extensions">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="slate dashed">
+    <opcode regex-match="Request command: (SYST)" regex-replace="🤝 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Query server operating system type">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="slate dashed">
+    <opcode regex-match="Request command: (OPTS)" regex-replace="🔧 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔧 Option: $2">ftp.request.arg</param>
+  </tcp-message>
+
+  <!-- FTP Session Control -->
+  <tcp-message style="slate dashed">
+    <opcode regex-match="Request command: (NOOP)" regex-replace="💓 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Keepalive — prevents server timeout during idle periods">ftp</remark>
+  </tcp-message>
+
+  <tcp-message style="magenta">
+    <opcode regex-match="Request command: (QUIT)" regex-replace="🛑 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Close FTP session — server responds 221 and drops connection">ftp</remark>
+  </tcp-message>
+
+  <!-- FTP generic command fallback -->
+  <tcp-message style="cerulean">
+    <opcode regex-match="Request command: (.*)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📋 $2">ftp.request.arg</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       FTP Responses (per-status emojis)
+       ============================================================ -->
+
+  <!-- 220 Service Ready -->
+  <tcp-message style="forest-green" bookmark="true">
+    <opcode regex-match=".*\((220)\)" regex-replace="🤝 FTP $1 Ready">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="🏷 $2">ftp.response.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Server is ready — announces software version and capabilities">ftp</remark>
+  </tcp-message>
+
+  <!-- 226 Transfer Complete -->
+  <tcp-message style="forest-green" bookmark="true">
+    <opcode regex-match=".*\((226)\)" regex-replace="✅ FTP $1 Transfer Complete">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <remark regex-match=".*" regex-replace="💡 File transfer finished successfully — data connection closed">ftp</remark>
+  </tcp-message>
+
+  <!-- 227 Entering Passive Mode -->
+  <tcp-message style="cerulean">
+    <opcode regex-match=".*\((227)\)" regex-replace="🔗 FTP $1 Passive Mode">ftp.response.code</opcode>
+    <param regex-match="(Passive IP address): (.*)" regex-replace="🌐 $1: $2">ftp.passive.ip</param>
+    <param regex-match="(Passive port): (.*)" regex-replace="🔗 $1: $2">ftp.passive.port</param>
+    <remark regex-match=".*" regex-replace="💡 Server provides IP:port for data connection — client connects to this address">ftp</remark>
+  </tcp-message>
+
+  <!-- 229 Entering Extended Passive Mode -->
+  <tcp-message style="cerulean">
+    <opcode regex-match=".*\((229)\)" regex-replace="🔗 FTP $1 Extended Passive">ftp.response.code</opcode>
+    <param regex-match="(Passive port): (.*)" regex-replace="🔗 Port: $2">ftp.passive.port</param>
+    <remark regex-match=".*" regex-replace="💡 Extended passive mode for IPv6 — server provides port only (uses same IP)">ftp</remark>
+  </tcp-message>
+
+  <!-- 230 User Logged In -->
+  <tcp-message style="forest-green" bookmark="true">
+    <opcode regex-match=".*\((230)\)" regex-replace="✅ FTP $1 Logged In">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Authentication successful — client can now issue file commands">ftp</remark>
+  </tcp-message>
+
+  <!-- 150 Opening Data Connection -->
+  <tcp-message style="cerulean">
+    <opcode regex-match=".*\((150)\)" regex-replace="📋 FTP $1 Data Connection">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Server opening data channel for file transfer or directory listing">ftp</remark>
+  </tcp-message>
+
+  <!-- 221 Goodbye -->
+  <tcp-message style="forest-green">
+    <opcode regex-match=".*\((221)\)" regex-replace="👋 FTP $1 Goodbye">ftp.response.code</opcode>
+    <remark regex-match=".*" regex-replace="💡 Server confirms session end — control connection closes">ftp</remark>
+  </tcp-message>
+
+  <!-- 250 OK -->
+  <tcp-message style="forest-green">
+    <opcode regex-match=".*\((250)\)" regex-replace="✅ FTP $1 OK">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <param regex-match="(Current working directory): (.*)" regex-replace="📂 CWD: $2">ftp.current-working-directory</param>
+  </tcp-message>
+
+  <!-- 331 Need Password -->
+  <tcp-message style="amethyst">
+    <opcode regex-match=".*\((331)\)" regex-replace="🔐 FTP $1 Need Password">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Username accepted — server now requires password to complete login">ftp</remark>
+  </tcp-message>
+
+  <!-- 234 AUTH OK (TLS negotiation proceed) -->
+  <tcp-message style="teal">
+    <opcode regex-match=".*\((234)\)" regex-replace="🔒 FTP $1 AUTH OK">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <remark regex-match=".*" regex-replace="💡 TLS negotiation accepted — start TLS handshake now">ftp</remark>
+  </tcp-message>
+
+  <!-- 1xx/2xx Success -->
+  <tcp-message style="forest-green">
+    <opcode regex-match=".*\(([12]\d\d)\)" regex-replace="✅ FTP $1">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <param regex-match="(Current working directory): (.*)" regex-replace="📂 CWD: $2">ftp.current-working-directory</param>
+  </tcp-message>
+
+  <!-- 3xx Intermediate -->
+  <tcp-message style="amethyst">
+    <opcode regex-match=".*\((3\d\d)\)" regex-replace="📋 FTP $1">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcp-message>
+
+  <!-- 4xx/5xx Error -->
+  <tcp-message style="crimson" bookmark="true">
+    <opcode regex-match=".*\(([45]\d\d)\)" regex-replace="🚫 FTP $1 Error">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Server error — file not found, permission denied, or quota exceeded">ftp</remark>
+  </tcp-message>
+
+  <!-- FTP generic response fallback -->
+  <tcp-message style="forest-green dashed">
+    <opcode regex-match=".*\((\d+)\)" regex-replace="📋 FTP $1">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       TFTP (Trivial File Transfer Protocol)
+       ============================================================ -->
+
+  <udp-message style="royal-blue">
+    <opcode regex-match=".*Read Request.*" regex-replace="📥 TFTP Read Request">tftp.opcode</opcode>
+    <param regex-match="(Source File): (.*)" regex-replace="📄 File: $2">tftp.source_file</param>
+    <param regex-match="(Type): (.*)" regex-replace="🔧 Mode: $2">tftp.type</param>
+    <remark regex-match=".*" regex-replace="💡 Client requests file download from TFTP server">tftp</remark>
+  </udp-message>
+
+  <udp-message style="forest-green">
+    <opcode regex-match=".*Write Request.*" regex-replace="📤 TFTP Write Request">tftp.opcode</opcode>
+    <param regex-match="(Destination File): (.*)" regex-replace="📄 File: $2">tftp.destination_file</param>
+    <param regex-match="(Type): (.*)" regex-replace="🔧 Mode: $2">tftp.type</param>
+    <remark regex-match=".*" regex-replace="💡 Client requests file upload to TFTP server">tftp</remark>
+  </udp-message>
+
+  <udp-message style="cerulean">
+    <opcode regex-match=".*Data Packet.*" regex-replace="📦 TFTP Data">tftp.opcode</opcode>
+    <param regex-match="(Block): (.*)" regex-replace="🔢 $1: $2">tftp.block</param>
+  </udp-message>
+
+  <udp-message style="forest-green dashed">
+    <opcode regex-match=".*Acknowledgement.*" regex-replace="✅ TFTP ACK">tftp.opcode</opcode>
+    <param regex-match="(Block): (.*)" regex-replace="🔢 $1: $2">tftp.block</param>
+  </udp-message>
+
+  <udp-message style="crimson">
+    <opcode regex-match=".*Error.*" regex-replace="🚫 TFTP Error">tftp.opcode</opcode>
+  </udp-message>
+
+  <!-- TFTP generic -->
+  <udp-message style="steel-blue">
+    <opcode regex-match="Opcode: (.*)" regex-replace="📦 TFTP $1">tftp.opcode</opcode>
+    <param regex-match="(Source File): (.*)" regex-replace="📄 $1: $2">tftp.source_file</param>
+    <param regex-match="(Destination File): (.*)" regex-replace="📄 $1: $2">tftp.destination_file</param>
+    <param regex-match="(Block): (.*)" regex-replace="🔢 $1: $2">tftp.block</param>
+  </udp-message>
+
+  <!-- ============================================================
+       SSH / SFTP
+       ============================================================ -->
+
+  <tcp-message style="amethyst">
+    <opcode regex-match="Protocol: (.*)" regex-replace="🤝 SSH $1">ssh.protocol</opcode>
+  </tcp-message>
+
+  <tcp-message style="amethyst">
+    <opcode regex-match="Message Code: (.*)" regex-replace="🔐 SSH $1">ssh.message_code</opcode>
+    <param>ssh.direction</param>
+  </tcp-message>
+
+  <tcp-message style="amethyst dashed">
+    <opcode regex-match="Packet Length: (.*)" regex-replace="🔒 SSH Encrypted ($1 bytes)">ssh.packet_length</opcode>
+  </tcp-message>
+
+  <!-- ============================================================
+       TLS (for FTPS)
+       ============================================================ -->
+
+  <tcp-message style="teal">
+    <opcode regex-match="Handshake Type: (Client Hello|Server Hello) \(.*\)" regex-replace="🤝 TLS $1">tls.handshake.type</opcode>
+    <param>tls.handshake.version</param>
+    <param>tls.handshake.ciphersuite</param>
+    <remark regex-match=".*" regex-replace="💡 TLS handshake: client and server negotiate version and cipher suite">tls</remark>
+  </tcp-message>
+
+  <tcp-message style="teal">
+    <opcode regex-match="Handshake Type: (Certificate) \(.*\)" regex-replace="🔐 TLS $1">tls.handshake.type</opcode>
+    <remark regex-match=".*" regex-replace="💡 Server presents its X.509 certificate for identity verification">tls</remark>
+  </tcp-message>
+
+  <tcp-message style="teal">
+    <opcode regex-match="Handshake Type: (.*) \(.*\)" regex-replace="🔐 TLS $1">tls.handshake.type</opcode>
+  </tcp-message>
+
+  <tcp-message style="teal dashed">
+    <opcode regex-match=".*Change Cipher Spec.*" regex-replace="🔒 TLS Change Cipher Spec">tls.change_cipher_spec</opcode>
+    <remark regex-match=".*" regex-replace="💡 Switching to negotiated cipher — all subsequent data is encrypted">tls</remark>
+  </tcp-message>
+
+  <tcp-message style="slate dashed">
+    <opcode regex-match=".*" regex-replace="🔒 TLS Application Data">tls.app_data_proto</opcode>
+    <remark regex-match=".*" regex-replace="💡 Encrypted FTP commands and data — contents not visible without TLS keys">tls</remark>
+  </tcp-message>
+
+  <!-- ============================================================
+       FTP over IPv6 (mirrors IPv4 templates above)
+       ============================================================ -->
+
+  <!-- FTP Authentication (IPv6) -->
+  <tcpv6-message style="amethyst" bookmark="true">
+    <opcode regex-match="Request command: (USER)" regex-replace="👤 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="👤 Username: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 FTP login step 1: client identifies itself">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="amethyst" bookmark="true">
+    <opcode regex-match="Request command: (PASS)" regex-replace="🔐 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 FTP login step 2: password sent in cleartext (use FTPS for encryption)">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="teal" bookmark="true">
+    <opcode regex-match="Request command: (AUTH)" regex-replace="🔒 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔐 Method: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Upgrade to TLS/SSL encryption — all subsequent commands and data are protected">ftp</remark>
+  </tcpv6-message>
+
+  <!-- FTP Navigation (IPv6) -->
+  <tcpv6-message style="sea-green">
+    <opcode regex-match="Request command: (PWD)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Print current working directory on the server">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="sea-green">
+    <opcode regex-match="Request command: (CWD)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📂 Path: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Change to a different directory on the server">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="sea-green">
+    <opcode regex-match="Request command: (CDUP)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="sea-green">
+    <opcode regex-match="Request command: (MKD)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📂 Directory: $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <!-- FTP Directory Listing (IPv6) -->
+  <tcpv6-message style="cerulean">
+    <opcode regex-match="Request command: (LIST)" regex-replace="📋 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📂 Path: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Request directory listing — server opens data connection to send file list">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="cerulean">
+    <opcode regex-match="Request command: (NLST)" regex-replace="📋 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📂 Path: $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <!-- FTP File Transfer (IPv6) -->
+  <tcpv6-message style="royal-blue" bookmark="true">
+    <opcode regex-match="Request command: (RETR)" regex-replace="📥 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 File: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Download file from server — data sent over separate data connection">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="forest-green" bookmark="true">
+    <opcode regex-match="Request command: (STOR)" regex-replace="📤 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 File: $2">ftp.request.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Upload file to server — data sent over separate data connection">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="forest-green">
+    <opcode regex-match="Request command: (APPE)" regex-replace="📤 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 File: $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <!-- FTP File Operations (IPv6) -->
+  <tcpv6-message style="tangerine">
+    <opcode regex-match="Request command: (DELE)" regex-replace="❌ FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 File: $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="tangerine">
+    <opcode regex-match="Request command: (RNFR)" regex-replace="✏ FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 From: $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="tangerine">
+    <opcode regex-match="Request command: (RNTO)" regex-replace="✏ FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📄 To: $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <!-- FTP Data Channel Setup (IPv6) -->
+  <tcpv6-message style="cerulean">
+    <opcode regex-match="Request command: (PASV)" regex-replace="🔗 FTP $1">ftp.request.command</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="cerulean">
+    <opcode regex-match="Request command: (EPSV)" regex-replace="🔗 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Extended passive mode (IPv6 compatible): server provides port number only">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="cerulean">
+    <opcode regex-match="Request command: (PORT)" regex-replace="🔗 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔗 $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="cerulean">
+    <opcode regex-match="Request command: (EPRT)" regex-replace="🔗 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔗 $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <!-- FTP Transfer Settings (IPv6) -->
+  <tcpv6-message style="slate">
+    <opcode regex-match="Request command: (TYPE)" regex-replace="🔧 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔧 Mode: $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <!-- FTP System/Info (IPv6) -->
+  <tcpv6-message style="slate dashed">
+    <opcode regex-match="Request command: (FEAT)" regex-replace="🤝 FTP $1">ftp.request.command</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="slate dashed">
+    <opcode regex-match="Request command: (SYST)" regex-replace="🤝 FTP $1">ftp.request.command</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="slate dashed">
+    <opcode regex-match="Request command: (OPTS)" regex-replace="🔧 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="🔧 Option: $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <!-- FTP Session Control (IPv6) -->
+  <tcpv6-message style="slate dashed">
+    <opcode regex-match="Request command: (NOOP)" regex-replace="💓 FTP $1">ftp.request.command</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="magenta">
+    <opcode regex-match="Request command: (QUIT)" regex-replace="🛑 FTP $1">ftp.request.command</opcode>
+    <remark regex-match=".*" regex-replace="💡 Close FTP session — server responds 221 and drops connection">ftp</remark>
+  </tcpv6-message>
+
+  <!-- FTP generic command fallback (IPv6) -->
+  <tcpv6-message style="cerulean">
+    <opcode regex-match="Request command: (.*)" regex-replace="📂 FTP $1">ftp.request.command</opcode>
+    <param regex-match="(Request arg): (.*)" regex-replace="📋 $2">ftp.request.arg</param>
+  </tcpv6-message>
+
+  <!-- FTP Responses (IPv6) -->
+  <tcpv6-message style="forest-green" bookmark="true">
+    <opcode regex-match=".*\((220)\)" regex-replace="🤝 FTP $1 Ready">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="🏷 $2">ftp.response.arg</param>
+    <remark regex-match=".*" regex-replace="💡 Server is ready — announces software version and capabilities">ftp</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="forest-green" bookmark="true">
+    <opcode regex-match=".*\((226)\)" regex-replace="✅ FTP $1 Transfer Complete">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="cerulean">
+    <opcode regex-match=".*\((227)\)" regex-replace="🔗 FTP $1 Passive Mode">ftp.response.code</opcode>
+    <param regex-match="(Passive IP address): (.*)" regex-replace="🌐 $1: $2">ftp.passive.ip</param>
+    <param regex-match="(Passive port): (.*)" regex-replace="🔗 $1: $2">ftp.passive.port</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="cerulean">
+    <opcode regex-match=".*\((229)\)" regex-replace="🔗 FTP $1 Extended Passive">ftp.response.code</opcode>
+    <param regex-match="(Passive port): (.*)" regex-replace="🔗 Port: $2">ftp.passive.port</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="forest-green" bookmark="true">
+    <opcode regex-match=".*\((230)\)" regex-replace="✅ FTP $1 Logged In">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="cerulean">
+    <opcode regex-match=".*\((150)\)" regex-replace="📋 FTP $1 Data Connection">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="forest-green">
+    <opcode regex-match=".*\((221)\)" regex-replace="👋 FTP $1 Goodbye">ftp.response.code</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="forest-green">
+    <opcode regex-match=".*\((250)\)" regex-replace="✅ FTP $1 OK">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <param regex-match="(Current working directory): (.*)" regex-replace="📂 CWD: $2">ftp.current-working-directory</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="amethyst">
+    <opcode regex-match=".*\((331)\)" regex-replace="🔐 FTP $1 Need Password">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="teal">
+    <opcode regex-match=".*\((234)\)" regex-replace="🔒 FTP $1 AUTH OK">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="forest-green">
+    <opcode regex-match=".*\(([12]\d\d)\)" regex-replace="✅ FTP $1">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+    <param regex-match="(Current working directory): (.*)" regex-replace="📂 CWD: $2">ftp.current-working-directory</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="amethyst">
+    <opcode regex-match=".*\((3\d\d)\)" regex-replace="📋 FTP $1">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="crimson" bookmark="true">
+    <opcode regex-match=".*\(([45]\d\d)\)" regex-replace="🚫 FTP $1 Error">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="forest-green dashed">
+    <opcode regex-match=".*\((\d+)\)" regex-replace="📋 FTP $1">ftp.response.code</opcode>
+    <param regex-match="(Response arg): (.*)" regex-replace="📋 $2">ftp.response.arg</param>
+  </tcpv6-message>
+
+  <!-- TFTP over IPv6 -->
+  <udpv6-message style="royal-blue">
+    <opcode regex-match=".*Read Request.*" regex-replace="📥 TFTP Read Request">tftp.opcode</opcode>
+    <param regex-match="(Source File): (.*)" regex-replace="📄 File: $2">tftp.source_file</param>
+    <param regex-match="(Type): (.*)" regex-replace="🔧 Mode: $2">tftp.type</param>
+    <remark regex-match=".*" regex-replace="💡 Client requests file download from TFTP server">tftp</remark>
+  </udpv6-message>
+
+  <udpv6-message style="forest-green">
+    <opcode regex-match=".*Write Request.*" regex-replace="📤 TFTP Write Request">tftp.opcode</opcode>
+    <param regex-match="(Destination File): (.*)" regex-replace="📄 File: $2">tftp.destination_file</param>
+    <param regex-match="(Type): (.*)" regex-replace="🔧 Mode: $2">tftp.type</param>
+    <remark regex-match=".*" regex-replace="💡 Client requests file upload to TFTP server">tftp</remark>
+  </udpv6-message>
+
+  <udpv6-message style="cerulean">
+    <opcode regex-match=".*Data Packet.*" regex-replace="📦 TFTP Data">tftp.opcode</opcode>
+    <param regex-match="(Block): (.*)" regex-replace="🔢 $1: $2">tftp.block</param>
+  </udpv6-message>
+
+  <udpv6-message style="forest-green dashed">
+    <opcode regex-match=".*Acknowledgement.*" regex-replace="✅ TFTP ACK">tftp.opcode</opcode>
+    <param regex-match="(Block): (.*)" regex-replace="🔢 $1: $2">tftp.block</param>
+  </udpv6-message>
+
+  <udpv6-message style="crimson">
+    <opcode regex-match=".*Error.*" regex-replace="🚫 TFTP Error">tftp.opcode</opcode>
+  </udpv6-message>
+
+  <udpv6-message style="steel-blue">
+    <opcode regex-match="Opcode: (.*)" regex-replace="📦 TFTP $1">tftp.opcode</opcode>
+    <param regex-match="(Source File): (.*)" regex-replace="📄 $1: $2">tftp.source_file</param>
+    <param regex-match="(Destination File): (.*)" regex-replace="📄 $1: $2">tftp.destination_file</param>
+    <param regex-match="(Block): (.*)" regex-replace="🔢 $1: $2">tftp.block</param>
+  </udpv6-message>
+
+  <!-- SSH over IPv6 -->
+  <tcpv6-message style="amethyst">
+    <opcode regex-match="Protocol: (.*)" regex-replace="🤝 SSH $1">ssh.protocol</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="amethyst">
+    <opcode regex-match="Message Code: (.*)" regex-replace="🔐 SSH $1">ssh.message_code</opcode>
+    <param>ssh.direction</param>
+  </tcpv6-message>
+
+  <tcpv6-message style="amethyst dashed">
+    <opcode regex-match="Packet Length: (.*)" regex-replace="🔒 SSH Encrypted ($1 bytes)">ssh.packet_length</opcode>
+  </tcpv6-message>
+
+  <!-- TLS over IPv6 -->
+  <tcpv6-message style="teal">
+    <opcode regex-match="Handshake Type: (Client Hello|Server Hello) \(.*\)" regex-replace="🤝 TLS $1">tls.handshake.type</opcode>
+    <param>tls.handshake.version</param>
+    <param>tls.handshake.ciphersuite</param>
+    <remark regex-match=".*" regex-replace="💡 TLS handshake: client and server negotiate version and cipher suite">tls</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="teal">
+    <opcode regex-match="Handshake Type: (Certificate) \(.*\)" regex-replace="🔐 TLS $1">tls.handshake.type</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="teal">
+    <opcode regex-match="Handshake Type: (.*) \(.*\)" regex-replace="🔐 TLS $1">tls.handshake.type</opcode>
+  </tcpv6-message>
+
+  <tcpv6-message style="teal dashed">
+    <opcode regex-match=".*Change Cipher Spec.*" regex-replace="🔒 TLS Change Cipher Spec">tls.change_cipher_spec</opcode>
+    <remark regex-match=".*" regex-replace="💡 Switching to negotiated cipher — all subsequent data is encrypted">tls</remark>
+  </tcpv6-message>
+
+  <tcpv6-message style="slate dashed">
+    <opcode regex-match=".*" regex-replace="🔒 TLS Application Data">tls.app_data_proto</opcode>
+    <remark regex-match=".*" regex-replace="💡 Encrypted FTP commands and data — contents not visible without TLS keys">tls</remark>
+  </tcpv6-message>
+
+  <!-- ============================================================
+       TCP generic (SYN/FIN/RST only — suppress ACK/PSH noise)
+       ============================================================ -->
+
+  <tcp-message style="slate dotted">
+    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+  <tcp-message style="slate dotted">
+    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+  <tcp-message style="crimson dotted">
+    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+
+  <tcpv6-message style="slate dotted">
+    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcpv6-message>
+  <tcpv6-message style="slate dotted">
+    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcpv6-message>
+  <tcpv6-message style="crimson dotted">
+    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcpv6-message>
+
+</FXT>

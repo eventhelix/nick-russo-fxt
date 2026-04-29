@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+NAT: ICMP, ICMPv6, UDP traffic for NAT44/NAT64/NAT66
+
+Emoji story for NAT visualization:
+  📡 Echo Request / ✅ Echo Reply - ping probes across NAT
+  📦 UDP Data - data packets traversing NAT
+  🚫 Dest Unreachable / ⏳ Time Exceeded / 📦 Packet Too Big - errors
+
+Key params show NAT translation evidence:
+  🆔 Identifier - changes across NAT boundary reveal PAT
+  🔢 Sequence   - correlates pre/post-NAT packets
+  ⏳ TTL/Hop Limit - decremented by NAT router
+  🔖 IP ID      - same on both sides, proves same packet
+  📤/📥 Ports   - PAT port translation visible
+  📏 Length      - unchanged proves payload integrity
+-->
+<FXT>
+
+  <!-- ============================================================
+       ICMP Error Messages (must precede Echo to handle embedded packets)
+       ============================================================ -->
+
+  <!-- ICMP Dest Unreachable -->
+  <ip-message style="crimson">
+    <opcode display="brief" regex-match="^3$" regex-replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+  </ip-message>
+
+  <!-- ICMP Time Exceeded -->
+  <ip-message style="goldenrod">
+    <opcode display="brief" regex-match="^11$" regex-replace="⏳ ICMP Time Exceeded">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+  </ip-message>
+
+  <!-- ============================================================
+       ICMP Echo (ping across NAT boundary)
+       ============================================================ -->
+
+  <!-- ICMP Echo Request -->
+  <ip-message style="royal-blue">
+    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+    <param regex-match="(Identification): (.*)" regex-replace="🔖 $1: $2">ip.id</param>
+    <param regex-match="(Total Length): (.*)" regex-replace="📏 $1: $2">ip.len</param>
+  </ip-message>
+
+  <!-- ICMP Echo Reply -->
+  <ip-message style="forest-green">
+    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <param>icmp.resp_to</param>
+    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmp.resptime</param>
+    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+    <param regex-match="(Identification): (.*)" regex-replace="🔖 $1: $2">ip.id</param>
+  </ip-message>
+
+  <!-- ICMP generic -->
+  <ip-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMP Type $1">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+  </ip-message>
+
+  <!-- ============================================================
+       ICMPv6 Error Messages (must precede Echo)
+       ============================================================ -->
+
+  <!-- ICMPv6 Dest Unreachable -->
+  <ipv6-message style="crimson">
+    <opcode display="brief" regex-match="^1$" regex-replace="🚫 ICMPv6 Dest Unreachable">icmpv6.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+  </ipv6-message>
+
+  <!-- ICMPv6 Packet Too Big -->
+  <ipv6-message style="crimson">
+    <opcode display="brief" regex-match="^2$" regex-replace="📦 ICMPv6 Packet Too Big">icmpv6.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <param regex-match="(MTU): (.*)" regex-replace="📏 $1: $2">icmpv6.mtu</param>
+  </ipv6-message>
+
+  <!-- ICMPv6 Time Exceeded -->
+  <ipv6-message style="goldenrod">
+    <opcode display="brief" regex-match="^3$" regex-replace="⏳ ICMPv6 Time Exceeded">icmpv6.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+  </ipv6-message>
+
+  <!-- ============================================================
+       ICMPv6 Echo (ping across NAT64/NAT66 boundary)
+       ============================================================ -->
+
+  <!-- ICMPv6 Echo Request -->
+  <ipv6-message style="royal-blue">
+    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param regex-match="(Hop Limit): (.*)" regex-replace="⏳ $1: $2">ipv6.hlim</param>
+    <param regex-match="(Payload Length): (.*)" regex-replace="📏 $1: $2">ipv6.plen</param>
+  </ipv6-message>
+
+  <!-- ICMPv6 Echo Reply -->
+  <ipv6-message style="forest-green">
+    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param>icmpv6.resp_to</param>
+    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmpv6.resptime</param>
+    <param regex-match="(Hop Limit): (.*)" regex-replace="⏳ $1: $2">ipv6.hlim</param>
+  </ipv6-message>
+
+  <!-- ICMPv6 generic -->
+  <ipv6-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+  </ipv6-message>
+
+  <!-- ============================================================
+       UDP Data (across NAT boundary)
+       ============================================================ -->
+
+  <!-- UDP Data IPv4 -->
+  <udp-message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="📦 UDP Data">udp.payload</opcode>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">udp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">udp.dstport</param>
+    <param regex-match="(Length): (.*)" regex-replace="📏 $1: $2">udp.length</param>
+    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+    <param regex-match="(Identification): (.*)" regex-replace="🔖 $1: $2">ip.id</param>
+  </udp-message>
+
+  <!-- UDP Data IPv6 -->
+  <udpv6-message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="📦 UDP Data">udp.payload</opcode>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">udp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">udp.dstport</param>
+    <param regex-match="(Length): (.*)" regex-replace="📏 $1: $2">udp.length</param>
+    <param regex-match="(Hop Limit): (.*)" regex-replace="⏳ $1: $2">ipv6.hlim</param>
+  </udpv6-message>
+
+</FXT>

@@ -1,0 +1,98 @@
+# Collaboration Protocol Collection Hosts File
+# SIP, SCCP, H.323, MGCP, RTP, DTMF, Fax
+
+# ─── SIP Core ───
+10.180.110.58	📡 SIP Proxy
+10.180.110.48	📞 SIP Phone A
+192.168.136.40	📞 SIP Phone B
+10.180.110.65	📞 SIP Phone C
+10.180.110.59	📞 SIP Phone D
+10.180.110.57	📞 MGCP FXS GW
+10.180.110.68	🎵 MoH Server
+10.180.110.1	🏠 Router
+10.180.110.210	📹 SIP Recorder A
+10.180.110.211	🔒 SRTP Phone
+10.247.172.188	📞 SIP Phone
+
+# ─── SIP Recording / TLS ───
+10.180.108.15	📡 CUBE SBC
+10.180.108.174	🔒 SRTP Phone
+10.51.11.90	📹 XMF Recorder A
+192.168.108.152	📹 XMF Recorder B
+192.168.202.109	📹 XMF Recorder C
+192.168.230.238	📹 XMF Recorder D
+50.120.253.65	🔒 TLS Endpoint A
+172.16.246.17	🔒 TLS Endpoint B
+172.27.134.74	📡 TLS Proxy
+
+# ─── SIP Paging / Misc ───
+10.27.16.225	📹 SIP Recorder B
+10.184.231.45	📢 Paging Server A
+172.22.224.22	📢 Paging Server B
+192.168.151.204	📢 Paging Phone A
+192.168.165.191	📢 Paging Phone B
+
+# ─── SCCP ───
+10.10.223.10	🖥 CUCM
+10.10.224.5	📞 SCCP Phone A
+192.168.182.130	📞 SCCP Phone B
+192.168.145.118	📞 SCCP CME Phone
+192.168.209.101	🔒 SCCP TLS Phone
+192.168.38.108	📞 SCCP Phone C
+10.10.223.35	🖥 CUCM Proxy
+
+# ─── H323 ───
+10.10.223.105	📡 H323 Gateway
+198.51.110.48	📞 H323 Endpoint A
+198.51.110.58	📞 H323 Endpoint B
+
+# ─── MGCP ───
+172.27.44.6	🖥 MGCP Call Agent A
+10.10.244.2	🖥 MGCP Call Agent B
+172.29.183.213	📞 MGCP Remote
+10.10.223.101	📞 MGCP FXO GW
+10.10.224.10	📞 MGCP PRI GW
+10.10.228.72	📡 MGCP GW Restart
+14.0.25.198	🌐 PSTN PRI
+10.10.245.20	📠 MGCP Fax GW A
+10.10.245.6	📠 MGCP Fax GW B
+10.10.245.8	📠 MGCP Fax GW C
+
+# ─── DTMF / Voice ───
+10.10.223.106	📡 MTP Server
+10.10.223.107	📡 Voice GW A
+10.10.223.123	📡 Voice GW B
+10.10.223.47	🖥 CUCM DTMF
+10.10.224.2	📞 DTMF Phone A
+10.10.224.3	📞 DTMF Phone B
+10.10.224.4	📞 DTMF Phone C
+10.10.224.9	📞 DTMF Phone D
+10.10.224.27	📞 DTMF Phone E
+14.0.25.205	🌐 PSTN Trunk
+
+# ─── Fax ───
+10.10.245.3	📠 Fax OGW
+10.10.245.5	📠 Fax TGW
+
+# ─── RTP / Media ───
+10.10.214.56	🎵 Media A
+10.10.214.57	🎵 Media B
+10.10.214.98	🎵 MoH Source
+10.10.244.101	🎵 Media C
+10.10.244.200	🎵 Media D
+172.18.110.48	🎵 Media E
+172.18.110.58	🎵 Media F
+172.22.65.111	🎬 Video Phone A
+172.28.45.135	🎬 Video Phone B
+10.96.7.22	📻 LMR Radio A
+10.96.194.132	📻 LMR Radio B
+
+# ─── Multicast ───
+224.0.1.41	📡 MoH Multicast A
+239.1.1.1	📡 MoH Multicast B
+239.1.1.99	📢 Paging Multicast
+239.16.151.93	📻 LMR Multicast
+239.255.255.250	📡 SSDP Multicast
+
+# ─── SRST ───
+253.202.240.47	📡 SRST Router

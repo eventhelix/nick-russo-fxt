@@ -1,0 +1,79 @@
+# BGP Protocol Collection Hosts
+
+# Loopback Addresses (iBGP / Route Reflector cluster in AS 65002)
+10.0.0.1	🖥 R1
+10.0.0.2	🔄 R2 (RR Client)
+10.0.0.3	🎯 R3 (Route Reflector)
+10.0.0.4	🔄 R4 (RR Client)
+10.0.0.5	🖥 R5
+10.0.0.6	🖥 R6
+10.0.0.7	🖥 R7
+10.0.0.55	🖥 R55
+10.0.0.77	🖥 R77
+
+# IPv4 Point-to-Point Links (eBGP)
+10.1.2.1	🖥 R1
+10.1.2.2	🖥 R2
+10.1.5.1	🖥 R1
+10.1.5.5	🖥 R5
+10.1.10.1	🖥 R1
+10.1.10.10	🖥 R10
+10.3.4.3	🖥 R3
+10.3.4.4	🖥 R4
+10.4.5.4	🖥 R4
+10.4.5.5	🖥 R5
+10.7.8.7	🖥 R7
+10.7.8.8	🖥 R8
+10.8.9.8	🖥 R8
+10.8.9.9	🖥 R9
+10.9.10.9	🖥 R9
+10.9.10.10	🖥 R10
+10.11.22.1	🖥 R1
+10.11.22.2	🖥 R2
+
+# IPv4 Infrastructure (172.16.x.x)
+172.16.0.3	🖥 R3
+172.16.0.4	🖥 R4
+172.16.1.1	💻 Host A
+172.16.2.1	💻 Host B
+
+# BMP Session
+192.168.0.99	📊 BMP Station
+192.168.0.102	📊 BMP Monitor
+
+# MVPN/MDT Inner Traffic
+192.168.0.5	🖥 R5
+192.168.0.7	🖥 R7
+
+# SSM Multicast Group
+232.4.4.4	📡 MDT Multicast
+
+# IPv6 Loopback Addresses (iBGP / RR cluster)
+fc00::2	🔄 R2 (RR Client)
+fc00::3	🎯 R3 (Route Reflector)
+fc00::4	🔄 R4 (RR Client)
+fc00::6	🖥 R6
+
+# IPv6 Point-to-Point Links (eBGP)
+fc00:10:1:2::1	🖥 R1
+fc00:10:1:2::2	🖥 R2
+fc00:10:1:10::1	🖥 R1
+fc00:10:1:10::10	🖥 R10
+fc00:10:4:5::4	🖥 R4
+fc00:10:4:5::5	🖥 R5
+fc00:10:5:7::5	🖥 R5
+fc00:10:5:7::7	🖥 R7
+fc00:10:5:12::5	🖥 R5
+fc00:10:5:12::12	🖥 R12
+fc00:10:8:9::8	🖥 R8
+fc00:10:8:9::9	🖥 R9
+fc00:10:9:10::9	🖥 R9
+fc00:10:9:10::10	🖥 R10
+
+# IPv6 Infrastructure (fc00:172:16::)
+fc00:172:16::3	🖥 R3
+fc00:172:16::4	🖥 R4
+
+# Link-Local (BGP Unnumbered)
+fe80::5200:ff:fe01:1	🖥 R1
+fe80::5200:ff:fe02:1	🖥 R2

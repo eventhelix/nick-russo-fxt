@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+FXT file for SOAP over HTTP Protocol Analysis
+
+This FXT template extracts SOAP/XML messages carried over HTTP, commonly used
+in TR-069/CWMP (CPE WAN Management Protocol) and other web service protocols.
+
+Features demonstrated:
+   - HTTP request/response extraction with SOAP-specific parameters
+   - XML body content extraction (xml.tag, xml.cdata)
+   - SOAPAction header visibility
+   - HTTP authentication (Digest, Basic)
+   - Content-Type and Content-Length for message sizing
+   - TCP connection lifecycle (SYN, FIN, RST)
+
+Sample PCAPs:
+   - discover.pcap - TR-069 CWMP Inform/GetParameterValues exchange
+   - netopia_get-par-values-object.pcapng - Netopia CPE CWMP session
+-->
+<FXT>
+
+  <!-- ============================================================
+       InfluxDB API (BEFORE generic HTTP — matches /query and /write)
+       ============================================================ -->
+
+  <!-- InfluxDB Write (POST /write) -->
+  <tcp-message style="royal-blue" bookmark="true">
+    <opcode regex-match=".*(/write).*" regex-replace="📝 InfluxDB Write">http.request.uri.path</opcode>
+    <param regex-match=".*db=(.*)" regex-replace="🗄 Database: 📐 $1">http.request.uri.query.parameter</param>
+    <param regex-match="(Content length): (.*)" regex-replace="📏 $1: $2">http.content_length</param>
+    <param regex-match="(Credentials): (.*)" regex-replace="👤 $1: $2">http.authbasic</param>
+    <param regex-match="(File Data): (.*)" regex-replace="📦 $1: $2">http.file_data</param>
+  </tcp-message>
+
+  <!-- InfluxDB Query (GET/POST /query) — per-operation emojis on value side -->
+  <tcp-message style="cerulean" bookmark="true">
+    <opcode regex-match=".*(/query).*" regex-replace="🔍 InfluxDB Query">http.request.uri.path</opcode>
+    <param regex-match=".*q=(CREATE.*)" regex-replace="📋 Query: ➕ $1">http.request.uri</param>
+    <param regex-match=".*q=(DROP.*)" regex-replace="📋 Query: ❌ $1">http.request.uri</param>
+    <param regex-match=".*q=(select.*)" regex-replace="📋 Query: 🔍 $1">http.request.uri</param>
+    <param regex-match=".*q=(INSERT.*)" regex-replace="📋 Query: 📝 $1">http.request.uri</param>
+    <param regex-match=".*q=(SHOW.*)" regex-replace="📋 Query: 📊 $1">http.request.uri</param>
+    <param regex-match=".*q=(ALTER.*)" regex-replace="📋 Query: 🔧 $1">http.request.uri</param>
+    <param regex-match="(Request URI): (.*)" regex-replace="🌐 $1: $2">http.request.uri</param>
+    <param regex-match=".*db=(.*)" regex-replace="🗄 Database: 📐 $1">http.request.uri.query.parameter</param>
+    <param regex-match="(Credentials): (.*)" regex-replace="👤 $1: $2">http.authbasic</param>
+  </tcp-message>
+
+  <!-- InfluxDB Response (match X-Influxdb-Build header) -->
+  <tcp-message style="forest-green">
+    <opcode regex-match="(.*Influxdb.*)" regex-replace="✅ InfluxDB Response">http.response.line</opcode>
+    <param regex-match="(Status Code): (.*)" regex-replace="📋 $1: $2">http.response.code</param>
+    <param regex-match="(Response Phrase): (.*)" regex-replace="📋 $1: $2">http.response.phrase</param>
+    <param regex-match="(Content-Type): (.*)" regex-replace="🏷 $1: $2">http.content_type</param>
+    <param regex-match="(Content length): (.*)" regex-replace="📏 $1: $2">http.content_length</param>
+    <param regex-match="(Time since request): (.*)" regex-replace="⏱ $1: $2">http.time</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       HTTP POST Request - Primary SOAP message carrier
+       ============================================================ -->
+  <tcp-message style="amethyst" bookmark="true">
+    <opcode regex-match=".*POST.*" regex-replace="📤 HTTP POST">http.request.method</opcode>
+    <param>http.request.uri</param>
+    <param>http.host</param>
+    <param>http.content_type</param>
+    <param>http.content_length</param>
+    <param>http.authorization</param>
+    <param>http.user_agent</param>
+    <param>http.cookie</param>
+    <param>
+      <name>xml.tag</name>
+      <value>xml.cdata</value>
+    </param>
+  </tcp-message>
+
+  <!-- ============================================================
+       HTTP GET Request - Resource retrieval (e.g., XML config files)
+       ============================================================ -->
+  <tcp-message style="amethyst">
+    <opcode regex-match=".*GET.*" regex-replace="📥 HTTP GET">http.request.method</opcode>
+    <param>http.request.uri</param>
+    <param>http.host</param>
+    <param>http.authorization</param>
+    <param>http.user_agent</param>
+    <param>http.accept</param>
+    <param>http.cookie</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       HTTP 200 OK Response - Successful SOAP response
+       ============================================================ -->
+  <tcp-message style="sea-green" bookmark="true">
+    <opcode regex-match=".*200.*" regex-replace="✅ HTTP 200 OK">http.response.code</opcode>
+    <param>http.content_type</param>
+    <param>http.content_length</param>
+    <param>http.server</param>
+    <param>http.set_cookie</param>
+    <param>http.connection</param>
+    <param>
+      <name>xml.tag</name>
+      <value>xml.cdata</value>
+    </param>
+  </tcp-message>
+
+  <!-- ============================================================
+       HTTP 204 No Content - Empty SOAP response
+       ============================================================ -->
+  <tcp-message style="sea-green">
+    <opcode regex-match=".*204.*" regex-replace="✅ HTTP 204 No Content">http.response.code</opcode>
+    <param>http.server</param>
+    <param>http.connection</param>
+    <param>http.content_length</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       HTTP 401 Unauthorized - Authentication challenge
+       ============================================================ -->
+  <tcp-message style="rust" bookmark="true">
+    <opcode regex-match=".*401.*" regex-replace="🚫 HTTP 401 Unauthorized">http.response.code</opcode>
+    <param>http.www_authenticate</param>
+    <param>http.server</param>
+    <param>http.connection</param>
+    <param>http.content_length</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       HTTP 4xx/5xx Error Responses - Client/Server errors
+       ============================================================ -->
+  <tcp-message style="rust" bookmark="true">
+    <opcode regex-match=".*([45]\d\d).*" regex-replace="⚠️ HTTP $1">http.response.code</opcode>
+    <param>http.response.phrase</param>
+    <param>http.content_type</param>
+    <param>http.content_length</param>
+    <param>http.server</param>
+    <param>
+      <name>xml.tag</name>
+      <value>xml.cdata</value>
+    </param>
+  </tcp-message>
+
+  <!-- ============================================================
+       HTTP 3xx Redirect Responses
+       ============================================================ -->
+  <tcp-message style="forest-green">
+    <opcode regex-match=".*(3\d\d).*" regex-replace="↪ HTTP $1">http.response.code</opcode>
+    <param>http.response.phrase</param>
+    <param>http.server</param>
+    <param>http.connection</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       Generic HTTP Request - Catch-all for other methods
+       ============================================================ -->
+  <tcp-message style="amethyst">
+    <opcode>http.request.method</opcode>
+    <param>http.request.uri</param>
+    <param>http.host</param>
+    <param>http.content_type</param>
+    <param>http.content_length</param>
+    <param>http.user_agent</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       Generic HTTP Response - Catch-all for other status codes
+       ============================================================ -->
+  <tcp-message style="sea-green">
+    <opcode>http.response.code</opcode>
+    <param>http.response.phrase</param>
+    <param>http.content_type</param>
+    <param>http.content_length</param>
+    <param>http.server</param>
+  </tcp-message>
+
+  <!-- MySQL Server Greeting -->
+  <tcp-message style="sea-green">
+    <opcode regex-match="(Server Greeting)" regex-replace="🤝 MySQL $1">mysql.server_greeting</opcode>
+    <param regex-match="(Version): (.*)" regex-replace="🏷 $1: $2">mysql.version</param>
+    <param regex-match="(Thread ID): (.*)" regex-replace="🆔 $1: $2">mysql.thread_id</param>
+    <param regex-match="(Authentication Plugin): (.*)" regex-replace="🔐 $1: $2">mysql.auth_plugin</param>
+  </tcp-message>
+
+  <!-- MySQL Login Request -->
+  <tcp-message style="amethyst">
+    <opcode regex-match="(Login Request)" regex-replace="🔐 MySQL $1">mysql.login_request</opcode>
+    <param regex-match="(Username): (.*)" regex-replace="👤 $1: $2">mysql.user</param>
+    <param regex-match="(Schema): (.*)" regex-replace="🗄 $1: $2">mysql.schema</param>
+    <param regex-match="(Client Auth Plugin): (.*)" regex-replace="🔐 $1: $2">mysql.client_auth_plugin</param>
+  </tcp-message>
+
+  <!-- MySQL Query command -->
+  <tcp-message style="cerulean">
+    <opcode regex-match=".*Query.*" regex-replace="🔍 MySQL Query">mysql.command</opcode>
+    <param regex-match="Statement: (CREATE.*)" regex-replace="📋 ➕ $1">mysql.query</param>
+    <param regex-match="Statement: (DROP.*)" regex-replace="📋 ❌ $1">mysql.query</param>
+    <param regex-match="Statement: (SELECT.*)" regex-replace="📋 🔍 $1">mysql.query</param>
+    <param regex-match="Statement: (INSERT.*)" regex-replace="📋 📝 $1">mysql.query</param>
+    <param regex-match="Statement: (UPDATE.*)" regex-replace="📋 ✏ $1">mysql.query</param>
+    <param regex-match="Statement: (DELETE.*)" regex-replace="📋 ❌ $1">mysql.query</param>
+    <param regex-match="Statement: (SHOW.*)" regex-replace="📋 📊 $1">mysql.query</param>
+    <param regex-match="Statement: (COMMIT.*)" regex-replace="📋 ✅ $1">mysql.query</param>
+    <param regex-match="Statement: (SET.*)" regex-replace="📋 🔧 $1">mysql.query</param>
+    <param regex-match="(Statement): (.*)" regex-replace="📋 $1: $2">mysql.query</param>
+  </tcp-message>
+
+  <!-- MySQL Ping -->
+  <tcp-message style="sea-green dashed">
+    <opcode regex-match=".*Ping.*" regex-replace="💓 MySQL Ping">mysql.command</opcode>
+  </tcp-message>
+
+  <!-- MySQL generic command -->
+  <tcp-message style="royal-blue">
+    <opcode regex-match="Command: (.*)" regex-replace="🗄 MySQL $1">mysql.command</opcode>
+    <param regex-match="(Statement): (.*)" regex-replace="📋 $1: $2">mysql.query</param>
+  </tcp-message>
+
+  <!-- MySQL OK Response -->
+  <tcp-message style="forest-green">
+    <opcode regex-match=".*OK Packet.*" regex-replace="✅ MySQL OK">mysql.response_code</opcode>
+    <param regex-match="(Affected Rows): (.*)" regex-replace="🔢 $1: $2">mysql.affected_rows</param>
+    <param regex-match="(Warnings): (.*)" regex-replace="⚠️ $1: $2">mysql.warnings</param>
+  </tcp-message>
+
+  <!-- MySQL Error Response -->
+  <tcp-message style="crimson">
+    <opcode regex-match=".*ERR Packet.*" regex-replace="⚠️ MySQL Error">mysql.response_code</opcode>
+    <param regex-match="(Error Code): (.*)" regex-replace="📋 $1: $2">mysql.error_code</param>
+    <param regex-match="(Error message): (.*)" regex-replace="📋 $1: $2">mysql.error_message</param>
+  </tcp-message>
+
+  <!-- MySQL Result Set (field definitions and row data) -->
+  <tcp-message style="teal">
+    <opcode regex-match="(Number of fields): (.*)" regex-replace="📊 MySQL Result ($2 fields)">mysql.num_fields</opcode>
+    <param regex-match="(Table): (.*)" regex-replace="🗂 $1: $2">mysql.field.table</param>
+    <param regex-match="(Name): (.*)" regex-replace="📋 Column: $2">mysql.field.name</param>
+    <param regex-match="(Type): (.*)" regex-replace="🏷 $1: $2">mysql.field.type</param>
+  </tcp-message>
+
+  <!-- MongoDB Query (legacy wire protocol) -->
+  <tcp-message style="cerulean">
+    <opcode regex-match=".*Query.*" regex-replace="🔍 MongoDB Query">mongo.opcode</opcode>
+    <param regex-match="(Database Name): (.*)" regex-replace="🗄 $1: $2">mongo.database_name</param>
+    <param regex-match="(Collection Name): (.*)" regex-replace="🗂 $1: $2">mongo.collection_name</param>
+    <param regex-match="(fullCollectionName): (.*)" regex-replace="🗂 $1: $2">mongo.full_collection_name</param>
+    <param regex-match="Element: (ismaster)" regex-replace="🤝 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (insert)" regex-replace="📝 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (find)" regex-replace="🔍 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (delete)" regex-replace="❌ Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (serverStatus)" regex-replace="📊 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (saslStart)" regex-replace="🔐 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (saslContinue)" regex-replace="🔐 Command: $1">mongo.element.name</param>
+    <param regex-match="Request ID: 0x\w+ \((\d+)\)" regex-replace="🆔 Request: $1">mongo.request_id</param>
+  </tcp-message>
+
+  <!-- MongoDB Reply (legacy wire protocol) -->
+  <tcp-message style="forest-green">
+    <opcode regex-match=".*Reply.*" regex-replace="✅ MongoDB Reply">mongo.opcode</opcode>
+    <param regex-match="(Number Returned): (.*)" regex-replace="🔢 $1: $2">mongo.number_returned</param>
+    <param regex-match="Element: (ok)" regex-replace="📋 Result: ok">mongo.element.name</param>
+    <param regex-match="(Value): (.*)" regex-replace="📋 $1: $2">mongo.element.value.double</param>
+    <param regex-match="Response To: 0x\w+ \((\d+)\)" regex-replace="🆔 Response To: $1">mongo.response_to</param>
+    <param regex-match="(Cursor ID): (.*)" regex-replace="🔗 $1: $2">mongo.cursor_id</param>
+  </tcp-message>
+
+  <!-- MongoDB OP_MSG (modern extensible message format) -->
+  <tcp-message style="royal-blue">
+    <opcode regex-match=".*Extensible.*" regex-replace="📨 MongoDB OP_MSG">mongo.opcode</opcode>
+    <param regex-match="(Database Name): (.*)" regex-replace="🗄 $1: $2">mongo.database_name</param>
+    <param regex-match="(Collection Name): (.*)" regex-replace="🗂 $1: $2">mongo.collection_name</param>
+    <param regex-match="Element: (insert)" regex-replace="📝 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (find)" regex-replace="🔍 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (delete)" regex-replace="❌ Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (serverStatus)" regex-replace="📊 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (saslStart)" regex-replace="🔐 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (saslContinue)" regex-replace="🔐 Command: $1">mongo.element.name</param>
+    <param regex-match="Element: (ok)" regex-replace="📋 Result: ok">mongo.element.name</param>
+    <param regex-match="(SeqID): (.*)" regex-replace="📦 $1: $2">mongo.msg.sections.section.doc_sequence_id</param>
+    <param regex-match="(Value): (.*)" regex-replace="📋 $1: $2">mongo.element.value.double</param>
+    <param regex-match="Request ID: 0x\w+ \((\d+)\)" regex-replace="🆔 Request: $1">mongo.request_id</param>
+    <param regex-match="Response To: 0x\w+ \((\d+)\)" regex-replace="🆔 Response To: $1">mongo.response_to</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       TCP Messages - Underlying transport layer
+       ============================================================ -->
+
+  <!-- TCP SYN - Connection initiation -->
+  <tcp-message style="slate dotted">
+    <opcode regex-match=".*\(SYN\)$" regex-replace="🔗 TCP SYN">tcp.flags</opcode>
+    <param>tcp.options.mss_val</param>
+    <param>tcp.window_size_value</param>
+  </tcp-message>
+
+  <!-- TCP SYN-ACK - Connection response -->
+  <tcp-message style="slate dotted">
+    <opcode regex-match=".*\(SYN, ACK\)$" regex-replace="✅ TCP SYN-ACK">tcp.flags</opcode>
+    <param>tcp.options.mss_val</param>
+    <param>tcp.window_size_value</param>
+  </tcp-message>
+
+  <!-- TCP FIN - Connection termination -->
+  <tcp-message style="slate dotted">
+    <opcode regex-match=".*FIN.*" regex-replace="🏁 TCP FIN">tcp.flags</opcode>
+    <param>tcp.len</param>
+  </tcp-message>
+
+  <!-- TCP RST - Connection reset -->
+  <tcp-message style="rust">
+    <opcode regex-match=".*RST.*" regex-replace="🚫 TCP RST">tcp.flags</opcode>
+    <param>tcp.len</param>
+  </tcp-message>
+
+</FXT>

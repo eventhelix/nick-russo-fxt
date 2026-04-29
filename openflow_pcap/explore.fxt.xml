@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  OpenFlow 1.3 Protocol FXT Template (Explore)
+  =============================================
+
+  Protocol Overview:
+  - OpenFlow is a communications protocol for Software-Defined Networking (SDN)
+  - Controller communicates with switches over TCP port 6633 (or 6653 for newer versions)
+  - This template targets OpenFlow 1.3 (tshark dissector: openflow_v4)
+
+  Key Message Types (OpenFlow 1.3):
+  - OFPT_HELLO (0)                - Connection setup handshake
+  - OFPT_ERROR (1)                - Error notification
+  - OFPT_ECHO_REQUEST (2)         - Echo request (keepalive)
+  - OFPT_ECHO_REPLY (3)           - Echo reply (keepalive)
+  - OFPT_EXPERIMENTER (4)         - Experimenter extension
+  - OFPT_FEATURES_REQUEST (5)     - Controller requests switch features
+  - OFPT_FEATURES_REPLY (6)       - Switch responds with capabilities
+  - OFPT_GET_CONFIG_REQUEST (7)   - Controller requests configuration
+  - OFPT_GET_CONFIG_REPLY (8)     - Switch returns configuration
+  - OFPT_SET_CONFIG (9)           - Controller sets switch configuration
+  - OFPT_PACKET_IN (10)           - Switch sends packet to controller
+  - OFPT_FLOW_REMOVED (11)        - Flow entry removed notification
+  - OFPT_PORT_STATUS (12)         - Port status change notification
+  - OFPT_PACKET_OUT (13)          - Controller sends packet to switch
+  - OFPT_FLOW_MOD (14)            - Modify flow table entry
+  - OFPT_GROUP_MOD (15)           - Modify group table entry
+  - OFPT_PORT_MOD (16)            - Modify port configuration
+  - OFPT_TABLE_MOD (17)           - Modify table configuration
+  - OFPT_MULTIPART_REQUEST (18)   - Multipart statistics request
+  - OFPT_MULTIPART_REPLY (19)     - Multipart statistics reply
+  - OFPT_BARRIER_REQUEST (20)     - Barrier request (synchronization)
+  - OFPT_BARRIER_REPLY (21)       - Barrier reply
+  - OFPT_QUEUE_GET_CONFIG_REQUEST (22) - Queue configuration request
+  - OFPT_QUEUE_GET_CONFIG_REPLY (23)   - Queue configuration reply
+  - OFPT_ROLE_REQUEST (24)        - Controller role request
+  - OFPT_ROLE_REPLY (25)          - Controller role reply
+  - OFPT_GET_ASYNC_REQUEST (26)   - Get async config request
+  - OFPT_GET_ASYNC_REPLY (27)     - Get async config reply
+  - OFPT_SET_ASYNC (28)           - Set async config
+  - OFPT_METER_MOD (29)           - Modify meter entry
+
+  Key PDML Fields (tshark uses openflow_v4 for OpenFlow 1.3):
+  - openflow_v4.type              - Message type
+  - openflow_v4.xid               - Transaction ID
+  - openflow_v4.version           - Protocol version
+  - openflow_v4.length            - Message length
+
+  Sample pcap: openflow_v1.3_messages.pcapng
+  - Contains OpenFlow 1.3 controller-switch communication on loopback
+  - Use axis="port" for loopback captures
+-->
+<FXT>
+  <!-- =================================================================
+       HELLO Messages - Connection Establishment
+       ================================================================= -->
+
+  <tcp-message style="amethyst">
+    <opcode
+            regex-match="Type: (OFPT_HELLO)"
+            regex-replace="🤝 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Version: (.*)" regex-replace="📋 Version: $1">openflow_v4.version</param>
+    <param regex-match="Length: (.*)" regex-replace="📦 Length: $1">openflow_v4.length</param>
+    <remark regex-match=".*" regex-replace="💡 OpenFlow HELLO — controller and switch exchange version negotiation; both sides advertise supported OpenFlow versions; highest common version is selected">openflow_v4</remark>
+  </tcp-message>
+
+  <!-- =================================================================
+       Feature Discovery Messages
+       ================================================================= -->
+
+  <tcp-message style="royal-blue">
+    <opcode
+            regex-match="Type: (OFPT_FEATURES_REQUEST)"
+            regex-replace="📡 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+  </tcp-message>
+
+  <tcp-message style="royal-blue dashed">
+    <opcode
+            regex-match="Type: (OFPT_FEATURES_REPLY)"
+            regex-replace="📋 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Datapath ID: (.*)" regex-replace="🖥 Datapath: $1">openflow_v4.switch_features.datapath_id</param>
+    <param regex-match="Number of buffers: (.*)" regex-replace="📦 Buffers: $1">openflow_v4.switch_features.n_buffers</param>
+    <param regex-match="Number of tables: (.*)" regex-replace="📋 Tables: $1">openflow_v4.switch_features.n_tables</param>
+    <param>openflow_v4.switch_features.capabilities</param>
+    <remark regex-match=".*" regex-replace="💡 FEATURES_REPLY — switch reports its datapath ID (unique identifier), number of flow tables, buffer capacity, and capabilities (flow stats, table stats, port stats, group stats)">openflow_v4</remark>
+  </tcp-message>
+
+  <!-- =================================================================
+       Configuration Messages
+       ================================================================= -->
+
+  <tcp-message style="teal">
+    <opcode
+            regex-match="Type: (OFPT_SET_CONFIG)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.switch_config.flags</param>
+    <param regex-match="Miss send length: (.*)" regex-replace="📦 Miss Send Len: $1">openflow_v4.switch_config.miss_send_len</param>
+  </tcp-message>
+
+  <tcp-message style="teal">
+    <opcode
+            regex-match="Type: (OFPT_GET_CONFIG_REQUEST)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+  </tcp-message>
+
+  <tcp-message style="teal dashed">
+    <opcode
+            regex-match="Type: (OFPT_GET_CONFIG_REPLY)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.switch_config.flags</param>
+    <param regex-match="Miss send length: (.*)" regex-replace="📦 Miss Send Len: $1">openflow_v4.switch_config.miss_send_len</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Packet Handling Messages
+       ================================================================= -->
+
+  <tcp-message style="sea-green">
+    <opcode
+            regex-match="Type: (OFPT_PACKET_IN)"
+            regex-replace="📥 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.packet_in.buffer_id</param>
+    <param regex-match="Total length: (.*)" regex-replace="📦 Length: $1">openflow_v4.packet_in.total_len</param>
+    <param regex-match="Reason: (.*)" regex-replace="📋 Reason: $1">openflow_v4.packet_in.reason</param>
+    <param regex-match="Table ID: (.*)" regex-replace="📋 Table: $1">openflow_v4.packet_in.table_id</param>
+    <remark regex-match=".*" regex-replace="💡 PACKET_IN — switch sends unmatched packet to controller for decision; reason: no matching flow (table-miss), explicit action, or TTL expiry; controller responds with PACKET_OUT or FLOW_MOD">openflow_v4</remark>
+  </tcp-message>
+
+  <tcp-message style="sea-green dashed">
+    <opcode
+            regex-match="Type: (OFPT_PACKET_OUT)"
+            regex-replace="📤 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.packet_out.buffer_id</param>
+    <param regex-match="In port: (.*)" regex-replace="📡 In Port: $1">openflow_v4.packet_out.in_port</param>
+    <param>openflow_v4.packet_out.acts_len</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Flow Table Messages
+       ================================================================= -->
+
+  <tcp-message style="forest-green">
+    <opcode
+            regex-match="Type: (OFPT_FLOW_MOD)"
+            regex-replace="📝 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Command: (.*)" regex-replace="📝 Command: $1">openflow_v4.flowmod.command</param>
+    <param regex-match="Table ID: (.*)" regex-replace="📋 Table: $1">openflow_v4.flowmod.table_id</param>
+    <param regex-match="Priority: (.*)" regex-replace="📊 Priority: $1">openflow_v4.flowmod.priority</param>
+    <param regex-match="Cookie: (.*)" regex-replace="🔗 Cookie: $1">openflow_v4.flowmod.cookie</param>
+    <param>openflow_v4.flowmod.idle_timeout</param>
+    <param>openflow_v4.flowmod.hard_timeout</param>
+    <param>openflow_v4.flowmod.buffer_id</param>
+    <param>openflow_v4.flowmod.out_port</param>
+    <param>openflow_v4.flowmod.out_group</param>
+    <remark regex-match=".*" regex-replace="💡 FLOW_MOD — controller installs/modifies/deletes flow entries in switch tables; match fields define which packets to match, actions define what to do (forward, drop, modify headers)">openflow_v4</remark>
+  </tcp-message>
+
+  <tcp-message style="forest-green dashed">
+    <opcode
+            regex-match="Type: (OFPT_FLOW_REMOVED)"
+            regex-replace="🗑 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.flow_removed.cookie</param>
+    <param regex-match="Reason: (.*)" regex-replace="📋 Reason: $1">openflow_v4.flow_removed.reason</param>
+    <param>openflow_v4.flow_removed.table_id</param>
+    <param>openflow_v4.flow_removed.priority</param>
+    <param regex-match="Duration \(sec\): (.*)" regex-replace="⏱ Duration: $1 s">openflow_v4.flow_removed.duration_sec</param>
+    <param regex-match="Packet count: (.*)" regex-replace="📦 Packets: $1">openflow_v4.flow_removed.packet_count</param>
+    <param regex-match="Byte count: (.*)" regex-replace="📦 Bytes: $1">openflow_v4.flow_removed.byte_count</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Group Table Messages
+       ================================================================= -->
+
+  <tcp-message style="emerald">
+    <opcode
+            regex-match="Type: (OFPT_GROUP_MOD)"
+            regex-replace="📝 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Command: (.*)" regex-replace="📝 Command: $1">openflow_v4.groupmod.command</param>
+    <param>openflow_v4.groupmod.type</param>
+    <param regex-match="Group ID: (.*)" regex-replace="🔢 Group: $1">openflow_v4.groupmod.group_id</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Table Modification Messages
+       ================================================================= -->
+
+  <tcp-message style="pine">
+    <opcode
+            regex-match="Type: (OFPT_TABLE_MOD)"
+            regex-replace="📝 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.tablemod.table_id</param>
+    <param>openflow_v4.tablemod.config</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Port Messages
+       ================================================================= -->
+
+  <tcp-message style="steel-blue">
+    <opcode
+            regex-match="Type: (OFPT_PORT_STATUS)"
+            regex-replace="📡 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Reason: (.*)" regex-replace="📋 Reason: $1">openflow_v4.port_status.reason</param>
+    <param regex-match="Port no: (.*)" regex-replace="📡 Port: $1">openflow_v4.port.port_no</param>
+    <param regex-match="Name: (.*)" regex-replace="📡 Name: $1">openflow_v4.port.name</param>
+  </tcp-message>
+
+  <tcp-message style="steel-blue dashed">
+    <opcode
+            regex-match="Type: (OFPT_PORT_MOD)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.portmod.port_no</param>
+    <param>openflow_v4.portmod.hw_addr</param>
+    <param>openflow_v4.portmod.config</param>
+    <param>openflow_v4.portmod.advertise</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Multipart (Statistics) Messages
+       ================================================================= -->
+
+  <tcp-message style="goldenrod">
+    <opcode
+            regex-match="Type: (OFPT_MULTIPART_REQUEST)"
+            regex-replace="📊 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Type: (.*)" regex-replace="📊 Stats: $1">openflow_v4.multipart_request.type</param>
+    <param>openflow_v4.multipart_request.flags</param>
+  </tcp-message>
+
+  <tcp-message style="goldenrod dashed">
+    <opcode
+            regex-match="Type: (OFPT_MULTIPART_REPLY)"
+            regex-replace="📊 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Type: (.*)" regex-replace="📊 Stats: $1">openflow_v4.multipart_reply.type</param>
+    <param>openflow_v4.multipart_reply.flags</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Meter Messages
+       ================================================================= -->
+
+  <tcp-message style="tangerine">
+    <opcode
+            regex-match="Type: (OFPT_METER_MOD)"
+            regex-replace="📊 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Role Messages
+       ================================================================= -->
+
+  <tcp-message style="slate-blue">
+    <opcode
+            regex-match="Type: (OFPT_ROLE_REQUEST)"
+            regex-replace="🔐 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Role: (.*)" regex-replace="🔐 Role: $1">openflow_v4.role_request.role</param>
+    <param>openflow_v4.role_request.generation_id</param>
+  </tcp-message>
+
+  <tcp-message style="slate-blue dashed">
+    <opcode
+            regex-match="Type: (OFPT_ROLE_REPLY)"
+            regex-replace="🔐 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Role: (.*)" regex-replace="🔐 Role: $1">openflow_v4.role_reply.role</param>
+    <param>openflow_v4.role_reply.generation_id</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Async Config Messages
+       ================================================================= -->
+
+  <tcp-message style="orchid">
+    <opcode
+            regex-match="Type: (OFPT_GET_ASYNC_REQUEST)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+  </tcp-message>
+
+  <tcp-message style="orchid dashed">
+    <opcode
+            regex-match="Type: (OFPT_GET_ASYNC_REPLY)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.async_config.packet_in_mask.master</param>
+    <param>openflow_v4.async_config.packet_in_mask.slave</param>
+    <param>openflow_v4.async_config.port_status_mask.master</param>
+    <param>openflow_v4.async_config.port_status_mask.slave</param>
+    <param>openflow_v4.async_config.flow_removed_mask.master</param>
+    <param>openflow_v4.async_config.flow_removed_mask.slave</param>
+  </tcp-message>
+
+  <tcp-message style="orchid">
+    <opcode
+            regex-match="Type: (OFPT_SET_ASYNC)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.async_config.packet_in_mask.master</param>
+    <param>openflow_v4.async_config.packet_in_mask.slave</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Queue Configuration Messages
+       ================================================================= -->
+
+  <tcp-message style="cyan">
+    <opcode
+            regex-match="Type: (OFPT_QUEUE_GET_CONFIG_REQUEST)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.queue_get_config_request.port</param>
+  </tcp-message>
+
+  <tcp-message style="cyan dashed">
+    <opcode
+            regex-match="Type: (OFPT_QUEUE_GET_CONFIG_REPLY)"
+            regex-replace="⚙ OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.queue_get_config_reply.port</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Error Messages
+       ================================================================= -->
+
+  <tcp-message style="brick wave">
+    <opcode
+            regex-match="Type: (OFPT_ERROR)"
+            regex-replace="🚨 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Type: (.*)" regex-replace="🚨 Error Type: $1">openflow_v4.error.type</param>
+    <param regex-match="Code: (.*)" regex-replace="🚨 Error Code: $1">openflow_v4.error.code</param>
+    <remark regex-match=".*" regex-replace="💡 OpenFlow ERROR — switch reports a problem; error type identifies the category (bad request, bad action, bad match, flow mod failed); error code gives the specific reason">openflow_v4</remark>
+  </tcp-message>
+
+  <!-- =================================================================
+       Echo/Keepalive Messages
+       ================================================================= -->
+
+  <tcp-message style="slate dotted">
+    <opcode
+            regex-match="Type: (OFPT_ECHO_REQUEST)"
+            regex-replace="💓 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+  </tcp-message>
+
+  <tcp-message style="slate">
+    <opcode
+            regex-match="Type: (OFPT_ECHO_REPLY)"
+            regex-replace="💓 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Barrier Messages (Synchronization)
+       ================================================================= -->
+
+  <tcp-message style="graphite">
+    <opcode
+            regex-match="Type: (OFPT_BARRIER_REQUEST)"
+            regex-replace="🔒 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <remark regex-match=".*" regex-replace="💡 BARRIER — synchronization point; controller sends BARRIER_REQUEST and waits for BARRIER_REPLY to ensure all previous messages (FLOW_MOD, PACKET_OUT) have been processed by the switch">openflow_v4</remark>
+  </tcp-message>
+
+  <tcp-message style="graphite dashed">
+    <opcode
+            regex-match="Type: (OFPT_BARRIER_REPLY)"
+            regex-replace="🔒 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Experimenter Messages
+       ================================================================= -->
+
+  <tcp-message style="sienna">
+    <opcode
+            regex-match="Type: (OFPT_EXPERIMENTER)"
+            regex-replace="🔧 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param>openflow_v4.experimenter.experimenter</param>
+    <param>openflow_v4.experimenter.exp_type</param>
+  </tcp-message>
+
+  <!-- =================================================================
+       Catch-all for Other OpenFlow Messages
+       ================================================================= -->
+
+  <tcp-message style="charcoal">
+    <opcode
+            regex-match="Type: (.*)"
+            regex-replace="🔧 OpenFlow $1"
+        >openflow_v4.type</opcode>
+    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 XID: $1">openflow_v4.xid</param>
+    <param regex-match="Version: (.*)" regex-replace="📋 Version: $1">openflow_v4.version</param>
+    <param regex-match="Length: (.*)" regex-replace="📦 Length: $1">openflow_v4.length</param>
+  </tcp-message>
+
+  <!-- TCP SYN/FIN/RST only -->
+  <tcp-message style="graphite dotted">
+    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+  <tcp-message style="graphite dotted">
+    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+  <tcp-message style="crimson dotted">
+    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+
+</FXT>

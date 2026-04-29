@@ -1,0 +1,8 @@
+# Database Protocol Collection Hosts
+# InfluxDB, MongoDB, MySQL
+
+# Python Client
+192.168.1.179	💻 Client
+
+# AWS Database Server
+18.215.232.167	🗄 DB Server

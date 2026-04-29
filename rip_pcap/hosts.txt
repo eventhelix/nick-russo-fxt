@@ -1,0 +1,22 @@
+# RIP Protocol Collection Hosts
+
+# RIPv2 Segment 12
+192.168.12.1	🖥 R1
+192.168.12.2	🖥 R2
+
+# RIPv2 Segment 23
+192.168.23.2	🖥 R2
+192.168.23.3	🖥 R3
+
+# RIPv2 Multicast
+224.0.0.9	📡 RIP Multicast
+
+# RIPv1 Broadcast
+255.255.255.255	📡 Broadcast
+
+# RIPng IPv6
+fe80::1	🖥 R1
+fe80::2	🖥 R2
+
+# RIPng Multicast
+ff02::9	📡 RIPng Multicast

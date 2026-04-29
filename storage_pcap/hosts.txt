@@ -1,0 +1,5 @@
+# Storage Protocol Collection Hosts File
+# iSCSI, NFS v3, SMB2 — same client/server pair
+
+192.168.2.201	💾 Storage.💻 Client
+192.168.2.3	💾 Storage.🖥 Server

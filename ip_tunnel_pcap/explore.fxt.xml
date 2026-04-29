@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- IP Tunneling: GRE/DMVPN (NHRP), LISP, AMT, ICMP -->
+<FXT>
+
+  <!-- ============================================================
+       NHRP (before GRE — NHRP carried inside GRE in DMVPN)
+       ============================================================ -->
+
+  <!-- NHRP Registration Request (spoke → hub: register NBMA↔overlay mapping) -->
+  <ip-message style="sea-green">
+    <opcode regex-match=".*NHRP (Registration Request) \(\d+\)" regex-replace="📝 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+    <param regex-match="(Holding Time): (.*)" regex-replace="⏱ $1: $2">nhrp.htime</param>
+  </ip-message>
+
+  <!-- NHRP Registration Reply (hub → spoke: confirm registration) -->
+  <ip-message style="forest-green">
+    <opcode regex-match=".*NHRP (Registration Reply) \(\d+\)" regex-replace="✅ NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+    <param regex-match="(Holding Time): (.*)" regex-replace="⏱ $1: $2">nhrp.htime</param>
+  </ip-message>
+
+  <!-- NHRP Resolution Request (spoke → hub: resolve overlay → NBMA for spoke-to-spoke) -->
+  <ip-message style="royal-blue">
+    <opcode regex-match=".*NHRP (Resolution Request) \(\d+\)" regex-replace="🔍 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- NHRP Resolution Reply (hub → spoke: resolved NBMA address for direct tunnel) -->
+  <ip-message style="cerulean">
+    <opcode regex-match=".*NHRP (Resolution Reply) \(\d+\)" regex-replace="✅ NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Client NBMA Address): (.*)" regex-replace="📥 $1: $2">nhrp.client.nbma.addr</param>
+    <param regex-match="(Client Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.client.prot.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+    <param regex-match="(Holding Time): (.*)" regex-replace="⏱ $1: $2">nhrp.htime</param>
+  </ip-message>
+
+  <!-- NHRP Purge Request -->
+  <ip-message style="magenta">
+    <opcode regex-match=".*NHRP (Purge Request) \(\d+\)" regex-replace="🗑 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- NHRP Purge Reply -->
+  <ip-message style="magenta">
+    <opcode regex-match=".*NHRP (Purge Reply) \(\d+\)" regex-replace="🗑 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- NHRP Error Indication -->
+  <ip-message style="crimson">
+    <opcode regex-match=".*NHRP (Error Indication) \(\d+\)" regex-replace="🚫 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- NHRP generic fallback -->
+  <ip-message style="amethyst">
+    <opcode regex-match=".*NHRP (.*) \(\d+\)" regex-replace="🔄 NHRP $1">nhrp.hdr.op.type</opcode>
+    <param regex-match="(Request ID): (.*)" regex-replace="🆔 $1: $2">nhrp.reqid</param>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">nhrp.code</param>
+    <param regex-match="(Source NBMA Address): (.*)" regex-replace="📤 $1: $2">nhrp.src.nbma.addr</param>
+    <param regex-match="(Source Protocol Address): (.*)" regex-replace="🌐 $1: $2">nhrp.src.prot.addr</param>
+    <param regex-match="(Destination Protocol Address): (.*)" regex-replace="🎯 $1: $2">nhrp.dst.prot.addr</param>
+  </ip-message>
+
+  <!-- ============================================================
+       GRE variants
+       ============================================================ -->
+
+  <!-- ERSPAN (GRE-encapsulated mirrored traffic) -->
+  <ip-message style="amethyst">
+    <opcode regex-match="Protocol Type: (ERSPAN) \(0x\w+\)" regex-replace="🔎 GRE $1">gre.proto</opcode>
+    <param regex-match=".*SpanID: (\d+)" regex-replace="🆔 Session: $1">erspan.spanid</param>
+    <param regex-match=".*Vlan: (\d+)" regex-replace="🏷 VLAN: $1">erspan.vlan</param>
+    <param regex-match=".*Version: (.*)" regex-replace="📋 Version: $1">erspan.version</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">gre.sequence_number</param>
+  </ip-message>
+
+  <!-- GRE Keepalive (protocol type 0x0000) -->
+  <ip-message style="sea-green dashed">
+    <opcode regex-match="Protocol Type: (Possible GRE keepalive packet) \(0x\w+\)" regex-replace="💓 GRE Keepalive">gre.proto</opcode>
+  </ip-message>
+
+  <!-- GRE tunnel (generic, with all option params) -->
+  <ip-message style="goldenrod">
+    <opcode regex-match="Protocol Type: (.*) \(0x\w+\)" regex-replace="🔗 GRE $1">gre.proto</opcode>
+    <param regex-match="(Key): (.*)" regex-replace="🔑 $1: $2">gre.key</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">gre.sequence_number</param>
+    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">gre.checksum</param>
+    <param regex-match="Type: (.*) \(\d+\)" regex-replace="Inner: $1">icmp.type</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <!-- ============================================================
+       IP-in-IP tunnel (protocol 4, show outer tunnel endpoints)
+       skip-inner=1 on opcode ensures this only matches packets
+       with two IP layers (outer proto=4, inner payload)
+       ============================================================ -->
+
+  <message style="goldenrod">
+    <opcode display="brief" skip-inner="1" regex-match="^4$" regex-replace="🔗 IP-in-IP Tunnel">ip.proto</opcode>
+    <param regex-match="Type: (.*) \(\d+\)" regex-replace="Inner: $1">icmp.type</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <source>
+      <address skip-inner="1" display="brief">ip.src</address>
+    </source>
+    <destination>
+      <address skip-inner="1" display="brief">ip.dst</address>
+    </destination>
+  </message>
+
+  <!-- ============================================================
+       ICMP (inner tunneled traffic)
+       ============================================================ -->
+
+  <ip-message style="crimson">
+    <opcode display="brief" regex-match="^3$" regex-replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+  </ip-message>
+
+  <ip-message style="royal-blue">
+    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <ip-message style="forest-green">
+    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <param>icmp.resp_to</param>
+    <param>icmp.resptime</param>
+  </ip-message>
+
+  <ip-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMP Type $1">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+  </ip-message>
+
+  <!-- ============================================================
+       LISP (Locator/ID Separation Protocol)
+       ============================================================ -->
+
+  <!-- LISP Map-Register (xTR → Map-Server: register EID-to-RLOC mapping) -->
+  <udp-message style="sea-green">
+    <opcode regex-match=".*Type: (Map-Register) \(\d+\)" regex-replace="📝 LISP $1">lisp.type</opcode>
+    <param regex-match="(Record Count): (.*)" regex-replace="🔢 $1: $2">lisp.records</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv4</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv6</param>
+    <param>lisp.mapping.eid.masklen</param>
+    <param regex-match="(Locator): (.*)" regex-replace="📍 $1: $2">lisp.loc.locator</param>
+    <param regex-match="(TTL): (.*)" regex-replace="⏱ $1: $2">lisp.mapping.ttl</param>
+    <param regex-match="(Instance ID): (.*)" regex-replace="🆔 $1: $2">lisp.lcaf.iid</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">lisp.nonce</param>
+  </udp-message>
+
+  <!-- LISP Map-Notify (Map-Server → xTR: confirm registration) -->
+  <udp-message style="forest-green">
+    <opcode regex-match=".*Type: (Map-Notify) \(\d+\)" regex-replace="✅ LISP $1">lisp.type</opcode>
+    <param regex-match="(Record Count): (.*)" regex-replace="🔢 $1: $2">lisp.records</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv4</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv6</param>
+    <param>lisp.mapping.eid.masklen</param>
+    <param regex-match="(Locator): (.*)" regex-replace="📍 $1: $2">lisp.loc.locator</param>
+    <param regex-match="(TTL): (.*)" regex-replace="⏱ $1: $2">lisp.mapping.ttl</param>
+    <param regex-match="(Instance ID): (.*)" regex-replace="🆔 $1: $2">lisp.lcaf.iid</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">lisp.nonce</param>
+  </udp-message>
+
+  <!-- LISP Map-Request (ITR → ETR via Map-Server: resolve EID → RLOC)
+       Uses skip-inner to show outer RLOC addresses instead of inner ECM EID addresses -->
+  <message style="royal-blue">
+    <opcode regex-match=".*Type: (Map-Request) \(\d+\)" regex-replace="🔍 LISP $1">lisp.type</opcode>
+    <param regex-match="(Source EID.*): (.*)" regex-replace="📤 Source EID: $2">lisp.mreq.srceid.ipv4</param>
+    <param regex-match="(Source EID.*): (.*)" regex-replace="📤 Source EID: $2">lisp.mreq.srceid.ipv6</param>
+    <param regex-match="(Prefix.*): (.*)" regex-replace="🎯 Query: $2">lisp.mreq.record.prefix.ipv4</param>
+    <param regex-match="(Prefix.*): (.*)" regex-replace="🎯 Query: $2">lisp.mreq.record.prefix.ipv6</param>
+    <param regex-match="(ITR-RLOC.*): (.*)" regex-replace="📍 ITR-RLOC: $2">lisp.mreq.itr_rloc_ipv4</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">lisp.nonce</param>
+    <source>
+      <address skip-inner="1" display="brief">ip.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" display="brief">ip.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <!-- LISP Map-Reply (ETR → ITR: resolved RLOC for EID) -->
+  <udp-message style="cerulean">
+    <opcode regex-match=".*Type: (Map-Reply) \(\d+\)" regex-replace="📣 LISP $1">lisp.type</opcode>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv4</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv6</param>
+    <param>lisp.mapping.eid.masklen</param>
+    <param regex-match="(Locator): (.*)" regex-replace="📍 $1: $2">lisp.loc.locator</param>
+    <param regex-match="(TTL): (.*)" regex-replace="⏱ $1: $2">lisp.mapping.ttl</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">lisp.nonce</param>
+  </udp-message>
+
+  <!-- LISP Encapsulated Control Message (wraps Map-Request for forwarding) -->
+  <udp-message style="goldenrod">
+    <opcode regex-match=".*Type: (Encapsulated Control Message) \(\d+\)" regex-replace="📨 LISP ECM">lisp.type</opcode>
+  </udp-message>
+
+  <!-- LISP generic fallback -->
+  <udp-message style="amethyst">
+    <opcode regex-match=".*Type: (.*) \(\d+\)" regex-replace="🔄 LISP $1">lisp.type</opcode>
+    <param regex-match="(Record Count): (.*)" regex-replace="🔢 $1: $2">lisp.records</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">lisp.nonce</param>
+  </udp-message>
+
+  <!-- LISP IPv6 variants -->
+  <udpv6-message style="sea-green">
+    <opcode regex-match=".*Type: (Map-Register) \(\d+\)" regex-replace="📝 LISP $1">lisp.type</opcode>
+    <param regex-match="(Record Count): (.*)" regex-replace="🔢 $1: $2">lisp.records</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv4</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv6</param>
+    <param regex-match="(Locator): (.*)" regex-replace="📍 $1: $2">lisp.loc.locator</param>
+    <param regex-match="(TTL): (.*)" regex-replace="⏱ $1: $2">lisp.mapping.ttl</param>
+    <param regex-match="(Instance ID): (.*)" regex-replace="🆔 $1: $2">lisp.lcaf.iid</param>
+  </udpv6-message>
+
+  <udpv6-message style="forest-green">
+    <opcode regex-match=".*Type: (Map-Notify) \(\d+\)" regex-replace="✅ LISP $1">lisp.type</opcode>
+    <param regex-match="(Record Count): (.*)" regex-replace="🔢 $1: $2">lisp.records</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv4</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv6</param>
+    <param regex-match="(Locator): (.*)" regex-replace="📍 $1: $2">lisp.loc.locator</param>
+    <param regex-match="(TTL): (.*)" regex-replace="⏱ $1: $2">lisp.mapping.ttl</param>
+    <param regex-match="(Instance ID): (.*)" regex-replace="🆔 $1: $2">lisp.lcaf.iid</param>
+  </udpv6-message>
+
+  <message style="royal-blue">
+    <opcode regex-match=".*Type: (Map-Request) \(\d+\)" regex-replace="🔍 LISP $1">lisp.type</opcode>
+    <param regex-match="(Source EID.*): (.*)" regex-replace="📤 Source EID: $2">lisp.mreq.srceid.ipv4</param>
+    <param regex-match="(Source EID.*): (.*)" regex-replace="📤 Source EID: $2">lisp.mreq.srceid.ipv6</param>
+    <param regex-match="(Prefix.*): (.*)" regex-replace="🎯 Query: $2">lisp.mreq.record.prefix.ipv4</param>
+    <param regex-match="(Prefix.*): (.*)" regex-replace="🎯 Query: $2">lisp.mreq.record.prefix.ipv6</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">lisp.nonce</param>
+    <source>
+      <address skip-inner="1" regex-match=".*: (.*)" regex-replace="$1">ipv6.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" regex-match=".*: (.*)" regex-replace="$1">ipv6.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <udpv6-message style="cerulean">
+    <opcode regex-match=".*Type: (Map-Reply) \(\d+\)" regex-replace="📣 LISP $1">lisp.type</opcode>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv4</param>
+    <param regex-match="(EID prefix.*): (.*)" regex-replace="🌐 EID: $2">lisp.mapping.eid.ipv6</param>
+    <param regex-match="(Locator): (.*)" regex-replace="📍 $1: $2">lisp.loc.locator</param>
+    <param regex-match="(TTL): (.*)" regex-replace="⏱ $1: $2">lisp.mapping.ttl</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">lisp.nonce</param>
+  </udpv6-message>
+
+  <udpv6-message style="goldenrod">
+    <opcode regex-match=".*Type: (Encapsulated Control Message) \(\d+\)" regex-replace="📨 LISP ECM">lisp.type</opcode>
+  </udpv6-message>
+
+  <udpv6-message style="amethyst">
+    <opcode regex-match=".*Type: (.*) \(\d+\)" regex-replace="🔄 LISP $1">lisp.type</opcode>
+    <param regex-match="(Record Count): (.*)" regex-replace="🔢 $1: $2">lisp.records</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">lisp.nonce</param>
+  </udpv6-message>
+
+  <!-- ============================================================
+       AMT (Automatic Multicast Tunneling)
+       ============================================================ -->
+
+  <!-- AMT Relay Discovery (gateway → relay: find relay address) -->
+  <udp-message style="sea-green">
+    <opcode regex-match=".*Type: (Relay Discovery) \(\d+\)" regex-replace="🔍 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.discovery_nonce</param>
+  </udp-message>
+
+  <!-- AMT Relay Advertisement (relay → gateway: here's my address) -->
+  <udp-message style="forest-green">
+    <opcode regex-match=".*Type: (Relay Advertisement) \(\d+\)" regex-replace="📡 AMT $1">amt.type</opcode>
+    <param regex-match="(Relay Address): (.*)" regex-replace="📍 $1: $2">amt.relay_address.ipv4</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.discovery_nonce</param>
+  </udp-message>
+
+  <!-- AMT Request (gateway → relay: request membership query) -->
+  <udp-message style="royal-blue">
+    <opcode regex-match=".*Type: (Request) \(\d+\)" regex-replace="📋 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.request_nonce</param>
+  </udp-message>
+
+  <!-- AMT Membership Query (relay → gateway: IGMP/MLD query, show outer tunnel endpoints) -->
+  <message style="cerulean">
+    <opcode regex-match=".*Type: (Membership Query) \(\d+\)" regex-replace="🔍 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.request_nonce</param>
+    <param regex-match="(Response MAC): (.*)" regex-replace="🔗 $1: $2">amt.response_mac</param>
+    <param regex-match="(Gateway.*Address): (.*)" regex-replace="🌐 $1: $2">amt.gateway.ip_address</param>
+    <source>
+      <address skip-inner="1" display="brief">ip.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" display="brief">ip.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <!-- AMT Membership Update (gateway → relay: IGMP/MLD report, show outer tunnel endpoints) -->
+  <message style="goldenrod">
+    <opcode regex-match=".*Type: (Membership Update) \(\d+\)" regex-replace="📣 AMT $1">amt.type</opcode>
+    <param regex-match="(Response MAC): (.*)" regex-replace="🔗 $1: $2">amt.response_mac</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.request_nonce</param>
+    <source>
+      <address skip-inner="1" display="brief">ip.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" display="brief">ip.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <!-- AMT Multicast Data (relay → gateway: tunneled multicast, show outer tunnel endpoints) -->
+  <message style="amethyst">
+    <opcode regex-match=".*Type: (Multicast Data) \(\d+\)" regex-replace="📦 AMT $1">amt.type</opcode>
+    <source>
+      <address skip-inner="1" display="brief">ip.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" display="brief">ip.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <!-- AMT Teardown (gateway → relay: leave tunnel) -->
+  <udp-message style="magenta">
+    <opcode regex-match=".*Type: (Teardown) \(\d+\)" regex-replace="🛑 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.request_nonce</param>
+    <param regex-match="(Response MAC): (.*)" regex-replace="🔗 $1: $2">amt.response_mac</param>
+  </udp-message>
+
+  <!-- AMT generic fallback -->
+  <udp-message style="steel-blue">
+    <opcode regex-match=".*Type: (.*) \(\d+\)" regex-replace="🔄 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.request_nonce</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.discovery_nonce</param>
+  </udp-message>
+
+  <!-- AMT IPv6 variants -->
+  <udpv6-message style="sea-green">
+    <opcode regex-match=".*Type: (Relay Discovery) \(\d+\)" regex-replace="🔍 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.discovery_nonce</param>
+  </udpv6-message>
+
+  <udpv6-message style="forest-green">
+    <opcode regex-match=".*Type: (Relay Advertisement) \(\d+\)" regex-replace="📡 AMT $1">amt.type</opcode>
+    <param regex-match="(Relay Address): (.*)" regex-replace="📍 $1: $2">amt.relay_address.ipv4</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.discovery_nonce</param>
+  </udpv6-message>
+
+  <udpv6-message style="royal-blue">
+    <opcode regex-match=".*Type: (Request) \(\d+\)" regex-replace="📋 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.request_nonce</param>
+  </udpv6-message>
+
+  <message style="cerulean">
+    <opcode regex-match=".*Type: (Membership Query) \(\d+\)" regex-replace="🔍 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.request_nonce</param>
+    <param regex-match="(Response MAC): (.*)" regex-replace="🔗 $1: $2">amt.response_mac</param>
+    <source>
+      <address skip-inner="1" regex-match=".*: (.*)" regex-replace="$1">ipv6.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" regex-match=".*: (.*)" regex-replace="$1">ipv6.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <message style="goldenrod">
+    <opcode regex-match=".*Type: (Membership Update) \(\d+\)" regex-replace="📣 AMT $1">amt.type</opcode>
+    <param regex-match="(Response MAC): (.*)" regex-replace="🔗 $1: $2">amt.response_mac</param>
+    <source>
+      <address skip-inner="1" regex-match=".*: (.*)" regex-replace="$1">ipv6.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" regex-match=".*: (.*)" regex-replace="$1">ipv6.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <message style="amethyst">
+    <opcode regex-match=".*Type: (Multicast Data) \(\d+\)" regex-replace="📦 AMT $1">amt.type</opcode>
+    <source>
+      <address skip-inner="1" regex-match=".*: (.*)" regex-replace="$1">ipv6.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" regex-match=".*: (.*)" regex-replace="$1">ipv6.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <udpv6-message style="steel-blue">
+    <opcode regex-match=".*Type: (.*) \(\d+\)" regex-replace="🔄 AMT $1">amt.type</opcode>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.request_nonce</param>
+    <param regex-match="(Nonce): (.*)" regex-replace="🔑 $1: $2">amt.discovery_nonce</param>
+  </udpv6-message>
+
+  <!-- ============================================================
+       ICMPv6 (for IPv6 tunnel traffic)
+       ============================================================ -->
+
+  <ipv6-message style="royal-blue">
+    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+  </ipv6-message>
+
+  <ipv6-message style="forest-green">
+    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param>icmpv6.resp_to</param>
+    <param>icmpv6.resptime</param>
+  </ipv6-message>
+
+  <ipv6-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+  </ipv6-message>
+
+  <!-- ============================================================
+       Generic fallbacks
+       ============================================================ -->
+
+  <!-- TCP generic (LISP reliable transport, etc.) -->
+  <tcp-message style="steel-blue">
+    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+  </tcp-message>
+
+  <!-- NOS (KA9Q, IP protocol 94) - tshark undecoded
+       NOS encapsulates IP/ICMP traffic (IP-in-IP tunnel) -->
+  <ip-message style="teal">
+    <opcode display="brief" regex-match="^94$" regex-replace="🔗 NOS (KA9Q) Tunnel">ip.proto</opcode>
+    <param regex-match="(Total Length): (.*)" regex-replace="📏 $1: $2">ip.len</param>
+    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+    <param regex-match="(Data.*): (.*)" regex-replace="📦 $1: $2">data.len</param>
+  </ip-message>
+
+  <!-- RBSCP (IP protocol 199) - tshark undecoded
+       Varying payload sizes suggest different message types:
+       4B=ack, 8B=keepalive, 16B=status, 108B+=encapsulated data -->
+  <ip-message style="teal">
+    <opcode display="brief" regex-match="^199$" regex-replace="🔗 RBSCP">ip.proto</opcode>
+    <param regex-match="(Total Length): (.*)" regex-replace="📏 $1: $2">ip.len</param>
+    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+    <param regex-match="(Data.*): (.*)" regex-replace="📦 $1: $2">data.len</param>
+  </ip-message>
+
+  <!-- Generic IP Data fallback -->
+  <ip-message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="📦 IP Data">ip.proto</opcode>
+    <param>ip.proto</param>
+  </ip-message>
+
+</FXT>

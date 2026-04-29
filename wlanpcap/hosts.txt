@@ -1,0 +1,140 @@
+# WLAN Protocol Collection Hosts File
+# WiFi frames use MAC addresses; CAPWAP uses IP addresses
+
+# ─── Common WiFi MACs (appear across many captures) ───
+00:56:cd:ee:f1:71	📱 iPhone Client
+84:b2:61:24:a2:00	📡 Cisco AP 1
+84:b2:61:24:a2:01	📡 Cisco AP 1b
+84:b2:61:3f:93:10	📡 Cisco AP 2
+00:23:5d:c9:5a:c9	🖥 Server B
+00:23:5d:c9:5a:d5	🖥 Server C
+00:23:5d:c9:5a:c2	🖥 Server E
+54:ee:75:49:f1:3e	📱 Client A
+fc:99:47:be:c0:66	📱 Client B
+f8:c2:88:07:58:80	📱 Client C
+64:bc:0c:50:4b:af	📱 Client D
+18:01:e3:04:fe:4a	📱 Client E
+40:98:4e:5c:c0:28	📱 Client F
+ec:9b:f3:30:b2:55	📱 Client G
+b8:a3:86:07:09:f8	📱 Client I
+c0:d9:62:33:fb:15	📱 Client J
+00:d7:8f:d3:53:d0	📱 Client K
+00:7f:28:4b:ab:d5	📱 Client L
+4c:0b:be:c1:0e:01	📱 Client M
+2e:cd:4a:56:03:c3	📱 Client N
+16:13:3d:88:15:99	📱 Client O
+58:f1:02:cd:3d:1a	📱 Client P
+ec:f0:0e:52:93:27	📱 Client Q
+00:6c:fd:26:70:1f	📱 Client R
+0e:dc:e9:9b:87:79	📱 Client S
+9c:fc:01:7b:7b:d0	📱 Client T
+00:1a:11:ff:ec:ed	📱 Client U
+d8:97:ba:fd:43:e8	📱 Client V
+d8:97:ba:fd:43:ea	📱 Client W
+fc:db:b3:2b:44:df	📱 Client X
+a8:9f:ba:2c:af:10	📱 Client Y
+a4:08:ea:1e:0b:5b	📡 Cisco AP 5
+68:37:e9:a1:a7:33	📱 Client Z
+6e:f0:09:65:a1:ba	📱 Client AA
+f8:e4:fb:be:37:99	📱 Client AB
+c8:a7:0a:c2:ae:9c	📱 Client AC
+3c:a8:2a:9d:a7:f8	📱 Client AD
+84:b2:61:f6:1d:0b	📡 Cisco AP 8
+00:26:ab:99:06:8a	📡 Cisco AP 6
+10:ae:60:35:91:5f	📡 Cisco AP 7
+bd:df:62:24:a2:00	📡 Cisco AP 1c
+f0:b1:61:24:a2:00	📡 Cisco AP 1d
+e0:30:bf:b1:a4:00	📡 Cisco AP 1e
+6d:c5:10:24:a2:00	📡 Cisco AP 1f
+ef:d6:bb:24:a2:00	📡 Cisco AP 1g
+ef:d6:62:24:a2:00	📡 Cisco AP 1h
+c4:30:98:f9:eb:00	📡 Cisco AP 1i
+11:ef:5e:24:a2:00	📡 Cisco AP 1j
+20:00:63:24:a2:00	📡 Cisco AP 1k
+23:b3:61:24:a2:00	📡 Cisco AP 1l
+84:b2:81:24:a2:00	📡 Cisco AP 1m
+f3:bb:61:24:a2:00	📡 Cisco AP 1n
+84:b2:61:24:3c:00	📡 Cisco AP 1o
+84:b2:61:24:76:08	📡 Cisco AP 1p
+84:b2:61:24:ac:00	📡 Cisco AP 1q
+84:b2:61:a4:4d:04	📡 Cisco AP 1r
+84:b2:61:e4:33:ca	📡 Cisco AP 1s
+84:b2:de:4f:c6:fd	📡 Cisco AP 1t
+84:b2:92:9f:3e:36	📡 Cisco AP 1u
+84:b2:ad:cb:d8:17	📡 Cisco AP 1v
+84:b2:ad:fb:ff:1b	📡 Cisco AP 1w
+84:b2:61:24:a2:0f	📡 Cisco AP 1x
+84:b2:61:3f:93:1f	📡 Cisco AP 2b
+84:51:81:f7:d9:8c	📡 Cisco AP 9
+84:ee:ba:6c:81:1b	📡 Cisco AP 10
+88:ad:43:62:64:a8	📡 Cisco AP 11a
+88:ad:43:62:64:aa	📡 Cisco AP 11b
+20:00:ec:48:ff:02	📡 Cisco AP 12
+60:e3:ac:d8:1d:84	📡 Cisco AP 13
+48:5d:36:c5:2b:b6	📡 Cisco AP 14a
+4a:5d:36:c5:2b:b7	📡 Cisco AP 14b
+b0:ae:32:72:28:6f	📡 Cisco AP 15
+34:a8:4e:d2:bf:10	📡 Rogue AP
+00:16:a4:23:6f:06	📱 Client AE
+00:bb:3a:e5:21:18	📱 Client AF
+44:65:0d:da:dd:77	📱 Client AG
+86:7a:98:55:54:3c	📱 Client AH
+8c:1a:bf:15:a4:32	📱 Client AI
+8c:3a:e3:44:23:35	📱 Client AJ
+a4:77:33:46:f4:da	📱 Client AK
+ec:1f:72:50:20:34	📱 Client AL
+ec:9b:f3:3c:64:a6	📱 Client AM
+f8:3a:29:15:72:66	📱 Client AN
+f8:5a:57:0e:58:80	📱 Client AO
+f8:c2:88:77:fc:32	📱 Client AP
+f8:fa:da:de:58:80	📱 Client AQ
+10:86:8c:3b:0f:b2	📱 Client AR
+22:86:8c:3b:0f:b2	📱 Client AS
+4a:4b:93:0f:f0:71	📱 Client AT
+60:02:92:a1:72:10	📱 Client AU
+60:02:92:a1:72:11	📱 Client AV
+72:6b:7e:59:d8:70	📱 Client AW
+77:09:27:12:f0:01	📱 Client AX
+90:72:40:26:57:99	📱 Client AY
+bc:76:5e:20:a1:9b	📱 Client AZ
+e0:3e:44:00:f1:71	📱 Client BA
+35:65:99:eb:80:2f	📱 Client BB
+90:c7:d8:9b:12:ba	📱 Client BC
+1e:30:c3:d6:7f:96	📱 Client BD
+00:00:ee:85:e2:3a	📱 Client BE
+60:f1:89:1f:cb:86	📱 Client BF
+
+# ─── Special MACs ───
+ff:ff:ff:ff:ff:ff	📢 Broadcast
+00:00:00:00:00:00	⚫ Null MAC
+01:00:5e:00:00:01	📡 IPv4 Multicast
+33:33:00:00:00:01	🌐 IPv6 All Nodes
+
+# ─── CAPWAP IP Addresses (AP ↔ WLC) ───
+10.0.40.71	📡 AP wired A
+10.0.40.72	📡 AP wired I2
+10.0.40.73	📡 AP wired I3
+10.0.40.103	📡 AP wired B
+10.0.40.104	📡 AP wired C
+10.0.40.105	📡 AP wired F
+10.0.40.106	📡 AP wired G
+10.0.41.71	📡 AP wired D
+10.0.10.31	📡 AP wired E
+10.255.255.40	📡 AP wired H
+10.0.42.72	📡 AP wired I
+10.0.40.10	🖥 WLC B
+10.0.41.10	🖥 WLC C
+10.0.41.21	🖥 WLC D
+10.0.41.23	🖥 WLC I
+10.0.41.25	🖥 WLC L
+10.0.41.27	🖥 WLC K
+10.0.41.99	🖥 WLC A
+10.0.42.10	🖥 WLC G
+10.0.42.21	🖥 WLC H
+10.0.43.10	🖥 WLC E
+10.0.43.21	🖥 WLC F
+10.0.10.254	🖥 WLC J
+192.168.1.1	🏠 Gateway
+224.0.0.251	🔍 mDNS Multicast
+0.0.0.0	⚫ No IP
+255.255.255.255	📢 Broadcast

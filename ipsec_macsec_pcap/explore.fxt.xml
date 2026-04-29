@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+FXT file for IKE/IPsec and MACsec.
+
+Emoji story for security lifecycle:
+  IKE:    🔐 Key exchange negotiation (IKEv1 Main/Aggressive/Quick, IKEv2)
+  ESP:    🔒 Encrypted tunnel data (SPI identifies SA)
+  AH:     🛡 Authenticated data (integrity without encryption)
+  EAPoL:  🔑 MACsec Key Agreement (MKA)
+  MACsec: 🔒 L2 encrypted frames
+-->
+<FXT>
+  <!-- IKE/ISAKMP -->
+  <udp-message style="amethyst">
+    <opcode
+            regex-match="Exchange type: (.*) \(\d+\)"
+            regex-replace="🔐 $1"
+        >isakmp.exchangetype</opcode>
+    <param regex-match="(Message ID): (.*)" regex-replace="🆔 $1: $2">isakmp.messageid</param>
+    <param regex-match="(Type Payload): (.*)" regex-replace="📋 $1: $2">isakmp.typepayload</param>
+    <param regex-match="(Protocol ID): (.*)" regex-replace="🔗 $1: $2">isakmp.prop.protoid</param>
+    <param regex-match="(Transform Type): (.*)" regex-replace="🔧 $1: $2">isakmp.tf.type</param>
+    <param regex-match="(Encryption Algorithm): (.*)" regex-replace="🔒 $1: $2">isakmp.tf.id.encr</param>
+    <param regex-match="(PRF Algorithm): (.*)" regex-replace="🔧 $1: $2">isakmp.tf.id.prf</param>
+    <param regex-match="(DH Group): (.*)" regex-replace="🔑 $1: $2">isakmp.tf.id.dh</param>
+    <param regex-match="(Integrity Algorithm): (.*)" regex-replace="🛡 $1: $2">isakmp.tf.id.integ</param>
+    <param regex-match="(Hash Algorithm): (.*)" regex-replace="🔧 $1: $2">isakmp.tf.id.hash</param>
+    <param regex-match="(Authentication Method): (.*)" regex-replace="🔐 $1: $2">isakmp.tf.id.auth</param>
+    <param regex-match="(Group Description): (.*)" regex-replace="🔑 $1: $2">isakmp.tf.id.group</param>
+    <param regex-match="(DH Group.*): (.*)" regex-replace="🔑 $1: $2">isakmp.key_exchange.dh_group</param>
+    <param regex-match="(Authentication Method): (.*)" regex-replace="🔐 $1: $2">isakmp.auth.method</param>
+    <param regex-match="(ID Type): (.*)" regex-replace="🆔 $1: $2">isakmp.id.type</param>
+    <param regex-match="(TS Type): (.*)" regex-replace="🎯 $1: $2">isakmp.ts.type</param>
+    <param regex-match="(Start Port): (.*)" regex-replace="📤 $1: $2">isakmp.ts.start_port</param>
+    <param regex-match="(End Port): (.*)" regex-replace="📥 $1: $2">isakmp.ts.end_port</param>
+    <param regex-match="(Starting Addr): (.*)" regex-replace="📤 $1: $2">isakmp.ts.start_ipv4</param>
+    <param regex-match="(Ending Addr): (.*)" regex-replace="📥 $1: $2">isakmp.ts.end_ipv4</param>
+    <param regex-match="(SPI): (.*)" regex-replace="🏷 $1: $2">isakmp.spi</param>
+    <param regex-match="(Notify Message Type): (.*)" regex-replace="📋 $1: $2">isakmp.notify.msgtype</param>
+  </udp-message>
+
+  <!-- ESP (Encapsulating Security Payload) -->
+  <ip-message style="steel-blue">
+    <opcode regex-match="ESP SPI: (0x\w+).*" regex-replace="🔒 ESP SPI $1">esp.spi</opcode>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">esp.sequence</param>
+    <param regex-match="Type: (.*) \(\d+\)" regex-replace="📦 Inner: $1">icmp.type</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <!-- AH (Authentication Header) -->
+  <ip-message style="teal">
+    <opcode regex-match="AH SPI: (0x\w+).*" regex-replace="🛡 AH SPI $1">ah.spi</opcode>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">ah.sequence</param>
+    <param regex-match="(Next Header): (.*)" regex-replace="📋 $1: $2">ah.next_header</param>
+    <param regex-match="Type: (.*) \(\d+\)" regex-replace="📦 Inner: $1">icmp.type</param>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <!-- EAPoL/MKA (MACsec Key Agreement) -->
+  <mac-message style="sea-green">
+    <opcode regex-match="Type: (.*) \(\d+\)" regex-replace="🔑 EAPoL $1">eapol.type</opcode>
+    <param regex-match="(Version): (.*)" regex-replace="📋 $1: $2">eapol.version</param>
+    <param regex-match="(Length): (.*)" regex-replace="📏 $1: $2">eapol.len</param>
+    <param regex-match=".*= ID: (\d+)" regex-replace="🏷 VLAN: $1">vlan.id</param>
+  </mac-message>
+
+  <!-- MACsec (L2 encrypted frames) -->
+  <mac-message style="amethyst">
+    <opcode
+        regex-match=".*TCI: 0x\w+, VER: 0x\d+, (.*)"
+        regex-replace="🔒 MACsec ($1)"
+      >macsec.TCI</opcode>
+    <param regex-match=".*AN: (0x\w+)" regex-replace="🆔 AN: $1">macsec.AN</param>
+    <param regex-match="(Packet Number): (.*)" regex-replace="🔢 $1: $2">macsec.PN</param>
+    <param regex-match="(System Identifier): (.*)" regex-replace="🆔 $1: $2">macsec.SCI.system_identifier</param>
+    <param regex-match="(Port Identifier): (.*)" regex-replace="🔗 $1: $2">macsec.SCI.port_identifier</param>
+    <param regex-match=".*= ID: (\d+)" regex-replace="🏷 VLAN: $1">vlan.id</param>
+  </mac-message>
+
+  <!-- ICMP Echo Request -->
+  <ip-message style="royal-blue">
+    <opcode
+        display="brief"
+        regex-match="^8$"
+        regex-replace="📡 ICMP Echo Request"
+      >icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <!-- ICMP Echo Reply -->
+  <ip-message style="forest-green">
+    <opcode
+        display="brief"
+        regex-match="^0$"
+        regex-replace="✅ ICMP Echo Reply"
+      >icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+</FXT>

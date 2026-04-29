@@ -1,0 +1,29 @@
+# AAA Protocol Collection Hosts
+# RADIUS, TACACS+, 802.1X, CTS SXP
+
+# Lab Router MACs (CTS SXP + 802.1X)
+aa:bb:cc:00:01:00	🖥 R1
+aa:bb:cc:00:03:00	🖥 R3
+aa:bb:cc:80:03:00	🖥 R3
+
+# 802.1X Supplicant / Authenticator MACs
+4e:a9:26:28:e1:b3	💻 Supplicant
+00:86:9a:8f:13:00	🔒 NAS
+00:86:9a:ce:0b:00	🔒 NAS
+
+# EAPOL / Broadcast
+01:80:c2:00:00:03	📡 EAPOL Multicast
+ff:ff:ff:ff:ff:ff	📡 Broadcast
+
+# CTS SXP Peers
+10.0.0.1	🖥 R1
+10.0.0.3	🖥 R3
+
+# AAA Client (NAS / Authenticator)
+10.0.0.100	🔒 NAS
+
+# AAA Server (RADIUS + TACACS+)
+10.0.0.254	🗄 AAA Server
+
+# DHCP (802.1X flows)
+255.255.255.255	📡 Broadcast

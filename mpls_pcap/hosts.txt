@@ -1,0 +1,128 @@
+# MPLS Protocol Collection Hosts
+# LDP, RSVP, LSPV, DMVPN, IGP Extensions, Multicast
+
+# Lab Router MACs (aa:bb:cc = CML/VIRL)
+aa:bb:cc:00:01:00	🖥 R1
+aa:bb:cc:00:01:10	🖥 R1
+aa:bb:cc:00:01:30	🖥 R1
+aa:bb:cc:00:02:00	🖥 R2
+aa:bb:cc:00:02:10	🖥 R2
+aa:bb:cc:00:02:20	🖥 R2
+aa:bb:cc:00:03:10	🖥 R3
+aa:bb:cc:00:03:20	🖥 R3
+aa:bb:cc:00:03:30	🖥 R3
+aa:bb:cc:00:04:10	🖥 R4
+aa:bb:cc:00:04:20	🖥 R4
+aa:bb:cc:00:04:30	🖥 R4
+aa:bb:cc:00:05:00	🖥 R5
+aa:bb:cc:00:05:10	🖥 R5
+aa:bb:cc:00:07:10	🖥 R7
+aa:bb:cc:00:09:20	🖥 R9
+aa:bb:cc:00:0a:20	🖥 R10
+aa:bb:cc:00:0d:10	🖥 R13
+aa:bb:cc:00:0f:00	🖥 R15
+aa:bb:cc:00:0f:10	🖥 R15
+aa:bb:cc:00:10:00	🖥 R16
+aa:bb:cc:00:00:01	🖥 R1
+aa:bb:cc:00:00:85	🖥 R85
+
+# MPLS-TP BFD (real hardware PEs)
+00:aa:a5:6f:dd:03	🏢 PE-A
+00:aa:a5:e9:6e:03	🏢 PE-B
+
+# Multicast MACs
+01:80:c2:00:00:15	📡 All L2 IS
+01:00:5e:00:00:02	📡 All Routers
+01:00:5e:00:00:05	📡 OSPF AllSPF
+01:00:5e:00:00:0d	📡 PIM
+01:00:5e:63:63:04	📡 SSM Multicast
+33:33:00:00:00:02	📡 All Routers v6
+ff:ff:ff:ff:ff:ff	📡 Broadcast
+
+# Loopbacks — R1/R7 are the edge PEs (CE-facing); R2/R3/R4 are P core routers
+10.0.0.1	🏢 R1 (PE)
+10.0.0.2	🚏 R2 (P)
+10.0.0.3	🚏 R3 (P)
+10.0.0.7	🏢 R7 (PE)
+10.0.0.13	🖥 R13
+10.0.0.14	🖥 R14
+10.0.0.15	🖥 R15
+10.0.0.99	🖥 R99
+
+# Point-to-Point Links
+10.1.2.1	🖥 R1
+10.1.2.2	🖥 R2
+10.1.3.1	🖥 R1
+10.1.3.3	🖥 R3
+10.1.4.1	🖥 R1
+10.1.5.1	🖥 R1
+10.1.5.5	🖥 R5
+10.2.3.2	🖥 R2
+10.2.3.3	🖥 R3
+10.2.4.2	🖥 R2
+10.2.4.4	🖥 R4
+10.2.5.2	🖥 R2
+10.2.5.5	🖥 R5
+10.3.4.3	🖥 R3
+10.3.4.4	🖥 R4
+10.3.5.3	🖥 R3
+10.3.5.5	🖥 R5
+10.4.5.4	🖥 R4
+10.4.7.4	🖥 R4
+10.4.7.7	🖥 R7
+10.5.11.11	🖥 R11
+10.11.12.12	🖥 R12
+10.13.15.13	🖥 R13
+10.13.15.15	🖥 R15
+10.15.16.15	🖥 R15
+10.15.16.16	🖥 R16
+
+# DMVPN Inner VPN Sites
+192.168.1.2	🏠 CE-VPN1-R2
+192.168.1.3	🏠 CE-VPN1-R3
+192.168.2.2	🏠 CE-VPN2-R2
+192.168.2.3	🏠 CE-VPN2-R3
+
+# CE / VPN Sites
+172.16.90.9	🏠 CE-9
+172.16.90.10	🏠 CE-10
+192.168.0.11	🏠 CE-11
+192.168.0.12	🏠 CE-12
+192.168.0.13	🏠 CE-13
+192.168.0.14	🏠 CE-14
+192.168.0.15	🏠 CE-15
+192.168.0.16	🏠 CE-16
+192.168.0.17	🏠 CE-17
+192.168.0.18	🏠 CE-18
+
+# MPLS IP Tunnel
+192.0.2.1	🖥 R1
+192.0.2.2	🖥 R2
+203.0.113.91	💻 Host A
+203.0.113.92	💻 Host B
+
+# Reserved Labels
+192.168.1.1	🖥 R1
+192.168.1.85	🖥 R85
+
+# LSPV Loopback
+127.0.0.1	🖥 LSPV Loopback
+::ffff:127.0.0.1	🖥 LSPV Loopback
+
+# Multicast
+224.0.0.2	📡 All Routers
+224.0.0.5	📡 OSPF AllSPF
+224.0.0.13	📡 PIM
+232.8.0.17	📡 SSM Group
+232.99.99.4	📡 SSM Group
+255.255.255.255	📡 Broadcast
+
+# IPv6 Loopback
+fc00::1	🏢 R1 (PE)
+fc00::2	🚏 R2 (P)
+
+# IPv6 Links
+fc00:10:2:3::3	🖥 R3
+fe80::1	🖥 R1
+fe80::2	🖥 R2
+ff02::2	📡 All Routers

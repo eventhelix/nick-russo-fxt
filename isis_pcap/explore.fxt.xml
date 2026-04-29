@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  IS-IS (Intermediate System to Intermediate System) Protocol
+
+  PDU Types:
+  - L1 HELLO (15), L2 HELLO (16), P2P HELLO (17): Neighbor discovery
+  - L1 LSP (18), L2 LSP (20): Link State PDUs (topology database)
+  - L1 CSNP (24), L2 CSNP (25): Complete Sequence Number PDUs (DB sync)
+  - L1 PSNP (26), L2 PSNP (27): Partial Sequence Number PDUs (request missing LSPs)
+
+  IS-IS runs directly over Layer 2 (mac-message), not IP.
+-->
+<FXT>
+
+  <!-- ============================================================
+       IS-IS HELLO MESSAGES
+       ============================================================ -->
+
+  <!-- IS-IS L1 LAN Hello -->
+  <mac-message style="royal-blue">
+    <opcode regex-match=".*PDU Type: (L1 HELLO).*" regex-replace="👋 IS-IS $1">isis.type</opcode>
+    <param regex-match="(SystemID.*): (.*)" regex-replace="🆔 $1: $2">isis.hello.source_id</param>
+    <param regex-match=".*address[^:]*: (.*)" regex-replace="🏠 Area: $1">isis.hello.area_address</param>
+    <param>isis.hello.holding_timer</param>
+    <param regex-match=".*Priority: (\d+)" regex-replace="Priority: $1">isis.hello.priority</param>
+    <param regex-match="(SystemID.*): (.*)" regex-replace="👑 $1: $2">isis.hello.lan_id</param>
+    <param regex-match="(IPv4 interface address): (.*)" regex-replace="🌐 $1: $2">isis.hello.clv_ipv4_int_addr</param>
+    <param>isis.hello.clv_ipv6_int_addr</param>
+  </mac-message>
+
+  <!-- IS-IS L2 LAN Hello -->
+  <mac-message style="royal-blue">
+    <opcode regex-match=".*PDU Type: (L2 HELLO).*" regex-replace="👋 IS-IS $1">isis.type</opcode>
+    <param regex-match="(SystemID.*): (.*)" regex-replace="🆔 $1: $2">isis.hello.source_id</param>
+    <param regex-match=".*address[^:]*: (.*)" regex-replace="🏠 Area: $1">isis.hello.area_address</param>
+    <param>isis.hello.holding_timer</param>
+    <param regex-match=".*Priority: (\d+)" regex-replace="Priority: $1">isis.hello.priority</param>
+    <param regex-match="(SystemID.*): (.*)" regex-replace="👑 $1: $2">isis.hello.lan_id</param>
+    <param regex-match="(IPv4 interface address): (.*)" regex-replace="🌐 $1: $2">isis.hello.clv_ipv4_int_addr</param>
+    <param>isis.hello.clv_ipv6_int_addr</param>
+  </mac-message>
+
+  <!-- IS-IS Point-to-Point Hello -->
+  <mac-message style="royal-blue">
+    <opcode regex-match=".*PDU Type: (P2P HELLO).*" regex-replace="👋 IS-IS $1">isis.type</opcode>
+    <param regex-match="(SystemID.*): (.*)" regex-replace="🆔 $1: $2">isis.hello.source_id</param>
+    <param regex-match=".*Adjacency State: (\w+).*" regex-replace="State: $1">isis.hello.adjacency_state</param>
+    <param regex-match=".*address[^:]*: (.*)" regex-replace="🏠 Area: $1">isis.hello.area_address</param>
+    <param>isis.hello.holding_timer</param>
+    <param regex-match="(IPv4 interface address): (.*)" regex-replace="🌐 $1: $2">isis.hello.clv_ipv4_int_addr</param>
+    <param>isis.hello.clv_ipv6_int_addr</param>
+  </mac-message>
+
+  <!-- ============================================================
+       IS-IS LINK STATE PDUs
+       ============================================================ -->
+
+  <!-- IS-IS Level 1 LSP -->
+  <mac-message style="sea-green">
+    <opcode regex-match=".*PDU Type: (L1 LSP).*" regex-replace="📢 IS-IS $1">isis.type</opcode>
+    <param regex-match="(LSP-ID): (.*)" regex-replace="🆔 $1: $2">isis.lsp.lsp_id</param>
+    <param regex-match="(Hostname): (.*)" regex-replace="🏷️ $1: $2">isis.lsp.hostname</param>
+    <param regex-match="(Sequence number): (.*)" regex-replace="🔢 $1: $2">isis.lsp.sequence_number</param>
+    <param>isis.lsp.remaining_life</param>
+    <param regex-match=".*address[^:]*: (.*)" regex-replace="🏠 Area: $1">isis.lsp.area_address</param>
+    <param regex-match="(IS neighbor ID): (.*)" regex-replace="👥 $1: $2">isis.lsp.ext_is_reachability.is_neighbor_id</param>
+    <param regex-match="(IPv4 prefix): (.*)" regex-replace="🌐 $1: $2">isis.lsp.ext_ip_reachability.ipv4_prefix</param>
+  </mac-message>
+
+  <!-- IS-IS Level 2 LSP -->
+  <mac-message style="sea-green dashed">
+    <opcode regex-match=".*PDU Type: (L2 LSP).*" regex-replace="📢 IS-IS $1">isis.type</opcode>
+    <param regex-match="(LSP-ID): (.*)" regex-replace="🆔 $1: $2">isis.lsp.lsp_id</param>
+    <param regex-match="(Hostname): (.*)" regex-replace="🏷️ $1: $2">isis.lsp.hostname</param>
+    <param regex-match="(Sequence number): (.*)" regex-replace="🔢 $1: $2">isis.lsp.sequence_number</param>
+    <param>isis.lsp.remaining_life</param>
+    <param regex-match=".*address[^:]*: (.*)" regex-replace="🏠 Area: $1">isis.lsp.area_address</param>
+    <param regex-match="(IS neighbor ID): (.*)" regex-replace="👥 $1: $2">isis.lsp.ext_is_reachability.is_neighbor_id</param>
+    <param regex-match="(IPv4 prefix): (.*)" regex-replace="🌐 $1: $2">isis.lsp.ext_ip_reachability.ipv4_prefix</param>
+  </mac-message>
+
+  <!-- ============================================================
+       IS-IS SEQUENCE NUMBER PDUs
+       ============================================================ -->
+
+  <!-- IS-IS Level 1 CSNP -->
+  <mac-message style="cerulean">
+    <opcode regex-match=".*PDU Type: (L1 CSNP).*" regex-replace="📋 IS-IS $1">isis.type</opcode>
+    <param regex-match="(Source-ID): (.*)" regex-replace="🆔 $1: $2">isis.csnp.source_id</param>
+    <param>isis.csnp.start_lsp_id</param>
+    <param>isis.csnp.end_lsp_id</param>
+    <param>isis.csnp.lsp_id</param>
+    <param regex-match="(LSP Sequence Number): (.*)" regex-replace="🔢 $1: $2">isis.csnp.lsp_seq_num</param>
+  </mac-message>
+
+  <!-- IS-IS Level 2 CSNP -->
+  <mac-message style="cerulean dashed">
+    <opcode regex-match=".*PDU Type: (L2 CSNP).*" regex-replace="📋 IS-IS $1">isis.type</opcode>
+    <param regex-match="(Source-ID): (.*)" regex-replace="🆔 $1: $2">isis.csnp.source_id</param>
+    <param>isis.csnp.start_lsp_id</param>
+    <param>isis.csnp.end_lsp_id</param>
+    <param>isis.csnp.lsp_id</param>
+    <param regex-match="(LSP Sequence Number): (.*)" regex-replace="🔢 $1: $2">isis.csnp.lsp_seq_num</param>
+  </mac-message>
+
+  <!-- IS-IS Level 1 PSNP -->
+  <mac-message style="teal">
+    <opcode regex-match=".*PDU Type: (L1 PSNP).*" regex-replace="🔍 IS-IS $1">isis.type</opcode>
+    <param regex-match="(Source-ID): (.*)" regex-replace="🆔 $1: $2">isis.psnp.source_id</param>
+    <param>isis.psnp.lsp_id</param>
+    <param regex-match="(LSP Sequence Number): (.*)" regex-replace="🔢 $1: $2">isis.psnp.lsp_seq_num</param>
+  </mac-message>
+
+  <!-- IS-IS Level 2 PSNP -->
+  <mac-message style="teal dashed">
+    <opcode regex-match=".*PDU Type: (L2 PSNP).*" regex-replace="🔍 IS-IS $1">isis.type</opcode>
+    <param regex-match="(Source-ID): (.*)" regex-replace="🆔 $1: $2">isis.psnp.source_id</param>
+    <param>isis.psnp.lsp_id</param>
+    <param regex-match="(LSP Sequence Number): (.*)" regex-replace="🔢 $1: $2">isis.psnp.lsp_seq_num</param>
+  </mac-message>
+
+  <!-- ============================================================
+       ARP (often seen alongside IS-IS on broadcast networks)
+       ============================================================ -->
+
+  <mac-message style="slate dashed">
+    <opcode regex-match="Opcode: (request .*)" regex-replace="ARP $1">arp.opcode</opcode>
+    <param>arp.src.hw_mac</param>
+    <param>arp.src.proto_ipv4</param>
+    <param>arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <mac-message style="slate dashed">
+    <opcode regex-match="Opcode: (reply .*)" regex-replace="ARP $1">arp.opcode</opcode>
+    <param>arp.src.hw_mac</param>
+    <param>arp.src.proto_ipv4</param>
+    <param>arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- ============================================================
+       IS-IS GENERIC FALLBACK
+       ============================================================ -->
+
+  <mac-message style="steel-blue">
+    <opcode regex-match=".*PDU Type: (.*) \(\d+\)" regex-replace="📨 IS-IS $1">isis.type</opcode>
+    <param>isis.area</param>
+    <param>isis.sys_id</param>
+  </mac-message>
+
+  <!-- IS-IS via GRE tunnel (ip-message) -->
+  <ip-message style="sea-green">
+    <opcode regex-match=".*PDU Type: (.*) \(\d+\)" regex-replace="📨 IS-IS $1">isis.type</opcode>
+    <param>isis.area</param>
+    <param>isis.sys_id</param>
+  </ip-message>
+
+</FXT>

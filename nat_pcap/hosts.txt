@@ -1,0 +1,36 @@
+# NAT Capture Hosts File
+# Hierarchical dot notation: child.parent.grandparent
+# Inside and NAT-translated share a common grandparent to group left,
+# Server uses a different grandparent to push right.
+
+# Inside clients (pre-NAT source)
+10.1.4.1                    🏠 Client-1.🏠 inside.🏢 local
+10.1.4.2                    🏠 Client-2.🏠 inside.🏢 local
+2001:db8:1:4::1             🏠 Client-1.🏠 inside.🏢 local
+2001:db8:1:4::2             🏠 Client-2.🏠 inside.🏢 local
+fc00:192:168:1::1           🏠 Client-1.🏠 inside.🏢 local
+fc00:192:168:1::2           🏠 Client-2.🏠 inside.🏢 local
+
+# Twice NAT (server alias seen by inside client)
+10.1.4.44                   🏠 Server-Alias.🏠 inside.🏢 local
+
+# NAT outside addresses (post-NAT source)
+203.0.113.44                🔄 NAT-PAT.🔄 translated.🏢 local
+203.0.113.1                 🔄 NAT-Pool-1.🔄 translated.🏢 local
+203.0.113.2                 🔄 NAT-Pool-2.🔄 translated.🏢 local
+203.0.113.3                 🔄 NAT-Pool-3.🔄 translated.🏢 local
+203.0.113.11                🔄 NAT-Twice.🔄 translated.🏢 local
+
+# NAT66 outside addresses
+2001:db8:beef:3333::1       🔄 Client-1-NAT66.🔄 translated.🏢 local
+2001:db8:beef:3333::2       🔄 Client-2-NAT66.🔄 translated.🏢 local
+
+# Stateless NAT64 mapped addresses
+fc00:6464::cb00:7101        🔄 NAT-Pool-1-v6.🔄 translated.🏢 local
+fc00:6464::cb00:7102        🔄 NAT-Pool-2-v6.🔄 translated.🏢 local
+
+# Server (destination)
+198.51.100.2                🌐 Server.🌐 outside.🌍 remote
+64:ff9b::c633:6402          🌐 Server-NAT64.🌐 outside.🌍 remote
+fc00:6464::c633:6402        🌐 Server-NAT64.🌐 outside.🌍 remote
+2222::2                     🌐 Server.🌐 outside.🌍 remote

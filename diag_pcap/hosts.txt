@@ -1,0 +1,9 @@
+# Diagnostics Protocol Collection Hosts
+# IP SLA probes and TCP/UDP service tests
+
+# Segment 12 (all captures) — R1 is the IP SLA Source/Sender, R2 is the Responder
+192.168.12.1	📍 R1 (IP SLA Source)
+192.168.12.2	📍 R2 (IP SLA Responder)
+
+# Segment 23 (path echo/jitter only) — R3 is the Responder
+192.168.23.3	📍 R3 (IP SLA Responder)

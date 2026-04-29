@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+L2VPN: L2TP tunneling, Network Virtualization overlays, inner traffic
+
+Emoji story for L2VPN lifecycle:
+  L2TPv3: 🔗 Control Setup → 📞 Session Setup → 💓 Hello → 📦 Data → 🛑 Teardown
+  Overlay: 🌐 VXLAN/Geneve/NVGRE → inner ARP/ICMP
+  OTV:    🗺 IS-IS adjacency
+-->
+<FXT>
+
+  <!-- ============================================================
+       L2TPv3 Control Messages (UDP encapsulation, port 1701)
+       ============================================================ -->
+
+  <!-- L2TPv3 Control Setup (SCCRQ/SCCRP/SCCCN) - UDP -->
+  <udp-message style="forest-green">
+    <opcode regex-match="Message Type: (Start_Control_\w+) \(\d+\)" regex-replace="🔗 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Host Name): (.*)" regex-replace="🏷 $1: $2">l2tp.avp.host_name</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+    <param regex-match="(Pseudowire Type): (.*)" regex-replace="🔗 $1: $2">l2tp.avp.pseudowire_type</param>
+    <param regex-match="(PW Type): (.*)" regex-replace="🔗 $1: $2">l2tp.cisco.pw_type</param>
+    <param regex-match="(Receive Window Size): (.*)" regex-replace="📏 $1: $2">l2tp.avp.receive_window_size</param>
+  </udp-message>
+
+  <!-- L2TPv3 Session Setup (ICRQ/ICRP/ICCN) - UDP -->
+  <udp-message style="royal-blue">
+    <opcode regex-match="Message Type: (Incoming_Call_\w+) \(\d+\)" regex-replace="📞 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Host Name): (.*)" regex-replace="🏷 $1: $2">l2tp.avp.host_name</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+    <param regex-match="(Local Session ID): (.*)" regex-replace="🆔 $1: $2">l2tp.cisco.local_session_id</param>
+    <param regex-match="(Remote Session ID): (.*)" regex-replace="🆔 $1: $2">l2tp.cisco.remote_session_id</param>
+    <param regex-match="(PW Type): (.*)" regex-replace="🔗 $1: $2">l2tp.cisco.pw_type</param>
+    <param regex-match="(Remote End ID): (.*)" regex-replace="🆔 $1: $2">l2tp.cisco.remote_end_id</param>
+  </udp-message>
+
+  <!-- L2TPv3 Teardown (CDN/StopCCN) - UDP -->
+  <udp-message style="magenta">
+    <opcode regex-match="Message Type: ((?:Call_Disconnect_Notify|Stop_Control_Notification)) \(\d+\)" regex-replace="🛑 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Result Code): (.*)" regex-replace="📋 $1: $2">l2tp.result_code</param>
+    <param regex-match="(Error Code): (.*)" regex-replace="📋 $1: $2">l2tp.avp.error_code</param>
+    <param regex-match="(Error Message): (.*)" regex-replace="📋 $1: $2">l2tp.avp.error_message</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+  </udp-message>
+
+  <!-- L2TPv3 Hello - UDP -->
+  <udp-message style="sea-green dashed">
+    <opcode regex-match="Message Type: (Hello) \(\d+\)" regex-replace="💓 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+  </udp-message>
+
+  <!-- L2TPv3 Generic control - UDP -->
+  <udp-message style="goldenrod">
+    <opcode regex-match="Message Type: (\w+) \(\d+\)" regex-replace="🔄 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Host Name): (.*)" regex-replace="🏷 $1: $2">l2tp.avp.host_name</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+  </udp-message>
+
+  <!-- L2TPv3 ZLB Ack - UDP -->
+  <udp-message style="slate dashed">
+    <opcode regex-match="(Zero Length Body message)" regex-replace="✅ L2TP ZLB">l2tp.zero_length_body_message</opcode>
+    <param regex-match="(Ns): (.*)" regex-replace="🔢 $1: $2">l2tp.Ns</param>
+    <param regex-match="(Nr): (.*)" regex-replace="🔢 $1: $2">l2tp.Nr</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+  </udp-message>
+
+  <!-- L2TPv3 Control fallback - UDP -->
+  <udp-message style="teal">
+    <opcode regex-match=".*Type: (Control Message).*" regex-replace="🔄 L2TP Control">l2tp.type</opcode>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+    <param regex-match="(Ns): (.*)" regex-replace="🔢 $1: $2">l2tp.Ns</param>
+    <param regex-match="(Nr): (.*)" regex-replace="🔢 $1: $2">l2tp.Nr</param>
+  </udp-message>
+
+  <!-- L2TPv3 Data - UDP -->
+  <udp-message style="steel-blue">
+    <opcode regex-match=".*Type: (Data Message).*" regex-replace="📦 L2TP Data">l2tp.type</opcode>
+    <param regex-match="(Session ID): (.*)" regex-replace="🆔 $1: $2">l2tp.sid</param>
+  </udp-message>
+
+  <!-- ============================================================
+       Network Virtualization Tunnels (BEFORE inner traffic templates)
+       ============================================================ -->
+
+  <!-- VXLAN -->
+  <message style="royal-blue">
+    <opcode regex-match=".*VNI.*: (\d+)" regex-replace="🌐 VXLAN VNI $1">vxlan.vni</opcode>
+    <param>vxlan.flags</param>
+    <source>
+      <address skip-inner="1" display="brief">ip.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" display="brief">ip.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <!-- Geneve -->
+  <message style="forest-green">
+    <opcode regex-match=".*VNI.*: 0x(\w+)" regex-replace="🌐 Geneve VNI 0x$1">geneve.vni</opcode>
+    <param>geneve.proto_type</param>
+    <source>
+      <address skip-inner="1" display="brief">ip.src</address>
+      <port display="brief">udp.srcport</port>
+    </source>
+    <destination>
+      <address skip-inner="1" display="brief">ip.dst</address>
+      <port display="brief">udp.dstport</port>
+    </destination>
+  </message>
+
+  <!-- NVGRE -->
+  <message style="amethyst">
+    <opcode regex-match="Protocol Type: (Transparent Ethernet bridging) \(.*\)" regex-replace="🌐 NVGRE">gre.proto</opcode>
+    <param regex-match="(Key): (.*)" regex-replace="🔑 VSID: $2">gre.key</param>
+    <source>
+      <address skip-inner="1" display="brief">ip.src</address>
+    </source>
+    <destination>
+      <address skip-inner="1" display="brief">ip.dst</address>
+    </destination>
+  </message>
+
+  <!-- STT (Stateless Transport Tunneling — no tshark dissector,
+       tunneled payload is opaque data inside TCP port 7471) -->
+  <tcp-message style="teal">
+    <opcode regex-match="^7471$" regex-replace="🔗 STT Tunnel" display="brief">tcp.dstport</opcode>
+    <param regex-match="(TCP Segment Len): (.*)" regex-replace="📏 Segment: $2 bytes">tcp.len</param>
+    <param regex-match="(Data.*): (.*)" regex-replace="📦 Payload: $2 bytes">data.len</param>
+    <remark regex-match=".*" regex-replace="💡 STT encapsulates L2 frames in TCP; inner payload is not dissected by tshark">tcp.dstport</remark>
+  </tcp-message>
+
+  <tcp-message style="teal">
+    <opcode regex-match="^7471$" regex-replace="🔗 STT Tunnel" display="brief">tcp.srcport</opcode>
+    <param regex-match="(TCP Segment Len): (.*)" regex-replace="📏 Segment: $2 bytes">tcp.len</param>
+    <param regex-match="(Data.*): (.*)" regex-replace="📦 Payload: $2 bytes">data.len</param>
+  </tcp-message>
+
+  <!-- OTV IS-IS Hello (L1 IIH for site adjacency) -->
+  <mac-message style="sea-green">
+    <opcode regex-match=".*PDU Type: (.*HELLO) \(\d+\)" regex-replace="🏢 OTV $1">isis.type</opcode>
+    <param regex-match="(Source ID): (.*)" regex-replace="🆔 $1: $2">isis.hello.source_id</param>
+    <param regex-match="(Holding Timer): (.*)" regex-replace="⏱ $1: $2">isis.hello.holding_timer</param>
+    <param regex-match="(Area Address): (.*)" regex-replace="🌐 $1: $2">isis.hello.area_address</param>
+    <param regex-match="(Adjacency State): (.*)" regex-replace="🔄 $1: $2">isis.hello.adjacency_state</param>
+    <param regex-match="(LAN ID): (.*)" regex-replace="🔗 $1: $2">isis.hello.lan_id</param>
+  </mac-message>
+
+  <!-- OTV IS-IS LSP (MAC reachability flooding between sites) -->
+  <mac-message style="amethyst">
+    <opcode regex-match=".*PDU Type: (L[12] LSP) \(\d+\)" regex-replace="📢 OTV $1">isis.type</opcode>
+    <param regex-match="(LSP ID): (.*)" regex-replace="🆔 $1: $2">isis.lsp.lsp_id</param>
+    <param regex-match="(Hostname): (.*)" regex-replace="🏷 $1: $2">isis.lsp.hostname</param>
+    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">isis.lsp.sequence_number</param>
+  </mac-message>
+
+  <!-- OTV IS-IS CSNP -->
+  <mac-message style="cerulean">
+    <opcode regex-match=".*PDU Type: (L[12] CSNP) \(\d+\)" regex-replace="📋 OTV $1">isis.type</opcode>
+    <param regex-match="(Source ID): (.*)" regex-replace="🆔 $1: $2">isis.csnp.source_id</param>
+  </mac-message>
+
+  <!-- OTV IS-IS PSNP -->
+  <mac-message style="teal">
+    <opcode regex-match=".*PDU Type: (L[12] PSNP) \(\d+\)" regex-replace="🔍 OTV $1">isis.type</opcode>
+    <param regex-match="(Source ID): (.*)" regex-replace="🆔 $1: $2">isis.psnp.source_id</param>
+  </mac-message>
+
+  <!-- OTV IS-IS generic fallback -->
+  <mac-message style="crimson">
+    <opcode regex-match=".*PDU Type: (.*) \(\d+\)" regex-replace="🔄 OTV IS-IS $1">isis.type</opcode>
+  </mac-message>
+
+  <!-- ============================================================
+       Inner Tunneled Traffic (ARP, ICMP, ICMPv6)
+       ============================================================ -->
+
+  <!-- ARP -->
+  <mac-message style="amethyst">
+    <opcode regex-match="Opcode: request.*" regex-replace="🔍 ARP Request">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <mac-message style="forest-green">
+    <opcode regex-match="Opcode: reply.*" regex-replace="✅ ARP Reply">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <mac-message style="amethyst">
+    <opcode regex-match="Opcode: (.*)" regex-replace="🔄 ARP $1">arp.opcode</opcode>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="📤 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="📥 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- ICMP Echo Request -->
+  <ip-message style="royal-blue">
+    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+  </ip-message>
+
+  <!-- ICMP Echo Reply -->
+  <ip-message style="forest-green">
+    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
+    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <param>icmp.resp_to</param>
+    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmp.resptime</param>
+  </ip-message>
+
+  <!-- ICMP generic -->
+  <ip-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMP Type $1">icmp.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+  </ip-message>
+
+  <!-- ============================================================
+       L2TPv3 Control Messages (direct IP encapsulation, proto 115)
+       ============================================================ -->
+
+  <!-- L2TPv3 Control Setup (SCCRQ/SCCRP/SCCCN) - IP -->
+  <ip-message style="forest-green">
+    <opcode regex-match="Message Type: (Start_Control_\w+) \(\d+\)" regex-replace="🔗 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Host Name): (.*)" regex-replace="🏷 $1: $2">l2tp.avp.host_name</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+    <param regex-match="(Pseudowire Type): (.*)" regex-replace="🔗 $1: $2">l2tp.avp.pseudowire_type</param>
+    <param regex-match="(PW Type): (.*)" regex-replace="🔗 $1: $2">l2tp.cisco.pw_type</param>
+    <param regex-match="(Receive Window Size): (.*)" regex-replace="📏 $1: $2">l2tp.avp.receive_window_size</param>
+  </ip-message>
+
+  <!-- L2TPv3 Session Setup (ICRQ/ICRP/ICCN) - IP -->
+  <ip-message style="royal-blue">
+    <opcode regex-match="Message Type: (Incoming_Call_\w+) \(\d+\)" regex-replace="📞 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Host Name): (.*)" regex-replace="🏷 $1: $2">l2tp.avp.host_name</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+    <param regex-match="(Local Session ID): (.*)" regex-replace="🆔 $1: $2">l2tp.cisco.local_session_id</param>
+    <param regex-match="(Remote Session ID): (.*)" regex-replace="🆔 $1: $2">l2tp.cisco.remote_session_id</param>
+    <param regex-match="(PW Type): (.*)" regex-replace="🔗 $1: $2">l2tp.cisco.pw_type</param>
+    <param regex-match="(Remote End ID): (.*)" regex-replace="🆔 $1: $2">l2tp.cisco.remote_end_id</param>
+  </ip-message>
+
+  <!-- L2TPv3 Teardown (CDN/StopCCN) - IP -->
+  <ip-message style="magenta">
+    <opcode regex-match="Message Type: ((?:Call_Disconnect_Notify|Stop_Control_Notification)) \(\d+\)" regex-replace="🛑 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Result Code): (.*)" regex-replace="📋 $1: $2">l2tp.result_code</param>
+    <param regex-match="(Error Code): (.*)" regex-replace="📋 $1: $2">l2tp.avp.error_code</param>
+    <param regex-match="(Error Message): (.*)" regex-replace="📋 $1: $2">l2tp.avp.error_message</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+  </ip-message>
+
+  <!-- L2TPv3 Hello - IP -->
+  <ip-message style="sea-green dashed">
+    <opcode regex-match="Message Type: (Hello) \(\d+\)" regex-replace="💓 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+  </ip-message>
+
+  <!-- L2TPv3 Generic control - IP -->
+  <ip-message style="goldenrod">
+    <opcode regex-match="Message Type: (\w+) \(\d+\)" regex-replace="🔄 L2TP $1">l2tp.avp.message_type</opcode>
+    <param regex-match="(Host Name): (.*)" regex-replace="🏷 $1: $2">l2tp.avp.host_name</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+  </ip-message>
+
+  <!-- L2TPv3 ZLB Ack - IP -->
+  <ip-message style="slate dashed">
+    <opcode regex-match="(Zero Length Body message)" regex-replace="✅ L2TP ZLB">l2tp.zero_length_body_message</opcode>
+    <param regex-match="(Ns): (.*)" regex-replace="🔢 $1: $2">l2tp.Ns</param>
+    <param regex-match="(Nr): (.*)" regex-replace="🔢 $1: $2">l2tp.Nr</param>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+  </ip-message>
+
+  <!-- L2TPv3 Control fallback - IP -->
+  <ip-message style="teal">
+    <opcode regex-match=".*Type: (Control Message).*" regex-replace="🔄 L2TP Control">l2tp.type</opcode>
+    <param regex-match="(Control Connection ID): (.*)" regex-replace="🆔 $1: $2">l2tp.ccid</param>
+    <param regex-match="(Ns): (.*)" regex-replace="🔢 $1: $2">l2tp.Ns</param>
+    <param regex-match="(Nr): (.*)" regex-replace="🔢 $1: $2">l2tp.Nr</param>
+  </ip-message>
+
+  <!-- L2TPv3 Data - IP -->
+  <ip-message style="steel-blue">
+    <opcode regex-match=".*Type: (Data Message).*" regex-replace="📦 L2TP Data">l2tp.type</opcode>
+    <param regex-match="(Session ID): (.*)" regex-replace="🆔 $1: $2">l2tp.sid</param>
+  </ip-message>
+
+  <!-- ============================================================
+       ICMPv6 (for tunneled IPv6 traffic)
+       ============================================================ -->
+
+  <ipv6-message style="royal-blue">
+    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+  </ipv6-message>
+
+  <ipv6-message style="forest-green">
+    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param>icmpv6.resp_to</param>
+    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmpv6.resptime</param>
+  </ipv6-message>
+
+  <!-- ICMPv6 Neighbor Solicitation -->
+  <ipv6-message style="cerulean">
+    <opcode display="brief" regex-match="^135$" regex-replace="🔍 ICMPv6 Neighbor Solicitation">icmpv6.type</opcode>
+    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.ns.target_address</param>
+    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+  </ipv6-message>
+
+  <!-- ICMPv6 Neighbor Advertisement -->
+  <ipv6-message style="teal">
+    <opcode display="brief" regex-match="^136$" regex-replace="📣 ICMPv6 Neighbor Advertisement">icmpv6.type</opcode>
+    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.na.target_address</param>
+    <param regex-match="(Target Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.target_linkaddr</param>
+  </ipv6-message>
+
+  <!-- ICMPv6 Router Solicitation -->
+  <ipv6-message style="cerulean dashed">
+    <opcode display="brief" regex-match="^133$" regex-replace="🔍 ICMPv6 Router Solicitation">icmpv6.type</opcode>
+  </ipv6-message>
+
+  <!-- ICMPv6 Router Advertisement -->
+  <ipv6-message style="teal dashed">
+    <opcode display="brief" regex-match="^134$" regex-replace="📡 ICMPv6 Router Advertisement">icmpv6.type</opcode>
+    <param regex-match="(Router Lifetime): (.*)" regex-replace="⏱ $1: $2">icmpv6.nd.ra.router_lifetime</param>
+    <param regex-match="(Prefix): (.*)" regex-replace="🌐 $1: $2">icmpv6.opt.prefix</param>
+  </ipv6-message>
+
+  <!-- ICMPv6 generic -->
+  <ipv6-message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
+    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+  </ipv6-message>
+
+  <!-- TCP generic fallback -->
+  <tcp-message style="steel-blue">
+    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
+    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+  </tcp-message>
+
+  <!-- IGMP (multicast group membership) -->
+  <ip-message style="teal">
+    <opcode regex-match="Type: (.*)" regex-replace="📡 IGMP $1">igmp.type</opcode>
+    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
+    <param>igmp.record_type</param>
+    <param>igmp.version</param>
+  </ip-message>
+
+  <!-- PIM (multicast routing) -->
+  <ip-message style="sea-green">
+    <opcode regex-match=".*Type: (Hello).*" regex-replace="👋 PIM $1">pim.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+  </ip-message>
+
+  <ip-message style="sea-green">
+    <opcode regex-match=".*Type: (.*?) \(\d+\)" regex-replace="🔄 PIM $1">pim.type</opcode>
+    <param regex-match="(Group): (.*)" regex-replace="👥 $1: $2">pim.group</param>
+    <param regex-match="(Upstream Neighbor): (.*)" regex-replace="⬆ $1: $2">pim.upstream_neighbor</param>
+    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">pim.holdtime</param>
+  </ip-message>
+
+  <!-- IP generic fallback -->
+  <ip-message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="📦 IP Data">ip.proto</opcode>
+    <param>ip.proto</param>
+  </ip-message>
+
+</FXT>

@@ -1,0 +1,10 @@
+# gRPC / gNMI / Telemetry Hosts File
+
+# gNMI captures (DevNet sandbox)
+192.168.45.1	💻 gNMI Client
+10.10.20.50	🎯 gNMI Target
+10.10.20.35	🎯 gNMI Target B
+
+# IOS-XR gRPC captures
+192.168.1.151	💻 gRPC Client
+18.206.119.175	🎯 IOS-XR Target

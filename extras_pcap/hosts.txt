@@ -1,0 +1,36 @@
+# Extras Protocol Collection Hosts
+# IPv4 options, IPv6 extension headers, UDP-Lite
+
+# IPv4 Options / Fragments (loopbacks)
+10.0.0.1	🖥 R1
+10.0.0.3	🖥 R3
+
+# IPv4 Source Route (intermediate/alternate)
+10.2.3.2	🖥 R2
+10.2.3.3	🖥 R3
+
+# IPv6 Extension Headers
+fc00::1	🖥 R1
+fc00::2	🖥 R2
+fc00::3	🖥 R3
+fc00::4	🖥 R4
+
+# IPv6 Routing Header (segment hops)
+fc00::6	🖥 R6
+fc00::7	🖥 R7
+fc00::8	🖥 R8
+fc00::9	🖥 R9
+
+# AH/ESP Tunnel Inner (IPv6-in-IPv6)
+2001:db8:14::1	🖥 R1
+2001:db8:14::4	🖥 R4
+
+# AH Tunnel Inner (IPv4-in-IPv6)
+192.168.14.1	🖥 R1
+192.168.14.4	🖥 R4
+
+# UDP-Lite
+192.0.2.1	🖥 R1
+192.0.2.2	🖥 R2
+2001:db8::1	🖥 R1
+2001:db8::2	🖥 R2

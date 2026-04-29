@@ -1,0 +1,10 @@
+# IPv6 Transition Protocol Collection Hosts
+# 6rd, 6to4, GRE, ISATAP, plain IPv4 tunnel
+
+# Tunnel Endpoints (6rd BR / 6to4 Relay; same two IPs serve both roles)
+203.0.113.1	🌉 R1 (6to4/6rd Relay)
+192.0.2.2	🌉 R2 (6to4/6rd Relay)
+
+# ISATAP
+172.16.85.85	🌉 R1 (ISATAP Router)
+198.51.100.3	🏠 R3 (ISATAP Client)

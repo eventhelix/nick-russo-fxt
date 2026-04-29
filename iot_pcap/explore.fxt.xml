@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+IoT Protocols: CoAP, MQTT, TLS, WebSocket
+
+Emoji story for each protocol:
+
+  CoAP: 📡 GET → ✅ 2.05 Content / 📤 POST → ✅ 2.01 Created / 🗑 DELETE → ✅ 2.02 Deleted
+  MQTT: 🔗 CONNECT → ✅ CONNACK → 📊 SUBSCRIBE → 📨 PUBLISH → 💓 PING → 🛑 DISCONNECT
+
+CoAP is REST for constrained IoT devices (UDP, small packets, observe pattern)
+MQTT is pub/sub messaging for IoT (TCP, topics, QoS levels, retained messages)
+-->
+<FXT>
+
+  <!-- ============================================================
+       CoAP REQUESTS (IPv4) — REST for constrained devices
+       ============================================================ -->
+
+  <!-- CoAP GET -->
+  <udp-message style="royal-blue" bookmark="true">
+    <opcode regex-match=".*GET.*" regex-replace="📡 CoAP GET">coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+    <param display="brief" regex-match="0" regex-replace="📋 Type: CON">coap.type</param>
+    <param display="brief" regex-match="1" regex-replace="📋 Type: NON">coap.type</param>
+    <remark regex-match=".*" regex-replace="💡 CoAP GET — lightweight REST read for IoT sensors; CON (Confirmable) requires ACK, NON (Non-confirmable) is fire-and-forget for periodic telemetry">coap</remark>
+  </udp-message>
+
+  <!-- CoAP POST -->
+  <udp-message style="amethyst" bookmark="true">
+    <opcode regex-match=".*POST.*" regex-replace="📤 CoAP POST">coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+    <param regex-match=".*: (.*)" regex-replace="📦 Content: $1">coap.opt.ctype</param>
+    <param regex-match="Payload Length: (.*)" regex-replace="📦 Length: $1">coap.payload_length</param>
+    <remark regex-match=".*" regex-replace="💡 CoAP POST — create resource or trigger action on IoT device; payload typically JSON or CBOR encoded sensor data or commands">coap</remark>
+  </udp-message>
+
+  <!-- CoAP PUT -->
+  <udp-message style="teal">
+    <opcode regex-match=".*PUT.*" regex-replace="🔄 CoAP PUT">coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+    <param regex-match=".*: (.*)" regex-replace="📦 Content: $1">coap.opt.ctype</param>
+    <param regex-match="Payload Length: (.*)" regex-replace="📦 Length: $1">coap.payload_length</param>
+  </udp-message>
+
+  <!-- CoAP DELETE -->
+  <udp-message style="crimson">
+    <opcode regex-match=".*DELETE.*" regex-replace="🗑 CoAP DELETE">coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+  </udp-message>
+
+  <!-- CoAP 2.xx Success -->
+  <udp-message style="forest-green">
+    <opcode regex-match=".*(2\.\d+ \w+).*" regex-replace="✅ CoAP $1">coap.code</opcode>
+    <param regex-match=".*: (.*)" regex-replace="📦 Content: $1">coap.opt.ctype</param>
+    <param regex-match="Payload Length: (.*)" regex-replace="📦 Length: $1">coap.payload_length</param>
+    <param regex-match=".*: (.*)" regex-replace="⏱ $1">coap.response_time</param>
+    <remark regex-match=".*" regex-replace="💡 CoAP 2.xx — success responses: 2.01 Created, 2.02 Deleted, 2.04 Changed, 2.05 Content (data returned); piggybacked in ACK for CON requests">coap</remark>
+  </udp-message>
+
+  <!-- CoAP 4.xx Client Error -->
+  <udp-message style="brick" bookmark="true">
+    <opcode regex-match=".*(4\.\d+ \w+).*" regex-replace="🚫 CoAP $1">coap.code</opcode>
+    <param regex-match=".*: (.*)" regex-replace="⏱ $1">coap.response_time</param>
+    <remark regex-match=".*" regex-replace="💡 CoAP 4.xx — client error: 4.04 Not Found, 4.05 Method Not Allowed, 4.01 Unauthorized; similar to HTTP 4xx but with smaller code space">coap</remark>
+  </udp-message>
+
+  <!-- CoAP 5.xx Server Error -->
+  <udp-message style="brick wave">
+    <opcode regex-match=".*(5\.\d+ \w+).*" regex-replace="💥 CoAP $1">coap.code</opcode>
+    <param regex-match=".*: (.*)" regex-replace="⏱ $1">coap.response_time</param>
+  </udp-message>
+
+  <!-- CoAP Empty (ACK without data / RST) -->
+  <udp-message style="slate dotted">
+    <opcode regex-match=".*Empty.*" regex-replace="✅ CoAP ACK">coap.code</opcode>
+    <remark regex-match=".*" regex-replace="💡 CoAP Empty ACK — acknowledges a CON message when response is not yet ready; actual response follows as a separate CON (separate response pattern)">coap</remark>
+  </udp-message>
+
+  <!-- CoAP Fallback -->
+  <udp-message style="slate">
+    <opcode>coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+  </udp-message>
+
+  <!-- ============================================================
+       CoAP REQUESTS (IPv6) — same templates for 6LoWPAN/Thread
+       ============================================================ -->
+
+  <udpv6-message style="royal-blue" bookmark="true">
+    <opcode regex-match=".*GET.*" regex-replace="📡 CoAP GET">coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+  </udpv6-message>
+
+  <udpv6-message style="amethyst">
+    <opcode regex-match=".*POST.*" regex-replace="📤 CoAP POST">coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+    <param regex-match="Payload Length: (.*)" regex-replace="📦 Length: $1">coap.payload_length</param>
+  </udpv6-message>
+
+  <udpv6-message style="teal">
+    <opcode regex-match=".*PUT.*" regex-replace="🔄 CoAP PUT">coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+  </udpv6-message>
+
+  <udpv6-message style="crimson">
+    <opcode regex-match=".*DELETE.*" regex-replace="🗑 CoAP DELETE">coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+  </udpv6-message>
+
+  <udpv6-message style="forest-green">
+    <opcode regex-match=".*(2\.\d+ \w+).*" regex-replace="✅ CoAP $1">coap.code</opcode>
+    <param regex-match="Payload Length: (.*)" regex-replace="📦 Length: $1">coap.payload_length</param>
+    <param regex-match=".*: (.*)" regex-replace="⏱ $1">coap.response_time</param>
+  </udpv6-message>
+
+  <udpv6-message style="brick">
+    <opcode regex-match=".*(4\.\d+ \w+).*" regex-replace="🚫 CoAP $1">coap.code</opcode>
+  </udpv6-message>
+
+  <udpv6-message style="brick wave">
+    <opcode regex-match=".*(5\.\d+ \w+).*" regex-replace="💥 CoAP $1">coap.code</opcode>
+  </udpv6-message>
+
+  <udpv6-message style="slate dotted">
+    <opcode regex-match=".*Empty.*" regex-replace="✅ CoAP ACK">coap.code</opcode>
+  </udpv6-message>
+
+  <udpv6-message style="slate">
+    <opcode>coap.code</opcode>
+    <param regex-match=".*/(.*)" regex-replace="📂 Path: $1">coap.opt.uri_path_recon</param>
+  </udpv6-message>
+
+  <!-- ============================================================
+       MQTT (pub/sub messaging for IoT)
+       ============================================================ -->
+
+  <!-- MQTT CONNECT -->
+  <tcp-message style="royal-blue" bookmark="true">
+    <opcode regex-match=".*Connect Command.*" regex-replace="🔗 MQTT CONNECT">mqtt.hdrflags</opcode>
+    <param regex-match="Client ID: (.*)" regex-replace="🖥 Client: $1">mqtt.clientid</param>
+    <param regex-match="Version: (.*)" regex-replace="📋 Version: $1">mqtt.ver</param>
+    <param regex-match="Keep Alive: (.*)" regex-replace="⏱ Keepalive: $1 s">mqtt.kalive</param>
+    <remark regex-match=".*" regex-replace="💡 MQTT CONNECT — client identifies itself with Client ID and requests session; Clean Session flag controls whether broker resumes previous subscriptions">mqtt</remark>
+  </tcp-message>
+
+  <!-- MQTT CONNACK -->
+  <tcp-message style="forest-green" bookmark="true">
+    <opcode regex-match=".*Connect Ack.*" regex-replace="✅ MQTT CONNACK">mqtt.hdrflags</opcode>
+    <param regex-match="Return Code: (.*)" regex-replace="📋 Result: $1">mqtt.conack.val</param>
+    <remark regex-match=".*" regex-replace="💡 MQTT CONNACK — broker accepts (0) or rejects the connection; rejection reasons: bad credentials (4/5), unauthorized (5), server unavailable (3)">mqtt</remark>
+  </tcp-message>
+
+  <!-- MQTT PUBLISH -->
+  <tcp-message style="amethyst">
+    <opcode regex-match=".*Publish Message.*" regex-replace="📨 MQTT PUBLISH">mqtt.hdrflags</opcode>
+    <param regex-match="Topic: (.*)" regex-replace="📋 Topic: $1">mqtt.topic</param>
+    <param regex-match="QoS: (.*)" regex-replace="📊 QoS: $1">mqtt.qos</param>
+    <remark regex-match=".*" regex-replace="💡 MQTT PUBLISH — sends data to a topic; QoS 0=fire-and-forget, QoS 1=at-least-once (PUBACK), QoS 2=exactly-once (4-step handshake); Retain flag stores last message for new subscribers">mqtt</remark>
+  </tcp-message>
+
+  <!-- MQTT SUBSCRIBE -->
+  <tcp-message style="teal" bookmark="true">
+    <opcode regex-match=".*Subscribe Request.*" regex-replace="📊 MQTT SUBSCRIBE">mqtt.hdrflags</opcode>
+    <param regex-match="Topic: (.*)" regex-replace="📋 Topic: $1">mqtt.topic</param>
+    <param regex-match="QoS: (.*)" regex-replace="📊 QoS: $1">mqtt.sub.qos</param>
+    <remark regex-match=".*" regex-replace="💡 MQTT SUBSCRIBE — client registers interest in topic pattern (# = all, + = single-level wildcard); broker forwards matching PUBLISH messages; QoS is max delivery guarantee">mqtt</remark>
+  </tcp-message>
+
+  <!-- MQTT SUBACK -->
+  <tcp-message style="sea-green">
+    <opcode regex-match=".*Subscribe Ack.*" regex-replace="✅ MQTT SUBACK">mqtt.hdrflags</opcode>
+    <param regex-match="Granted QoS: (.*)" regex-replace="📊 Granted QoS: $1">mqtt.suback.qos</param>
+    <remark regex-match=".*" regex-replace="💡 MQTT SUBACK — broker confirms subscription with granted QoS (may be lower than requested); Failure (128) means topic rejected">mqtt</remark>
+  </tcp-message>
+
+  <!-- MQTT UNSUBSCRIBE -->
+  <tcp-message style="tangerine">
+    <opcode regex-match=".*Unsubscribe Request.*" regex-replace="📊 MQTT UNSUBSCRIBE">mqtt.hdrflags</opcode>
+    <param regex-match="Topic: (.*)" regex-replace="📋 Topic: $1">mqtt.topic</param>
+  </tcp-message>
+
+  <!-- MQTT PUBACK -->
+  <tcp-message style="forest-green dashed">
+    <opcode regex-match=".*Publish Ack.*" regex-replace="✅ MQTT PUBACK">mqtt.hdrflags</opcode>
+  </tcp-message>
+
+  <!-- MQTT PINGREQ / PINGRESP -->
+  <tcp-message style="slate dotted">
+    <opcode regex-match=".*Ping Request.*" regex-replace="💓 MQTT PINGREQ">mqtt.hdrflags</opcode>
+    <remark regex-match=".*" regex-replace="💡 MQTT PINGREQ — keepalive heartbeat at the Keep Alive interval; if broker doesn't receive PINGREQ or any packet within 1.5x Keep Alive, it disconnects the client">mqtt</remark>
+  </tcp-message>
+
+  <tcp-message style="slate dotted">
+    <opcode regex-match=".*Ping Response.*" regex-replace="💓 MQTT PINGRESP">mqtt.hdrflags</opcode>
+  </tcp-message>
+
+  <!-- MQTT DISCONNECT -->
+  <tcp-message style="magenta" bookmark="true">
+    <opcode regex-match=".*Disconnect.*" regex-replace="🛑 MQTT DISCONNECT">mqtt.hdrflags</opcode>
+    <remark regex-match=".*" regex-replace="💡 MQTT DISCONNECT — graceful session end; broker discards Will Message; without DISCONNECT (ungraceful), broker publishes the Will Message to notify subscribers">mqtt</remark>
+  </tcp-message>
+
+  <!-- MQTT generic -->
+  <tcp-message style="steel-blue">
+    <opcode regex-match=".*Message Type: (.*?) \(.*" regex-replace="📡 MQTT $1">mqtt.hdrflags</opcode>
+  </tcp-message>
+
+  <!-- ============================================================
+       TLS (for MQTT over TLS)
+       ============================================================ -->
+
+  <tcp-message style="plum dashed" bookmark="true">
+    <opcode regex-match=".*Client Hello.*" regex-replace="🤝 TLS Client Hello">tls.handshake.type</opcode>
+    <param regex-match="Server Name: (.*)" regex-replace="🌐 SNI: $1">tls.handshake.extensions_server_name</param>
+    <param regex-match="Cipher Suite: (.*)" regex-replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
+    <remark regex-match=".*" regex-replace="💡 TLS Client Hello for MQTT over TLS (port 8883) — SNI identifies the MQTT broker; secures IoT telemetry data in transit">tls</remark>
+  </tcp-message>
+
+  <tcp-message style="teal" bookmark="true">
+    <opcode regex-match=".*Server Hello.*" regex-replace="🤝 TLS Server Hello">tls.handshake.type</opcode>
+    <param regex-match="Cipher Suite: (.*)" regex-replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
+  </tcp-message>
+
+  <tcp-message style="plum dashed">
+    <opcode regex-match="Handshake Type: (.*) \(.*\)" regex-replace="🔐 TLS $1">tls.handshake.type</opcode>
+  </tcp-message>
+
+  <tcp-message style="plum dashed">
+    <opcode regex-match=".*Change Cipher Spec.*" regex-replace="🔒 TLS Change Cipher Spec">tls.change_cipher_spec</opcode>
+  </tcp-message>
+
+  <tcp-message style="slate dashed">
+    <opcode regex-match=".*" regex-replace="🔒 TLS Application Data">tls.app_data_proto</opcode>
+  </tcp-message>
+
+  <!-- ============================================================
+       HTTP WebSocket Upgrade (precedes WebSocket data templates)
+       ============================================================ -->
+
+  <tcp-message style="royal-blue">
+    <opcode regex-match="Request Method: (GET)" regex-replace="🔄 HTTP $1 (WebSocket Upgrade)">http.request.method</opcode>
+    <param regex-match="Request URI: (.*)" regex-replace="🌐 URI: $1">http.request.uri</param>
+    <param regex-match="Host: (.*)\\\\r\\\\n" regex-replace="🏠 Host: $1">http.host</param>
+    <param regex-match=".*Protocol: (.*)\\\\r\\\\n" regex-replace="📡 Protocol: $1">http.sec_websocket_protocol</param>
+  </tcp-message>
+
+  <tcp-message style="forest-green">
+    <opcode regex-match="Status Code: (101)" regex-replace="✅ HTTP $1 Switching Protocols">http.response.code</opcode>
+    <param regex-match=".*Protocol: (.*)\\\\r\\\\n" regex-replace="📡 Protocol: $1">http.sec_websocket_protocol</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       WebSocket (for MQTT over WebSocket)
+       ============================================================ -->
+
+  <!-- WebSocket Connection Close (important — always show) -->
+  <tcp-message style="brick">
+    <opcode regex-match=".*Opcode: (Connection Close).*" regex-replace="🔌 WebSocket $1">websocket.opcode</opcode>
+    <param regex-match=".*Payload length: (\d+)" regex-replace="📦 Length: $1">websocket.payload_length</param>
+  </tcp-message>
+
+  <!-- WebSocket Binary/Text data (filtered — deduplicate data transport) -->
+  <tcp-message style="cerulean" filter="true">
+    <opcode regex-match=".*Opcode: (Text|Binary).*" regex-replace="📦 WebSocket $1">websocket.opcode</opcode>
+    <param regex-match=".*Mask: (True|False)" regex-replace="🔒 Mask: $1">websocket.mask</param>
+    <param regex-match=".*Payload length: (\d+)" regex-replace="📦 Length: $1">websocket.payload_length</param>
+  </tcp-message>
+
+  <!-- WebSocket generic fallback -->
+  <tcp-message style="cerulean dashed">
+    <opcode regex-match=".*Opcode: (.*) \(\d+\)" regex-replace="📦 WebSocket $1">websocket.opcode</opcode>
+    <param regex-match=".*Payload length: (\d+)" regex-replace="📦 Length: $1">websocket.payload_length</param>
+  </tcp-message>
+
+  <!-- ============================================================
+       TCP TRANSPORT (SYN/FIN/RST only)
+       ============================================================ -->
+
+  <tcp-message style="graphite dotted">
+    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+
+  <tcp-message style="graphite dotted">
+    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+
+  <tcp-message style="crimson dotted">
+    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+  </tcp-message>
+
+</FXT>

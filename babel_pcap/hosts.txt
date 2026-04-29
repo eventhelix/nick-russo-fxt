@@ -1,0 +1,8 @@
+# Babel Routing Protocol Hosts
+
+# Babel Routers (link-local IPv6)
+fe80::257:aeff:fe01:3802	🖥 Router A
+fe80::257:aeff:fe43:2902	🖥 Router B
+
+# Babel Multicast Group (all Babel routers)
+ff02::1:6	📡 Babel Multicast

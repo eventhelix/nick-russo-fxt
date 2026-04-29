@@ -1,0 +1,37 @@
+# HTTP Protocol Collection Hosts File
+
+# HTTP/2 over TLS (google.com)
+192.168.1.151		💻 Client
+172.217.9.238		🔒 HTTPS.🌐 Google
+
+# HTTP/1.x (Flask app)
+52.45.123.182		📡 HTTP.🖥 Server
+
+# HTTP/3 QUIC endpoints (resolved via DNS/SNI)
+52.55.120.73		🔒 QUIC.🌐 LiteSpeed
+172.217.12.164		🔒 QUIC.🌐 Google
+172.217.12.130		📊 Ads.🌐 Google
+209.85.232.157		📊 Stats.🌐 Google
+157.240.0.35		🔒 QUIC.🌐 Facebook
+192.168.1.1		🏠 Gateway
+
+# HTTP Proxy Caching
+10.1.2.1		📡 HTTP.💻 Client
+10.1.2.99		💾 Cache.🖥 Proxy
+52.216.251.11		📦 Origin.🌐 Amazon S3
+
+# JSON-RPC (Arista EOS eAPI)
+192.168.1.179		🔧 Automation.💻 Client
+54.221.2.149		🔧 Arista EOS.🖥 Switch
+23.12.144.141		🌐 Akamai CDN
+
+# WCCP
+10.1.2.2		🖥 Router B
+10.2.99.2		🔀 WCCP.🖥 Router
+10.2.99.99		🔀 WCCP.🖥 Web Cache
+54.231.97.210		📦 Origin.🌐 Amazon S3
+52.216.184.106		📦 Origin.🌐 Amazon S3
+52.216.114.138		📦 Origin.🌐 Amazon S3
+52.217.36.131		📦 Origin.🌐 Amazon S3
+52.217.81.107		📦 Origin.🌐 Amazon S3
+52.217.91.51		📦 Origin.🌐 Amazon S3

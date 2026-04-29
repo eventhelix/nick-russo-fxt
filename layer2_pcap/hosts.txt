@@ -1,0 +1,92 @@
+# Layer 2 Protocol Collection Hosts
+
+# Lab MACs (aa:bb:cc Cisco CML/VIRL)
+aa:bb:cc:00:01:00	🖥 Gi0.R1
+aa:bb:cc:00:01:10	🏢 Gi1.R1 (PPPoE BNG)
+aa:bb:cc:00:02:00	🖥 Gi0.R2
+aa:bb:cc:00:02:10	💻 Gi1.R2 (PPPoE CPE)
+aa:bb:cc:00:03:00	🖥 Gi0.R3
+aa:bb:cc:00:04:00	🖥 Gi0.R4
+
+# ISL Trunk Switch MACs
+00:23:5d:c9:5a:84	📡 Uplink.SW-A
+00:23:5d:c9:5a:c1	📡 Gi1.SW-A
+00:23:5d:c9:5a:c2	📡 Gi2.SW-A
+00:23:5d:c9:5a:c3	📡 Gi3.SW-A
+e4:d3:f1:8e:88:44	📡 Gi1.SW-B
+e4:d3:f1:8e:88:45	📡 Gi2.SW-B
+
+# Jumbo Frames
+00:81:c4:f7:1e:4f	💻 Host A
+7c:0e:ce:ca:f1:77	💻 Host B
+
+# PPPoE BNG
+52:54:00:00:9d:c4	🏢 BNG
+52:54:00:03:3c:fe	🏢 BNG
+52:54:00:16:0f:fe	💻 CPE A
+52:54:00:1a:40:3c	💻 CPE B
+
+# PPPoE Cisco FTD
+10:b3:d6:03:69:ce	🔒 FTD
+48:8f:5a:8a:42:c5	💻 Client
+
+# 802.1ah Provider Backbone
+00:00:00:00:00:01	📡 PBB Host
+
+# Untagged / 802.1Q / QinQ (IP)
+10.0.0.1	🖥 R1
+10.0.0.2	🖥 R2
+10.0.10.1	🖥 R1
+10.0.10.2	🖥 R2
+10.0.20.1	🖥 R1
+10.0.20.2	🖥 R2
+
+# 802.1ad Q-in-Q
+10.1.2.1	🖥 R1
+10.1.2.2	🖥 R2
+
+# 802.1Q Priority/DEI, 802.1ah
+192.0.2.1	🖥 R1
+192.0.2.2	🖥 R2
+
+# ISL Trunk (per-VLAN IPs)
+192.168.1.99	💻 VLAN1.Host
+192.168.1.254	📡 VLAN1.GW
+192.168.2.99	💻 VLAN2.Host
+192.168.2.254	📡 VLAN2.GW
+192.168.3.99	💻 VLAN3.Host
+192.168.3.254	📡 VLAN3.GW
+
+# PPPoE
+10.0.99.1	🏢 BNG
+10.0.99.17	💻 CPE
+192.168.10.1	🏢 BNG
+192.168.10.103	💻 CPE
+192.168.10.2	💻 Host A
+192.168.10.3	💻 Host B
+
+# Serial: HDLC
+192.168.0.1	🖥 R1
+192.168.0.2	🖥 R2
+
+# Serial: Frame Relay
+192.168.0.3	🖥 R3
+192.168.0.4	🖥 R4
+192.168.100.1	🖥 R1
+192.168.100.2	🖥 R2
+
+# Serial: PPP
+192.168.1.1	🖥 R1
+192.168.1.2	🖥 R2
+
+# Frame Relay IPv6
+fe80::1	🖥 R1
+fe80::2	🖥 R2
+
+# STP/LACP Multicast
+01:80:c2:00:00:00	📡 STP Multicast
+01:80:c2:00:00:02	📡 Slow Protocols
+
+# Broadcast
+ff:ff:ff:ff:ff:ff	📡 Broadcast
+255.255.255.255	📡 Broadcast

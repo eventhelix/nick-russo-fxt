@@ -1,0 +1,50 @@
+# IS-IS Protocol Collection Hosts
+# MAC addresses — IS-IS runs directly over Layer 2.
+# Level annotations reflect observed PDU types across all captures:
+#   R1, R2   — L2-only
+#   R3, R4   — L1/L2 border
+#   R9       — L1-only
+# R5/R6/R7/R10 participate in too few captures to assign a stable level.
+
+# Router R1 Interfaces (L2-only)
+aa:bb:cc:00:01:00	🌍 Gi0.R1 (L2-only)
+aa:bb:cc:00:01:30	🌍 Gi3.R1 (L2-only)
+
+# Router R2 Interfaces (L2-only)
+aa:bb:cc:00:02:00	🌍 Gi0.R2 (L2-only)
+aa:bb:cc:00:02:10	🌍 Gi1.R2 (L2-only)
+aa:bb:cc:00:02:20	🌍 Gi2.R2 (L2-only)
+
+# Router R3 Interfaces (L1/L2 border)
+aa:bb:cc:00:03:00	🏙️ Gi0.R3 (L1/L2)
+aa:bb:cc:00:03:20	🏙️ Gi2.R3 (L1/L2)
+aa:bb:cc:00:03:30	🏙️ Gi3.R3 (L1/L2)
+
+# Router R4 Interfaces (L1/L2 border)
+aa:bb:cc:00:04:10	🏙️ Gi1.R4 (L1/L2)
+aa:bb:cc:00:04:20	🏙️ Gi2.R4 (L1/L2)
+aa:bb:cc:00:04:30	🏙️ Gi3.R4 (L1/L2)
+
+# Router R5 Interfaces
+aa:bb:cc:00:05:00	🖥 Gi0.R5
+
+# Router R6 Interfaces
+aa:bb:cc:00:06:00	🖥 Gi0.R6
+
+# Router R7 Interfaces
+aa:bb:cc:00:07:20	🖥 Gi2.R7
+
+# Router R9 Interfaces (L1-only)
+aa:bb:cc:00:09:30	🏘️ Gi3.R9 (L1-only)
+
+# Router R10 Interfaces
+aa:bb:cc:00:0a:30	🖥 Gi3.R10
+
+# GRE Tunnel Endpoints (IP)
+203.0.113.2	🌍 R2 (L2-only)
+203.0.113.4	🏙️ R4 (L1/L2)
+
+# IS-IS Multicast
+01:80:c2:00:00:14	📡 All L1 IS
+01:80:c2:00:00:15	📡 All L2 IS
+09:00:2b:00:00:05	📡 All ES/IS

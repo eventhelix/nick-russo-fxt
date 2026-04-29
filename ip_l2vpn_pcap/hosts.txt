@@ -1,0 +1,64 @@
+# IP L2VPN Protocol Collection Hosts
+# L2TPv3, VXLAN, GENEVE, NVGRE, STT, OTV
+
+# L2TPv3 Tunnel Endpoints (Provider Edge)
+10.0.0.1	🏢 R1 (PE)
+10.0.0.3	🏢 R3 (PE)
+
+# L2TPv3 Pseudowire Inner MACs
+aa:bb:cc:00:01:10	🖥 R1
+aa:bb:cc:00:02:10	🖥 R2
+aa:bb:cc:00:04:00	🖥 R4
+aa:bb:cc:00:05:00	🖥 R5
+ff:ff:ff:ff:ff:ff	📡 Broadcast
+
+# L2TPv3 Pseudowire Inner IPs (CE sites)
+192.168.45.4	🏠 CE-45-R4
+192.168.45.5	🏠 CE-45-R5
+192.168.46.4	🏠 CE-46-R4
+192.168.46.5	🏠 CE-46-R5
+192.168.47.4	🏠 CE-47-R4
+192.168.47.5	🏠 CE-47-R5
+
+# VXLAN VTEPs
+10.0.0.4	🕸️ R4 (VTEP)
+10.0.0.5	🕸️ R5 (VTEP)
+10.2.3.2	🕸️ R2 (VTEP)
+10.2.3.3	🕸️ R3 (VTEP)
+
+# GENEVE / NVGRE / STT (outer tunnel)
+192.0.2.1	🏢 R1 (PE)
+192.0.2.2	🏢 R2 (PE)
+
+# GENEVE / NVGRE (inner payload)
+203.0.113.3	💻 Host A
+203.0.113.4	💻 Host B
+
+# GENEVE / NVGRE / STT (inner IPv6)
+2001:db8::1	💻 Host A
+2001:db8::2	💻 Host B
+fc00::3	💻 Host A
+fc00::4	💻 Host B
+
+# OTV Intrasite MACs
+00:1e:f6:2d:c6:00	📡 OTV Edge A
+00:1e:bd:ca:40:00	📡 OTV Edge B
+01:00:0c:df:df:df	📡 OTV Intrasite
+
+# OTV Edge Devices (AED role is elected per-capture, so not labeled here)
+10.0.123.1	🕸️ R1 (OTV Edge)
+10.0.123.2	🕸️ R2 (OTV Edge)
+10.0.123.3	🕸️ R3 (OTV Edge)
+
+# OTV Inner IPv6 (CE sites)
+fc00:192:168:100::4	🏠 CE-100-R4
+fc00:192:168:100::5	🏠 CE-100-R5
+fc00:192:168:200::4	🏠 CE-200-R4
+fc00:192:168:200::5	🏠 CE-200-R5
+ff02::1:ff00:5	📡 Solicited Node
+
+# Multicast
+224.0.0.13	📡 PIM
+224.0.0.22	📡 IGMP
+238.0.0.1	📡 VXLAN Multicast
+239.0.0.1	📡 OTV Multicast

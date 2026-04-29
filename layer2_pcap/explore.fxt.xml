@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FXT>
+
+  <!-- ARP Request -->
+  <mac-message style="amethyst">
+    <opcode
+            regex-match="Opcode: (request .*)"
+            regex-replace="🔍 ARP $1"
+        >arp.opcode</opcode>
+    <param regex-match=".*= (ID: \d+)" regex-replace="🏷️ VLAN $1">vlan.id</param>
+    <param>arp.src.hw_mac</param>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="🌐 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="🎯 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+  <!-- ARP Reply -->
+  <mac-message style="amethyst">
+    <opcode
+            regex-match="Opcode: (reply .*)"
+            regex-replace="🔍 ARP $1"
+        >arp.opcode</opcode>
+    <param regex-match=".*= (ID: \d+)" regex-replace="🏷️ VLAN $1">vlan.id</param>
+    <param>arp.src.hw_mac</param>
+    <param regex-match="(Sender IP address): (.*)" regex-replace="🌐 $1: $2">arp.src.proto_ipv4</param>
+    <param regex-match="(Target IP address): (.*)" regex-replace="🎯 $1: $2">arp.dst.proto_ipv4</param>
+  </mac-message>
+
+
+  <!-- IPCP: Internet Protocol Control Protocol (most specific, matched first) -->
+  <mac-message style="sea-green">
+    <opcode
+        regex-match="Type: (.*)"
+        regex-replace="🌐 IPCP $1"
+      >ipcp.opt.type</opcode>
+    <param>ppp.code</param>
+    <param>ppp.identifier</param>
+    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">ipcp.opt.ip_address</param>
+    <param regex-match="(Primary DNS Address): (.*)" regex-replace="🌐 $1: $2">ipcp.opt.pri_dns_address</param>
+    <param regex-match="(Secondary DNS Address): (.*)" regex-replace="🌐 $1: $2">ipcp.opt.sec_dns_address</param>
+  </mac-message>
+
+  <!-- IPv6CP: IPv6 Control Protocol -->
+  <mac-message style="sea-green">
+    <opcode
+        regex-match="Type: (.*)"
+        regex-replace="🌐 IPv6CP $1"
+      >ipv6cp.opt.type</opcode>
+    <param>ppp.code</param>
+    <param>ppp.identifier</param>
+    <param>ipv6cp.interface_identifier</param>
+  </mac-message>
+
+  <!-- PAP: Password Authentication Protocol -->
+  <mac-message style="crimson">
+    <opcode
+        regex-match="Code: (.*)"
+        regex-replace="🔑 PAP $1"
+      >pap.code</opcode>
+    <param>pap.identifier</param>
+    <param>pap.peer_id</param>
+    <param>pap.message</param>
+  </mac-message>
+
+  <!-- CHAP: Challenge Handshake Authentication Protocol -->
+  <mac-message style="crimson">
+    <opcode
+        regex-match="Code: (.*)"
+        regex-replace="🔑 CHAP $1"
+      >chap.code</opcode>
+    <param>chap.identifier</param>
+    <param>chap.name</param>
+  </mac-message>
+
+  <!-- PPP LCP Config Request -->
+  <mac-message style="cerulean">
+    <opcode regex-match="Code: (Configuration Request) \(\d+\)" regex-replace="📋 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <param>lcp.opt.type</param>
+    <param regex-match="(Maximum Receive Unit): (.*)" regex-replace="📏 $1: $2">lcp.opt.mru</param>
+    <param regex-match="(Magic Number): (.*)" regex-replace="🔢 $1: $2">lcp.opt.magic_number</param>
+    <param regex-match="(Authentication Protocol): (.*)" regex-replace="🔑 $1: $2">lcp.opt.auth_protocol</param>
+  </mac-message>
+
+  <!-- PPP LCP Config Ack -->
+  <mac-message style="sea-green">
+    <opcode regex-match="Code: (Configuration Ack) \(\d+\)" regex-replace="✅ PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <param>lcp.opt.type</param>
+    <param regex-match="(Maximum Receive Unit): (.*)" regex-replace="📏 $1: $2">lcp.opt.mru</param>
+    <param regex-match="(Magic Number): (.*)" regex-replace="🔢 $1: $2">lcp.opt.magic_number</param>
+  </mac-message>
+
+  <!-- PPP LCP Config Nak/Reject -->
+  <mac-message style="brick">
+    <opcode regex-match="Code: (Configuration (?:Nak|Reject)) \(\d+\)" regex-replace="🚫 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <param>lcp.opt.type</param>
+  </mac-message>
+
+  <!-- PPP Echo Request -->
+  <mac-message style="teal dashed">
+    <opcode regex-match="Code: (Echo Request) \(\d+\)" regex-replace="💓 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+  </mac-message>
+
+  <!-- PPP Echo Reply -->
+  <mac-message style="teal dashed">
+    <opcode regex-match="Code: (Echo Reply) \(\d+\)" regex-replace="💓 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+  </mac-message>
+
+  <!-- PPP Terminate -->
+  <mac-message style="goldenrod">
+    <opcode regex-match="Code: (Terminate.*) \(\d+\)" regex-replace="🛑 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+  </mac-message>
+
+  <!-- PPP Protocol Reject -->
+  <mac-message style="brick">
+    <opcode regex-match="Code: (Protocol Reject) \(\d+\)" regex-replace="🚫 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <param>ppp.protocol</param>
+  </mac-message>
+
+  <!-- PPP generic fallback -->
+  <mac-message style="forest-green">
+    <opcode regex-match="Code: (.*)" regex-replace="🔗 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+  </mac-message>
+
+  <!-- PPPoE Discovery: PADI -->
+  <mac-message style="cerulean">
+    <opcode regex-match="Code: .*(PADI).*" regex-replace="📡 PPPoE $1">pppoe.code</opcode>
+    <param>pppoe.session_id</param>
+    <param>pppoed.tags.host_uniq</param>
+  </mac-message>
+
+  <!-- PPPoE Discovery: PADO -->
+  <mac-message style="sea-green">
+    <opcode regex-match="Code: .*(PADO).*" regex-replace="📢 PPPoE $1">pppoe.code</opcode>
+    <param>pppoe.session_id</param>
+    <param>pppoed.tags.host_uniq</param>
+    <param>pppoed.tags.ac_name</param>
+  </mac-message>
+
+  <!-- PPPoE Discovery: PADR -->
+  <mac-message style="cerulean">
+    <opcode regex-match="Code: .*(PADR).*" regex-replace="📋 PPPoE $1">pppoe.code</opcode>
+    <param>pppoe.session_id</param>
+    <param>pppoed.tags.host_uniq</param>
+    <param>pppoed.tags.ac_name</param>
+  </mac-message>
+
+  <!-- PPPoE Discovery: PADS -->
+  <mac-message style="forest-green">
+    <opcode regex-match="Code: .*(PADS).*" regex-replace="✅ PPPoE $1">pppoe.code</opcode>
+    <param>pppoe.session_id</param>
+    <param>pppoed.tags.host_uniq</param>
+    <param>pppoed.tags.ac_name</param>
+  </mac-message>
+
+  <!-- PPPoE Discovery: PADT -->
+  <mac-message style="goldenrod">
+    <opcode regex-match="Code: .*(PADT).*" regex-replace="🛑 PPPoE $1">pppoe.code</opcode>
+    <param>pppoe.session_id</param>
+  </mac-message>
+
+  <!-- PPPoE Session Data / generic -->
+  <mac-message style="amethyst">
+    <opcode regex-match="Code: (.*)" regex-replace="🔗 PPPoE $1">pppoe.code</opcode>
+    <param>pppoe.session_id</param>
+  </mac-message>
+
+  <!-- Frame Relay -->
+  <mac-message style="royal-blue">
+    <opcode
+        regex-match=".*"
+        regex-replace="📦 Frame Relay"
+      >fr.control</opcode>
+    <param regex-match="(DLCI): (.*)" regex-replace="🏷️ $1: $2">fr.dlci</param>
+    <param regex-match=".*= (DE: .*)" regex-replace="🚫 $1">fr.de</param>
+    <param regex-match=".*= (FECN: .*)" regex-replace="🔜 $1">fr.fecn</param>
+    <param regex-match=".*= (BECN: .*)" regex-replace="🔙 $1">fr.becn</param>
+    <param>fr.control</param>
+  </mac-message>
+
+  <!-- Cisco HDLC SLARP keepalive -->
+  <message style="teal dashed">
+    <opcode regex-match="Packet type: (.*)" regex-replace="💓 SLARP $1">slarp.ptype</opcode>
+    <param regex-match="(Outgoing sequence number): (.*)" regex-replace="🔢 $1: $2">slarp.mysequence</param>
+    <param regex-match="(Returned sequence number): (.*)" regex-replace="🔢 $1: $2">slarp.yoursequence</param>
+    <param>slarp.reliability</param>
+    <source><address regex-match=".*" regex-replace="Local">chdlc.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">chdlc.address</address></destination>
+  </message>
+
+  <!-- Cisco HDLC generic (non-IP protocols only — IP traffic falls through to ICMP templates) -->
+  <!-- Removed: was too greedy, eclipsing ICMP ip-message templates -->
+
+  <!-- STP -->
+  <mac-message style="crimson">
+    <opcode
+        regex-match="BPDU Type: (.*) \(.*\)"
+        regex-replace="🌲 STP $1"
+      >stp.type</opcode>
+    <param>stp.bridge.hw</param>
+    <param>stp.root.hw</param>
+    <param>stp.flags</param>
+  </mac-message>
+
+  <!-- ICMP Echo Request -->
+  <ip-message style="royal-blue">
+    <opcode
+        display="brief"
+        regex-match="^8$"
+        regex-replace="📡 ICMP Echo Request"
+      >icmp.type</opcode>
+    <param regex-match=".*= (ID: \d+)" regex-replace="🏷️ VLAN $1">vlan.id</param>
+    <param regex-match=".*= Priority: (.*)" regex-replace="⭐ VLAN Priority: $1">vlan.priority</param>
+    <param regex-match=".*= DEI: (.*)" regex-replace="🚫 Drop Eligible: $1">vlan.dei</param>
+    <param regex-match=".*= I-SID: (\d+)" regex-replace="🏷️ Service Instance (I-SID): $1">ieee8021ah.isid</param>
+    <param regex-match=".*= Priority: (\d+)" regex-replace="⭐ PBB Priority: $1">ieee8021ah.priority</param>
+    <param regex-match=".*= DROP: (\d+)" regex-replace="🚫 Drop Eligible (DEI): $1">ieee8021ah.drop</param>
+    <param regex-match="(DLCI): (.*)" regex-replace="🏷️ $1: $2">fr.dlci</param>
+    <param regex-match=".*= (DE: .*)" regex-replace="🚫 $1">fr.de</param>
+    <param regex-match=".*= (FECN: .*)" regex-replace="🔜 $1">fr.fecn</param>
+    <param regex-match=".*= (BECN: .*)" regex-replace="🔙 $1">fr.becn</param>
+    <param regex-match="(Address): (.*)" regex-replace="🔗 HDLC $1: $2">chdlc.address</param>
+    <param regex-match="Total Length: (\d{4,})" regex-replace="🐘 IP Length: $1 bytes">ip.len</param>
+    <param>icmp.ident</param>
+    <param>icmp.seq</param>
+  </ip-message>
+
+  <!-- ICMP Echo Reply -->
+  <ip-message style="forest-green">
+    <opcode
+        display="brief"
+        regex-match="^0$"
+        regex-replace="✅ ICMP Echo Reply"
+      >icmp.type</opcode>
+    <param regex-match=".*= (ID: \d+)" regex-replace="🏷️ VLAN $1">vlan.id</param>
+    <param regex-match=".*= Priority: (.*)" regex-replace="⭐ VLAN Priority: $1">vlan.priority</param>
+    <param regex-match=".*= DEI: (.*)" regex-replace="🚫 Drop Eligible: $1">vlan.dei</param>
+    <param regex-match=".*= I-SID: (\d+)" regex-replace="🏷️ Service Instance (I-SID): $1">ieee8021ah.isid</param>
+    <param regex-match=".*= Priority: (\d+)" regex-replace="⭐ PBB Priority: $1">ieee8021ah.priority</param>
+    <param regex-match=".*= DROP: (\d+)" regex-replace="🚫 Drop Eligible (DEI): $1">ieee8021ah.drop</param>
+    <param regex-match="(DLCI): (.*)" regex-replace="🏷️ $1: $2">fr.dlci</param>
+    <param regex-match=".*= (DE: .*)" regex-replace="🚫 $1">fr.de</param>
+    <param regex-match=".*= (FECN: .*)" regex-replace="🔜 $1">fr.fecn</param>
+    <param regex-match=".*= (BECN: .*)" regex-replace="🔙 $1">fr.becn</param>
+    <param regex-match="(Address): (.*)" regex-replace="🔗 HDLC $1: $2">chdlc.address</param>
+    <param regex-match="Total Length: (\d{4,})" regex-replace="🐘 IP Length: $1 bytes">ip.len</param>
+    <param>icmp.ident</param>
+    <param>icmp.seq</param>
+  </ip-message>
+
+  <!-- ICMP generic -->
+  <ip-message style="steel-blue">
+    <opcode
+        display="brief"
+        regex-match="^(.+)$"
+        regex-replace="📨 ICMP Type $1"
+      >icmp.type</opcode>
+    <param regex-match=".*= (ID: \d+)" regex-replace="🏷️ VLAN $1">vlan.id</param>
+    <param regex-match=".*= Priority: (.*)" regex-replace="⭐ VLAN Priority: $1">vlan.priority</param>
+    <param regex-match=".*= DEI: (.*)" regex-replace="🚫 Drop Eligible: $1">vlan.dei</param>
+    <param regex-match=".*= I-SID: (\d+)" regex-replace="🏷️ Service Instance (I-SID): $1">ieee8021ah.isid</param>
+  </ip-message>
+
+  <!-- IPCP (non-Ethernet linktype, point-to-point) -->
+  <message style="sea-green">
+    <opcode regex-match="Type: (.*)" regex-replace="🌐 IPCP $1">ipcp.opt.type</opcode>
+    <param>ppp.code</param>
+    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">ipcp.opt.ip_address</param>
+    <param regex-match="(Primary DNS Address): (.*)" regex-replace="🌐 $1: $2">ipcp.opt.pri_dns_address</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- IPv6CP (non-Ethernet linktype, point-to-point) -->
+  <message style="sea-green">
+    <opcode regex-match="Type: (.*)" regex-replace="🌐 IPv6CP $1">ipv6cp.opt.type</opcode>
+    <param>ppp.code</param>
+    <param>ipv6cp.interface_identifier</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- PAP (non-Ethernet linktype, point-to-point) -->
+  <message style="crimson">
+    <opcode regex-match="Code: (.*)" regex-replace="🔑 PAP $1">pap.code</opcode>
+    <param>pap.identifier</param>
+    <param>pap.peer_id</param>
+    <param>pap.message</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- CHAP (non-Ethernet linktype, point-to-point) -->
+  <message style="crimson">
+    <opcode regex-match="Code: (.*)" regex-replace="🔑 CHAP $1">chap.code</opcode>
+    <param>chap.identifier</param>
+    <param>chap.name</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- PPP LCP Config Request (point-to-point) -->
+  <message style="cerulean">
+    <opcode regex-match="Code: (Configuration Request) \(\d+\)" regex-replace="📋 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <param>lcp.opt.type</param>
+    <param regex-match="(Maximum Receive Unit): (.*)" regex-replace="📏 $1: $2">lcp.opt.mru</param>
+    <param regex-match="(Magic Number): (.*)" regex-replace="🔢 $1: $2">lcp.opt.magic_number</param>
+    <param regex-match="(Authentication Protocol): (.*)" regex-replace="🔑 $1: $2">lcp.opt.auth_protocol</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- PPP LCP Config Ack (point-to-point) -->
+  <message style="sea-green">
+    <opcode regex-match="Code: (Configuration Ack) \(\d+\)" regex-replace="✅ PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <param>lcp.opt.type</param>
+    <param regex-match="(Magic Number): (.*)" regex-replace="🔢 $1: $2">lcp.opt.magic_number</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- PPP LCP Config Nak/Reject (point-to-point) -->
+  <message style="brick">
+    <opcode regex-match="Code: (Configuration (?:Nak|Reject)) \(\d+\)" regex-replace="🚫 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <param>lcp.opt.type</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- PPP Echo Request/Reply (point-to-point) -->
+  <message style="teal dashed">
+    <opcode regex-match="Code: (Echo (?:Request|Reply)) \(\d+\)" regex-replace="💓 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- PPP Terminate (point-to-point) -->
+  <message style="goldenrod">
+    <opcode regex-match="Code: (Termination .*) \(\d+\)" regex-replace="🛑 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- PPP Protocol Reject (point-to-point) -->
+  <message style="brick">
+    <opcode regex-match="Code: (Protocol Reject) \(\d+\)" regex-replace="🚫 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <param>ppp.protocol</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- PPP generic fallback (point-to-point) -->
+  <message style="forest-green">
+    <opcode regex-match="Code: (.*)" regex-replace="🔗 PPP $1">ppp.code</opcode>
+    <param>ppp.identifier</param>
+    <source><address regex-match=".*" regex-replace="Local">ppp.address</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">ppp.address</address></destination>
+  </message>
+
+  <!-- ATM AAL5 SNAP (point-to-point) -->
+  <message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="ATM AAL5">llc.dsap</opcode>
+    <param>llc.control</param>
+    <source><address regex-match=".*" regex-replace="Local">llc.dsap</address></source>
+    <destination><address regex-match=".*" regex-replace="Remote">llc.dsap</address></destination>
+  </message>
+
+  <!-- Frame Relay ICMPv6 Echo Request -->
+  <message style="royal-blue">
+    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param regex-match="(DLCI): (.*)" regex-replace="🏷️ $1: $2">fr.dlci</param>
+    <param regex-match=".*= (DE: .*)" regex-replace="🚫 $1">fr.de</param>
+    <param regex-match=".*= (FECN: .*)" regex-replace="🔜 $1">fr.fecn</param>
+    <param regex-match=".*= (BECN: .*)" regex-replace="🔙 $1">fr.becn</param>
+    <param>icmpv6.echo.identifier</param>
+    <param>icmpv6.echo.sequence_number</param>
+    <source><address display="brief">ipv6.src</address></source>
+    <destination><address display="brief">ipv6.dst</address></destination>
+  </message>
+
+  <!-- Frame Relay ICMPv6 Echo Reply -->
+  <message style="forest-green">
+    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param regex-match="(DLCI): (.*)" regex-replace="🏷️ $1: $2">fr.dlci</param>
+    <param regex-match=".*= (DE: .*)" regex-replace="🚫 $1">fr.de</param>
+    <param regex-match=".*= (FECN: .*)" regex-replace="🔜 $1">fr.fecn</param>
+    <param regex-match=".*= (BECN: .*)" regex-replace="🔙 $1">fr.becn</param>
+    <param>icmpv6.echo.identifier</param>
+    <param>icmpv6.echo.sequence_number</param>
+    <source><address display="brief">ipv6.src</address></source>
+    <destination><address display="brief">ipv6.dst</address></destination>
+  </message>
+
+  <!-- Frame Relay ICMPv6 generic -->
+  <message style="steel-blue">
+    <opcode display="brief" regex-match="^(.+)$" regex-replace="📨 ICMPv6 Type $1">icmpv6.type</opcode>
+    <param>icmpv6.code</param>
+    <source><address display="brief">ipv6.src</address></source>
+    <destination><address display="brief">ipv6.dst</address></destination>
+  </message>
+
+  <!-- IEEE 802.1ad QinQ (standard 0x88A8) -->
+  <mac-message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="🏷️ 802.1ad QinQ">ieee8021ad.id</opcode>
+    <param>ieee8021ad.id</param>
+    <param>ieee8021ad.priority</param>
+  </mac-message>
+
+  <!-- IEEE 802.1ad QinQ (legacy 0x9100/0x9200) -->
+  <mac-message style="steel-blue">
+    <opcode regex-match=".*\(0x(9100|9200)\)" regex-replace="🏷️ 802.1ad QinQ (legacy 0x$1)">eth.type</opcode>
+    <param>data.len</param>
+  </mac-message>
+
+  <!-- Ethernet Loopback (0x9000) -->
+  <mac-message style="steel-blue">
+    <opcode regex-match=".*Loopback.*" regex-replace="🔄 Ethernet Loopback">eth.type</opcode>
+    <param>data.len</param>
+  </mac-message>
+
+  <!-- RADIUS (BNG control plane) -->
+  <udp-message style="orchid">
+    <opcode regex-match="Code: (.*)" regex-replace="🔐 RADIUS $1">radius.code</opcode>
+    <param>radius.id</param>
+    <param>radius.authenticator</param>
+  </udp-message>
+
+  <!-- DHCP -->
+  <udp-message style="goldenrod">
+    <opcode regex-match=".*Message Type = (.*)" regex-replace="🏠 DHCP $1">dhcp.option.dhcp</opcode>
+    <param>dhcp.hw.mac_addr</param>
+    <param regex-match="(Your.*IP Address): (.*)" regex-replace="🌐 $1: $2">dhcp.ip.your</param>
+  </udp-message>
+
+  <!-- Generic raw Ethernet fallback via <message> -->
+  <message style="steel-blue">
+    <opcode regex-match=".*" regex-replace="Ethernet Data">eth.type</opcode>
+    <param>eth.type</param>
+    <source><address display="brief">eth.src</address></source>
+    <destination><address display="brief">eth.dst</address></destination>
+  </message>
+
+</FXT>
