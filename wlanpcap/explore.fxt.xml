@@ -31,18 +31,18 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <wifi-message bookmark="true" style="slate-blue">
     <opcode
-            regex-match="Type/Subtype: Authentication (.*)"
-            regex-replace="🔐 Authentication $1"
+            match="Type/Subtype: Authentication (.*)"
+            replace="🔐 Authentication $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Authentication Algorithm: (.*)" regex-replace="🔐 Auth: $1">wlan.fixed.auth.alg</param>
-    <param regex-match="Authentication SEQ: (.*)" regex-replace="🔢 Auth Seq: $1">wlan.fixed.auth_seq</param>
-    <param regex-match="Status code: (.*)" regex-replace="📋 Status: $1">wlan.fixed.status_code</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-    <remark regex-match=".*" regex-replace="💡 802.11 Authentication — Open System (2 frames) or SAE/WPA3 (multiple rounds); must succeed before Association">wlan</remark>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Authentication Algorithm: (.*)" replace="🔐 Auth: $1">wlan.fixed.auth.alg</param>
+    <param match="Authentication SEQ: (.*)" replace="🔢 Auth Seq: $1">wlan.fixed.auth_seq</param>
+    <param match="Status code: (.*)" replace="📋 Status: $1">wlan.fixed.status_code</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+    <remark match=".*" replace="💡 802.11 Authentication — Open System (2 frames) or SAE/WPA3 (multiple rounds); must succeed before Association">wlan</remark>
   </wifi-message>
 
   <!-- ============================================================
@@ -52,16 +52,16 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <wifi-message bookmark="true" style="brick wave">
     <opcode
-            regex-match="Type/Subtype: Deauthentication (.*)"
-            regex-replace="🚫 Deauthentication $1"
+            match="Type/Subtype: Deauthentication (.*)"
+            replace="🚫 Deauthentication $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Reason code: (.*)" regex-replace="📋 Reason: $1">wlan.fixed.reason_code</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-    <remark regex-match=".*" regex-replace="💡 Deauthentication — forces client to re-authenticate; reason codes: 1=Unspecified, 2=Auth expired, 3=Leaving, 4=Inactivity">wlan</remark>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Reason code: (.*)" replace="📋 Reason: $1">wlan.fixed.reason_code</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+    <remark match=".*" replace="💡 Deauthentication — forces client to re-authenticate; reason codes: 1=Unspecified, 2=Auth expired, 3=Leaving, 4=Inactivity">wlan</remark>
   </wifi-message>
 
   <!-- ============================================================
@@ -70,16 +70,16 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <wifi-message bookmark="true" style="brick wave">
     <opcode
-            regex-match="Type/Subtype: Disassociation (.*)"
-            regex-replace="🚫 Disassociation $1"
+            match="Type/Subtype: Disassociation (.*)"
+            replace="🚫 Disassociation $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Reason code: (.*)" regex-replace="📋 Reason: $1">wlan.fixed.reason_code</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-      <remark regex-match=".*" regex-replace="💡 Disassociation — client loses association but stays authenticated; must re-associate before sending data; reason 8=Station leaving, 6=Class 2 frame from non-authenticated">wlan</remark>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Reason code: (.*)" replace="📋 Reason: $1">wlan.fixed.reason_code</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+      <remark match=".*" replace="💡 Disassociation — client loses association but stays authenticated; must re-associate before sending data; reason 8=Station leaving, 6=Class 2 frame from non-authenticated">wlan</remark>
   </wifi-message>
 
   <!-- ============================================================
@@ -89,91 +89,91 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
   <!-- Association Request -->
   <wifi-message bookmark="true" style="forest-green">
     <opcode
-            regex-match="Type/Subtype: Association Request (.*)"
-            regex-replace="📡 Association Request $1"
+            match="Type/Subtype: Association Request (.*)"
+            replace="📡 Association Request $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param>wlan.fixed.capabilities</param>
     <param>wlan.fixed.listen_ival</param>
     <param
-            regex-match="Tag interpretation: (.*)"
-            regex-replace="📡 SSID: $1"
+            match="Tag interpretation: (.*)"
+            replace="📡 SSID: $1"
         >wlan.ssid</param>
-    <param regex-match="Auth Key Management.*: (.*)" regex-replace="🔐 AKM: $1">wlan.rsn.akms.type</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-    <remark regex-match=".*" regex-replace="💡 Association Request — client joins BSS; carries SSID, supported rates, RSN (WPA2/WPA3) capabilities; AP assigns AID in response">wlan</remark>
+    <param match="Auth Key Management.*: (.*)" replace="🔐 AKM: $1">wlan.rsn.akms.type</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+    <remark match=".*" replace="💡 Association Request — client joins BSS; carries SSID, supported rates, RSN (WPA2/WPA3) capabilities; AP assigns AID in response">wlan</remark>
   </wifi-message>
 
   <!-- Association Response -->
   <wifi-message bookmark="true" style="forest-green dashed">
     <opcode
-            regex-match="Type/Subtype: Association Response (.*)"
-            regex-replace="✅ Association Response $1"
+            match="Type/Subtype: Association Response (.*)"
+            replace="✅ Association Response $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Status code: (.*)" regex-replace="📋 Status: $1">wlan.fixed.status_code</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🆔 AID: $1">wlan.fixed.aid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-      <remark regex-match=".*" regex-replace="💡 Association Response — AP accepts/rejects client; Status 0=Success; assigns AID (Association ID) used for PS-Poll and TIM bitmap addressing">wlan</remark>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Status code: (.*)" replace="📋 Status: $1">wlan.fixed.status_code</param>
+    <param display="brief" match="(.*)" replace="🆔 AID: $1">wlan.fixed.aid</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+      <remark match=".*" replace="💡 Association Response — AP accepts/rejects client; Status 0=Success; assigns AID (Association ID) used for PS-Poll and TIM bitmap addressing">wlan</remark>
   </wifi-message>
 
   <!-- Reassociation Request -->
   <wifi-message bookmark="true" style="forest-green dashed">
     <opcode
-            regex-match="Type/Subtype: Reassociation Request (.*)"
-            regex-replace="🔄 Reassociation Request $1"
+            match="Type/Subtype: Reassociation Request (.*)"
+            replace="🔄 Reassociation Request $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Current AP: (.*)" regex-replace="📡 Current AP: $1">wlan.fixed.current_ap</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Current AP: (.*)" replace="📡 Current AP: $1">wlan.fixed.current_ap</param>
     <param
-            regex-match="Tag interpretation: (.*)"
-            regex-replace="📡 SSID: $1"
+            match="Tag interpretation: (.*)"
+            replace="📡 SSID: $1"
         >wlan.ssid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-    <remark regex-match=".*" regex-replace="💡 Reassociation Request — client roams to new AP within same ESS; carries Current AP MAC so new AP can request PMK from old AP (fast roaming) or via RADIUS">wlan</remark>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+    <remark match=".*" replace="💡 Reassociation Request — client roams to new AP within same ESS; carries Current AP MAC so new AP can request PMK from old AP (fast roaming) or via RADIUS">wlan</remark>
   </wifi-message>
 
   <!-- Reassociation Response -->
   <wifi-message bookmark="true" style="forest-green dashed">
     <opcode
-            regex-match="Type/Subtype: Reassociation Response (.*)"
-            regex-replace="✅ Reassociation Response $1"
+            match="Type/Subtype: Reassociation Response (.*)"
+            replace="✅ Reassociation Response $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Status code: (.*)" regex-replace="📋 Status: $1">wlan.fixed.status_code</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🆔 AID: $1">wlan.fixed.aid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-      <remark regex-match=".*" regex-replace="💡 Reassociation Response — new AP accepts roaming client; AID may change; PMK transfer via OKC, 802.11r FT, or CCKM enables fast secure roaming without full re-auth">wlan</remark>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Status code: (.*)" replace="📋 Status: $1">wlan.fixed.status_code</param>
+    <param display="brief" match="(.*)" replace="🆔 AID: $1">wlan.fixed.aid</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+      <remark match=".*" replace="💡 Reassociation Response — new AP accepts roaming client; AID may change; PMK transfer via OKC, 802.11r FT, or CCKM enables fast secure roaming without full re-auth">wlan</remark>
   </wifi-message>
 
   <!-- Generic Association catch-all -->
   <wifi-message bookmark="true" style="forest-green dashed">
     <opcode
-            regex-match="Type/Subtype: Association (.*)"
-            regex-replace="📡 Association $1"
+            match="Type/Subtype: Association (.*)"
+            replace="📡 Association $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Status code: (.*)" regex-replace="📋 Status: $1">wlan.fixed.status_code</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Status code: (.*)" replace="📋 Status: $1">wlan.fixed.status_code</param>
     <param
-            regex-match="Tag interpretation: (.*)"
-            regex-replace="📡 SSID: $1"
+            match="Tag interpretation: (.*)"
+            replace="📡 SSID: $1"
         >wlan.ssid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -182,20 +182,20 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <wifi-message bookmark="true" style="crimson">
     <opcode
-            regex-match="Type: (Key).*"
-            regex-replace="🔐 EAPOL $1"
+            match="Type: (Key).*"
+            replace="🔐 EAPOL $1"
         >eapol.type</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param>eapol.keydes.type</param>
     <param>wlan_rsna_eapol.keydes.key_info</param>
     <param>eapol.keydes.key_len</param>
     <param>eapol.keydes.replay_counter</param>
     <param>wlan_rsna_eapol.keydes.nonce</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-    <remark regex-match=".*" regex-replace="💡 EAPOL 4-Way Handshake — derives PTK from PMK; Msg 1: ANonce, Msg 2: SNonce+MIC, Msg 3: GTK, Msg 4: Confirm; completes encryption key installation">wlan</remark>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+    <remark match=".*" replace="💡 EAPOL 4-Way Handshake — derives PTK from PMK; Msg 1: ANonce, Msg 2: SNonce+MIC, Msg 3: GTK, Msg 4: Confirm; completes encryption key installation">wlan</remark>
   </wifi-message>
 
   <!-- ============================================================
@@ -206,54 +206,54 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
   <!-- Probe Request -->
   <wifi-message style="sea-green">
     <opcode
-            regex-match="Type/Subtype: Probe Request (.*)"
-            regex-replace="🔍 Probe Request $1"
+            match="Type/Subtype: Probe Request (.*)"
+            replace="🔍 Probe Request $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param
-            regex-match="Tag interpretation: (.*)"
-            regex-replace="📡 SSID: $1"
+            match="Tag interpretation: (.*)"
+            replace="📡 SSID: $1"
         >wlan.ssid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-      <remark regex-match=".*" regex-replace="💡 Probe Request — active scanning: client solicits responses from APs; directed (specific SSID) or wildcard (broadcast SSID); faster than passive scanning (beacon-only)">wlan</remark>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+      <remark match=".*" replace="💡 Probe Request — active scanning: client solicits responses from APs; directed (specific SSID) or wildcard (broadcast SSID); faster than passive scanning (beacon-only)">wlan</remark>
   </wifi-message>
 
   <!-- Probe Response -->
   <wifi-message style="sea-green dashed">
     <opcode
-            regex-match="Type/Subtype: Probe Response (.*)"
-            regex-replace="📋 Probe Response $1"
+            match="Type/Subtype: Probe Response (.*)"
+            replace="📋 Probe Response $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param
-            regex-match="Tag interpretation: (.*)"
-            regex-replace="📡 SSID: $1"
+            match="Tag interpretation: (.*)"
+            replace="📡 SSID: $1"
         >wlan.ssid</param>
     <param>wlan.fixed.capabilities</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-      <remark regex-match=".*" regex-replace="💡 Probe Response — AP replies with capabilities (SSID, rates, RSN, channel); client uses signal strength + capabilities to select best AP for association">wlan</remark>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+      <remark match=".*" replace="💡 Probe Response — AP replies with capabilities (SSID, rates, RSN, channel); client uses signal strength + capabilities to select best AP for association">wlan</remark>
   </wifi-message>
 
   <!-- Generic Probe catch-all -->
   <wifi-message style="sea-green">
     <opcode
-            regex-match="Type/Subtype: Probe (.*)"
-            regex-replace="🔍 Probe $1"
+            match="Type/Subtype: Probe (.*)"
+            replace="🔍 Probe $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param
-            regex-match="Tag interpretation: (.*)"
-            regex-replace="📡 SSID: $1"
+            match="Tag interpretation: (.*)"
+            replace="📡 SSID: $1"
         >wlan.ssid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -263,19 +263,19 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: Beacon (.*)"
-            regex-replace="📡 Beacon $1"
+            match="Type/Subtype: Beacon (.*)"
+            replace="📡 Beacon $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
     <param
-            regex-match="Tag interpretation: (.*)"
-            regex-replace="📡 SSID: $1"
+            match="Tag interpretation: (.*)"
+            replace="📡 SSID: $1"
         >wlan.ssid</param>
     <param>wlan.fixed.beacon</param>
     <param>wlan.tim.dtim_count</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-      <remark regex-match=".*" regex-replace="💡 Beacon — AP announces its presence at Beacon Interval (usually 100 TU = 102.4ms); carries SSID, supported rates, DTIM count, RSN info; basis for passive scanning">wlan</remark>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+      <remark match=".*" replace="💡 Beacon — AP announces its presence at Beacon Interval (usually 100 TU = 102.4ms); carries SSID, supported rates, DTIM count, RSN info; basis for passive scanning">wlan</remark>
   </wifi-message>
 
   <!-- ============================================================
@@ -286,31 +286,31 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
   <!-- Action No Ack (WiFi 6/7 - no acknowledgement required) -->
   <wifi-message bookmark="true" style="amethyst">
     <opcode
-            regex-match="Type/Subtype: Action No Ack (.*)"
-            regex-replace="📋 Action No Ack $1"
+            match="Type/Subtype: Action No Ack (.*)"
+            replace="📋 Action No Ack $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Category code: (.*)" regex-replace="📋 Category: $1">wlan.fixed.category_code</param>
-    <param regex-match="Action code: (.*)" regex-replace="📋 Action: $1">wlan.fixed.action_code</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Category code: (.*)" replace="📋 Category: $1">wlan.fixed.category_code</param>
+    <param match="Action code: (.*)" replace="📋 Action: $1">wlan.fixed.action_code</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- Action -->
   <wifi-message style="amethyst">
     <opcode
-            regex-match="Type/Subtype: Action (.*)"
-            regex-replace="📋 Action $1"
+            match="Type/Subtype: Action (.*)"
+            replace="📋 Action $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="Category code: (.*)" regex-replace="📋 Category: $1">wlan.fixed.category_code</param>
-    <param regex-match="Action code: (.*)" regex-replace="📋 Action: $1">wlan.fixed.action_code</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="Category code: (.*)" replace="📋 Category: $1">wlan.fixed.category_code</param>
+    <param match="Action code: (.*)" replace="📋 Action: $1">wlan.fixed.action_code</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -319,14 +319,14 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: Measurement Pilot (.*)"
-            regex-replace="📦 Measurement Pilot $1"
+            match="Type/Subtype: Measurement Pilot (.*)"
+            replace="📦 Measurement Pilot $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -337,155 +337,155 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
   <!-- Data + CF-Ack + CF-Poll -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: Data \+ CF-Ack \+ CF-Poll (.*)"
-            regex-replace="📦 Data+CF-Ack+CF-Poll $1"
+            match="Type/Subtype: Data \+ CF-Ack \+ CF-Poll (.*)"
+            replace="📦 Data+CF-Ack+CF-Poll $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- Data + CF-Ack -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: Data \+ CF-Ack (.*)"
-            regex-replace="📦 Data+CF-Ack $1"
+            match="Type/Subtype: Data \+ CF-Ack (.*)"
+            replace="📦 Data+CF-Ack $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- QoS Data + CF-Acknowledgment -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: QoS Data \+ CF-Acknowledgment (.*)"
-            regex-replace="📦 QoS Data+CF-Ack $1"
+            match="Type/Subtype: QoS Data \+ CF-Acknowledgment (.*)"
+            replace="📦 QoS Data+CF-Ack $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param>wlan.qos.tid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- QoS CF-Poll -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: QoS CF-Poll (.*)"
-            regex-replace="📦 QoS CF-Poll $1"
+            match="Type/Subtype: QoS CF-Poll (.*)"
+            replace="📦 QoS CF-Poll $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param>wlan.qos.tid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- QoS Data -->
   <wifi-message filter="true" style="crimson">
     <opcode
-            regex-match="Type/Subtype: QoS Data (.*)"
-            regex-replace="📦 QoS Data $1"
+            match="Type/Subtype: QoS Data (.*)"
+            replace="📦 QoS Data $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param display="brief" regex-match="(\d+)" regex-replace="🎯 TID: $1">wlan.qos.tid</param>
-    <param regex-match=".*Priority: (.*)" regex-replace="📊 Priority: $1">wlan.qos.priority</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-    <remark regex-match=".*" regex-replace="💡 802.11 QoS Data — TID (Traffic Identifier) maps to WMM Access Category: TID 0-2=Best Effort (AC_BE), 3=Background (AC_BK), 4-5=Video (AC_VI), 6-7=Voice (AC_VO)">wlan</remark>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🎯 TID: $1">wlan.qos.tid</param>
+    <param match=".*Priority: (.*)" replace="📊 Priority: $1">wlan.qos.priority</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+    <remark match=".*" replace="💡 802.11 QoS Data — TID (Traffic Identifier) maps to WMM Access Category: TID 0-2=Best Effort (AC_BE), 3=Background (AC_BK), 4-5=Video (AC_VI), 6-7=Voice (AC_VO)">wlan</remark>
   </wifi-message>
 
   <!-- Regular Data -->
   <wifi-message filter="true" style="crimson">
     <opcode
-            regex-match="Type/Subtype: Data (.*)"
-            regex-replace="📦 Data $1"
+            match="Type/Subtype: Data (.*)"
+            replace="📦 Data $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param>wlan.tkip.extiv</param>
     <param>wlan.ccmp.extiv</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- Null Data (Power Management) -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: Null (.*)"
-            regex-replace="💤 Null $1"
+            match="Type/Subtype: Null (.*)"
+            replace="💤 Null $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*PWR MGT: (.*)" regex-replace="💤 Power: $1">wlan.fc.pwrmgt</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
-      <remark regex-match=".*" regex-replace="💡 Null Data — no payload; used for power management signaling: PWR MGT=1 tells AP the client is going to sleep (AP buffers frames); PWR MGT=0 means client is awake">wlan</remark>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*PWR MGT: (.*)" replace="💤 Power: $1">wlan.fc.pwrmgt</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
+      <remark match=".*" replace="💡 Null Data — no payload; used for power management signaling: PWR MGT=1 tells AP the client is going to sleep (AP buffers frames); PWR MGT=0 means client is awake">wlan</remark>
   </wifi-message>
 
   <!-- QoS Null -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: QoS Null (.*)"
-            regex-replace="💤 QoS Null $1"
+            match="Type/Subtype: QoS Null (.*)"
+            replace="💤 QoS Null $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*PWR MGT: (.*)" regex-replace="💤 Power: $1">wlan.fc.pwrmgt</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*PWR MGT: (.*)" replace="💤 Power: $1">wlan.fc.pwrmgt</param>
     <param>wlan.qos.tid</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- CF-Poll (No data) -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: CF-Poll (.*)"
-            regex-replace="📦 CF-Poll $1"
+            match="Type/Subtype: CF-Poll (.*)"
+            replace="📦 CF-Poll $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- CF-Ack/Poll (No data) -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: CF-Ack/Poll (.*)"
-            regex-replace="📦 CF-Ack/Poll $1"
+            match="Type/Subtype: CF-Ack/Poll (.*)"
+            replace="📦 CF-Ack/Poll $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- Acknowledgement (No data) - Data subtype, different from control ACK -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: Acknowledgement \(No data\) (.*)"
-            regex-replace="📦 Ack (No data) $1"
+            match="Type/Subtype: Acknowledgement \(No data\) (.*)"
+            replace="📦 Ack (No data) $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -495,144 +495,144 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
   <!-- TWT Ack (WiFi 6E/7 - Target Wake Time) -->
   <wifi-message filter="true" style="teal">
     <opcode
-            regex-match="Type/Subtype: TWT Ack (.*)"
-            regex-replace="⏰ TWT Ack $1"
+            match="Type/Subtype: TWT Ack (.*)"
+            replace="⏰ TWT Ack $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
-    <param regex-match="Transmitter address: (.*)" regex-replace="📡 TA: $1">wlan.ta</param>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
-      <remark regex-match=".*" regex-replace="💡 TWT (Target Wake Time) — WiFi 6/6E power saving: AP and client agree on specific wake-up schedules, reducing contention and extending battery life for IoT devices">wlan</remark>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
+    <param match="Transmitter address: (.*)" replace="📡 TA: $1">wlan.ta</param>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
+      <remark match=".*" replace="💡 TWT (Target Wake Time) — WiFi 6/6E power saving: AP and client agree on specific wake-up schedules, reducing contention and extending battery life for IoT devices">wlan</remark>
   </wifi-message>
 
   <!-- VHT/HE/EHT/RANGING NDP Announcement (Beamforming sounding) -->
   <wifi-message filter="true" style="teal">
     <opcode
-            regex-match="Type/Subtype: VHT/HE/EHT/RANGING NDP Announcement (.*)"
-            regex-replace="📡 NDP Announcement $1"
+            match="Type/Subtype: VHT/HE/EHT/RANGING NDP Announcement (.*)"
+            replace="📡 NDP Announcement $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
-    <param regex-match="Transmitter address: (.*)" regex-replace="📡 TA: $1">wlan.ta</param>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
-      <remark regex-match=".*" regex-replace="💡 NDP Announcement — precedes Null Data Packet for channel sounding; AP announces which STAs should send beamforming feedback; enables MU-MIMO and OFDMA in WiFi 6/7">wlan</remark>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
+    <param match="Transmitter address: (.*)" replace="📡 TA: $1">wlan.ta</param>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
+      <remark match=".*" replace="💡 NDP Announcement — precedes Null Data Packet for channel sounding; AP announces which STAs should send beamforming feedback; enables MU-MIMO and OFDMA in WiFi 6/7">wlan</remark>
   </wifi-message>
 
   <!-- Beamforming Report Poll -->
   <wifi-message style="teal">
     <opcode
-            regex-match="Type/Subtype: Beamforming Report Poll (.*)"
-            regex-replace="📡 BF Report Poll $1"
+            match="Type/Subtype: Beamforming Report Poll (.*)"
+            replace="📡 BF Report Poll $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
-    <remark regex-match=".*" regex-replace="💡 Beamforming Report Poll — AP requests channel sounding feedback from client; client responds with beamforming report so AP can steer antenna pattern for optimal MIMO performance">wlan</remark>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
+    <remark match=".*" replace="💡 Beamforming Report Poll — AP requests channel sounding feedback from client; client responds with beamforming report so AP can steer antenna pattern for optimal MIMO performance">wlan</remark>
   </wifi-message>
 
   <!-- Trigger (HE/EHT OFDMA) -->
   <wifi-message filter="true" style="teal">
     <opcode
-            regex-match="Type/Subtype: Trigger (.*)"
-            regex-replace="📡 Trigger $1"
+            match="Type/Subtype: Trigger (.*)"
+            replace="📡 Trigger $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
-    <param regex-match="Transmitter address: (.*)" regex-replace="📡 TA: $1">wlan.ta</param>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
-      <remark regex-match=".*" regex-replace="💡 Trigger frame — WiFi 6/7 OFDMA: AP triggers simultaneous uplink transmissions from multiple clients on different resource units (RUs); key to uplink MU-MIMO and OFDMA">wlan</remark>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
+    <param match="Transmitter address: (.*)" replace="📡 TA: $1">wlan.ta</param>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
+      <remark match=".*" replace="💡 Trigger frame — WiFi 6/7 OFDMA: AP triggers simultaneous uplink transmissions from multiple clients on different resource units (RUs); key to uplink MU-MIMO and OFDMA">wlan</remark>
   </wifi-message>
 
   <!-- Control Wrapper -->
   <wifi-message filter="true" style="teal">
     <opcode
-            regex-match="Type/Subtype: Control Wrapper (.*)"
-            regex-replace="📦 Control Wrapper $1"
+            match="Type/Subtype: Control Wrapper (.*)"
+            replace="📦 Control Wrapper $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
-    <param regex-match="Transmitter address: (.*)" regex-replace="📡 TA: $1">wlan.ta</param>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
+    <param match="Transmitter address: (.*)" replace="📡 TA: $1">wlan.ta</param>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
   </wifi-message>
 
   <!-- CF-End + CF-Ack -->
   <wifi-message filter="true" style="slate dotted">
     <opcode
-            regex-match="Type/Subtype: CF-End \+ CF-Ack (.*)"
-            regex-replace="📦 CF-End+CF-Ack $1"
+            match="Type/Subtype: CF-End \+ CF-Ack (.*)"
+            replace="📦 CF-End+CF-Ack $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
-    <param regex-match="Transmitter address: (.*)" regex-replace="📡 TA: $1">wlan.ta</param>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
+    <param match="Transmitter address: (.*)" replace="📡 TA: $1">wlan.ta</param>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
   </wifi-message>
 
   <!-- CF-End -->
   <wifi-message filter="true" style="slate dotted">
     <opcode
-            regex-match="Type/Subtype: CF-End (.*)"
-            regex-replace="📦 CF-End $1"
+            match="Type/Subtype: CF-End (.*)"
+            replace="📦 CF-End $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
-    <param regex-match="Transmitter address: (.*)" regex-replace="📡 TA: $1">wlan.ta</param>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
+    <param match="Transmitter address: (.*)" replace="📡 TA: $1">wlan.ta</param>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
   </wifi-message>
 
   <!-- Power-Save Poll -->
   <wifi-message filter="true" style="slate dotted">
     <opcode
-            regex-match="Type/Subtype: Power-Save poll (.*)"
-            regex-replace="💤 PS-Poll $1"
+            match="Type/Subtype: Power-Save poll (.*)"
+            replace="💤 PS-Poll $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
-    <param regex-match="Transmitter address: (.*)" regex-replace="📡 TA: $1">wlan.ta</param>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
+    <param match="Transmitter address: (.*)" replace="📡 TA: $1">wlan.ta</param>
   </wifi-message>
 
   <!-- Block Ack Request — tshark may prefix with "802.11 " depending on version -->
   <wifi-message style="goldenrod dotted">
     <opcode
-            regex-match="Type/Subtype: (?:802\.11 )?Block Ack Request (.*)"
-            regex-replace="📋 Block Ack Req $1"
+            match="Type/Subtype: (?:802\.11 )?Block Ack Request (.*)"
+            replace="📋 Block Ack Req $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🏷 TID: $1">wlan.bar.compressed.tidinfo</param>
-    <param regex-match=".*Starting Sequence Number: (\d+)" regex-replace="🔢 SSN: $1">wlan.fixed.ssc.sequence</param>
+    <param display="brief" match="(\d+)" replace="🏷 TID: $1">wlan.bar.compressed.tidinfo</param>
+    <param match=".*Starting Sequence Number: (\d+)" replace="🔢 SSN: $1">wlan.fixed.ssc.sequence</param>
   </wifi-message>
 
   <!-- Block Ack — tshark may prefix with "802.11 " depending on version -->
   <wifi-message style="sea-green dotted">
     <opcode
-            regex-match="Type/Subtype: (?:802\.11 )?Block Ack (.*)"
-            regex-replace="✅ Block Ack $1"
+            match="Type/Subtype: (?:802\.11 )?Block Ack (.*)"
+            replace="✅ Block Ack $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match=".*TID.*: (0x\d+)" regex-replace="🏷 TID: $1">wlan.ba.basic.tidinfo</param>
-    <param regex-match=".*BA Type: (.*) \(.*\)" regex-replace="📋 Type: $1">wlan.ba.control.ba_type</param>
-    <param regex-match=".*BA Ack Policy: (.*)" regex-replace="📋 Policy: $1">wlan.ba.control.ackpolicy</param>
-    <param regex-match=".*Starting Sequence Number: (\d+)" regex-replace="🔢 SSN: $1">wlan.ba.compressed.ssc</param>
-    <param regex-match="Last acknowledged frame: (\d+)" regex-replace="✅ Last ACK: $1">wlan.ba.bm.last_ack_frame</param>
-    <param regex-match="Block Ack Bitmap: (.*)" regex-replace="📊 Bitmap: $1">wlan.ba.bm</param>
-    <remark regex-match=".*" regex-replace="💡 Block Ack — acknowledges multiple MPDUs in a single frame (A-MPDU aggregation); bitmap indicates which sequence numbers were received; improves throughput by reducing per-frame ACK overhead">wlan</remark>
+    <param display="brief" match=".*TID.*: (0x\d+)" replace="🏷 TID: $1">wlan.ba.basic.tidinfo</param>
+    <param match=".*BA Type: (.*) \(.*\)" replace="📋 Type: $1">wlan.ba.control.ba_type</param>
+    <param match=".*BA Ack Policy: (.*)" replace="📋 Policy: $1">wlan.ba.control.ackpolicy</param>
+    <param match=".*Starting Sequence Number: (\d+)" replace="🔢 SSN: $1">wlan.ba.compressed.ssc</param>
+    <param match="Last acknowledged frame: (\d+)" replace="✅ Last ACK: $1">wlan.ba.bm.last_ack_frame</param>
+    <param match="Block Ack Bitmap: (.*)" replace="📊 Bitmap: $1">wlan.ba.bm</param>
+    <remark match=".*" replace="💡 Block Ack — acknowledges multiple MPDUs in a single frame (A-MPDU aggregation); bitmap indicates which sequence numbers were received; improves throughput by reducing per-frame ACK overhead">wlan</remark>
   </wifi-message>
 
   <!-- RTS -->
   <wifi-message style="orchid dotted">
     <opcode
-            regex-match="Type/Subtype: Request-to-send (.*)"
-            regex-replace="📡 RTS $1"
+            match="Type/Subtype: Request-to-send (.*)"
+            replace="📡 RTS $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
-    <remark regex-match=".*" regex-replace="💡 RTS (Request to Send) — collision avoidance for large frames; reserves the medium via NAV (Network Allocation Vector); receiver replies with CTS to grant access">wlan</remark>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
+    <remark match=".*" replace="💡 RTS (Request to Send) — collision avoidance for large frames; reserves the medium via NAV (Network Allocation Vector); receiver replies with CTS to grant access">wlan</remark>
   </wifi-message>
 
   <!-- CTS -->
   <wifi-message filter="true" style="slate dotted">
     <opcode
-            regex-match="Type/Subtype: Clear-to-send (.*)"
-            regex-replace="✅ CTS $1"
+            match="Type/Subtype: Clear-to-send (.*)"
+            replace="✅ CTS $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
-    <param regex-match=".*Duration: (\d+).*" regex-replace="⏱ Duration: $1 μs">wlan.duration</param>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
+    <param match=".*Duration: (\d+).*" replace="⏱ Duration: $1 μs">wlan.duration</param>
   </wifi-message>
 
   <!-- ACK -->
   <wifi-message filter="true" style="slate dotted">
     <opcode
-            regex-match="Type/Subtype: Acknowledgement (.*)"
-            regex-replace="✅ ACK $1"
+            match="Type/Subtype: Acknowledgement (.*)"
+            replace="✅ ACK $1"
         >wlan.fc.type_subtype</opcode>
-    <param regex-match="Receiver address: (.*)" regex-replace="📱 RA: $1">wlan.ra</param>
+    <param match="Receiver address: (.*)" replace="📱 RA: $1">wlan.ra</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -642,14 +642,14 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
   <!-- ATIM (Ad-hoc Traffic Indication) -->
   <wifi-message filter="true" style="slate">
     <opcode
-            regex-match="Type/Subtype: ATIM (.*)"
-            regex-replace="📦 ATIM $1"
+            match="Type/Subtype: ATIM (.*)"
+            replace="📦 ATIM $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -661,21 +661,21 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
   <!-- PV1 Poll -->
   <wifi-message filter="true" style="amethyst dotted">
     <opcode
-            regex-match="Type/Subtype: Poll (.*)"
-            regex-replace="📡 PV1 Poll $1"
+            match="Type/Subtype: Poll (.*)"
+            replace="📡 PV1 Poll $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- PV1 Grant Acknowledgment -->
   <wifi-message filter="true" style="amethyst dotted">
     <opcode
-            regex-match="Type/Subtype: Grant Acknowledgment (.*)"
-            regex-replace="✅ PV1 Grant Ack $1"
+            match="Type/Subtype: Grant Acknowledgment (.*)"
+            replace="✅ PV1 Grant Ack $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -683,10 +683,10 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
        ============================================================ -->
 
   <wifi-message style="steel-blue">
-    <opcode regex-match="Type/Subtype: (.*) \(0x[0-9a-f]+\)" regex-replace="📡 $1">wlan.fc.type_subtype</opcode>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
+    <opcode match="Type/Subtype: (.*) \(0x[0-9a-f]+\)" replace="📡 $1">wlan.fc.type_subtype</opcode>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
   </wifi-message>
 
   <!-- ============================================================
@@ -695,20 +695,20 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <wifi-message style="amethyst">
     <opcode
-            regex-match="Type/Subtype: (.*)"
-            regex-replace="📡 $1"
+            match="Type/Subtype: (.*)"
+            replace="📡 $1"
         >wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Seq: $1">wlan.seq</param>
-    <param regex-match="BSS Id: (.*)" regex-replace="📡 BSS: $1">wlan.bssid</param>
-    <param regex-match="Source address: (.*)" regex-replace="📱 Src: $1">wlan.sa</param>
-    <param regex-match="Destination address: (.*)" regex-replace="📱 Dst: $1">wlan.da</param>
+    <param display="brief" match="(\d+)" replace="🔢 Seq: $1">wlan.seq</param>
+    <param match="BSS Id: (.*)" replace="📡 BSS: $1">wlan.bssid</param>
+    <param match="Source address: (.*)" replace="📱 Src: $1">wlan.sa</param>
+    <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param
-            regex-match="Tag interpretation: (.*)"
-            regex-replace="$1"
+            match="Tag interpretation: (.*)"
+            replace="$1"
         >wlan.ssid</param>
-    <param regex-match="Reason code: (.*)" regex-replace="📋 Reason: $1">wlan.fixed.reason_code</param>
-    <param regex-match="Status code: (.*)" regex-replace="📋 Status: $1">wlan.fixed.status_code</param>
-    <param regex-match=".*: (\d+)" regex-replace="📦 Len: $1">data.len</param>
+    <param match="Reason code: (.*)" replace="📋 Reason: $1">wlan.fixed.reason_code</param>
+    <param match="Status code: (.*)" replace="📋 Status: $1">wlan.fixed.status_code</param>
+    <param match=".*: (\d+)" replace="📦 Len: $1">data.len</param>
   </wifi-message>
 
 
@@ -718,14 +718,14 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <udp-message style="royal-blue">
     <opcode
-        regex-match="Message Type \(Enterprise Specific\): (.*) \(\d+\)"
-        regex-replace="📡 CAPWAP $1"
+        match="Message Type \(Enterprise Specific\): (.*) \(\d+\)"
+        replace="📡 CAPWAP $1"
       >capwap.control.header.message_type.enterprise_specific</opcode>
     <param>capwap.control.header.sequence_number</param>
     <param>capwap.control.message_element.session_id</param>
-    <param regex-match="WTP Name: (.*)" regex-replace="📡 AP: $1">capwap.control.message_element.wtp_name</param>
-    <param regex-match="AC Name: (.*)" regex-replace="🖥 WLC: $1">capwap.control.message_element.ac_name</param>
-    <remark regex-match=".*" regex-replace="💡 CAPWAP — controller manages lightweight APs; Discovery finds WLC, Join establishes DTLS tunnel, Config provisions AP (SSID, channel, power)">capwap</remark>
+    <param match="WTP Name: (.*)" replace="📡 AP: $1">capwap.control.message_element.wtp_name</param>
+    <param match="AC Name: (.*)" replace="🖥 WLC: $1">capwap.control.message_element.ac_name</param>
+    <remark match=".*" replace="💡 CAPWAP — controller manages lightweight APs; Discovery finds WLC, Join establishes DTLS tunnel, Config provisions AP (SSID, channel, power)">capwap</remark>
   </udp-message>
 
   <!-- ============================================================
@@ -734,14 +734,14 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <udp-message style="forest-green">
     <opcode
-        regex-match="DHCP: (.*) \(\d+\)"
-        regex-replace="🔗 DHCP $1"
+        match="DHCP: (.*) \(\d+\)"
+        replace="🔗 DHCP $1"
       >dhcp.option.dhcp</opcode>
     <param>dhcp.id</param>
     <param>dhcp.hw.mac_addr</param>
-    <param regex-match="Your.*IP.*: (.*)" regex-replace="🌐 IP: $1">dhcp.ip.your</param>
-    <param regex-match="Host Name.*: (.*)" regex-replace="🖥 Hostname: $1">dhcp.option.hostname</param>
-      <remark regex-match=".*" regex-replace="💡 DHCP — client obtains IP address after 802.11 association and EAPOL key exchange complete; DORA: Discover→Offer→Request→ACK; in WLAN, DHCP may traverse CAPWAP tunnel to WLC">dhcp</remark>
+    <param match="Your.*IP.*: (.*)" replace="🌐 IP: $1">dhcp.ip.your</param>
+    <param match="Host Name.*: (.*)" replace="🖥 Hostname: $1">dhcp.option.hostname</param>
+      <remark match=".*" replace="💡 DHCP — client obtains IP address after 802.11 association and EAPOL key exchange complete; DORA: Discover→Offer→Request→ACK; in WLAN, DHCP may traverse CAPWAP tunnel to WLC">dhcp</remark>
   </udp-message>
 
   <!-- ============================================================
@@ -751,12 +751,12 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
   <udp-message style="steel-blue">
     <opcode
         display="brief"
-        regex-match="^0$"
-        regex-replace="🔍 DNS Query"
+        match="^0$"
+        replace="🔍 DNS Query"
       >dns.flags.opcode</opcode>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
     <param>dns.qry.type</param>
-    <param regex-match="Address: (.*)" regex-replace="🌐 Address: $1">dns.a</param>
+    <param match="Address: (.*)" replace="🌐 Address: $1">dns.a</param>
   </udp-message>
 
   <!-- ============================================================
@@ -765,56 +765,56 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <!-- DTLS Handshake -->
   <udp-message style="plum" bookmark="true">
-    <opcode regex-match="Content Type: (.*Handshake.*)" regex-replace="🔐 DTLS $1">dtls.record.content_type</opcode>
-    <param regex-match="Version: (.*)" regex-replace="📋 Version: $1">dtls.record.version</param>
-    <remark regex-match=".*" regex-replace="💡 DTLS Handshake — establishes encrypted tunnel between AP and WLC for CAPWAP control/data; uses UDP (not TCP) so it works with CAPWAP's UDP transport">dtls</remark>
+    <opcode match="Content Type: (.*Handshake.*)" replace="🔐 DTLS $1">dtls.record.content_type</opcode>
+    <param match="Version: (.*)" replace="📋 Version: $1">dtls.record.version</param>
+    <remark match=".*" replace="💡 DTLS Handshake — establishes encrypted tunnel between AP and WLC for CAPWAP control/data; uses UDP (not TCP) so it works with CAPWAP's UDP transport">dtls</remark>
   </udp-message>
 
   <!-- DTLS Application Data (encrypted CAPWAP) -->
   <udp-message filter="true" style="slate dashed">
-    <opcode regex-match="Content Type: (.*Application Data.*)" regex-replace="🔒 DTLS $1">dtls.record.content_type</opcode>
-    <param regex-match="Version: (.*)" regex-replace="📋 Version: $1">dtls.record.version</param>
-    <param regex-match="Epoch: (.*)" regex-replace="🔢 Epoch: $1">dtls.record.epoch</param>
-    <param regex-match="Length: (.*)" regex-replace="📦 Length: $1">dtls.record.length</param>
+    <opcode match="Content Type: (.*Application Data.*)" replace="🔒 DTLS $1">dtls.record.content_type</opcode>
+    <param match="Version: (.*)" replace="📋 Version: $1">dtls.record.version</param>
+    <param match="Epoch: (.*)" replace="🔢 Epoch: $1">dtls.record.epoch</param>
+    <param match="Length: (.*)" replace="📦 Length: $1">dtls.record.length</param>
   </udp-message>
 
   <!-- DTLS Alert -->
   <udp-message style="brick" bookmark="true">
-    <opcode regex-match="Content Type: (.*Alert.*)" regex-replace="⚠️ DTLS $1">dtls.record.content_type</opcode>
+    <opcode match="Content Type: (.*Alert.*)" replace="⚠️ DTLS $1">dtls.record.content_type</opcode>
   </udp-message>
 
   <!-- DTLS Change Cipher Spec -->
   <udp-message style="plum dashed">
-    <opcode regex-match="Content Type: (.*Change Cipher Spec.*)" regex-replace="🔒 DTLS $1">dtls.record.content_type</opcode>
+    <opcode match="Content Type: (.*Change Cipher Spec.*)" replace="🔒 DTLS $1">dtls.record.content_type</opcode>
   </udp-message>
 
   <!-- ICMP (for wired rogue detection captures) -->
   <ip-message style="royal-blue">
-    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <opcode display="brief" match="^8$" replace="📡 ICMP Echo Request">icmp.type</opcode>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
   </ip-message>
 
   <ip-message style="forest-green">
-    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <opcode display="brief" match="^0$" replace="✅ ICMP Echo Reply">icmp.type</opcode>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
   </ip-message>
 
   <ip-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="📋 ICMP Type $1">icmp.type</opcode>
+    <opcode display="brief" match="^(.+)$" replace="📋 ICMP Type $1">icmp.type</opcode>
     <param>icmp.code</param>
   </ip-message>
 
   <!-- TCP (SYN/FIN/RST only) -->
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((SYN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*FIN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
   <tcp-message style="crimson dotted">
-    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*RST.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
   <!-- Note: wifi-message now uses wlan.ta/wlan.ra as primary address
@@ -823,9 +823,9 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
 
   <!-- CAPWAP Data tunnel (inner 802.11 decoded) -->
   <message filter="true" style="teal dashed">
-    <opcode regex-match="Type/Subtype: (.*) \(0x[0-9a-f]+\)" regex-replace="📦 CAPWAP $1">wlan.fc.type_subtype</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🎯 TID: $1">wlan.qos.tid</param>
-    <param regex-match=".*RSSI.*: (.*)" regex-replace="📊 RSSI: $1">capwap.header.wireless.data.ieee80211.fi.rssi</param>
+    <opcode match="Type/Subtype: (.*) \(0x[0-9a-f]+\)" replace="📦 CAPWAP $1">wlan.fc.type_subtype</opcode>
+    <param display="brief" match="(\d+)" replace="🎯 TID: $1">wlan.qos.tid</param>
+    <param match=".*RSSI.*: (.*)" replace="📊 RSSI: $1">capwap.header.wireless.data.ieee80211.fi.rssi</param>
     <source><address display="brief">wlan.sa</address></source>
     <destination><address display="brief">wlan.da</address></destination>
   </message>

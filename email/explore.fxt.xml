@@ -16,102 +16,102 @@ Emoji story for email lifecycle:
 
   <!-- SMTP EHLO/HELO (session greeting) -->
   <tcp-message style="sea-green">
-    <opcode regex-match="Command: (ehlo|helo|EHLO|HELO)" regex-replace="🤝 SMTP $1">smtp.req.command</opcode>
-    <param regex-match="(Request parameter): (.*)" regex-replace="🏷 Hostname: $2">smtp.req.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 Client introduces itself to the mail server; EHLO enables ESMTP extensions">smtp.req.command</remark>
+    <opcode match="Command: (ehlo|helo|EHLO|HELO)" replace="🤝 SMTP $1">smtp.req.command</opcode>
+    <param match="(Request parameter): (.*)" replace="🏷 Hostname: $2">smtp.req.parameter</param>
+    <remark match=".*" replace="💡 Client introduces itself to the mail server; EHLO enables ESMTP extensions">smtp.req.command</remark>
   </tcp-message>
 
   <!-- SMTP MAIL FROM (sender envelope) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="Command: (mail|MAIL)" regex-replace="📨 SMTP MAIL FROM">smtp.req.command</opcode>
-    <param regex-match="Request parameter: FROM:&lt;(.*)&gt;.*" regex-replace="📤 From: $1">smtp.req.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 Envelope sender — the return path for bounces (may differ from the From: header)">smtp.req.command</remark>
+    <opcode match="Command: (mail|MAIL)" replace="📨 SMTP MAIL FROM">smtp.req.command</opcode>
+    <param match="Request parameter: FROM:&lt;(.*)&gt;.*" replace="📤 From: $1">smtp.req.parameter</param>
+    <remark match=".*" replace="💡 Envelope sender — the return path for bounces (may differ from the From: header)">smtp.req.command</remark>
   </tcp-message>
 
   <!-- SMTP RCPT TO (recipient envelope) -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Command: (rcpt|RCPT)" regex-replace="📨 SMTP RCPT TO">smtp.req.command</opcode>
-    <param regex-match="Request parameter: TO:&lt;(.*)&gt;" regex-replace="📥 To: $1">smtp.req.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 Envelope recipient — server checks if it will accept mail for this address">smtp.req.command</remark>
+    <opcode match="Command: (rcpt|RCPT)" replace="📨 SMTP RCPT TO">smtp.req.command</opcode>
+    <param match="Request parameter: TO:&lt;(.*)&gt;" replace="📥 To: $1">smtp.req.parameter</param>
+    <remark match=".*" replace="💡 Envelope recipient — server checks if it will accept mail for this address">smtp.req.command</remark>
   </tcp-message>
 
   <!-- SMTP DATA (message body) -->
   <tcp-message style="amethyst">
-    <opcode regex-match="Command: (data|DATA)" regex-replace="📝 SMTP DATA">smtp.req.command</opcode>
-    <remark regex-match=".*" regex-replace="💡 Client starts sending the message body (headers + content), terminated by CRLF.CRLF">smtp.req.command</remark>
+    <opcode match="Command: (data|DATA)" replace="📝 SMTP DATA">smtp.req.command</opcode>
+    <remark match=".*" replace="💡 Client starts sending the message body (headers + content), terminated by CRLF.CRLF">smtp.req.command</remark>
   </tcp-message>
 
   <!-- SMTP End of Message -->
   <tcp-message style="amethyst dashed">
-    <opcode regex-match=".*" regex-replace="📝 SMTP End of Message">smtp.eom</opcode>
-    <remark regex-match=".*" regex-replace="💡 Message body complete — server queues the message for delivery">smtp.eom</remark>
+    <opcode match=".*" replace="📝 SMTP End of Message">smtp.eom</opcode>
+    <remark match=".*" replace="💡 Message body complete — server queues the message for delivery">smtp.eom</remark>
   </tcp-message>
 
   <!-- SMTP VRFY (verify address) -->
   <tcp-message style="teal">
-    <opcode regex-match="Command: (VRFY|vrfy)" regex-replace="🔍 SMTP VRFY">smtp.req.command</opcode>
-    <param regex-match="(Request parameter): (.*)" regex-replace="👤 Address: $2">smtp.req.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 Verify if a mailbox exists on this server (often disabled for anti-spam)">smtp.req.command</remark>
+    <opcode match="Command: (VRFY|vrfy)" replace="🔍 SMTP VRFY">smtp.req.command</opcode>
+    <param match="(Request parameter): (.*)" replace="👤 Address: $2">smtp.req.parameter</param>
+    <remark match=".*" replace="💡 Verify if a mailbox exists on this server (often disabled for anti-spam)">smtp.req.command</remark>
   </tcp-message>
 
   <!-- SMTP NOOP -->
   <tcp-message style="slate dashed">
-    <opcode regex-match="Command: (NOOP|noop)" regex-replace="💓 SMTP NOOP">smtp.req.command</opcode>
+    <opcode match="Command: (NOOP|noop)" replace="💓 SMTP NOOP">smtp.req.command</opcode>
   </tcp-message>
 
   <!-- SMTP QUIT -->
   <tcp-message style="magenta">
-    <opcode regex-match="Command: (QUIT|quit)" regex-replace="🛑 SMTP QUIT">smtp.req.command</opcode>
+    <opcode match="Command: (QUIT|quit)" replace="🛑 SMTP QUIT">smtp.req.command</opcode>
   </tcp-message>
 
   <!-- SMTP generic command fallback -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="Command: (.*)" regex-replace="📨 SMTP $1">smtp.req.command</opcode>
-    <param regex-match="(Request parameter): (.*)" regex-replace="📋 $1: $2">smtp.req.parameter</param>
+    <opcode match="Command: (.*)" replace="📨 SMTP $1">smtp.req.command</opcode>
+    <param match="(Request parameter): (.*)" replace="📋 $1: $2">smtp.req.parameter</param>
   </tcp-message>
 
   <!-- SMTP 2xx Success Response -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*completed \((2\d\d)\)" regex-replace="✅ SMTP $1">smtp.response.code</opcode>
-    <param regex-match="(Response parameter): (.*)" regex-replace="📋 $1: $2">smtp.rsp.parameter</param>
+    <opcode match=".*completed \((2\d\d)\)" replace="✅ SMTP $1">smtp.response.code</opcode>
+    <param match="(Response parameter): (.*)" replace="📋 $1: $2">smtp.rsp.parameter</param>
   </tcp-message>
 
   <!-- SMTP 220 Service Ready -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*(220)\)" regex-replace="🤝 SMTP $1 Ready">smtp.response.code</opcode>
-    <param regex-match="(Response parameter): (.*)" regex-replace="🏷 $1: $2">smtp.rsp.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 Server is ready to accept mail — announces its hostname and software">smtp.response.code</remark>
+    <opcode match=".*(220)\)" replace="🤝 SMTP $1 Ready">smtp.response.code</opcode>
+    <param match="(Response parameter): (.*)" replace="🏷 $1: $2">smtp.rsp.parameter</param>
+    <remark match=".*" replace="💡 Server is ready to accept mail — announces its hostname and software">smtp.response.code</remark>
   </tcp-message>
 
   <!-- SMTP 221 Closing -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*(221)\)" regex-replace="👋 SMTP $1 Closing">smtp.response.code</opcode>
-    <remark regex-match=".*" regex-replace="💡 Server confirms session end — TCP connection will close">smtp.response.code</remark>
+    <opcode match=".*(221)\)" replace="👋 SMTP $1 Closing">smtp.response.code</opcode>
+    <remark match=".*" replace="💡 Server confirms session end — TCP connection will close">smtp.response.code</remark>
   </tcp-message>
 
   <!-- SMTP 250 OK -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*(250)\)" regex-replace="✅ SMTP $1 OK">smtp.response.code</opcode>
-    <param regex-match="(Response parameter): (.*)" regex-replace="📋 $1: $2">smtp.rsp.parameter</param>
+    <opcode match=".*(250)\)" replace="✅ SMTP $1 OK">smtp.response.code</opcode>
+    <param match="(Response parameter): (.*)" replace="📋 $1: $2">smtp.rsp.parameter</param>
   </tcp-message>
 
   <!-- SMTP 354 Start mail input -->
   <tcp-message style="sea-green">
-    <opcode regex-match=".*(354)\)" regex-replace="📝 SMTP $1 Send Data">smtp.response.code</opcode>
-    <remark regex-match=".*" regex-replace="💡 Server ready to receive message body — send data ending with CRLF.CRLF">smtp.response.code</remark>
+    <opcode match=".*(354)\)" replace="📝 SMTP $1 Send Data">smtp.response.code</opcode>
+    <remark match=".*" replace="💡 Server ready to receive message body — send data ending with CRLF.CRLF">smtp.response.code</remark>
   </tcp-message>
 
   <!-- SMTP 5xx Error -->
   <tcp-message style="crimson">
-    <opcode regex-match=".*(5\d\d)\)" regex-replace="🚫 SMTP $1 Error">smtp.response.code</opcode>
-    <param regex-match="(Response parameter): (.*)" regex-replace="📋 $1: $2">smtp.rsp.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 Permanent failure — address rejected, policy violation, or server error">smtp.response.code</remark>
+    <opcode match=".*(5\d\d)\)" replace="🚫 SMTP $1 Error">smtp.response.code</opcode>
+    <param match="(Response parameter): (.*)" replace="📋 $1: $2">smtp.rsp.parameter</param>
+    <remark match=".*" replace="💡 Permanent failure — address rejected, policy violation, or server error">smtp.response.code</remark>
   </tcp-message>
 
   <!-- SMTP generic response fallback -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*\((\d+)\)" regex-replace="📋 SMTP $1">smtp.response.code</opcode>
-    <param regex-match="(Response parameter): (.*)" regex-replace="📋 $1: $2">smtp.rsp.parameter</param>
+    <opcode match=".*\((\d+)\)" replace="📋 SMTP $1">smtp.response.code</opcode>
+    <param match="(Response parameter): (.*)" replace="📋 $1: $2">smtp.rsp.parameter</param>
   </tcp-message>
 
   <!-- ============================================================
@@ -120,97 +120,97 @@ Emoji story for email lifecycle:
 
   <!-- IMAP Client Commands (using structured fields) -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Request Command: (CAPABILITY)" regex-replace="📋 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <remark regex-match=".*" regex-replace="💡 Query server capabilities — returns supported extensions (IDLE, UIDPLUS, NAMESPACE, etc.)">imap.request.command</remark>
+    <opcode match="Request Command: (CAPABILITY)" replace="📋 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <remark match=".*" replace="💡 Query server capabilities — returns supported extensions (IDLE, UIDPLUS, NAMESPACE, etc.)">imap.request.command</remark>
   </tcp-message>
 
   <tcp-message style="amethyst">
-    <opcode regex-match="Request Command: (LOGIN)" regex-replace="🔐 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <param regex-match="(Request Username): (.*)" regex-replace="👤 $1: $2">imap.request.username</param>
-    <remark regex-match=".*" regex-replace="💡 Authenticate to the mail server (credentials sent in cleartext without TLS)">imap.request.command</remark>
+    <opcode match="Request Command: (LOGIN)" replace="🔐 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <param match="(Request Username): (.*)" replace="👤 $1: $2">imap.request.username</param>
+    <remark match=".*" replace="💡 Authenticate to the mail server (credentials sent in cleartext without TLS)">imap.request.command</remark>
   </tcp-message>
 
   <tcp-message style="royal-blue">
-    <opcode regex-match="Request Command: (SELECT)" regex-replace="📂 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <param regex-match="(Request Folder): (.*)" regex-replace="📂 $1: $2">imap.request.folder</param>
-    <remark regex-match=".*" regex-replace="💡 Open a mailbox folder for read/write — server returns message count and flags">imap.request.command</remark>
+    <opcode match="Request Command: (SELECT)" replace="📂 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <param match="(Request Folder): (.*)" replace="📂 $1: $2">imap.request.folder</param>
+    <remark match=".*" replace="💡 Open a mailbox folder for read/write — server returns message count and flags">imap.request.command</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
-    <opcode regex-match="Request Command: (SEARCH)" regex-replace="🔍 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <param regex-match="(Request Folder): (.*)" regex-replace="📂 $1: $2">imap.request.folder</param>
-    <remark regex-match=".*" regex-replace="💡 Search for messages matching criteria — returns list of message sequence numbers">imap.request.command</remark>
+    <opcode match="Request Command: (SEARCH)" replace="🔍 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <param match="(Request Folder): (.*)" replace="📂 $1: $2">imap.request.folder</param>
+    <remark match=".*" replace="💡 Search for messages matching criteria — returns list of message sequence numbers">imap.request.command</remark>
   </tcp-message>
 
   <tcp-message style="royal-blue">
-    <opcode regex-match="Request Command: (FETCH)" regex-replace="📬 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <remark regex-match=".*" regex-replace="💡 Download message data (headers, body, or specific parts) from the server">imap.request.command</remark>
+    <opcode match="Request Command: (FETCH)" replace="📬 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <remark match=".*" replace="💡 Download message data (headers, body, or specific parts) from the server">imap.request.command</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
-    <opcode regex-match="Request Command: (LIST)" regex-replace="📋 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <remark regex-match=".*" regex-replace="💡 List mailbox folders — returns hierarchy delimiter and folder names (INBOX, Sent, Drafts, etc.)">imap.request.command</remark>
+    <opcode match="Request Command: (LIST)" replace="📋 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <remark match=".*" replace="💡 List mailbox folders — returns hierarchy delimiter and folder names (INBOX, Sent, Drafts, etc.)">imap.request.command</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
-    <opcode regex-match="Request Command: (NOOP)" regex-replace="💓 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <remark regex-match=".*" regex-replace="💡 Keepalive — also triggers server to report any pending mailbox changes (new mail)">imap.request.command</remark>
+    <opcode match="Request Command: (NOOP)" replace="💓 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <remark match=".*" replace="💡 Keepalive — also triggers server to report any pending mailbox changes (new mail)">imap.request.command</remark>
   </tcp-message>
 
   <tcp-message style="magenta">
-    <opcode regex-match="Request Command: (LOGOUT)" regex-replace="🛑 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <remark regex-match=".*" regex-replace="💡 End IMAP session — server responds with BYE and closes connection">imap.request.command</remark>
+    <opcode match="Request Command: (LOGOUT)" replace="🛑 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <remark match=".*" replace="💡 End IMAP session — server responds with BYE and closes connection">imap.request.command</remark>
   </tcp-message>
 
   <!-- IMAP generic client command -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Request Command: (.*)" regex-replace="📫 IMAP $1">imap.request.command</opcode>
-    <param regex-match="(Request Tag): (.*)" regex-replace="🏷 $1: $2">imap.request_tag</param>
-    <param regex-match="(Request Folder): (.*)" regex-replace="📂 $1: $2">imap.request.folder</param>
-    <param regex-match="(Request Username): (.*)" regex-replace="👤 $1: $2">imap.request.username</param>
+    <opcode match="Request Command: (.*)" replace="📫 IMAP $1">imap.request.command</opcode>
+    <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
+    <param match="(Request Folder): (.*)" replace="📂 $1: $2">imap.request.folder</param>
+    <param match="(Request Username): (.*)" replace="👤 $1: $2">imap.request.username</param>
   </tcp-message>
 
   <!-- IMAP Server OK Response -->
   <tcp-message style="forest-green">
-    <opcode regex-match="Response Status: (OK)" regex-replace="✅ IMAP $1">imap.response.status</opcode>
-    <param regex-match="(Response Tag): (.*)" regex-replace="🏷 $1: $2">imap.response_tag</param>
-    <param regex-match="(Response Command): (.*)" regex-replace="📋 $1: $2">imap.response.command</param>
-    <param regex-match="(Response Time): (.*)" regex-replace="⏱ $1: $2">imap.time</param>
+    <opcode match="Response Status: (OK)" replace="✅ IMAP $1">imap.response.status</opcode>
+    <param match="(Response Tag): (.*)" replace="🏷 $1: $2">imap.response_tag</param>
+    <param match="(Response Command): (.*)" replace="📋 $1: $2">imap.response.command</param>
+    <param match="(Response Time): (.*)" replace="⏱ $1: $2">imap.time</param>
   </tcp-message>
 
   <!-- IMAP Server NO Response (command failed) -->
   <tcp-message style="crimson">
-    <opcode regex-match="Response Status: (NO)" regex-replace="🚫 IMAP $1">imap.response.status</opcode>
-    <param regex-match="(Response Tag): (.*)" regex-replace="🏷 $1: $2">imap.response_tag</param>
-    <param regex-match="(Response Command): (.*)" regex-replace="📋 $1: $2">imap.response.command</param>
-    <param regex-match="(Response Time): (.*)" regex-replace="⏱ $1: $2">imap.time</param>
-    <remark regex-match=".*" regex-replace="💡 Command failed — invalid credentials, nonexistent mailbox, or permission denied">imap.response.status</remark>
+    <opcode match="Response Status: (NO)" replace="🚫 IMAP $1">imap.response.status</opcode>
+    <param match="(Response Tag): (.*)" replace="🏷 $1: $2">imap.response_tag</param>
+    <param match="(Response Command): (.*)" replace="📋 $1: $2">imap.response.command</param>
+    <param match="(Response Time): (.*)" replace="⏱ $1: $2">imap.time</param>
+    <remark match=".*" replace="💡 Command failed — invalid credentials, nonexistent mailbox, or permission denied">imap.response.status</remark>
   </tcp-message>
 
   <!-- IMAP Server BAD Response (syntax error) -->
   <tcp-message style="brick wave">
-    <opcode regex-match="Response Status: (BAD)" regex-replace="🚨 IMAP $1">imap.response.status</opcode>
-    <param regex-match="(Response Tag): (.*)" regex-replace="🏷 $1: $2">imap.response_tag</param>
-    <param regex-match="(Response Command): (.*)" regex-replace="📋 $1: $2">imap.response.command</param>
-    <remark regex-match=".*" regex-replace="💡 Protocol error — malformed command or unknown command syntax">imap.response.status</remark>
+    <opcode match="Response Status: (BAD)" replace="🚨 IMAP $1">imap.response.status</opcode>
+    <param match="(Response Tag): (.*)" replace="🏷 $1: $2">imap.response_tag</param>
+    <param match="(Response Command): (.*)" replace="📋 $1: $2">imap.response.command</param>
+    <remark match=".*" replace="💡 Protocol error — malformed command or unknown command syntax">imap.response.status</remark>
   </tcp-message>
 
   <!-- IMAP untagged data (server push: * OK, * CAPABILITY, * LIST, etc.) -->
   <tcp-message style="teal">
-    <opcode regex-match="Command: (.*)" regex-replace="📫 IMAP * $1">imap.command</opcode>
+    <opcode match="Command: (.*)" replace="📫 IMAP * $1">imap.command</opcode>
   </tcp-message>
 
   <!-- IMAP line fallback (for continuation, raw data) -->
   <tcp-message style="slate dashed">
-    <opcode regex-match="Line: (.{0,40}).*" regex-replace="📫 IMAP $1">imap.line</opcode>
+    <opcode match="Line: (.{0,40}).*" replace="📫 IMAP $1">imap.line</opcode>
   </tcp-message>
 
   <!-- ============================================================
@@ -219,76 +219,76 @@ Emoji story for email lifecycle:
 
   <!-- POP3 +OK response — BEFORE commands so server responses match first -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*\+OK" regex-replace="✅ POP3 +OK">pop.response.indicator</opcode>
-    <param regex-match="(Response description): (.*)" regex-replace="💬 $2">pop.response.description</param>
-    <param regex-match="(.*\\r\\n)" regex-replace="📋 $1">pop.response.data</param>
+    <opcode match=".*\+OK" replace="✅ POP3 +OK">pop.response.indicator</opcode>
+    <param match="(Response description): (.*)" replace="💬 $2">pop.response.description</param>
+    <param match="(.*\\r\\n)" replace="📋 $1">pop.response.data</param>
   </tcp-message>
 
   <!-- POP3 -ERR response -->
   <tcp-message style="crimson">
-    <opcode regex-match=".*-ERR" regex-replace="🚫 POP3 -ERR">pop.response.indicator</opcode>
-    <param regex-match="(Response description): (.*)" regex-replace="💬 $2">pop.response.description</param>
-    <remark regex-match=".*" regex-replace="💡 Command failed — authentication error, invalid message number, or server-side issue">pop.response.indicator</remark>
+    <opcode match=".*-ERR" replace="🚫 POP3 -ERR">pop.response.indicator</opcode>
+    <param match="(Response description): (.*)" replace="💬 $2">pop.response.description</param>
+    <remark match=".*" replace="💡 Command failed — authentication error, invalid message number, or server-side issue">pop.response.indicator</remark>
   </tcp-message>
 
   <!-- POP3 Client Commands -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Request command: (USER)" regex-replace="👤 POP3 $1">pop.request.command</opcode>
-    <param regex-match="(Request parameter): (.*)" regex-replace="👤 Username: $2">pop.request.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 POP3 authentication step 1: client sends username">pop.request.command</remark>
+    <opcode match="Request command: (USER)" replace="👤 POP3 $1">pop.request.command</opcode>
+    <param match="(Request parameter): (.*)" replace="👤 Username: $2">pop.request.parameter</param>
+    <remark match=".*" replace="💡 POP3 authentication step 1: client sends username">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="amethyst">
-    <opcode regex-match="Request command: (PASS)" regex-replace="🔐 POP3 $1">pop.request.command</opcode>
-    <remark regex-match=".*" regex-replace="💡 POP3 authentication step 2: client sends password (sent in cleartext!)">pop.request.command</remark>
+    <opcode match="Request command: (PASS)" replace="🔐 POP3 $1">pop.request.command</opcode>
+    <remark match=".*" replace="💡 POP3 authentication step 2: client sends password (sent in cleartext!)">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
-    <opcode regex-match="Request command: (LIST)" regex-replace="📋 POP3 $1">pop.request.command</opcode>
-    <remark regex-match=".*" regex-replace="💡 List messages in the mailbox with their sizes (message-number octets)">pop.request.command</remark>
+    <opcode match="Request command: (LIST)" replace="📋 POP3 $1">pop.request.command</opcode>
+    <remark match=".*" replace="💡 List messages in the mailbox with their sizes (message-number octets)">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
-    <opcode regex-match="Request command: (STAT)" regex-replace="📊 POP3 $1">pop.request.command</opcode>
-    <remark regex-match=".*" regex-replace="💡 Mailbox status: returns message count and total size in octets">pop.request.command</remark>
+    <opcode match="Request command: (STAT)" replace="📊 POP3 $1">pop.request.command</opcode>
+    <remark match=".*" replace="💡 Mailbox status: returns message count and total size in octets">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="royal-blue">
-    <opcode regex-match="Request command: (RETR)" regex-replace="📬 POP3 $1">pop.request.command</opcode>
-    <param regex-match="(Request parameter): (.*)" regex-replace="🔢 Message: $2">pop.request.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 Download the full message from the server (headers + body)">pop.request.command</remark>
+    <opcode match="Request command: (RETR)" replace="📬 POP3 $1">pop.request.command</opcode>
+    <param match="(Request parameter): (.*)" replace="🔢 Message: $2">pop.request.parameter</param>
+    <remark match=".*" replace="💡 Download the full message from the server (headers + body)">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="royal-blue">
-    <opcode regex-match="Request command: (DELE)" regex-replace="❌ POP3 $1">pop.request.command</opcode>
-    <param regex-match="(Request parameter): (.*)" regex-replace="🔢 Message: $2">pop.request.parameter</param>
-    <remark regex-match=".*" regex-replace="💡 Mark message for deletion — actually removed when session ends with QUIT">pop.request.command</remark>
+    <opcode match="Request command: (DELE)" replace="❌ POP3 $1">pop.request.command</opcode>
+    <param match="(Request parameter): (.*)" replace="🔢 Message: $2">pop.request.parameter</param>
+    <remark match=".*" replace="💡 Mark message for deletion — actually removed when session ends with QUIT">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
-    <opcode regex-match="Request command: (CAPA)" regex-replace="📋 POP3 $1">pop.request.command</opcode>
-    <remark regex-match=".*" regex-replace="💡 Query server capabilities — returns supported extensions (STLS, TOP, PIPELINING, etc.)">pop.request.command</remark>
+    <opcode match="Request command: (CAPA)" replace="📋 POP3 $1">pop.request.command</opcode>
+    <remark match=".*" replace="💡 Query server capabilities — returns supported extensions (STLS, TOP, PIPELINING, etc.)">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
-    <opcode regex-match="Request command: (UTF8)" regex-replace="🌐 POP3 $1">pop.request.command</opcode>
-    <remark regex-match=".*" regex-replace="💡 Enable UTF-8 support for international mailbox names and message headers">pop.request.command</remark>
+    <opcode match="Request command: (UTF8)" replace="🌐 POP3 $1">pop.request.command</opcode>
+    <remark match=".*" replace="💡 Enable UTF-8 support for international mailbox names and message headers">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="slate dashed">
-    <opcode regex-match="Request command: (NOOP)" regex-replace="💓 POP3 $1">pop.request.command</opcode>
-    <remark regex-match=".*" regex-replace="💡 Keepalive — server responds +OK but takes no action; resets inactivity timer">pop.request.command</remark>
+    <opcode match="Request command: (NOOP)" replace="💓 POP3 $1">pop.request.command</opcode>
+    <remark match=".*" replace="💡 Keepalive — server responds +OK but takes no action; resets inactivity timer">pop.request.command</remark>
   </tcp-message>
 
   <tcp-message style="magenta">
-    <opcode regex-match="Request command: (QUIT)" regex-replace="🛑 POP3 $1">pop.request.command</opcode>
-    <remark regex-match=".*" regex-replace="💡 End session — messages marked DELE are permanently removed; server closes connection">pop.request.command</remark>
+    <opcode match="Request command: (QUIT)" replace="🛑 POP3 $1">pop.request.command</opcode>
+    <remark match=".*" replace="💡 End session — messages marked DELE are permanently removed; server closes connection">pop.request.command</remark>
   </tcp-message>
 
   <!-- POP3 generic command -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Request command: (.*)" regex-replace="📬 POP3 $1">pop.request.command</opcode>
-    <param regex-match="(Request parameter): (.*)" regex-replace="📋 $1: $2">pop.request.parameter</param>
+    <opcode match="Request command: (.*)" replace="📬 POP3 $1">pop.request.command</opcode>
+    <param match="(Request parameter): (.*)" replace="📋 $1: $2">pop.request.parameter</param>
   </tcp-message>
 
   <!-- ============================================================
@@ -297,40 +297,40 @@ Emoji story for email lifecycle:
 
   <!-- DNS MX Response — BEFORE MX Query since responses also have dns.qry.type -->
   <udp-message style="forest-green">
-    <opcode regex-match=".*MX.*" regex-replace="✅📧 DNS MX Response">dns.resp.type</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🔍 Domain: $2">dns.resp.name</param>
-    <param regex-match="(Type): (.*)" regex-replace="🏷 Record: $2">dns.resp.type</param>
-    <param regex-match="(Mail Exchange): (.*)" regex-replace="📧 Mail Server: $2">dns.mx.mail_exchange</param>
-    <param regex-match="(Preference): (.*)" regex-replace="🏆 Priority: $2 (lower = preferred)">dns.mx.preference</param>
-    <param regex-match="(Time to live): (.*)" regex-replace="⏱ TTL: $2">dns.resp.ttl</param>
-    <param regex-match="(Address): (.*)" regex-replace="🌐 Resolved IP: $2">dns.a</param>
-    <param regex-match="(Time): (.*)" regex-replace="⏱ Response Time: $2">dns.time</param>
-    <remark regex-match="(Mail Exchange): (.*)" regex-replace="💡📧 MX record found: mail for this domain routes to $2">dns.mx.mail_exchange</remark>
+    <opcode match=".*MX.*" replace="✅📧 DNS MX Response">dns.resp.type</opcode>
+    <param match="(Name): (.*)" replace="🔍 Domain: $2">dns.resp.name</param>
+    <param match="(Type): (.*)" replace="🏷 Record: $2">dns.resp.type</param>
+    <param match="(Mail Exchange): (.*)" replace="📧 Mail Server: $2">dns.mx.mail_exchange</param>
+    <param match="(Preference): (.*)" replace="🏆 Priority: $2 (lower = preferred)">dns.mx.preference</param>
+    <param match="(Time to live): (.*)" replace="⏱ TTL: $2">dns.resp.ttl</param>
+    <param match="(Address): (.*)" replace="🌐 Resolved IP: $2">dns.a</param>
+    <param match="(Time): (.*)" replace="⏱ Response Time: $2">dns.time</param>
+    <remark match="(Mail Exchange): (.*)" replace="💡📧 MX record found: mail for this domain routes to $2">dns.mx.mail_exchange</remark>
   </udp-message>
 
   <!-- DNS MX Query -->
   <udp-message style="goldenrod">
-    <opcode regex-match=".*MX.*" regex-replace="🔍📧 DNS MX Query">dns.qry.type</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🔍 $1: $2">dns.qry.name</param>
-    <param regex-match="(Type): (.*)" regex-replace="🏷 $1: $2">dns.qry.type</param>
-    <remark regex-match=".*" regex-replace="💡 MX query: finding the mail server responsible for this domain">dns.qry.name</remark>
+    <opcode match=".*MX.*" replace="🔍📧 DNS MX Query">dns.qry.type</opcode>
+    <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
+    <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
+    <remark match=".*" replace="💡 MX query: finding the mail server responsible for this domain">dns.qry.name</remark>
   </udp-message>
 
   <!-- DNS Response (BEFORE Query — responses also have dns.flags.opcode=0) -->
   <udp-message style="forest-green">
-    <opcode regex-match=".*response.*" regex-replace="✅ DNS Response">dns.flags.response</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🔍 $1: $2">dns.qry.name</param>
-    <param regex-match="(Type): (.*)" regex-replace="🏷 $1: $2">dns.qry.type</param>
-    <param regex-match="(Address): (.*)" regex-replace="🌐 $1: $2">dns.a</param>
-    <param regex-match="(Time to live): (.*)" regex-replace="⏱ TTL: $2">dns.resp.ttl</param>
-    <param regex-match="(Time): (.*)" regex-replace="⏱ Response Time: $2">dns.time</param>
+    <opcode match=".*response.*" replace="✅ DNS Response">dns.flags.response</opcode>
+    <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
+    <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
+    <param match="(Address): (.*)" replace="🌐 $1: $2">dns.a</param>
+    <param match="(Time to live): (.*)" replace="⏱ TTL: $2">dns.resp.ttl</param>
+    <param match="(Time): (.*)" replace="⏱ Response Time: $2">dns.time</param>
   </udp-message>
 
   <!-- DNS Query -->
   <udp-message style="steel-blue">
-    <opcode display="brief" regex-match="^0$" regex-replace="🔍 DNS Query">dns.flags.opcode</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🔍 $1: $2">dns.qry.name</param>
-    <param regex-match="(Type): (.*)" regex-replace="🏷 $1: $2">dns.qry.type</param>
+    <opcode display="brief" match="^0$" replace="🔍 DNS Query">dns.flags.opcode</opcode>
+    <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
+    <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
   </udp-message>
 
   <!-- ============================================================
@@ -338,9 +338,9 @@ Emoji story for email lifecycle:
        ============================================================ -->
 
   <tcp-message style="slate dotted">
-    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
-    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
-    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+    <opcode match=".*Flags:.*\((.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <param match="(Source Port): (.*)" replace="📤 $1: $2">tcp.srcport</param>
+    <param match="(Destination Port): (.*)" replace="📥 $1: $2">tcp.dstport</param>
   </tcp-message>
 
 </FXT>

@@ -22,14 +22,14 @@ For session-aware BFD tracking, see sessions.fxt.xml
   <!-- BFD Down State - Initial state, no connectivity -->
   <udp-message style="goldenrod">
     <opcode
-            regex-match=".*Session State: (Down) \(.*\)"
-            regex-replace="🔴 BFD $1"
+            match=".*Session State: (Down) \(.*\)"
+            replace="🔴 BFD $1"
         >bfd.sta</opcode>
-    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
-    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
-    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
-    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
-    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param match=".*= Diagnostic Code: (.*)" replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param match="(My Discriminator): (.*)" replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param match="(Your Discriminator): (.*)" replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param match="(Desired Min TX Interval): (.*)" replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param match="(Required Min RX Interval): (.*)" replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
     <param>bfd.required_min_echo_interval</param>
     <param>bfd.detect_time_multiplier</param>
     <param>bfd.flags</param>
@@ -39,14 +39,14 @@ For session-aware BFD tracking, see sessions.fxt.xml
   <!-- BFD Init State - Transitioning to established -->
   <udp-message style="royal-blue">
     <opcode
-            regex-match=".*Session State: (Init) \(.*\)"
-            regex-replace="🟡 BFD $1"
+            match=".*Session State: (Init) \(.*\)"
+            replace="🟡 BFD $1"
         >bfd.sta</opcode>
-    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
-    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
-    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
-    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
-    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param match=".*= Diagnostic Code: (.*)" replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param match="(My Discriminator): (.*)" replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param match="(Your Discriminator): (.*)" replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param match="(Desired Min TX Interval): (.*)" replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param match="(Required Min RX Interval): (.*)" replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
     <param>bfd.required_min_echo_interval</param>
     <param>bfd.detect_time_multiplier</param>
     <param>bfd.flags</param>
@@ -56,14 +56,14 @@ For session-aware BFD tracking, see sessions.fxt.xml
   <!-- BFD Up State - Adjacency established -->
   <udp-message style="forest-green">
     <opcode
-            regex-match=".*Session State: (Up) \(.*\)"
-            regex-replace="🟢 BFD $1"
+            match=".*Session State: (Up) \(.*\)"
+            replace="🟢 BFD $1"
         >bfd.sta</opcode>
-    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
-    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
-    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
-    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
-    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param match=".*= Diagnostic Code: (.*)" replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param match="(My Discriminator): (.*)" replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param match="(Your Discriminator): (.*)" replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param match="(Desired Min TX Interval): (.*)" replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param match="(Required Min RX Interval): (.*)" replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
     <param>bfd.required_min_echo_interval</param>
     <param>bfd.detect_time_multiplier</param>
     <param>bfd.flags</param>
@@ -73,14 +73,14 @@ For session-aware BFD tracking, see sessions.fxt.xml
   <!-- BFD AdminDown State - Administratively shut down -->
   <udp-message style="brick">
     <opcode
-            regex-match=".*Session State: (AdminDown) \(.*\)"
-            regex-replace="🛑 BFD $1"
+            match=".*Session State: (AdminDown) \(.*\)"
+            replace="🛑 BFD $1"
         >bfd.sta</opcode>
-    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
-    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
-    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
-    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
-    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param match=".*= Diagnostic Code: (.*)" replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param match="(My Discriminator): (.*)" replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param match="(Your Discriminator): (.*)" replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param match="(Desired Min TX Interval): (.*)" replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param match="(Required Min RX Interval): (.*)" replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
     <param>bfd.required_min_echo_interval</param>
     <param>bfd.detect_time_multiplier</param>
     <param>bfd.flags</param>
@@ -90,14 +90,14 @@ For session-aware BFD tracking, see sessions.fxt.xml
   <!-- Generic BFD fallback (catches any state not matched above) -->
   <udp-message style="steel-blue">
     <opcode
-            regex-match=".*Session State: (.*) \(.*\)"
-            regex-replace="📨 BFD $1"
+            match=".*Session State: (.*) \(.*\)"
+            replace="📨 BFD $1"
         >bfd.sta</opcode>
-    <param regex-match=".*= Diagnostic Code: (.*)" regex-replace="🔍 Diagnostic: $1">bfd.diag</param>
-    <param regex-match="(My Discriminator): (.*)" regex-replace="🆔 $1: $2">bfd.my_discriminator</param>
-    <param regex-match="(Your Discriminator): (.*)" regex-replace="🤝 $1: $2">bfd.your_discriminator</param>
-    <param regex-match="(Desired Min TX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
-    <param regex-match="(Required Min RX Interval): (.*)" regex-replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
+    <param match=".*= Diagnostic Code: (.*)" replace="🔍 Diagnostic: $1">bfd.diag</param>
+    <param match="(My Discriminator): (.*)" replace="🆔 $1: $2">bfd.my_discriminator</param>
+    <param match="(Your Discriminator): (.*)" replace="🤝 $1: $2">bfd.your_discriminator</param>
+    <param match="(Desired Min TX Interval): (.*)" replace="⏱️ $1: $2">bfd.desired_min_tx_interval</param>
+    <param match="(Required Min RX Interval): (.*)" replace="⏱️ $1: $2">bfd.required_min_rx_interval</param>
     <param>bfd.required_min_echo_interval</param>
     <param>bfd.detect_time_multiplier</param>
     <param>bfd.flags</param>

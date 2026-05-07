@@ -27,66 +27,66 @@ Captures: Cisco NSO device and service management via Postman
 
   <!-- RESTCONF GET — read config/state -->
   <tcp-message style="royal-blue" bookmark="true">
-    <opcode regex-match="(GET)" regex-replace="📡 RESTCONF $1">http.request.method</opcode>
-    <param display="brief" regex-match="(/restconf/data/.*)" regex-replace="📂 $1">http.request.uri</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🏠 Host: $1">http.host</param>
-    <remark regex-match=".*" regex-replace="💡 RESTCONF GET = NETCONF get-config — retrieves YANG model data at the specified path; response is JSON-encoded (yang-data+json)">http</remark>
+    <opcode match="(GET)" replace="📡 RESTCONF $1">http.request.method</opcode>
+    <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
+    <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
+    <remark match=".*" replace="💡 RESTCONF GET = NETCONF get-config — retrieves YANG model data at the specified path; response is JSON-encoded (yang-data+json)">http</remark>
   </tcp-message>
 
   <!-- RESTCONF POST — create resource -->
   <tcp-message style="sea-green" bookmark="true">
-    <opcode regex-match="(POST)" regex-replace="📝 RESTCONF $1">http.request.method</opcode>
-    <param display="brief" regex-match="(/restconf/data/.*)" regex-replace="📂 $1">http.request.uri</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🏠 Host: $1">http.host</param>
-    <param display="brief" regex-match="(application/yang-data.*)" regex-replace="📦 $1">http.content_type</param>
-    <param display="brief" regex-match="(.*)" regex-replace="📦 Length: $1">http.content_length</param>
-    <param regex-match=".*value: ([a-zA-Z][^:]+):(.*)" regex-replace="📋 $1: $2">json.member_with_value</param>
-    <remark regex-match=".*" regex-replace="💡 RESTCONF POST = NETCONF edit-config create — creates a new resource; request body contains YANG data as JSON; server returns 201 Created with Location header">http</remark>
+    <opcode match="(POST)" replace="📝 RESTCONF $1">http.request.method</opcode>
+    <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
+    <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
+    <param display="brief" match="(application/yang-data.*)" replace="📦 $1">http.content_type</param>
+    <param display="brief" match="(.*)" replace="📦 Length: $1">http.content_length</param>
+    <param match=".*value: ([a-zA-Z][^:]+):(.*)" replace="📋 $1: $2">json.member_with_value</param>
+    <remark match=".*" replace="💡 RESTCONF POST = NETCONF edit-config create — creates a new resource; request body contains YANG data as JSON; server returns 201 Created with Location header">http</remark>
   </tcp-message>
 
   <!-- RESTCONF PUT — replace resource -->
   <tcp-message style="amethyst" bookmark="true">
-    <opcode regex-match="(PUT)" regex-replace="🔄 RESTCONF $1">http.request.method</opcode>
-    <param display="brief" regex-match="(/restconf/data/.*)" regex-replace="📂 $1">http.request.uri</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🏠 Host: $1">http.host</param>
-    <param display="brief" regex-match="(application/yang-data.*)" regex-replace="📦 $1">http.content_type</param>
-    <param display="brief" regex-match="(.*)" regex-replace="📦 Length: $1">http.content_length</param>
-    <param regex-match=".*value: ([a-zA-Z][^:]+):(.*)" regex-replace="📋 $1: $2">json.member_with_value</param>
-    <remark regex-match=".*" regex-replace="💡 RESTCONF PUT = NETCONF edit-config replace — replaces the entire resource at the URI; creates if not exists; 204 on success">http</remark>
+    <opcode match="(PUT)" replace="🔄 RESTCONF $1">http.request.method</opcode>
+    <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
+    <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
+    <param display="brief" match="(application/yang-data.*)" replace="📦 $1">http.content_type</param>
+    <param display="brief" match="(.*)" replace="📦 Length: $1">http.content_length</param>
+    <param match=".*value: ([a-zA-Z][^:]+):(.*)" replace="📋 $1: $2">json.member_with_value</param>
+    <remark match=".*" replace="💡 RESTCONF PUT = NETCONF edit-config replace — replaces the entire resource at the URI; creates if not exists; 204 on success">http</remark>
   </tcp-message>
 
   <!-- RESTCONF PATCH — partial update -->
   <tcp-message style="teal" bookmark="true">
-    <opcode regex-match="(PATCH)" regex-replace="✏ RESTCONF $1">http.request.method</opcode>
-    <param display="brief" regex-match="(/restconf/data/.*)" regex-replace="📂 $1">http.request.uri</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🏠 Host: $1">http.host</param>
-    <param display="brief" regex-match="(application/yang-data.*)" regex-replace="📦 $1">http.content_type</param>
-    <param display="brief" regex-match="(.*)" regex-replace="📦 Length: $1">http.content_length</param>
-    <param regex-match=".*value: ([a-zA-Z][^:]+):(.*)" regex-replace="📋 $1: $2">json.member_with_value</param>
-    <remark regex-match=".*" regex-replace="💡 RESTCONF PATCH = NETCONF edit-config merge — merges partial changes into existing resource; only specified fields are updated; 204 on success">http</remark>
+    <opcode match="(PATCH)" replace="✏ RESTCONF $1">http.request.method</opcode>
+    <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
+    <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
+    <param display="brief" match="(application/yang-data.*)" replace="📦 $1">http.content_type</param>
+    <param display="brief" match="(.*)" replace="📦 Length: $1">http.content_length</param>
+    <param match=".*value: ([a-zA-Z][^:]+):(.*)" replace="📋 $1: $2">json.member_with_value</param>
+    <remark match=".*" replace="💡 RESTCONF PATCH = NETCONF edit-config merge — merges partial changes into existing resource; only specified fields are updated; 204 on success">http</remark>
   </tcp-message>
 
   <!-- RESTCONF DELETE — remove resource -->
   <tcp-message style="crimson" bookmark="true">
-    <opcode regex-match="(DELETE)" regex-replace="🗑 RESTCONF $1">http.request.method</opcode>
-    <param display="brief" regex-match="(/restconf/data/.*)" regex-replace="📂 $1">http.request.uri</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🏠 Host: $1">http.host</param>
-    <remark regex-match=".*" regex-replace="💡 RESTCONF DELETE = NETCONF edit-config delete — removes the resource at the URI; 204 No Content on success; fails if resource has dependents">http</remark>
+    <opcode match="(DELETE)" replace="🗑 RESTCONF $1">http.request.method</opcode>
+    <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
+    <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
+    <remark match=".*" replace="💡 RESTCONF DELETE = NETCONF edit-config delete — removes the resource at the URI; 204 No Content on success; fails if resource has dependents">http</remark>
   </tcp-message>
 
   <!-- RESTCONF HEAD — check existence -->
   <tcp-message style="slate" bookmark="true">
-    <opcode regex-match="(HEAD)" regex-replace="🔍 RESTCONF $1">http.request.method</opcode>
-    <param display="brief" regex-match="(/restconf/data/.*)" regex-replace="📂 $1">http.request.uri</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🏠 Host: $1">http.host</param>
-    <remark regex-match=".*" regex-replace="💡 RESTCONF HEAD — same as GET but returns headers only (no body); used to check if a resource exists and get metadata without transferring data">http</remark>
+    <opcode match="(HEAD)" replace="🔍 RESTCONF $1">http.request.method</opcode>
+    <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
+    <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
+    <remark match=".*" replace="💡 RESTCONF HEAD — same as GET but returns headers only (no body); used to check if a resource exists and get metadata without transferring data">http</remark>
   </tcp-message>
 
   <!-- Generic HTTP request fallback -->
   <tcp-message style="royal-blue dashed">
-    <opcode regex-match="(.*)" regex-replace="📡 HTTP $1">http.request.method</opcode>
-    <param display="brief" regex-match="(.*)" regex-replace="📂 URI: $1">http.request.uri</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🏠 Host: $1">http.host</param>
+    <opcode match="^(?:[^:]+:\s*)?(.+)$" replace="📡 HTTP $1">http.request.method</opcode>
+    <param display="brief" match="(.*)" replace="📂 URI: $1">http.request.uri</param>
+    <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
   </tcp-message>
 
   <!-- ============================================================
@@ -95,58 +95,58 @@ Captures: Cisco NSO device and service management via Postman
 
   <!-- 200 OK — data returned (GET, HEAD) -->
   <tcp-message style="forest-green">
-    <opcode regex-match="(200)" regex-replace="✅ RESTCONF $1 OK">http.response.code</opcode>
-    <param display="brief" regex-match="(application/yang-data.*)" regex-replace="📦 $1">http.content_type</param>
-    <param display="brief" regex-match="(.*)" regex-replace="📦 Length: $1">http.content_length</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🖥 Server: $1">http.server</param>
-    <param regex-match="Time since request: (.*)" regex-replace="⏱ $1">http.time</param>
-    <remark regex-match=".*" regex-replace="💡 200 OK — server returns the requested YANG data as JSON; for large responses, Transfer-Encoding: chunked is used">http</remark>
+    <opcode match="(200)" replace="✅ RESTCONF $1 OK">http.response.code</opcode>
+    <param display="brief" match="(application/yang-data.*)" replace="📦 $1">http.content_type</param>
+    <param display="brief" match="(.*)" replace="📦 Length: $1">http.content_length</param>
+    <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
+    <param match="Time since request: (.*)" replace="⏱ $1">http.time</param>
+    <remark match=".*" replace="💡 200 OK — server returns the requested YANG data as JSON; for large responses, Transfer-Encoding: chunked is used">http</remark>
   </tcp-message>
 
   <!-- 201 Created — resource created (POST) -->
   <tcp-message style="sea-green" bookmark="true">
-    <opcode regex-match="(201)" regex-replace="✅ RESTCONF $1 Created">http.response.code</opcode>
-    <param display="brief" regex-match="(http.*)" regex-replace="📂 Location: $1">http.location</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🖥 Server: $1">http.server</param>
-    <param regex-match="Time since request: (.*)" regex-replace="⏱ $1">http.time</param>
-    <remark regex-match=".*" regex-replace="💡 201 Created — new YANG resource created; Location header contains the URI of the new resource for subsequent GET/PUT/DELETE">http</remark>
+    <opcode match="(201)" replace="✅ RESTCONF $1 Created">http.response.code</opcode>
+    <param display="brief" match="(http.*)" replace="📂 Location: $1">http.location</param>
+    <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
+    <param match="Time since request: (.*)" replace="⏱ $1">http.time</param>
+    <remark match=".*" replace="💡 201 Created — new YANG resource created; Location header contains the URI of the new resource for subsequent GET/PUT/DELETE">http</remark>
   </tcp-message>
 
   <!-- 204 No Content — operation success (DELETE, PATCH, PUT) -->
   <tcp-message style="forest-green">
-    <opcode regex-match="(204)" regex-replace="✅ RESTCONF $1 No Content">http.response.code</opcode>
-    <param display="brief" regex-match="(.*)" regex-replace="🖥 Server: $1">http.server</param>
-    <param regex-match="Time since request: (.*)" regex-replace="⏱ $1">http.time</param>
-    <remark regex-match=".*" regex-replace="💡 204 No Content — operation succeeded with no response body; typical for PUT/PATCH/DELETE confirming the YANG data was modified">http</remark>
+    <opcode match="(204)" replace="✅ RESTCONF $1 No Content">http.response.code</opcode>
+    <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
+    <param match="Time since request: (.*)" replace="⏱ $1">http.time</param>
+    <remark match=".*" replace="💡 204 No Content — operation succeeded with no response body; typical for PUT/PATCH/DELETE confirming the YANG data was modified">http</remark>
   </tcp-message>
 
   <!-- 401 Unauthorized -->
   <tcp-message style="brick" bookmark="true">
-    <opcode regex-match="(401)" regex-replace="🔐 RESTCONF $1 Unauthorized">http.response.code</opcode>
-    <param display="brief" regex-match="(.*)" regex-replace="🔐 Auth: $1">http.www_authenticate</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🖥 Server: $1">http.server</param>
-    <remark regex-match=".*" regex-replace="💡 401 Unauthorized — server requires authentication; RESTCONF typically uses HTTP Basic or token-based auth; client must retry with credentials">http</remark>
+    <opcode match="(401)" replace="🔐 RESTCONF $1 Unauthorized">http.response.code</opcode>
+    <param display="brief" match="(.*)" replace="🔐 Auth: $1">http.www_authenticate</param>
+    <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
+    <remark match=".*" replace="💡 401 Unauthorized — server requires authentication; RESTCONF typically uses HTTP Basic or token-based auth; client must retry with credentials">http</remark>
   </tcp-message>
 
   <!-- 4xx/5xx Error -->
   <tcp-message style="brick" bookmark="true">
-    <opcode regex-match="([45]\d\d)" regex-replace="🚫 RESTCONF $1 Error">http.response.code</opcode>
-    <param display="brief" regex-match="(.*)" regex-replace="📋 $1">http.response.phrase</param>
-    <param display="brief" regex-match="(.*)" regex-replace="🖥 Server: $1">http.server</param>
-    <param regex-match="Time since request: (.*)" regex-replace="⏱ $1">http.time</param>
+    <opcode match="([45]\d\d)" replace="🚫 RESTCONF $1 Error">http.response.code</opcode>
+    <param display="brief" match="(.*)" replace="📋 $1">http.response.phrase</param>
+    <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
+    <param match="Time since request: (.*)" replace="⏱ $1">http.time</param>
   </tcp-message>
 
   <!-- 3xx Redirect -->
   <tcp-message style="amber">
-    <opcode regex-match="(3\d\d)" regex-replace="↩ RESTCONF $1 Redirect">http.response.code</opcode>
-    <param display="brief" regex-match="(.*)" regex-replace="📋 $1">http.response.phrase</param>
+    <opcode match="(3\d\d)" replace="↩ RESTCONF $1 Redirect">http.response.code</opcode>
+    <param display="brief" match="(.*)" replace="📋 $1">http.response.phrase</param>
   </tcp-message>
 
   <!-- Generic response fallback -->
   <tcp-message style="forest-green dashed">
-    <opcode regex-match="(\d+)" regex-replace="📋 RESTCONF $1">http.response.code</opcode>
-    <param display="brief" regex-match="(.*)" regex-replace="📋 $1">http.response.phrase</param>
-    <param regex-match="Time since request: (.*)" regex-replace="⏱ $1">http.time</param>
+    <opcode match="(\d+)" replace="📋 RESTCONF $1">http.response.code</opcode>
+    <param display="brief" match="(.*)" replace="📋 $1">http.response.phrase</param>
+    <param match="Time since request: (.*)" replace="⏱ $1">http.time</param>
   </tcp-message>
 
   <!-- ============================================================
@@ -154,15 +154,15 @@ Captures: Cisco NSO device and service management via Postman
        ============================================================ -->
 
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((SYN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*FIN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
   <tcp-message style="crimson dotted">
-    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*RST.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
 </FXT>

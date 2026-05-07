@@ -17,62 +17,62 @@ Emoji story for AAA lifecycle:
   <!-- Access-Request -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (Access-Request) \(\d+\)"
-            regex-replace="🔐 RADIUS $1"
+            match="Code: (Access-Request) \(\d+\)"
+            replace="🔐 RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
-    <param regex-match="(User-Name): (.*)" regex-replace="👤 $1: $2">radius.User_Name</param>
-    <param regex-match="(NAS-IP-Address): (.*)" regex-replace="🌐 $1: $2">radius.NAS_IP_Address</param>
-    <param regex-match="(NAS-Port): (.*)" regex-replace="🔗 $1: $2">radius.NAS_Port</param>
-    <param regex-match="(NAS-Port-Type): (.*)" regex-replace="🔗 $1: $2">radius.NAS_Port_Type</param>
-    <param regex-match="(Called-Station-Id): (.*)" regex-replace="📥 $1: $2">radius.Called_Station_Id</param>
-    <param regex-match="(Calling-Station-Id): (.*)" regex-replace="📤 $1: $2">radius.Calling_Station_Id</param>
-    <param regex-match="(Service-Type): (.*)" regex-replace="🔧 $1: $2">radius.Service_Type</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
+    <param match="(User-Name): (.*)" replace="👤 $1: $2">radius.User_Name</param>
+    <param match="(NAS-IP-Address): (.*)" replace="🌐 $1: $2">radius.NAS_IP_Address</param>
+    <param match="(NAS-Port): (.*)" replace="🔗 $1: $2">radius.NAS_Port</param>
+    <param match="(NAS-Port-Type): (.*)" replace="🔗 $1: $2">radius.NAS_Port_Type</param>
+    <param match="(Called-Station-Id): (.*)" replace="📥 $1: $2">radius.Called_Station_Id</param>
+    <param match="(Calling-Station-Id): (.*)" replace="📤 $1: $2">radius.Calling_Station_Id</param>
+    <param match="(Service-Type): (.*)" replace="🔧 $1: $2">radius.Service_Type</param>
     <param>radius.Framed_MTU</param>
     <param>radius.State</param>
-    <param regex-match="(Code): (.*)" regex-replace="🔐 EAP: $2">eap.code</param>
+    <param match="(Code): (.*)" replace="🔐 EAP: $2">eap.code</param>
   </udp-message>
 
   <!-- Access-Accept -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (Access-Accept) \(\d+\)"
-            regex-replace="✅ RADIUS $1"
+            match="Code: (Access-Accept) \(\d+\)"
+            replace="✅ RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
-    <param regex-match="(User-Name): (.*)" regex-replace="👤 $1: $2">radius.User_Name</param>
-    <param regex-match="(Service-Type): (.*)" regex-replace="🔧 $1: $2">radius.Service_Type</param>
-    <param regex-match="(Framed-IP-Address): (.*)" regex-replace="🌐 $1: $2">radius.Framed-IP-Address</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
+    <param match="(User-Name): (.*)" replace="👤 $1: $2">radius.User_Name</param>
+    <param match="(Service-Type): (.*)" replace="🔧 $1: $2">radius.Service_Type</param>
+    <param match="(Framed-IP-Address): (.*)" replace="🌐 $1: $2">radius.Framed-IP-Address</param>
     <param>radius.Framed_MTU</param>
-    <param regex-match="(Reply-Message): (.*)" regex-replace="📋 $1: $2">radius.Reply_Message</param>
+    <param match="(Reply-Message): (.*)" replace="📋 $1: $2">radius.Reply_Message</param>
     <param>radius.Message_Authenticator</param>
-    <param regex-match="(Code): (.*)" regex-replace="🔐 EAP: $2">eap.code</param>
+    <param match="(Code): (.*)" replace="🔐 EAP: $2">eap.code</param>
   </udp-message>
 
   <!-- Access-Reject -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (Access-Reject) \(\d+\)"
-            regex-replace="🚫 RADIUS $1"
+            match="Code: (Access-Reject) \(\d+\)"
+            replace="🚫 RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
-    <param regex-match="(User-Name): (.*)" regex-replace="👤 $1: $2">radius.User_Name</param>
-    <param regex-match="(Reply-Message): (.*)" regex-replace="📋 $1: $2">radius.Reply_Message</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
+    <param match="(User-Name): (.*)" replace="👤 $1: $2">radius.User_Name</param>
+    <param match="(Reply-Message): (.*)" replace="📋 $1: $2">radius.Reply_Message</param>
     <param>radius.Message_Authenticator</param>
-    <param regex-match="(Code): (.*)" regex-replace="🔐 EAP: $2">eap.code</param>
+    <param match="(Code): (.*)" replace="🔐 EAP: $2">eap.code</param>
   </udp-message>
 
   <!-- Access-Challenge -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (Access-Challenge) \(\d+\)"
-            regex-replace="❓ RADIUS $1"
+            match="Code: (Access-Challenge) \(\d+\)"
+            replace="❓ RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
     <param>radius.State</param>
-    <param regex-match="(Reply-Message): (.*)" regex-replace="📋 $1: $2">radius.Reply_Message</param>
+    <param match="(Reply-Message): (.*)" replace="📋 $1: $2">radius.Reply_Message</param>
     <param>radius.Message_Authenticator</param>
-    <param regex-match="(Code): (.*)" regex-replace="🔐 EAP: $2">eap.code</param>
+    <param match="(Code): (.*)" replace="🔐 EAP: $2">eap.code</param>
   </udp-message>
 
   <!-- =================================================================
@@ -82,30 +82,30 @@ Emoji story for AAA lifecycle:
   <!-- Accounting-Request -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (Accounting-Request) \(\d+\)"
-            regex-replace="📊 RADIUS $1"
+            match="Code: (Accounting-Request) \(\d+\)"
+            replace="📊 RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
-    <param regex-match="(User-Name): (.*)" regex-replace="👤 $1: $2">radius.User_Name</param>
-    <param regex-match="(Acct-Status-Type): (.*)" regex-replace="📋 $1: $2">radius.Acct_Status_Type</param>
-    <param regex-match="(Acct-Session-Id): (.*)" regex-replace="🆔 $1: $2">radius.Acct_Session_Id</param>
-    <param regex-match="(NAS-IP-Address): (.*)" regex-replace="🌐 $1: $2">radius.NAS_IP_Address</param>
-    <param regex-match="(NAS-Port): (.*)" regex-replace="🔗 $1: $2">radius.NAS_Port</param>
-    <param regex-match="(NAS-Port-Type): (.*)" regex-replace="🔗 $1: $2">radius.NAS_Port_Type</param>
-    <param regex-match="(Framed-IP-Address): (.*)" regex-replace="🌐 $1: $2">radius.Framed-IP-Address</param>
-    <param regex-match="(Acct-Input-Octets): (.*)" regex-replace="📥 $1: $2">radius.Acct_Input_Octets</param>
-    <param regex-match="(Acct-Output-Octets): (.*)" regex-replace="📤 $1: $2">radius.Acct_Output_Octets</param>
-    <param regex-match="(Acct-Session-Time): (.*)" regex-replace="⏱ $1: $2">radius.Acct_Session_Time</param>
-    <param regex-match="(Acct-Terminate-Cause): (.*)" regex-replace="📋 $1: $2">radius.Acct_Terminate_Cause</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
+    <param match="(User-Name): (.*)" replace="👤 $1: $2">radius.User_Name</param>
+    <param match="(Acct-Status-Type): (.*)" replace="📋 $1: $2">radius.Acct_Status_Type</param>
+    <param match="(Acct-Session-Id): (.*)" replace="🆔 $1: $2">radius.Acct_Session_Id</param>
+    <param match="(NAS-IP-Address): (.*)" replace="🌐 $1: $2">radius.NAS_IP_Address</param>
+    <param match="(NAS-Port): (.*)" replace="🔗 $1: $2">radius.NAS_Port</param>
+    <param match="(NAS-Port-Type): (.*)" replace="🔗 $1: $2">radius.NAS_Port_Type</param>
+    <param match="(Framed-IP-Address): (.*)" replace="🌐 $1: $2">radius.Framed-IP-Address</param>
+    <param match="(Acct-Input-Octets): (.*)" replace="📥 $1: $2">radius.Acct_Input_Octets</param>
+    <param match="(Acct-Output-Octets): (.*)" replace="📤 $1: $2">radius.Acct_Output_Octets</param>
+    <param match="(Acct-Session-Time): (.*)" replace="⏱ $1: $2">radius.Acct_Session_Time</param>
+    <param match="(Acct-Terminate-Cause): (.*)" replace="📋 $1: $2">radius.Acct_Terminate_Cause</param>
   </udp-message>
 
   <!-- Accounting-Response -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (Accounting-Response) \(\d+\)"
-            regex-replace="✅ RADIUS $1"
+            match="Code: (Accounting-Response) \(\d+\)"
+            replace="✅ RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
   </udp-message>
 
   <!-- =================================================================
@@ -115,21 +115,21 @@ Emoji story for AAA lifecycle:
   <!-- Status-Server -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (Status-Server) \(\d+\)"
-            regex-replace="💓 RADIUS $1"
+            match="Code: (Status-Server) \(\d+\)"
+            replace="💓 RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
-    <param regex-match="(NAS-IP-Address): (.*)" regex-replace="🌐 $1: $2">radius.NAS_IP_Address</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
+    <param match="(NAS-IP-Address): (.*)" replace="🌐 $1: $2">radius.NAS_IP_Address</param>
     <param>radius.Message_Authenticator</param>
   </udp-message>
 
   <!-- Status-Client -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (Status-Client) \(\d+\)"
-            regex-replace="💓 RADIUS $1"
+            match="Code: (Status-Client) \(\d+\)"
+            replace="💓 RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
     <param>radius.Message_Authenticator</param>
   </udp-message>
 
@@ -139,17 +139,17 @@ Emoji story for AAA lifecycle:
 
   <udp-message style="amethyst">
     <opcode
-            regex-match="Code: (.*) \(\d+\)"
-            regex-replace="🔄 RADIUS $1"
+            match="Code: (.*) \(\d+\)"
+            replace="🔄 RADIUS $1"
         >radius.code</opcode>
-    <param regex-match="(Packet identifier): (.*)" regex-replace="🆔 $1: $2">radius.id</param>
+    <param match="(Packet identifier): (.*)" replace="🆔 $1: $2">radius.id</param>
     <param>radius.length</param>
-    <param regex-match="(User-Name): (.*)" regex-replace="👤 $1: $2">radius.User_Name</param>
-    <param regex-match="(NAS-IP-Address): (.*)" regex-replace="🌐 $1: $2">radius.NAS_IP_Address</param>
-    <param regex-match="(NAS-Port): (.*)" regex-replace="🔗 $1: $2">radius.NAS_Port</param>
-    <param regex-match="(Service-Type): (.*)" regex-replace="🔧 $1: $2">radius.Service_Type</param>
-    <param regex-match="(Reply-Message): (.*)" regex-replace="📋 $1: $2">radius.Reply_Message</param>
-    <param regex-match="(Code): (.*)" regex-replace="🔐 EAP: $2">eap.code</param>
+    <param match="(User-Name): (.*)" replace="👤 $1: $2">radius.User_Name</param>
+    <param match="(NAS-IP-Address): (.*)" replace="🌐 $1: $2">radius.NAS_IP_Address</param>
+    <param match="(NAS-Port): (.*)" replace="🔗 $1: $2">radius.NAS_Port</param>
+    <param match="(Service-Type): (.*)" replace="🔧 $1: $2">radius.Service_Type</param>
+    <param match="(Reply-Message): (.*)" replace="📋 $1: $2">radius.Reply_Message</param>
+    <param match="(Code): (.*)" replace="🔐 EAP: $2">eap.code</param>
   </udp-message>
 
   <!-- =================================================================
@@ -158,43 +158,43 @@ Emoji story for AAA lifecycle:
 
   <!-- EAPoL Start -->
   <mac-message style="sea-green">
-    <opcode regex-match="Type: (Start) \(\d+\)" regex-replace="🚪 EAPoL $1">eapol.type</opcode>
+    <opcode match="Type: (Start) \(\d+\)" replace="🚪 EAPoL $1">eapol.type</opcode>
   </mac-message>
 
   <!-- EAP Identity -->
   <mac-message style="teal">
-    <opcode regex-match="Type: (Identity) \(\d+\)" regex-replace="🆔 EAP $1">eap.type</opcode>
-    <param regex-match="(Identity): (.*)" regex-replace="👤 $1: $2">eap.identity</param>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">eap.code</param>
+    <opcode match="Type: (Identity) \(\d+\)" replace="🆔 EAP $1">eap.type</opcode>
+    <param match="(Identity): (.*)" replace="👤 $1: $2">eap.identity</param>
+    <param match="(Code): (.*)" replace="📋 $1: $2">eap.code</param>
   </mac-message>
 
   <!-- EAP type (MS-CHAPv2, MD5, etc.) -->
   <mac-message style="royal-blue">
-    <opcode regex-match="Type: (.*) \(\d+\)" regex-replace="🔐 EAP $1">eap.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">eap.code</param>
-    <param regex-match="(Id): (.*)" regex-replace="🆔 $1: $2">eap.id</param>
-    <param regex-match="(OpCode): (.*)" regex-replace="🔧 $1: $2">eap.ms_chap_v2.opcode</param>
-    <param regex-match="(Name): (.*)" regex-replace="👤 $1: $2">eap.ms_chap_v2.name</param>
+    <opcode match="Type: (.*) \(\d+\)" replace="🔐 EAP $1">eap.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">eap.code</param>
+    <param match="(Id): (.*)" replace="🆔 $1: $2">eap.id</param>
+    <param match="(OpCode): (.*)" replace="🔧 $1: $2">eap.ms_chap_v2.opcode</param>
+    <param match="(Name): (.*)" replace="👤 $1: $2">eap.ms_chap_v2.name</param>
   </mac-message>
 
   <!-- EAP Success -->
   <mac-message style="forest-green">
-    <opcode regex-match="Code: (Success) \(\d+\)" regex-replace="✅ EAP $1">eap.code</opcode>
-    <param regex-match="(Id): (.*)" regex-replace="🆔 $1: $2">eap.id</param>
+    <opcode match="Code: (Success) \(\d+\)" replace="✅ EAP $1">eap.code</opcode>
+    <param match="(Id): (.*)" replace="🆔 $1: $2">eap.id</param>
   </mac-message>
 
   <!-- EAP Failure -->
   <mac-message style="crimson">
-    <opcode regex-match="Code: (Failure) \(\d+\)" regex-replace="🚫 EAP $1">eap.code</opcode>
-    <param regex-match="(Id): (.*)" regex-replace="🆔 $1: $2">eap.id</param>
+    <opcode match="Code: (Failure) \(\d+\)" replace="🚫 EAP $1">eap.code</opcode>
+    <param match="(Id): (.*)" replace="🆔 $1: $2">eap.id</param>
   </mac-message>
 
   <!-- EAPoL generic fallback -->
   <mac-message style="amethyst">
-    <opcode regex-match="Type: (.*) \(\d+\)" regex-replace="🔄 EAPoL $1">eapol.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">eap.code</param>
+    <opcode match="Type: (.*) \(\d+\)" replace="🔄 EAPoL $1">eapol.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">eap.code</param>
     <param>eap.type</param>
-    <param regex-match="(Identity): (.*)" regex-replace="👤 $1: $2">eap.identity</param>
+    <param match="(Identity): (.*)" replace="👤 $1: $2">eap.identity</param>
   </mac-message>
 
   <!-- =================================================================
@@ -202,9 +202,9 @@ Emoji story for AAA lifecycle:
        ================================================================= -->
 
   <tcp-message style="royal-blue">
-    <opcode regex-match="Type: (.*) \(\d+\)" regex-replace="🔐 TACACS+ $1">tacplus.type</opcode>
-    <param regex-match="(Session ID): (.*)" regex-replace="🆔 $1: $2">tacplus.session_id</param>
-    <param regex-match="(Sequence number): (.*)" regex-replace="🔢 $1: $2">tacplus.seqno</param>
+    <opcode match="Type: (.*) \(\d+\)" replace="🔐 TACACS+ $1">tacplus.type</opcode>
+    <param match="(Session ID): (.*)" replace="🆔 $1: $2">tacplus.session_id</param>
+    <param match="(Sequence number): (.*)" replace="🔢 $1: $2">tacplus.seqno</param>
     <param>tacplus.flags</param>
   </tcp-message>
 
@@ -213,14 +213,14 @@ Emoji story for AAA lifecycle:
        ================================================================= -->
 
   <tcp-message style="goldenrod">
-    <opcode regex-match="Operation: (.*) \(.*\)" regex-replace="🏷 SXP $1">smpp.command_id</opcode>
+    <opcode match="Operation: (.*) \(.*\)" replace="🏷 SXP $1">smpp.command_id</opcode>
   </tcp-message>
 
   <!-- TCP generic fallback -->
   <tcp-message style="steel-blue">
-    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
-    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
-    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+    <opcode match=".*Flags:.*\((.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <param match="(Source Port): (.*)" replace="📤 $1: $2">tcp.srcport</param>
+    <param match="(Destination Port): (.*)" replace="📥 $1: $2">tcp.dstport</param>
   </tcp-message>
 
 </FXT>

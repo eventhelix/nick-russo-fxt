@@ -26,194 +26,194 @@ Protocol Overview:
 
   <!-- SIP INVITE - Call initiation -->
   <udp-message style="sea-green">
-    <opcode regex-match="^INVITE" regex-replace="📞 SIP INVITE">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Via: (.*)" regex-replace="📡 Via: $1">sip.Via</param>
-    <param regex-match="Contact: (.*)" regex-replace="📞 Contact: $1">sip.Contact</param>
-    <param regex-match="Max-Forwards: (.*)" regex-replace="🔢 Max-Fwd: $1">sip.Max-Forwards</param>
-    <param regex-match="User-Agent: (.*)" regex-replace="🖥 UA: $1">sip.User-Agent</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
+    <opcode match="^INVITE" replace="📞 SIP INVITE">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Via: (.*)" replace="📡 Via: $1">sip.Via</param>
+    <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
+    <param match="Max-Forwards: (.*)" replace="🔢 Max-Fwd: $1">sip.Max-Forwards</param>
+    <param match="User-Agent: (.*)" replace="🖥 UA: $1">sip.User-Agent</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
     <param>sdp.session_name</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Media Attribute.*: (.*)" regex-replace="📋 Attr: $1">sdp.media_attr</param>
-    <remark regex-match=".*" regex-replace="💡 SIP INVITE initiates a call — carries SDP offer with codec/media proposals; callee responds with 180 Ringing, then 200 OK with SDP answer">sip</remark>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Media Attribute.*: (.*)" replace="📋 Attr: $1">sdp.media_attr</param>
+    <remark match=".*" replace="💡 SIP INVITE initiates a call — carries SDP offer with codec/media proposals; callee responds with 180 Ringing, then 200 OK with SDP answer">sip</remark>
   </udp-message>
 
   <!-- SIP REGISTER - Registration -->
   <udp-message style="sea-green">
     <opcode
-            regex-match="^REGISTER"
-            regex-replace="📋 SIP REGISTER"
+            match="^REGISTER"
+            replace="📋 SIP REGISTER"
         >sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Contact: (.*)" regex-replace="📞 Contact: $1">sip.Contact</param>
-    <param regex-match="Expires: (.*)" regex-replace="⏱ Expires: $1">sip.Expires</param>
-    <param regex-match="User-Agent: (.*)" regex-replace="🖥 UA: $1">sip.User-Agent</param>
-    <param regex-match="Authentication Scheme: (.*)" regex-replace="🔐 Scheme: $1">sip.auth.scheme</param>
-    <param regex-match="Username: (.*)" regex-replace="👤 Username: $1">sip.auth.username</param>
-    <param regex-match="Realm: (.*)" regex-replace="🔐 Realm: $1">sip.auth.realm</param>
-    <param regex-match="Nonce: (.*)" regex-replace="🔐 Nonce: $1">sip.auth.nonce</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
+    <param match="Expires: (.*)" replace="⏱ Expires: $1">sip.Expires</param>
+    <param match="User-Agent: (.*)" replace="🖥 UA: $1">sip.User-Agent</param>
+    <param match="Authentication Scheme: (.*)" replace="🔐 Scheme: $1">sip.auth.scheme</param>
+    <param match="Username: (.*)" replace="👤 Username: $1">sip.auth.username</param>
+    <param match="Realm: (.*)" replace="🔐 Realm: $1">sip.auth.realm</param>
+    <param match="Nonce: (.*)" replace="🔐 Nonce: $1">sip.auth.nonce</param>
     <param>sip.auth.uri</param>
     <param>sip.auth.digest.response</param>
     <param>sip.auth.algorithm</param>
-    <remark regex-match=".*" regex-replace="💡 SIP REGISTER binds a contact URI to an AOR (Address of Record) at the registrar; Expires=0 means unregister; 401 triggers Digest auth challenge">sip</remark>
+    <remark match=".*" replace="💡 SIP REGISTER binds a contact URI to an AOR (Address of Record) at the registrar; Expires=0 means unregister; 401 triggers Digest auth challenge">sip</remark>
   </udp-message>
 
   <!-- SIP BYE - Call termination -->
   <udp-message style="sea-green dashed">
-    <opcode regex-match="^BYE" regex-replace="🛑 SIP BYE">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Reason: (.*)" regex-replace="📋 Reason: $1">sip.Reason</param>
-    <remark regex-match=".*" regex-replace="💡 SIP BYE terminates an established dialog — both sides send BYE to release media resources; Reason header explains why (e.g., user hangup)">sip</remark>
+    <opcode match="^BYE" replace="🛑 SIP BYE">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Reason: (.*)" replace="📋 Reason: $1">sip.Reason</param>
+    <remark match=".*" replace="💡 SIP BYE terminates an established dialog — both sides send BYE to release media resources; Reason header explains why (e.g., user hangup)">sip</remark>
   </udp-message>
 
   <!-- SIP CANCEL - Cancel pending request -->
   <udp-message style="sea-green dot-dash">
-    <opcode regex-match="^CANCEL" regex-replace="❌ SIP CANCEL">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
+    <opcode match="^CANCEL" replace="❌ SIP CANCEL">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
   </udp-message>
 
   <!-- SIP ACK - Acknowledge final response -->
   <udp-message style="sea-green dashed">
-    <opcode regex-match="^ACK" regex-replace="✅ SIP ACK">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
+    <opcode match="^ACK" replace="✅ SIP ACK">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
   </udp-message>
 
   <!-- SIP OPTIONS - Capability query -->
   <udp-message style="sea-green dashed">
     <opcode
-            regex-match="^OPTIONS"
-            regex-replace="🔍 SIP OPTIONS"
+            match="^OPTIONS"
+            replace="🔍 SIP OPTIONS"
         >sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Accept: (.*)" regex-replace="📋 Accept: $1">sip.Accept</param>
-    <param regex-match="Allow: (.*)" regex-replace="📋 Allow: $1">sip.Allow</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Accept: (.*)" replace="📋 Accept: $1">sip.Accept</param>
+    <param match="Allow: (.*)" replace="📋 Allow: $1">sip.Allow</param>
   </udp-message>
 
   <!-- SIP SUBSCRIBE - Event subscription -->
   <udp-message style="sea-green">
     <opcode
-            regex-match="^SUBSCRIBE"
-            regex-replace="📊 SIP SUBSCRIBE"
+            match="^SUBSCRIBE"
+            replace="📊 SIP SUBSCRIBE"
         >sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Event: (.*)" regex-replace="📋 Event: $1">sip.Event</param>
-    <param regex-match="Expires: (.*)" regex-replace="⏱ Expires: $1">sip.Expires</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Event: (.*)" replace="📋 Event: $1">sip.Event</param>
+    <param match="Expires: (.*)" replace="⏱ Expires: $1">sip.Expires</param>
   </udp-message>
 
   <!-- SIP NOTIFY - Event notification -->
   <udp-message style="sea-green">
-    <opcode regex-match="^NOTIFY" regex-replace="📢 SIP NOTIFY">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Event: (.*)" regex-replace="📋 Event: $1">sip.Event</param>
-    <param regex-match="Subscription-State: (.*)" regex-replace="📊 State: $1">sip.Subscription-State</param>
+    <opcode match="^NOTIFY" replace="📢 SIP NOTIFY">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Event: (.*)" replace="📋 Event: $1">sip.Event</param>
+    <param match="Subscription-State: (.*)" replace="📊 State: $1">sip.Subscription-State</param>
   </udp-message>
 
   <!-- SIP REFER - Call transfer -->
   <udp-message style="sea-green">
-    <opcode regex-match="^REFER" regex-replace="↪ SIP REFER">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Refer-To: (.*)" regex-replace="↪ Refer-To: $1">sip.Refer-To</param>
-    <param regex-match="Referred-By: (.*)" regex-replace="↪ Referred-By: $1">sip.Referred-By</param>
+    <opcode match="^REFER" replace="↪ SIP REFER">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Refer-To: (.*)" replace="↪ Refer-To: $1">sip.Refer-To</param>
+    <param match="Referred-By: (.*)" replace="↪ Referred-By: $1">sip.Referred-By</param>
   </udp-message>
 
   <!-- SIP INFO - Mid-dialog information -->
   <udp-message style="sea-green">
-    <opcode regex-match="^INFO" regex-replace="📋 SIP INFO">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Content-Type: (.*)" regex-replace="📦 Content-Type: $1">sip.Content-Type</param>
+    <opcode match="^INFO" replace="📋 SIP INFO">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Content-Type: (.*)" replace="📦 Content-Type: $1">sip.Content-Type</param>
   </udp-message>
 
   <!-- SIP UPDATE - Session update -->
   <udp-message style="sea-green">
-    <opcode regex-match="^UPDATE" regex-replace="🔄 SIP UPDATE">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
+    <opcode match="^UPDATE" replace="🔄 SIP UPDATE">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
   </udp-message>
 
   <!-- SIP MESSAGE - Instant message -->
   <udp-message style="sea-green">
     <opcode
-            regex-match="^MESSAGE"
-            regex-replace="💬 SIP MESSAGE"
+            match="^MESSAGE"
+            replace="💬 SIP MESSAGE"
         >sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Content-Type: (.*)" regex-replace="📦 Content-Type: $1">sip.Content-Type</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Content-Type: (.*)" replace="📦 Content-Type: $1">sip.Content-Type</param>
   </udp-message>
 
   <!-- SIP PRACK - Provisional response acknowledgment -->
   <udp-message style="sea-green dashed">
-    <opcode regex-match="^PRACK" regex-replace="✅ SIP PRACK">sip.Method</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="RAck: (.*)" regex-replace="🔢 RAck: $1">sip.RAck</param>
+    <opcode match="^PRACK" replace="✅ SIP PRACK">sip.Method</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="RAck: (.*)" replace="🔢 RAck: $1">sip.RAck</param>
   </udp-message>
 
   <!-- Generic SIP Request (fallback) -->
   <udp-message style="sea-green dashed">
     <opcode
-            regex-match="Request-Line: (.*)"
-            regex-replace="📡 SIP $1"
+            match="Request-Line: (.*)"
+            replace="📡 SIP $1"
         >sip.Request-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Event: (.*)" regex-replace="📋 Event: $1">sip.Event</param>
-    <param regex-match="Subscription-State: (.*)" regex-replace="📊 State: $1">sip.Subscription-State</param>
-    <param regex-match="Allow: (.*)" regex-replace="📋 Allow: $1">sip.Allow</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Media Attribute.*: (.*)" regex-replace="📋 Attr: $1">sdp.media_attr</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Event: (.*)" replace="📋 Event: $1">sip.Event</param>
+    <param match="Subscription-State: (.*)" replace="📊 State: $1">sip.Subscription-State</param>
+    <param match="Allow: (.*)" replace="📋 Allow: $1">sip.Allow</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Media Attribute.*: (.*)" replace="📋 Attr: $1">sdp.media_attr</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
     <param>sdp.time</param>
-    <param regex-match="Authentication Scheme: (.*)" regex-replace="🔐 Scheme: $1">sip.auth.scheme</param>
-    <param regex-match="Username: (.*)" regex-replace="👤 Username: $1">sip.auth.username</param>
-    <param regex-match="Realm: (.*)" regex-replace="🔐 Realm: $1">sip.auth.realm</param>
+    <param match="Authentication Scheme: (.*)" replace="🔐 Scheme: $1">sip.auth.scheme</param>
+    <param match="Username: (.*)" replace="👤 Username: $1">sip.auth.username</param>
+    <param match="Realm: (.*)" replace="🔐 Realm: $1">sip.auth.realm</param>
   </udp-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -223,54 +223,54 @@ Protocol Overview:
 
   <!-- SIP 401 Unauthorized -->
   <udp-message style="amber" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 (401.*)" regex-replace="🔐 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Authentication Scheme: (.*)" regex-replace="🔐 Scheme: $1">sip.auth.scheme</param>
-    <param regex-match="Realm: (.*)" regex-replace="🔐 Realm: $1">sip.auth.realm</param>
-    <remark regex-match=".*" regex-replace="💡 401 Unauthorized — server challenges client with Digest auth (realm + nonce); client must retry with computed response hash using shared secret">sip</remark>
+    <opcode match=".*SIP/2.0 (401.*)" replace="🔐 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Authentication Scheme: (.*)" replace="🔐 Scheme: $1">sip.auth.scheme</param>
+    <param match="Realm: (.*)" replace="🔐 Realm: $1">sip.auth.realm</param>
+    <remark match=".*" replace="💡 401 Unauthorized — server challenges client with Digest auth (realm + nonce); client must retry with computed response hash using shared secret">sip</remark>
   </udp-message>
 
   <!-- SIP 407 Proxy Authentication Required -->
   <udp-message style="amber" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 (407.*)" regex-replace="🔐 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <remark regex-match=".*" regex-replace="💡 407 Proxy Auth Required — SIP proxy challenges the request; same Digest auth flow as 401 but for proxy-level authentication">sip</remark>
+    <opcode match=".*SIP/2.0 (407.*)" replace="🔐 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <remark match=".*" replace="💡 407 Proxy Auth Required — SIP proxy challenges the request; same Digest auth flow as 401 but for proxy-level authentication">sip</remark>
   </udp-message>
 
   <!-- SIP 486 Busy Here -->
   <udp-message style="brick" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 (486.*)" regex-replace="🚫 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <remark regex-match=".*" regex-replace="💡 486 Busy Here — callee's device is busy; caller hears busy tone; call may be forwarded if CFNB (Call Forward No Busy) is configured">sip</remark>
+    <opcode match=".*SIP/2.0 (486.*)" replace="🚫 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <remark match=".*" replace="💡 486 Busy Here — callee's device is busy; caller hears busy tone; call may be forwarded if CFNB (Call Forward No Busy) is configured">sip</remark>
   </udp-message>
 
   <!-- SIP 4xx Client Errors -->
   <udp-message style="brick wave" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 (4[0-9][0-9].*)" regex-replace="🚫 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Warning: (.*)" regex-replace="⚠️ Warning: $1">sip.Warning</param>
+    <opcode match=".*SIP/2.0 (4[0-9][0-9].*)" replace="🚫 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Warning: (.*)" replace="⚠️ Warning: $1">sip.Warning</param>
   </udp-message>
 
   <!-- SIP 5xx Server Errors -->
   <udp-message style="brick wave" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 (5[0-9][0-9].*)" regex-replace="💥 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Warning: (.*)" regex-replace="⚠️ Warning: $1">sip.Warning</param>
-    <remark regex-match=".*" regex-replace="💡 5xx Server Error — proxy or UAS failure; 500=Internal Error, 503=Service Unavailable (overloaded); client should retry with exponential backoff">sip</remark>
+    <opcode match=".*SIP/2.0 (5[0-9][0-9].*)" replace="💥 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Warning: (.*)" replace="⚠️ Warning: $1">sip.Warning</param>
+    <remark match=".*" replace="💡 5xx Server Error — proxy or UAS failure; 500=Internal Error, 503=Service Unavailable (overloaded); client should retry with exponential backoff">sip</remark>
   </udp-message>
 
   <!-- SIP 6xx Global Errors -->
   <udp-message style="brick wave" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 (6[0-9][0-9].*)" regex-replace="🚫 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Warning: (.*)" regex-replace="⚠️ Warning: $1">sip.Warning</param>
-    <remark regex-match=".*" regex-replace="💡 6xx Global Failure — 600=Busy Everywhere (all endpoints busy), 603=Decline (callee explicitly rejected); no point trying other contacts">sip</remark>
+    <opcode match=".*SIP/2.0 (6[0-9][0-9].*)" replace="🚫 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Warning: (.*)" replace="⚠️ Warning: $1">sip.Warning</param>
+    <remark match=".*" replace="💡 6xx Global Failure — 600=Busy Everywhere (all endpoints busy), 603=Decline (callee explicitly rejected); no point trying other contacts">sip</remark>
   </udp-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -279,76 +279,76 @@ Protocol Overview:
 
   <!-- SIP 100 Trying -->
   <udp-message style="slate dashed">
-    <opcode regex-match=".*SIP/2.0 (100 Trying)" regex-replace="⏳ SIP $1">sip.Status-Line</opcode>
-    <remark regex-match=".*" regex-replace="💡 100 Trying — proxy accepted the request and is searching for the callee; stops retransmission timer; no end-to-end significance">sip</remark>
+    <opcode match=".*SIP/2.0 (100 Trying)" replace="⏳ SIP $1">sip.Status-Line</opcode>
+    <remark match=".*" replace="💡 100 Trying — proxy accepted the request and is searching for the callee; stops retransmission timer; no end-to-end significance">sip</remark>
   </udp-message>
 
   <!-- SIP 180 Ringing -->
   <udp-message style="tangerine">
-    <opcode regex-match=".*SIP/2.0 (180 Ringing)" regex-replace="🔔 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <remark regex-match=".*" regex-replace="💡 180 Ringing — callee's phone is alerting; caller hears locally generated ringback; 183 with SDP offers early media (in-band ringback) instead">sip</remark>
+    <opcode match=".*SIP/2.0 (180 Ringing)" replace="🔔 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <remark match=".*" replace="💡 180 Ringing — callee's phone is alerting; caller hears locally generated ringback; 183 with SDP offers early media (in-band ringback) instead">sip</remark>
   </udp-message>
 
   <!-- SIP 183 Session Progress -->
   <udp-message style="tangerine">
-    <opcode regex-match=".*SIP/2.0 (183 Session Progress)" regex-replace="🎵 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <remark regex-match=".*" regex-replace="💡 183 Session Progress — carries SDP answer for early media (ringback tone, IVR prompts); RTP flows before call is answered; requires PRACK if 100rel is negotiated">sip</remark>
+    <opcode match=".*SIP/2.0 (183 Session Progress)" replace="🎵 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <remark match=".*" replace="💡 183 Session Progress — carries SDP answer for early media (ringback tone, IVR prompts); RTP flows before call is answered; requires PRACK if 100rel is negotiated">sip</remark>
   </udp-message>
 
   <!-- SIP 1xx Provisional (other) -->
   <udp-message style="forest-green dashed">
-    <opcode regex-match=".*SIP/2.0 (1[0-9][0-9].*)" regex-replace="📋 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="RSeq: (.*)" regex-replace="🔢 RSeq: $1">sip.RSeq</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
+    <opcode match=".*SIP/2.0 (1[0-9][0-9].*)" replace="📋 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="RSeq: (.*)" replace="🔢 RSeq: $1">sip.RSeq</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
   </udp-message>
 
   <!-- SIP 200 OK -->
   <udp-message style="forest-green" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 (200 OK)" regex-replace="✅ SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Contact: (.*)" regex-replace="📞 Contact: $1">sip.Contact</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Media Attribute.*: (.*)" regex-replace="📋 Attr: $1">sdp.media_attr</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <remark regex-match=".*" regex-replace="💡 200 OK — call answered (for INVITE) or registration accepted (for REGISTER); SDP answer completes codec negotiation; caller must send ACK to complete 3-way handshake">sip</remark>
+    <opcode match=".*SIP/2.0 (200 OK)" replace="✅ SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Media Attribute.*: (.*)" replace="📋 Attr: $1">sdp.media_attr</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <remark match=".*" replace="💡 200 OK — call answered (for INVITE) or registration accepted (for REGISTER); SDP answer completes codec negotiation; caller must send ACK to complete 3-way handshake">sip</remark>
   </udp-message>
 
   <!-- SIP 2xx Success (other) -->
   <udp-message style="forest-green">
-    <opcode regex-match=".*SIP/2.0 (2[0-9][0-9].*)" regex-replace="✅ SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Contact: (.*)" regex-replace="📞 Contact: $1">sip.Contact</param>
-    <param regex-match="Expires: (.*)" regex-replace="⏱ Expires: $1">sip.Expires</param>
+    <opcode match=".*SIP/2.0 (2[0-9][0-9].*)" replace="✅ SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
+    <param match="Expires: (.*)" replace="⏱ Expires: $1">sip.Expires</param>
   </udp-message>
 
   <!-- SIP 3xx Redirection -->
   <udp-message style="amber">
-    <opcode regex-match=".*SIP/2.0 (3[0-9][0-9].*)" regex-replace="↩ SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Contact: (.*)" regex-replace="📞 Contact: $1">sip.Contact</param>
-    <remark regex-match=".*" regex-replace="💡 3xx Redirect — callee moved; Contact header contains new URI; 301=permanent (update AOR), 302=temporary (try once), 305=use specified proxy">sip</remark>
+    <opcode match=".*SIP/2.0 (3[0-9][0-9].*)" replace="↩ SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
+    <remark match=".*" replace="💡 3xx Redirect — callee moved; Contact header contains new URI; 301=permanent (update AOR), 302=temporary (try once), 305=use specified proxy">sip</remark>
   </udp-message>
 
   <!-- Generic SIP Response (fallback) -->
   <udp-message style="forest-green dashed">
-    <opcode regex-match="Status-Line: SIP/2.0 (.*)" regex-replace="📋 SIP $1">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
+    <opcode match="Status-Line: SIP/2.0 (.*)" replace="📋 SIP $1">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
   </udp-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -358,61 +358,61 @@ Protocol Overview:
   <!-- TCP SIP Requests -->
   <tcp-message style="sea-green">
     <opcode
-            regex-match="Request-Line: (.*)"
-            regex-replace="📡 SIP $1"
+            match="Request-Line: (.*)"
+            replace="📡 SIP $1"
         >sip.Request-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Via: (.*)" regex-replace="📡 Via: $1">sip.Via</param>
-    <param regex-match="Contact: (.*)" regex-replace="📞 Contact: $1">sip.Contact</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Media Attribute.*: (.*)" regex-replace="📋 Attr: $1">sdp.media_attr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Via: (.*)" replace="📡 Via: $1">sip.Via</param>
+    <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Media Attribute.*: (.*)" replace="📋 Attr: $1">sdp.media_attr</param>
   </tcp-message>
 
   <!-- TCP SIP 100 Trying -->
   <tcp-message style="slate dashed">
-    <opcode regex-match=".*SIP/2.0 (100 Trying)" regex-replace="⏳ SIP $1">sip.Status-Line</opcode>
+    <opcode match=".*SIP/2.0 (100 Trying)" replace="⏳ SIP $1">sip.Status-Line</opcode>
   </tcp-message>
 
   <!-- TCP SIP 180 Ringing -->
   <tcp-message style="tangerine">
-    <opcode regex-match=".*SIP/2.0 (180 Ringing)" regex-replace="🔔 SIP $1">sip.Status-Line</opcode>
-    <remark regex-match=".*" regex-replace="💡 180 Ringing — callee's phone is alerting; caller hears locally generated ringback">sip</remark>
+    <opcode match=".*SIP/2.0 (180 Ringing)" replace="🔔 SIP $1">sip.Status-Line</opcode>
+    <remark match=".*" replace="💡 180 Ringing — callee's phone is alerting; caller hears locally generated ringback">sip</remark>
   </tcp-message>
 
   <!-- TCP SIP 183 Session Progress -->
   <tcp-message style="tangerine">
-    <opcode regex-match=".*SIP/2.0 (183 Session Progress)" regex-replace="🎵 SIP $1">sip.Status-Line</opcode>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <remark regex-match=".*" regex-replace="💡 183 Session Progress — early media with SDP answer; RTP flows before call is answered">sip</remark>
+    <opcode match=".*SIP/2.0 (183 Session Progress)" replace="🎵 SIP $1">sip.Status-Line</opcode>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <remark match=".*" replace="💡 183 Session Progress — early media with SDP answer; RTP flows before call is answered">sip</remark>
   </tcp-message>
 
   <!-- TCP SIP 200 OK -->
   <tcp-message style="forest-green" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 (200 OK)" regex-replace="✅ SIP $1">sip.Status-Line</opcode>
-    <param regex-match="Contact: (.*)" regex-replace="📞 Contact: $1">sip.Contact</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <remark regex-match=".*" regex-replace="💡 200 OK — call answered or registration accepted; SDP answer completes codec negotiation; ACK required to complete INVITE 3-way handshake">sip</remark>
+    <opcode match=".*SIP/2.0 (200 OK)" replace="✅ SIP $1">sip.Status-Line</opcode>
+    <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <remark match=".*" replace="💡 200 OK — call answered or registration accepted; SDP answer completes codec negotiation; ACK required to complete INVITE 3-way handshake">sip</remark>
   </tcp-message>
 
   <!-- TCP SIP 4xx/5xx/6xx Error -->
   <tcp-message style="brick wave" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 ([4-6][0-9][0-9].*)" regex-replace="🚫 SIP $1">sip.Status-Line</opcode>
-    <param regex-match="Warning: (.*)" regex-replace="⚠️ Warning: $1">sip.Warning</param>
+    <opcode match=".*SIP/2.0 ([4-6][0-9][0-9].*)" replace="🚫 SIP $1">sip.Status-Line</opcode>
+    <param match="Warning: (.*)" replace="⚠️ Warning: $1">sip.Warning</param>
   </tcp-message>
 
   <!-- TCP SIP Generic Response -->
   <tcp-message style="forest-green dashed">
-    <opcode regex-match="Status-Line: SIP/2.0 (.*)" regex-replace="📋 SIP $1">sip.Status-Line</opcode>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
+    <opcode match="Status-Line: SIP/2.0 (.*)" replace="📋 SIP $1">sip.Status-Line</opcode>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
   </tcp-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -421,26 +421,26 @@ Protocol Overview:
 
   <udpv6-message style="sea-green">
     <opcode
-            regex-match="Request-Line: (.*)"
-            regex-replace="📡 SIP $1"
+            match="Request-Line: (.*)"
+            replace="📡 SIP $1"
         >sip.Request-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Via: (.*)" regex-replace="📡 Via: $1">sip.Via</param>
-    <param regex-match="Contact: (.*)" regex-replace="📞 Contact: $1">sip.Contact</param>
-    <param regex-match="Event: (.*)" regex-replace="📋 Event: $1">sip.Event</param>
-    <param regex-match="Subscription-State: (.*)" regex-replace="📊 State: $1">sip.Subscription-State</param>
-    <param regex-match="Allow: (.*)" regex-replace="📋 Allow: $1">sip.Allow</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Media Attribute.*: (.*)" regex-replace="📋 Attr: $1">sdp.media_attr</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Via: (.*)" replace="📡 Via: $1">sip.Via</param>
+    <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
+    <param match="Event: (.*)" replace="📋 Event: $1">sip.Event</param>
+    <param match="Subscription-State: (.*)" replace="📊 State: $1">sip.Subscription-State</param>
+    <param match="Allow: (.*)" replace="📋 Allow: $1">sip.Allow</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Media Attribute.*: (.*)" replace="📋 Attr: $1">sdp.media_attr</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
     <param>sdp.time</param>
-    <param regex-match="Authentication Scheme: (.*)" regex-replace="🔐 Scheme: $1">sip.auth.scheme</param>
-    <param regex-match="Username: (.*)" regex-replace="👤 Username: $1">sip.auth.username</param>
-    <param regex-match="Realm: (.*)" regex-replace="🔐 Realm: $1">sip.auth.realm</param>
+    <param match="Authentication Scheme: (.*)" replace="🔐 Scheme: $1">sip.auth.scheme</param>
+    <param match="Username: (.*)" replace="👤 Username: $1">sip.auth.username</param>
+    <param match="Realm: (.*)" replace="🔐 Realm: $1">sip.auth.realm</param>
   </udpv6-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -449,34 +449,34 @@ Protocol Overview:
 
   <!-- IPv6 Error Responses -->
   <udpv6-message style="brick wave" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 [4-6].*">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Warning: (.*)" regex-replace="⚠️ Warning: $1">sip.Warning</param>
-    <param regex-match="Authentication Scheme: (.*)" regex-replace="🔐 Scheme: $1">sip.auth.scheme</param>
-    <param regex-match="Nonce: (.*)" regex-replace="🔐 Nonce: $1">sip.auth.nonce</param>
-    <param regex-match="Realm: (.*)" regex-replace="🔐 Realm: $1">sip.auth.realm</param>
+    <opcode match=".*SIP/2.0 [4-6].*">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Warning: (.*)" replace="⚠️ Warning: $1">sip.Warning</param>
+    <param match="Authentication Scheme: (.*)" replace="🔐 Scheme: $1">sip.auth.scheme</param>
+    <param match="Nonce: (.*)" replace="🔐 Nonce: $1">sip.auth.nonce</param>
+    <param match="Realm: (.*)" replace="🔐 Realm: $1">sip.auth.realm</param>
   </udpv6-message>
 
   <!-- IPv6 Success Responses -->
   <udpv6-message style="forest-green dashed">
     <opcode
-            regex-match="Status-Line: (.*)"
-            regex-replace="$1"
+            match="Status-Line: (.*)"
+            replace="$1"
         >sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Accept: (.*)" regex-replace="📋 Accept: $1">sip.Accept</param>
-    <param regex-match="Event: (.*)" regex-replace="📋 Event: $1">sip.Event</param>
-    <param regex-match="Server: (.*)" regex-replace="🖥 Server: $1">sip.Server</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
-    <param regex-match="Media Attribute.*: (.*)" regex-replace="📋 Attr: $1">sdp.media_attr</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Accept: (.*)" replace="📋 Accept: $1">sip.Accept</param>
+    <param match="Event: (.*)" replace="📋 Event: $1">sip.Event</param>
+    <param match="Server: (.*)" replace="🖥 Server: $1">sip.Server</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
+    <param match="Media Attribute.*: (.*)" replace="📋 Attr: $1">sdp.media_attr</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
     <param>sdp.time</param>
   </udpv6-message>
 
@@ -486,38 +486,38 @@ Protocol Overview:
 
   <tcpv6-message style="sea-green">
     <opcode
-            regex-match="Request-Line: (.*)"
-            regex-replace="📡 SIP $1"
+            match="Request-Line: (.*)"
+            replace="📡 SIP $1"
         >sip.Request-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
   </tcpv6-message>
 
   <tcpv6-message style="brick wave" bookmark="true">
-    <opcode regex-match=".*SIP/2.0 [4-6].*">sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
+    <opcode match=".*SIP/2.0 [4-6].*">sip.Status-Line</opcode>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
   </tcpv6-message>
 
   <tcpv6-message style="forest-green">
     <opcode
-            regex-match="Status-Line: (.*)"
-            regex-replace="$1"
+            match="Status-Line: (.*)"
+            replace="$1"
         >sip.Status-Line</opcode>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 From: $1">sip.from.addr</param>
-    <param regex-match=".*&lt;(.*)&gt;" regex-replace="📞 To: $1">sip.to.addr</param>
-    <param regex-match="Call-ID: (.*)" regex-replace="🔗 Call-ID: $1">sip.Call-ID</param>
-    <param regex-match="CSeq: (.*)" regex-replace="🔢 CSeq: $1">sip.CSeq</param>
-    <param regex-match="Owner/Creator.*: (.*)" regex-replace="👤 Owner: $1">sdp.owner</param>
-    <param regex-match="Connection Information.*: (.*)" regex-replace="🌐 Connection: $1">sdp.connection_info</param>
-    <param regex-match="Media Description.*: (.*)" regex-replace="🎵 Media: $1">sdp.media</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
+    <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
+    <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
+    <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
+    <param match="Owner/Creator.*: (.*)" replace="👤 Owner: $1">sdp.owner</param>
+    <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
+    <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
   </tcpv6-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -527,38 +527,38 @@ Protocol Overview:
 
   <!-- RTP DTMF Events (RFC 4733) - Filtered to reduce repetition per digit -->
   <udp-message filter="true" style="crimson wave">
-    <opcode regex-match=".*" regex-replace="🔢 DTMF">rtpevent.event_id</opcode>
-    <param regex-match="Event ID: (.*)" regex-replace="🔢 Digit: $1">rtpevent.event_id</param>
-    <param display="brief" regex-match="(True|False)" regex-replace="🏁 End: $1">rtpevent.end_of_event</param>
-    <param regex-match="Event Duration: (.*)" regex-replace="⏱ Duration: $1">rtpevent.duration</param>
-    <remark regex-match=".*" regex-replace="💡 DTMF digit sent as RTP Named Telephone Event (RFC 4733) — out-of-band signaling preserves digit accuracy across codec transcoding">rtpevent</remark>
+    <opcode match=".*" replace="🔢 DTMF">rtpevent.event_id</opcode>
+    <param match="Event ID: (.*)" replace="🔢 Digit: $1">rtpevent.event_id</param>
+    <param display="brief" match="(True|False)" replace="🏁 End: $1">rtpevent.end_of_event</param>
+    <param match="Event Duration: (.*)" replace="⏱ Duration: $1">rtpevent.duration</param>
+    <remark match=".*" replace="💡 DTMF digit sent as RTP Named Telephone Event (RFC 4733) — out-of-band signaling preserves digit accuracy across codec transcoding">rtpevent</remark>
   </udp-message>
 
   <udpv6-message filter="true" style="crimson wave">
-    <opcode regex-match=".*" regex-replace="🔢 DTMF">rtpevent.event_id</opcode>
-    <param regex-match="Event ID: (.*)" regex-replace="🔢 Digit: $1">rtpevent.event_id</param>
-    <param display="brief" regex-match="(True|False)" regex-replace="🏁 End: $1">rtpevent.end_of_event</param>
-    <param regex-match="Event Duration: (.*)" regex-replace="⏱ Duration: $1">rtpevent.duration</param>
+    <opcode match=".*" replace="🔢 DTMF">rtpevent.event_id</opcode>
+    <param match="Event ID: (.*)" replace="🔢 Digit: $1">rtpevent.event_id</param>
+    <param display="brief" match="(True|False)" replace="🏁 End: $1">rtpevent.end_of_event</param>
+    <param match="Event Duration: (.*)" replace="⏱ Duration: $1">rtpevent.duration</param>
   </udpv6-message>
 
   <!-- Regular RTP packets - Filtered to reduce noise in signaling analysis -->
   <udp-message filter="true">
-    <opcode regex-match=".*" regex-replace="🎵 RTP">rtp</opcode>
-    <param regex-match="Payload type: (.*)" regex-replace="🎵 Codec: $1">rtp.p_type</param>
-    <param regex-match="Synchronization Source identifier: (.*)" regex-replace="🔢 SSRC: $1">rtp.ssrc</param>
+    <opcode match=".*" replace="🎵 RTP">rtp</opcode>
+    <param match="Payload type: (.*)" replace="🎵 Codec: $1">rtp.p_type</param>
+    <param match="Synchronization Source identifier: (.*)" replace="🔢 SSRC: $1">rtp.ssrc</param>
     <param>rtp.seq</param>
     <param>rtp.timestamp</param>
-    <param regex-match=".*Marker:\s*(.*)" regex-replace="Marker: $1">rtp.marker</param>
+    <param match=".*Marker:\s*(.*)" replace="Marker: $1">rtp.marker</param>
     <param>rtp.setup-frame</param>
   </udp-message>
 
   <udpv6-message filter="true">
-    <opcode regex-match=".*" regex-replace="🎵 RTP">rtp</opcode>
-    <param regex-match="Payload type: (.*)" regex-replace="🎵 Codec: $1">rtp.p_type</param>
-    <param regex-match="Synchronization Source identifier: (.*)" regex-replace="🔢 SSRC: $1">rtp.ssrc</param>
+    <opcode match=".*" replace="🎵 RTP">rtp</opcode>
+    <param match="Payload type: (.*)" replace="🎵 Codec: $1">rtp.p_type</param>
+    <param match="Synchronization Source identifier: (.*)" replace="🔢 SSRC: $1">rtp.ssrc</param>
     <param>rtp.seq</param>
     <param>rtp.timestamp</param>
-    <param regex-match=".*Marker:\s*(.*)" regex-replace="Marker: $1">rtp.marker</param>
+    <param match=".*Marker:\s*(.*)" replace="Marker: $1">rtp.marker</param>
     <param>rtp.setup-frame</param>
   </udpv6-message>
 
@@ -569,23 +569,23 @@ Protocol Overview:
 
   <!-- RTCP Sender Report -->
   <udp-message filter="true">
-    <opcode display="brief" regex-match="^200$" regex-replace="📊 RTCP SR">rtcp.pt</opcode>
-    <param regex-match="Sender.s packet count: (.*)" regex-replace="📦 Packets: $1">rtcp.sender.packetcount</param>
-    <param regex-match="Sender.s octet count: (.*)" regex-replace="📦 Bytes: $1">rtcp.sender.octetcount</param>
-    <remark regex-match=".*" regex-replace="💡 RTCP Sender Report — media sender reports packet/byte counts and NTP timestamp for lip-sync; receivers use this to calculate jitter and loss">rtcp</remark>
+    <opcode display="brief" match="^200$" replace="📊 RTCP SR">rtcp.pt</opcode>
+    <param match="Sender.s packet count: (.*)" replace="📦 Packets: $1">rtcp.sender.packetcount</param>
+    <param match="Sender.s octet count: (.*)" replace="📦 Bytes: $1">rtcp.sender.octetcount</param>
+    <remark match=".*" replace="💡 RTCP Sender Report — media sender reports packet/byte counts and NTP timestamp for lip-sync; receivers use this to calculate jitter and loss">rtcp</remark>
   </udp-message>
 
   <!-- RTCP Receiver Report -->
   <udp-message filter="true">
-    <opcode display="brief" regex-match="^201$" regex-replace="📊 RTCP RR">rtcp.pt</opcode>
-    <param regex-match="Fraction lost: (.*)" regex-replace="📊 Loss: $1">rtcp.ssrc.fraction</param>
-    <param regex-match="Interarrival jitter: (.*)" regex-replace="📊 Jitter: $1">rtcp.ssrc.jitter</param>
-    <remark regex-match=".*" regex-replace="💡 RTCP Receiver Report — reports packet loss fraction and jitter for each source; high jitter or loss indicates network congestion affecting voice quality">rtcp</remark>
+    <opcode display="brief" match="^201$" replace="📊 RTCP RR">rtcp.pt</opcode>
+    <param match="Fraction lost: (.*)" replace="📊 Loss: $1">rtcp.ssrc.fraction</param>
+    <param match="Interarrival jitter: (.*)" replace="📊 Jitter: $1">rtcp.ssrc.jitter</param>
+    <remark match=".*" replace="💡 RTCP Receiver Report — reports packet loss fraction and jitter for each source; high jitter or loss indicates network congestion affecting voice quality">rtcp</remark>
   </udp-message>
 
   <!-- RTCP Source Description -->
   <udp-message filter="true">
-    <opcode display="brief" regex-match="^202$" regex-replace="📋 RTCP SDES">rtcp.pt</opcode>
+    <opcode display="brief" match="^202$" replace="📋 RTCP SDES">rtcp.pt</opcode>
     <param>rtcp.sdes.ssrc</param>
     <param>rtcp.sdes.type</param>
     <param>rtcp.sdes.text</param>
@@ -594,14 +594,14 @@ Protocol Overview:
 
   <!-- RTCP BYE -->
   <udp-message filter="true">
-    <opcode display="brief" regex-match="^203$" regex-replace="🛑 RTCP BYE">rtcp.pt</opcode>
+    <opcode display="brief" match="^203$" replace="🛑 RTCP BYE">rtcp.pt</opcode>
     <param>rtcp.sdes.ssrc</param>
     <param>rtcp.sc</param>
   </udp-message>
 
   <!-- RTCP APP -->
   <udp-message filter="true">
-    <opcode display="brief" regex-match="^204$" regex-replace="📋 RTCP APP">rtcp.pt</opcode>
+    <opcode display="brief" match="^204$" replace="📋 RTCP APP">rtcp.pt</opcode>
     <param>rtcp.app.name</param>
     <param>rtcp.app.data</param>
   </udp-message>
@@ -614,8 +614,8 @@ Protocol Overview:
     <param>rtcp.senderssrc</param>
     <param>rtcp.ssrc.identifier</param>
     <param>rtcp.timestamp.rtp</param>
-    <param regex-match="Sender.s packet count: (.*)" regex-replace="📦 Packets: $1">rtcp.sender.packetcount</param>
-    <param regex-match="Sender.s octet count: (.*)" regex-replace="📦 Bytes: $1">rtcp.sender.octetcount</param>
+    <param match="Sender.s packet count: (.*)" replace="📦 Packets: $1">rtcp.sender.packetcount</param>
+    <param match="Sender.s octet count: (.*)" replace="📦 Bytes: $1">rtcp.sender.octetcount</param>
     <param>rtcp.sc</param>
   </udp-message>
 
@@ -627,8 +627,8 @@ Protocol Overview:
     <param>rtcp.senderssrc</param>
     <param>rtcp.ssrc.identifier</param>
     <param>rtcp.timestamp.rtp</param>
-    <param regex-match="Sender.s packet count: (.*)" regex-replace="📦 Packets: $1">rtcp.sender.packetcount</param>
-    <param regex-match="Sender.s octet count: (.*)" regex-replace="📦 Bytes: $1">rtcp.sender.octetcount</param>
+    <param match="Sender.s packet count: (.*)" replace="📦 Packets: $1">rtcp.sender.packetcount</param>
+    <param match="Sender.s octet count: (.*)" replace="📦 Bytes: $1">rtcp.sender.octetcount</param>
     <param>rtcp.sc</param>
   </udpv6-message>
 
@@ -639,167 +639,167 @@ Protocol Overview:
 
   <!-- SCCP OffHook -->
   <tcp-message style="sea-green" bookmark="true">
-    <opcode regex-match="Message ID: (OffHook) .*" regex-replace="📞 SCCP $1">skinny.messageId</opcode>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔗 Line: $1">skinny.lineInstance</param>
-    <remark regex-match=".*" regex-replace="💡 SCCP OffHook — phone notifies CUCM the handset is lifted; CUCM responds with dial tone (StartTone) and prepares to collect digits">skinny</remark>
+    <opcode match="Message ID: (OffHook) .*" replace="📞 SCCP $1">skinny.messageId</opcode>
+    <param display="brief" match="(\d+)" replace="🔗 Line: $1">skinny.lineInstance</param>
+    <remark match=".*" replace="💡 SCCP OffHook — phone notifies CUCM the handset is lifted; CUCM responds with dial tone (StartTone) and prepares to collect digits">skinny</remark>
   </tcp-message>
 
   <!-- SCCP OnHook -->
   <tcp-message style="magenta" bookmark="true">
-    <opcode regex-match="Message ID: (OnHook) .*" regex-replace="📞 SCCP $1">skinny.messageId</opcode>
-    <remark regex-match=".*" regex-replace="💡 SCCP OnHook — handset replaced; CUCM tears down media channels (StopMediaTransmission, CloseReceiveChannel) and releases the call">skinny</remark>
+    <opcode match="Message ID: (OnHook) .*" replace="📞 SCCP $1">skinny.messageId</opcode>
+    <remark match=".*" replace="💡 SCCP OnHook — handset replaced; CUCM tears down media channels (StopMediaTransmission, CloseReceiveChannel) and releases the call">skinny</remark>
   </tcp-message>
 
   <!-- SCCP CallState -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Message ID: (CallState) .*" regex-replace="📋 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="callState: (.*)" regex-replace="📋 State: $1">skinny.callState</param>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔗 CallRef: $1">skinny.callReference</param>
-    <remark regex-match=".*" regex-replace="💡 CUCM pushes call state to phone — OffHook/Proceed/RingOut/Connected/OnHook; phone updates display and soft keys accordingly">skinny</remark>
+    <opcode match="Message ID: (CallState) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
+    <param match="callState: (.*)" replace="📋 State: $1">skinny.callState</param>
+    <param display="brief" match="(\d+)" replace="🔗 CallRef: $1">skinny.callReference</param>
+    <remark match=".*" replace="💡 CUCM pushes call state to phone — OffHook/Proceed/RingOut/Connected/OnHook; phone updates display and soft keys accordingly">skinny</remark>
   </tcp-message>
 
   <!-- SCCP CallInfoV2 -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Message ID: (CallInfoV2) .*" regex-replace="📋 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="callingParty: (.*)" regex-replace="📞 Calling: $1">skinny.callingParty</param>
-    <param regex-match="calledParty: (.*)" regex-replace="📞 Called: $1">skinny.calledParty</param>
-    <param regex-match="callType: (.*)" regex-replace="📋 Type: $1">skinny.callType</param>
-    <param regex-match="callSecurityStatus: (.*)" regex-replace="🔐 Security: $1">skinny.callSecurityStatus</param>
-    <remark regex-match=".*" regex-replace="💡 CUCM sends caller/called party info for phone display; callType (InBound/OutBound) and security status (Authenticated/Encrypted) update the lock icon">skinny</remark>
+    <opcode match="Message ID: (CallInfoV2) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
+    <param match="callingParty: (.*)" replace="📞 Calling: $1">skinny.callingParty</param>
+    <param match="calledParty: (.*)" replace="📞 Called: $1">skinny.calledParty</param>
+    <param match="callType: (.*)" replace="📋 Type: $1">skinny.callType</param>
+    <param match="callSecurityStatus: (.*)" replace="🔐 Security: $1">skinny.callSecurityStatus</param>
+    <remark match=".*" replace="💡 CUCM sends caller/called party info for phone display; callType (InBound/OutBound) and security status (Authenticated/Encrypted) update the lock icon">skinny</remark>
   </tcp-message>
 
   <!-- SCCP OpenReceiveChannel -->
   <tcp-message style="teal" bookmark="true">
-    <opcode regex-match="Message ID: (OpenReceiveChannel) .*" regex-replace="🎵 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="compressionType: (.*)" regex-replace="🎵 Codec: $1">skinny.compressionType</param>
-    <param regex-match="milliSecondPacketSize: (.*)" regex-replace="⏱ Ptime: $1 ms">skinny.milliSecondPacketSize</param>
-    <remark regex-match=".*" regex-replace="💡 CUCM tells phone to open an RTP receive channel with specified codec and packetization; phone responds with OpenReceiveChannelAck containing its IP:port">skinny</remark>
+    <opcode match="Message ID: (OpenReceiveChannel) .*" replace="🎵 SCCP $1">skinny.messageId</opcode>
+    <param match="compressionType: (.*)" replace="🎵 Codec: $1">skinny.compressionType</param>
+    <param match="milliSecondPacketSize: (.*)" replace="⏱ Ptime: $1 ms">skinny.milliSecondPacketSize</param>
+    <remark match=".*" replace="💡 CUCM tells phone to open an RTP receive channel with specified codec and packetization; phone responds with OpenReceiveChannelAck containing its IP:port">skinny</remark>
   </tcp-message>
 
   <!-- SCCP OpenReceiveChannelAck -->
   <tcp-message style="teal">
-    <opcode regex-match="Message ID: (OpenReceiveChannelAck) .*" regex-replace="✅ SCCP $1">skinny.messageId</opcode>
-    <param regex-match="ipAddr IPv4 Address: (.*)" regex-replace="🌐 IP: $1">skinny.ipAddr.ipv4</param>
-    <param display="brief" regex-match="(\d+)" regex-replace="🔢 Port: $1">skinny.portNumber</param>
-    <param regex-match="mediaReceptionStatus: (.*)" regex-replace="📋 Status: $1">skinny.mediaReceptionStatus</param>
+    <opcode match="Message ID: (OpenReceiveChannelAck) .*" replace="✅ SCCP $1">skinny.messageId</opcode>
+    <param match="ipAddr IPv4 Address: (.*)" replace="🌐 IP: $1">skinny.ipAddr.ipv4</param>
+    <param display="brief" match="(\d+)" replace="🔢 Port: $1">skinny.portNumber</param>
+    <param match="mediaReceptionStatus: (.*)" replace="📋 Status: $1">skinny.mediaReceptionStatus</param>
   </tcp-message>
 
   <!-- SCCP StartMediaTransmission -->
   <tcp-message style="forest-green" bookmark="true">
-    <opcode regex-match="Message ID: (StartMediaTransmission) .*" regex-replace="🎵 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="remoteIpAddr IPv4 Address: (.*)" regex-replace="🌐 Remote IP: $1">skinny.remoteIpAddr.ipv4</param>
-    <param regex-match="remotePortNumber: (.*)" regex-replace="🔢 Remote Port: $1">skinny.remotePortNumber</param>
-    <param regex-match="compressionType: (.*)" regex-replace="🎵 Codec: $1">skinny.compressionType</param>
-    <remark regex-match=".*" regex-replace="💡 CUCM tells phone where to send RTP — remote IP:port is the other phone's receive address; codec must match the negotiated type">skinny</remark>
+    <opcode match="Message ID: (StartMediaTransmission) .*" replace="🎵 SCCP $1">skinny.messageId</opcode>
+    <param match="remoteIpAddr IPv4 Address: (.*)" replace="🌐 Remote IP: $1">skinny.remoteIpAddr.ipv4</param>
+    <param match="remotePortNumber: (.*)" replace="🔢 Remote Port: $1">skinny.remotePortNumber</param>
+    <param match="compressionType: (.*)" replace="🎵 Codec: $1">skinny.compressionType</param>
+    <remark match=".*" replace="💡 CUCM tells phone where to send RTP — remote IP:port is the other phone's receive address; codec must match the negotiated type">skinny</remark>
   </tcp-message>
 
   <!-- SCCP StartMediaTransmissionAck -->
   <tcp-message style="forest-green">
-    <opcode regex-match="Message ID: (StartMediaTransmissionAck) .*" regex-replace="✅ SCCP $1">skinny.messageId</opcode>
-    <param regex-match="transmitIpAddr IPv4 Address: (.*)" regex-replace="🌐 Transmit IP: $1">skinny.transmitIpAddr.ipv4</param>
-    <param regex-match="mediaTransmissionStatus: (.*)" regex-replace="📋 Status: $1">skinny.mediaTransmissionStatus</param>
+    <opcode match="Message ID: (StartMediaTransmissionAck) .*" replace="✅ SCCP $1">skinny.messageId</opcode>
+    <param match="transmitIpAddr IPv4 Address: (.*)" replace="🌐 Transmit IP: $1">skinny.transmitIpAddr.ipv4</param>
+    <param match="mediaTransmissionStatus: (.*)" replace="📋 Status: $1">skinny.mediaTransmissionStatus</param>
   </tcp-message>
 
   <!-- SCCP StopMediaTransmission / CloseReceiveChannel -->
   <tcp-message style="slate">
-    <opcode regex-match="Message ID: (StopMediaTransmission|CloseReceiveChannel) .*" regex-replace="🛑 SCCP $1">skinny.messageId</opcode>
-    <remark regex-match=".*" regex-replace="💡 CUCM tears down the RTP channel — phone stops sending/receiving media; happens on call disconnect, hold, or codec change">skinny</remark>
+    <opcode match="Message ID: (StopMediaTransmission|CloseReceiveChannel) .*" replace="🛑 SCCP $1">skinny.messageId</opcode>
+    <remark match=".*" replace="💡 CUCM tears down the RTP channel — phone stops sending/receiving media; happens on call disconnect, hold, or codec change">skinny</remark>
   </tcp-message>
 
   <!-- SCCP StartTone -->
   <tcp-message style="tangerine">
-    <opcode regex-match="Message ID: (StartTone) .*" regex-replace="🔔 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="tone: (.*)" regex-replace="🔊 Tone: $1">skinny.tone</param>
-    <remark regex-match=".*" regex-replace="💡 CUCM tells phone to play a tone — InsideDialTone (ready for digits), AlertingTone (ringback), BusyTone, ReorderTone (fast busy = route failure)">skinny</remark>
+    <opcode match="Message ID: (StartTone) .*" replace="🔔 SCCP $1">skinny.messageId</opcode>
+    <param match="tone: (.*)" replace="🔊 Tone: $1">skinny.tone</param>
+    <remark match=".*" replace="💡 CUCM tells phone to play a tone — InsideDialTone (ready for digits), AlertingTone (ringback), BusyTone, ReorderTone (fast busy = route failure)">skinny</remark>
   </tcp-message>
 
   <!-- SCCP StopTone -->
   <tcp-message style="tangerine dashed">
-    <opcode regex-match="Message ID: (StopTone) .*" regex-replace="🔇 SCCP $1">skinny.messageId</opcode>
+    <opcode match="Message ID: (StopTone) .*" replace="🔇 SCCP $1">skinny.messageId</opcode>
   </tcp-message>
 
   <!-- SCCP SetRinger -->
   <tcp-message style="tangerine">
-    <opcode regex-match="Message ID: (SetRinger) .*" regex-replace="🔔 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="ringMode: (.*)" regex-replace="🔊 Ring: $1">skinny.ringMode</param>
-    <remark regex-match=".*" regex-replace="💡 CUCM controls the physical ringer — RingOff on answer/cancel, InsideRing for internal calls, OutsideRing for external; distinctive ring identifies call source">skinny</remark>
+    <opcode match="Message ID: (SetRinger) .*" replace="🔔 SCCP $1">skinny.messageId</opcode>
+    <param match="ringMode: (.*)" replace="🔊 Ring: $1">skinny.ringMode</param>
+    <remark match=".*" replace="💡 CUCM controls the physical ringer — RingOff on answer/cancel, InsideRing for internal calls, OutsideRing for external; distinctive ring identifies call source">skinny</remark>
   </tcp-message>
 
   <!-- SCCP SetLamp -->
   <tcp-message style="tangerine dashed">
-    <opcode regex-match="Message ID: (SetLamp) .*" regex-replace="💡 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="lampMode: (.*)" regex-replace="💡 Lamp: $1">skinny.lampMode</param>
+    <opcode match="Message ID: (SetLamp) .*" replace="💡 SCCP $1">skinny.messageId</opcode>
+    <param match="lampMode: (.*)" replace="💡 Lamp: $1">skinny.lampMode</param>
   </tcp-message>
 
   <!-- SCCP DialedNumber -->
   <tcp-message style="amethyst" bookmark="true">
-    <opcode regex-match="Message ID: (DialedNumber) .*" regex-replace="🔢 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="dialedNumber: (.*)" regex-replace="📞 Number: $1">skinny.dialedNumber</param>
-    <remark regex-match=".*" regex-replace="💡 Phone sends collected digits to CUCM — CUCM matches against dial plan (route patterns, translation patterns) to determine call routing">skinny</remark>
+    <opcode match="Message ID: (DialedNumber) .*" replace="🔢 SCCP $1">skinny.messageId</opcode>
+    <param match="dialedNumber: (.*)" replace="📞 Number: $1">skinny.dialedNumber</param>
+    <remark match=".*" replace="💡 Phone sends collected digits to CUCM — CUCM matches against dial plan (route patterns, translation patterns) to determine call routing">skinny</remark>
   </tcp-message>
 
   <!-- SCCP KeypadButton -->
   <tcp-message style="amethyst">
-    <opcode regex-match="Message ID: (KeypadButton) .*" regex-replace="🔢 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="kpButton: (.*)" regex-replace="🔢 Digit: $1">skinny.kpButton</param>
+    <opcode match="Message ID: (KeypadButton) .*" replace="🔢 SCCP $1">skinny.messageId</opcode>
+    <param match="kpButton: (.*)" replace="🔢 Digit: $1">skinny.kpButton</param>
   </tcp-message>
 
   <!-- SCCP DisplayPromptStatus -->
   <tcp-message style="slate dashed">
-    <opcode regex-match="Message ID: (DisplayPromptStatusV2|ClearPromptStatus) .*" regex-replace="📋 SCCP $1">skinny.messageId</opcode>
+    <opcode match="Message ID: (DisplayPromptStatusV2|ClearPromptStatus) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
   </tcp-message>
 
   <!-- SCCP Register -->
   <tcp-message style="royal-blue" bookmark="true">
-    <opcode regex-match="Message ID: (RegisterReq|EnhancedAlarm) .*" regex-replace="📋 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="DeviceName: (.*)" regex-replace="🖥 Device: $1">skinny.DeviceName</param>
-    <param regex-match="stationIpAddr: (.*)" regex-replace="🌐 IP: $1">skinny.stationIpAddr</param>
-    <remark regex-match=".*" regex-replace="💡 SCCP RegisterReq — phone sends its device name (SEP + MAC), IP address, and protocol version to CUCM; CUCM responds with RegisterAck and begins provisioning">skinny</remark>
+    <opcode match="Message ID: (RegisterReq|EnhancedAlarm) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
+    <param match="DeviceName: (.*)" replace="🖥 Device: $1">skinny.DeviceName</param>
+    <param match="stationIpAddr: (.*)" replace="🌐 IP: $1">skinny.stationIpAddr</param>
+    <remark match=".*" replace="💡 SCCP RegisterReq — phone sends its device name (SEP + MAC), IP address, and protocol version to CUCM; CUCM responds with RegisterAck and begins provisioning">skinny</remark>
   </tcp-message>
 
   <tcp-message style="forest-green" bookmark="true">
-    <opcode regex-match="Message ID: (RegisterAck) .*" regex-replace="✅ SCCP $1">skinny.messageId</opcode>
-    <remark regex-match=".*" regex-replace="💡 SCCP RegisterAck — CUCM accepts the phone; follows with CapabilitiesReq, ButtonTemplate, SoftKeyTemplate to provision the phone's features">skinny</remark>
+    <opcode match="Message ID: (RegisterAck) .*" replace="✅ SCCP $1">skinny.messageId</opcode>
+    <remark match=".*" replace="💡 SCCP RegisterAck — CUCM accepts the phone; follows with CapabilitiesReq, ButtonTemplate, SoftKeyTemplate to provision the phone's features">skinny</remark>
   </tcp-message>
 
   <!-- SCCP Capabilities -->
   <tcp-message style="cerulean dashed">
-    <opcode regex-match="Message ID: (CapabilitiesReq|CapabilitiesRes) .*" regex-replace="🔧 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="compressionType: (.*)" regex-replace="🎵 Codec: $1">skinny.compressionType</param>
-    <remark regex-match=".*" regex-replace="💡 CUCM asks phone for supported codecs (G.711, G.722, G.729); phone replies with its codec list; CUCM uses this for region-based codec selection during calls">skinny</remark>
+    <opcode match="Message ID: (CapabilitiesReq|CapabilitiesRes) .*" replace="🔧 SCCP $1">skinny.messageId</opcode>
+    <param match="compressionType: (.*)" replace="🎵 Codec: $1">skinny.compressionType</param>
+    <remark match=".*" replace="💡 CUCM asks phone for supported codecs (G.711, G.722, G.729); phone replies with its codec list; CUCM uses this for region-based codec selection during calls">skinny</remark>
   </tcp-message>
 
   <!-- SCCP Config/Button/SoftKey templates -->
   <tcp-message style="slate dashed">
-    <opcode regex-match="Message ID: (ButtonTemplateReq|ButtonTemplateRes|SoftKeyTemplateReq|SoftKeyTemplateRes|SoftKeySetReq|SoftKeySetRes|ConfigStatReq|ConfigStatV2Res) .*" regex-replace="🔧 SCCP $1">skinny.messageId</opcode>
-    <remark regex-match=".*" regex-replace="💡 Phone provisioning — CUCM sends button layout (line/speed-dial/BLF), soft key labels, and device configuration; phone renders its UI from these templates">skinny</remark>
+    <opcode match="Message ID: (ButtonTemplateReq|ButtonTemplateRes|SoftKeyTemplateReq|SoftKeyTemplateRes|SoftKeySetReq|SoftKeySetRes|ConfigStatReq|ConfigStatV2Res) .*" replace="🔧 SCCP $1">skinny.messageId</opcode>
+    <remark match=".*" replace="💡 Phone provisioning — CUCM sends button layout (line/speed-dial/BLF), soft key labels, and device configuration; phone renders its UI from these templates">skinny</remark>
   </tcp-message>
 
   <!-- SCCP Line/Forward -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Message ID: (LineStatReq|LineStatV2Res) .*" regex-replace="📋 SCCP $1">skinny.messageId</opcode>
-    <param regex-match="lineDirNumber: (.*)" regex-replace="📞 DN: $1">skinny.lineDirNumber</param>
-    <remark regex-match=".*" regex-replace="💡 Phone queries directory number (DN) for each line button; CUCM responds with the DN, display name, and voicemail settings">skinny</remark>
+    <opcode match="Message ID: (LineStatReq|LineStatV2Res) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
+    <param match="lineDirNumber: (.*)" replace="📞 DN: $1">skinny.lineDirNumber</param>
+    <remark match=".*" replace="💡 Phone queries directory number (DN) for each line button; CUCM responds with the DN, display name, and voicemail settings">skinny</remark>
   </tcp-message>
 
   <tcp-message style="slate dashed">
-    <opcode regex-match="Message ID: (ForwardStatReq|ForwardStatRes) .*" regex-replace="↪ SCCP $1">skinny.messageId</opcode>
-    <remark regex-match=".*" regex-replace="💡 Call forwarding status — phone queries/receives CFA (Call Forward All), CFB (Busy), CFNA (No Answer) settings per line">skinny</remark>
+    <opcode match="Message ID: (ForwardStatReq|ForwardStatRes) .*" replace="↪ SCCP $1">skinny.messageId</opcode>
+    <remark match=".*" replace="💡 Call forwarding status — phone queries/receives CFA (Call Forward All), CFB (Busy), CFNA (No Answer) settings per line">skinny</remark>
   </tcp-message>
 
   <!-- SCCP TimeDateReq/Res -->
   <tcp-message style="slate dotted">
-    <opcode regex-match="Message ID: (TimeDateReq|TimeDateRes) .*" regex-replace="🕐 SCCP $1">skinny.messageId</opcode>
+    <opcode match="Message ID: (TimeDateReq|TimeDateRes) .*" replace="🕐 SCCP $1">skinny.messageId</opcode>
   </tcp-message>
 
   <!-- SCCP RegisterAvailableLines -->
   <tcp-message style="cerulean dashed">
-    <opcode regex-match="Message ID: (RegisterAvailableLines|IpPort) .*" regex-replace="📋 SCCP $1">skinny.messageId</opcode>
+    <opcode match="Message ID: (RegisterAvailableLines|IpPort) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
   </tcp-message>
 
   <!-- SCCP Generic -->
   <tcp-message style="teal dashed">
-    <opcode regex-match="Message ID: (.*) \(\d+\)" regex-replace="📞 SCCP $1">skinny.messageId</opcode>
+    <opcode match="Message ID: (.*) \(\d+\)" replace="📞 SCCP $1">skinny.messageId</opcode>
   </tcp-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -808,22 +808,22 @@ Protocol Overview:
 
   <udp-message style="cerulean">
     <opcode
-        regex-match=".*"
-        regex-replace="📡 MGCP"
+        match=".*"
+        replace="📡 MGCP"
       >mgcp.req.verb</opcode>
-    <param regex-match="Verb: (.*)" regex-replace="📋 Verb: $1">mgcp.req.verb</param>
-    <param regex-match="Endpoint: (.*)" regex-replace="📞 Endpoint: $1">mgcp.req.endpoint</param>
-    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 TxID: $1">mgcp.transid</param>
+    <param match="Verb: (.*)" replace="📋 Verb: $1">mgcp.req.verb</param>
+    <param match="Endpoint: (.*)" replace="📞 Endpoint: $1">mgcp.req.endpoint</param>
+    <param match="Transaction ID: (.*)" replace="🔢 TxID: $1">mgcp.transid</param>
   </udp-message>
 
   <!-- MGCP Response -->
   <udp-message style="cerulean">
     <opcode
-        regex-match=".*"
-        regex-replace="📋 MGCP Response"
+        match=".*"
+        replace="📋 MGCP Response"
       >mgcp.rsp.rspcode</opcode>
-    <param regex-match="Response Code: (.*)" regex-replace="📋 Response: $1">mgcp.rsp.rspcode</param>
-    <param regex-match="Transaction ID: (.*)" regex-replace="🔢 TxID: $1">mgcp.transid</param>
+    <param match="Response Code: (.*)" replace="📋 Response: $1">mgcp.rsp.rspcode</param>
+    <param match="Transaction ID: (.*)" replace="🔢 TxID: $1">mgcp.transid</param>
   </udp-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -832,59 +832,59 @@ Protocol Overview:
 
   <!-- Q.931 SETUP -->
   <tcp-message style="sea-green" bookmark="true">
-    <opcode regex-match=".*SETUP.*" regex-replace="📞 H.225 Setup">q931.message_type</opcode>
-    <param regex-match="Called party number digits: (.*)" regex-replace="📞 Called: $1">q931.called_party_number.digits</param>
-    <param regex-match="Calling party number digits: (.*)" regex-replace="📞 Calling: $1">q931.calling_party_number.digits</param>
-    <param regex-match="dialledDigits: (.*)" regex-replace="📞 Dialed: $1">h225.dialledDigits</param>
-    <remark regex-match=".*" regex-replace="💡 H.225 Setup — initiates an H.323 call; carries called/calling numbers, bearer capability, and H.245 address for media negotiation">q931</remark>
+    <opcode match=".*SETUP.*" replace="📞 H.225 Setup">q931.message_type</opcode>
+    <param match="Called party number digits: (.*)" replace="📞 Called: $1">q931.called_party_number.digits</param>
+    <param match="Calling party number digits: (.*)" replace="📞 Calling: $1">q931.calling_party_number.digits</param>
+    <param match="dialledDigits: (.*)" replace="📞 Dialed: $1">h225.dialledDigits</param>
+    <remark match=".*" replace="💡 H.225 Setup — initiates an H.323 call; carries called/calling numbers, bearer capability, and H.245 address for media negotiation">q931</remark>
   </tcp-message>
 
   <!-- Q.931 CALL PROCEEDING -->
   <tcp-message style="cerulean">
-    <opcode regex-match=".*CALL PROCEEDING.*" regex-replace="📋 H.225 Call Proceeding">q931.message_type</opcode>
-    <remark regex-match=".*" regex-replace="💡 Call Proceeding — gateway accepted the Setup and is routing the call; H.245 address may be included for early media negotiation">q931</remark>
+    <opcode match=".*CALL PROCEEDING.*" replace="📋 H.225 Call Proceeding">q931.message_type</opcode>
+    <remark match=".*" replace="💡 Call Proceeding — gateway accepted the Setup and is routing the call; H.245 address may be included for early media negotiation">q931</remark>
   </tcp-message>
 
   <!-- Q.931 ALERTING -->
   <tcp-message style="tangerine">
-    <opcode regex-match=".*ALERTING.*" regex-replace="🔔 H.225 Alerting">q931.message_type</opcode>
-    <remark regex-match=".*" regex-replace="💡 Alerting — remote phone is ringing; caller hears ringback tone; Progress indicator may signal in-band audio available">q931</remark>
+    <opcode match=".*ALERTING.*" replace="🔔 H.225 Alerting">q931.message_type</opcode>
+    <remark match=".*" replace="💡 Alerting — remote phone is ringing; caller hears ringback tone; Progress indicator may signal in-band audio available">q931</remark>
   </tcp-message>
 
   <!-- Q.931 PROGRESS -->
   <tcp-message style="tangerine dashed">
-    <opcode regex-match=".*PROGRESS.*" regex-replace="📋 H.225 Progress">q931.message_type</opcode>
-    <param regex-match=".*Progress description: (.*)" regex-replace="📋 $1">q931.progress_indicator.description</param>
+    <opcode match=".*PROGRESS.*" replace="📋 H.225 Progress">q931.message_type</opcode>
+    <param match=".*Progress description: (.*)" replace="📋 $1">q931.progress_indicator.description</param>
   </tcp-message>
 
   <!-- Q.931 CONNECT -->
   <tcp-message style="forest-green" bookmark="true">
-    <opcode regex-match=".*CONNECT.*" regex-replace="✅ H.225 Connect">q931.message_type</opcode>
-    <param regex-match="Connected party number digits: (.*)" regex-replace="📞 Connected: $1">q931.connected_number.digits</param>
-    <remark regex-match=".*" regex-replace="💡 Connect — call answered; media channel is now established; both sides exchange RTP audio/video on negotiated ports">q931</remark>
+    <opcode match=".*CONNECT.*" replace="✅ H.225 Connect">q931.message_type</opcode>
+    <param match="Connected party number digits: (.*)" replace="📞 Connected: $1">q931.connected_number.digits</param>
+    <remark match=".*" replace="💡 Connect — call answered; media channel is now established; both sides exchange RTP audio/video on negotiated ports">q931</remark>
   </tcp-message>
 
   <!-- Q.931 RELEASE COMPLETE -->
   <tcp-message style="magenta" bookmark="true">
-    <opcode regex-match=".*RELEASE COMPLETE.*" regex-replace="🛑 H.225 Release Complete">q931.message_type</opcode>
-    <param regex-match=".*Cause value: (.*)" regex-replace="📋 Cause: $1">q931.cause_value</param>
-    <remark regex-match=".*" regex-replace="💡 Release Complete — call terminated; Cause value explains why (16=Normal clearing, 17=User busy, 34=No circuit available)">q931</remark>
+    <opcode match=".*RELEASE COMPLETE.*" replace="🛑 H.225 Release Complete">q931.message_type</opcode>
+    <param match=".*Cause value: (.*)" replace="📋 Cause: $1">q931.cause_value</param>
+    <remark match=".*" replace="💡 Release Complete — call terminated; Cause value explains why (16=Normal clearing, 17=User busy, 34=No circuit available)">q931</remark>
   </tcp-message>
 
   <!-- Q.931 NOTIFY -->
   <tcp-message style="slate">
-    <opcode regex-match=".*NOTIFY.*" regex-replace="📢 H.225 Notify">q931.message_type</opcode>
+    <opcode match=".*NOTIFY.*" replace="📢 H.225 Notify">q931.message_type</opcode>
   </tcp-message>
 
   <!-- Q.931 FACILITY -->
   <tcp-message style="slate dashed">
-    <opcode regex-match=".*FACILITY.*" regex-replace="📋 H.225 Facility">q931.message_type</opcode>
-    <remark regex-match=".*" regex-replace="💡 Facility — mid-call supplementary service (hold, transfer, conference); also used for H.245 tunneling and call diversion">q931</remark>
+    <opcode match=".*FACILITY.*" replace="📋 H.225 Facility">q931.message_type</opcode>
+    <remark match=".*" replace="💡 Facility — mid-call supplementary service (hold, transfer, conference); also used for H.245 tunneling and call diversion">q931</remark>
   </tcp-message>
 
   <!-- Q.931 Generic -->
   <tcp-message style="slate">
-    <opcode regex-match="Message type: (.*)" regex-replace="📋 H.225 $1">q931.message_type</opcode>
+    <opcode match="Message type: (.*)" replace="📋 H.225 $1">q931.message_type</opcode>
   </tcp-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -893,45 +893,45 @@ Protocol Overview:
 
   <!-- H.245 messages use various fields; use h225.h323_message_body as fallback -->
   <tcp-message style="goldenrod">
-    <opcode regex-match="h323-message-body: (.*)" regex-replace="📡 H.225 $1">h225.h323_message_body</opcode>
+    <opcode match="h323-message-body: (.*)" replace="📡 H.225 $1">h225.h323_message_body</opcode>
   </tcp-message>
 
   <!-- DTLS (for encrypted SIP/SRTP over UDP) -->
   <udp-message style="teal">
-    <opcode regex-match=".*" regex-replace="🔐 DTLS">dtls.record</opcode>
-    <param regex-match="Version: (.*)" regex-replace="🔐 Version: $1">dtls.handshake.version</param>
-    <param regex-match="Cipher Suite: (.*)" regex-replace="🔐 Cipher: $1">dtls.handshake.ciphersuite</param>
-    <param regex-match="Content Type: (.*)" regex-replace="📋 Type: $1">dtls.record.content_type</param>
+    <opcode match=".*" replace="🔐 DTLS">dtls.record</opcode>
+    <param match="Version: (.*)" replace="🔐 Version: $1">dtls.handshake.version</param>
+    <param match="Cipher Suite: (.*)" replace="🔐 Cipher: $1">dtls.handshake.ciphersuite</param>
+    <param match="Content Type: (.*)" replace="📋 Type: $1">dtls.record.content_type</param>
   </udp-message>
 
   <!-- TLS Handshake (for SIP/SCCP over TLS) -->
   <tcp-message style="teal">
-    <opcode regex-match="Handshake Type: (.*) \(.*\)" regex-replace="🔐 TLS $1">tls.handshake.type</opcode>
-    <param regex-match="Version: (.*)" regex-replace="🔐 Version: $1">tls.handshake.version</param>
-    <param regex-match="Cipher Suite: (.*)" regex-replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
+    <opcode match="Handshake Type: (.*) \(.*\)" replace="🔐 TLS $1">tls.handshake.type</opcode>
+    <param match="Version: (.*)" replace="🔐 Version: $1">tls.handshake.version</param>
+    <param match="Cipher Suite: (.*)" replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
   </tcp-message>
 
   <tcp-message style="teal">
-    <opcode regex-match=".*" regex-replace="🔒 TLS Application Data">tls.app_data_proto</opcode>
+    <opcode match=".*" replace="🔒 TLS Application Data">tls.app_data_proto</opcode>
   </tcp-message>
 
   <!-- UDP Data fallback (RTP without SDP context) — filtered to reduce noise -->
   <udp-message filter="true" style="steel-blue">
-    <opcode regex-match=".*" regex-replace="📦 UDP Data">udp.dstport</opcode>
+    <opcode match=".*" replace="📦 UDP Data">udp.dstport</opcode>
     <param>udp.length</param>
   </udp-message>
 
   <!-- TCP (SYN/FIN/RST only) -->
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((SYN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*FIN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
   <tcp-message style="crimson dotted">
-    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*RST.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
 </FXT>

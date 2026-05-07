@@ -23,18 +23,18 @@ Protocols covered:
 
   <!-- mDNS Query -->
   <udp-message style="teal">
-    <opcode regex-match="Multicast.*\(query\)" regex-replace="🔍 mDNS Query">mdns</opcode>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
+    <opcode match="Multicast.*\(query\)" replace="🔍 mDNS Query">mdns</opcode>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
     <param>dns.qry.type</param>
     <param>dns.count.queries</param>
-    <remark regex-match=".*" regex-replace="💡 mDNS Query — multicast DNS for zero-config service discovery (Bonjour); Meraki devices use mDNS to find cloud management, printers, AirPlay receivers on the local network">mdns</remark>
+    <remark match=".*" replace="💡 mDNS Query — multicast DNS for zero-config service discovery (Bonjour); Meraki devices use mDNS to find cloud management, printers, AirPlay receivers on the local network">mdns</remark>
   </udp-message>
 
   <!-- mDNS Response -->
   <udp-message style="teal dashed">
-    <opcode regex-match="Multicast.*\(response\)" regex-replace="📋 mDNS Response">mdns</opcode>
+    <opcode match="Multicast.*\(response\)" replace="📋 mDNS Response">mdns</opcode>
     <param>dns.resp.name</param>
-    <param regex-match="Address: (.*)" regex-replace="🌐 Address: $1">dns.a</param>
+    <param match="Address: (.*)" replace="🌐 Address: $1">dns.a</param>
     <param>dns.aaaa</param>
     <param>dns.srv.target</param>
     <param>dns.srv.port</param>
@@ -45,17 +45,17 @@ Protocols covered:
 
   <!-- mDNS Query over IPv6 -->
   <udpv6-message style="teal">
-    <opcode regex-match="Multicast.*\(query\)" regex-replace="🔍 mDNS Query">mdns</opcode>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
+    <opcode match="Multicast.*\(query\)" replace="🔍 mDNS Query">mdns</opcode>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
     <param>dns.qry.type</param>
     <param>dns.count.queries</param>
   </udpv6-message>
 
   <!-- mDNS Response over IPv6 -->
   <udpv6-message style="teal dashed">
-    <opcode regex-match="Multicast.*\(response\)" regex-replace="📋 mDNS Response">mdns</opcode>
+    <opcode match="Multicast.*\(response\)" replace="📋 mDNS Response">mdns</opcode>
     <param>dns.resp.name</param>
-    <param regex-match="Address: (.*)" regex-replace="🌐 Address: $1">dns.a</param>
+    <param match="Address: (.*)" replace="🌐 Address: $1">dns.a</param>
     <param>dns.aaaa</param>
     <param>dns.srv.target</param>
     <param>dns.srv.port</param>
@@ -70,36 +70,36 @@ Protocols covered:
 
   <!-- LLMNR Query -->
   <udp-message style="royal-blue">
-    <opcode regex-match="Link-local.*\(query\)" regex-replace="🔍 LLMNR Query">llmnr</opcode>
+    <opcode match="Link-local.*\(query\)" replace="🔍 LLMNR Query">llmnr</opcode>
     <param>dns.id</param>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
     <param>dns.qry.type</param>
   </udp-message>
 
   <!-- LLMNR Response -->
   <udp-message style="royal-blue dashed">
-    <opcode regex-match="Link-local.*\(response\)" regex-replace="📋 LLMNR Response">llmnr</opcode>
+    <opcode match="Link-local.*\(response\)" replace="📋 LLMNR Response">llmnr</opcode>
     <param>dns.id</param>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
-    <param regex-match="Address: (.*)" regex-replace="🌐 Address: $1">dns.a</param>
-    <param regex-match=".*=\s+(.*)" regex-replace="$1">dns.flags.rcode</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
+    <param match="Address: (.*)" replace="🌐 Address: $1">dns.a</param>
+    <param match=".*=\s+(.*)" replace="$1">dns.flags.rcode</param>
   </udp-message>
 
   <!-- LLMNR Query over IPv6 -->
   <udpv6-message style="royal-blue">
-    <opcode regex-match="Link-local.*\(query\)" regex-replace="🔍 LLMNR Query">llmnr</opcode>
+    <opcode match="Link-local.*\(query\)" replace="🔍 LLMNR Query">llmnr</opcode>
     <param>dns.id</param>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
     <param>dns.qry.type</param>
   </udpv6-message>
 
   <!-- LLMNR Response over IPv6 -->
   <udpv6-message style="royal-blue dashed">
-    <opcode regex-match="Link-local.*\(response\)" regex-replace="📋 LLMNR Response">llmnr</opcode>
+    <opcode match="Link-local.*\(response\)" replace="📋 LLMNR Response">llmnr</opcode>
     <param>dns.id</param>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
-    <param regex-match="Address: (.*)" regex-replace="🌐 Address: $1">dns.a</param>
-    <param regex-match=".*=\s+(.*)" regex-replace="$1">dns.flags.rcode</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
+    <param match="Address: (.*)" replace="🌐 Address: $1">dns.a</param>
+    <param match=".*=\s+(.*)" replace="$1">dns.flags.rcode</param>
   </udpv6-message>
 
   <!-- ============================================================
@@ -108,21 +108,21 @@ Protocols covered:
 
   <!-- DNS Query -->
   <udp-message style="forest-green">
-    <opcode regex-match="^Domain Name System \(query\)" regex-replace="🔍 DNS Query">dns</opcode>
+    <opcode match="^Domain Name System \(query\)" replace="🔍 DNS Query">dns</opcode>
     <param>dns.id</param>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
     <param>dns.qry.type</param>
-    <remark regex-match=".*" regex-replace="💡 DNS Query — Meraki devices resolve cloud dashboard URLs (n###.meraki.com) and NTP servers during initialization; DNS failure prevents cloud management">dns</remark>
+    <remark match=".*" replace="💡 DNS Query — Meraki devices resolve cloud dashboard URLs (n###.meraki.com) and NTP servers during initialization; DNS failure prevents cloud management">dns</remark>
   </udp-message>
 
   <!-- DNS Response -->
   <udp-message style="forest-green dashed">
-    <opcode regex-match="^Domain Name System \(response\)" regex-replace="📋 DNS Response">dns</opcode>
+    <opcode match="^Domain Name System \(response\)" replace="📋 DNS Response">dns</opcode>
     <param>dns.id</param>
-    <param regex-match="Name: (.*)" regex-replace="🌐 Name: $1">dns.qry.name</param>
-    <param regex-match="Address: (.*)" regex-replace="🌐 Address: $1">dns.a</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
+    <param match="Address: (.*)" replace="🌐 Address: $1">dns.a</param>
     <param>dns.cname</param>
-    <param regex-match=".*=\s+(.*)" regex-replace="$1">dns.flags.rcode</param>
+    <param match=".*=\s+(.*)" replace="$1">dns.flags.rcode</param>
     <param>dns.time</param>
   </udp-message>
 
@@ -133,8 +133,8 @@ Protocols covered:
   <!-- NBNS Query -->
   <udp-message style="amber">
     <opcode
-            regex-match=".*Name query.*"
-            regex-replace="🔍 NBNS Query"
+            match=".*Name query.*"
+            replace="🔍 NBNS Query"
         >nbns.flags</opcode>
     <param>nbns.id</param>
     <param>nbns.name</param>
@@ -144,8 +144,8 @@ Protocols covered:
   <!-- NBNS Response -->
   <udp-message style="amber dashed">
     <opcode
-            regex-match=".*response.*"
-            regex-replace="📋 NBNS Response"
+            match=".*response.*"
+            replace="📋 NBNS Response"
         >nbns.flags</opcode>
     <param>nbns.id</param>
     <param>nbns.name</param>
@@ -156,15 +156,15 @@ Protocols covered:
        ============================================================ -->
 
   <udp-message style="amethyst">
-    <opcode regex-match="DHCP: (.*) \(\d+\)" regex-replace="🔗 DHCP $1">dhcp.option.dhcp</opcode>
+    <opcode match="DHCP: (.*) \(\d+\)" replace="🔗 DHCP $1">dhcp.option.dhcp</opcode>
     <param>dhcp.id</param>
     <param>dhcp.hw.mac_addr</param>
-    <param regex-match="Your.*IP.*: (.*)" regex-replace="🌐 IP: $1">dhcp.ip.your</param>
+    <param match="Your.*IP.*: (.*)" replace="🌐 IP: $1">dhcp.ip.your</param>
     <param>dhcp.ip.client</param>
-    <param regex-match="Host Name.*: (.*)" regex-replace="🖥 Hostname: $1">dhcp.option.hostname</param>
+    <param match="Host Name.*: (.*)" replace="🖥 Hostname: $1">dhcp.option.hostname</param>
     <param>dhcp.option.dhcp_server_id</param>
     <param>dhcp.option.ip_address_lease_time</param>
-    <remark regex-match=".*" regex-replace="💡 DHCP — Meraki device obtains IP address, default gateway, and DNS servers; first step in cloud-managed initialization (DORA: Discover→Offer→Request→ACK)">dhcp</remark>
+    <remark match=".*" replace="💡 DHCP — Meraki device obtains IP address, default gateway, and DNS servers; first step in cloud-managed initialization (DORA: Discover→Offer→Request→ACK)">dhcp</remark>
   </udp-message>
 
   <!-- ============================================================
@@ -174,8 +174,8 @@ Protocols covered:
   <!-- ARP Request -->
   <mac-message style="slate">
     <opcode
-            regex-match="Opcode: (request .*)"
-            regex-replace="🔗 ARP $1"
+            match="Opcode: (request .*)"
+            replace="🔗 ARP $1"
         >arp.opcode</opcode>
     <param>arp.src.hw_mac</param>
     <param>arp.src.proto_ipv4</param>
@@ -185,8 +185,8 @@ Protocols covered:
   <!-- ARP Reply -->
   <mac-message style="slate dashed">
     <opcode
-            regex-match="Opcode: (reply .*)"
-            regex-replace="🔗 ARP $1"
+            match="Opcode: (reply .*)"
+            replace="🔗 ARP $1"
         >arp.opcode</opcode>
     <param>arp.src.hw_mac</param>
     <param>arp.src.proto_ipv4</param>
@@ -200,19 +200,19 @@ Protocols covered:
   <!-- SSDP M-SEARCH over UDP -->
   <udp-message style="coral">
     <opcode
-            regex-match="(M-SEARCH)"
-            regex-replace="📡 SSDP $1"
+            match="(M-SEARCH)"
+            replace="📡 SSDP $1"
         >http.request.method</opcode>
     <param>http.host</param>
     <param>http.unknown_header</param>
-    <remark regex-match=".*" regex-replace="💡 SSDP M-SEARCH — UPnP device discovery; Meraki searches for other network devices and services via multicast (239.255.255.250:1900)">ssdp</remark>
+    <remark match=".*" replace="💡 SSDP M-SEARCH — UPnP device discovery; Meraki searches for other network devices and services via multicast (239.255.255.250:1900)">ssdp</remark>
   </udp-message>
 
   <!-- SSDP NOTIFY over UDP -->
   <udp-message style="coral">
     <opcode
-            regex-match="(NOTIFY)"
-            regex-replace="📡 SSDP $1"
+            match="(NOTIFY)"
+            replace="📡 SSDP $1"
         >http.request.method</opcode>
     <param>http.host</param>
     <param>http.unknown_header</param>
@@ -222,8 +222,8 @@ Protocols covered:
   <!-- SSDP Response over UDP (e.g., 200 OK to M-SEARCH) -->
   <udp-message style="coral dashed">
     <opcode
-            regex-match="(.*)"
-            regex-replace="📋 SSDP $1"
+            match="^(?:[^:]+:\s*)?(.+)$"
+            replace="📋 SSDP $1"
         >http.response.code</opcode>
     <param>http.response.phrase</param>
     <param>http.location</param>
@@ -233,8 +233,8 @@ Protocols covered:
   <!-- SSDP M-SEARCH over IPv6 -->
   <udpv6-message style="coral">
     <opcode
-            regex-match="(M-SEARCH)"
-            regex-replace="📡 SSDP $1"
+            match="(M-SEARCH)"
+            replace="📡 SSDP $1"
         >http.request.method</opcode>
     <param>http.host</param>
     <param>http.unknown_header</param>
@@ -243,8 +243,8 @@ Protocols covered:
   <!-- SSDP NOTIFY over IPv6 -->
   <udpv6-message style="coral">
     <opcode
-            regex-match="(NOTIFY)"
-            regex-replace="📡 SSDP $1"
+            match="(NOTIFY)"
+            replace="📡 SSDP $1"
         >http.request.method</opcode>
     <param>http.host</param>
     <param>http.unknown_header</param>
@@ -254,8 +254,8 @@ Protocols covered:
   <!-- SSDP Response over IPv6 -->
   <udpv6-message style="coral dashed">
     <opcode
-            regex-match="(.*)"
-            regex-replace="📋 SSDP $1"
+            match="^(?:[^:]+:\s*)?(.+)$"
+            replace="📋 SSDP $1"
         >http.response.code</opcode>
     <param>http.response.phrase</param>
     <param>http.location</param>
@@ -265,8 +265,8 @@ Protocols covered:
   <!-- HTTP Request over TCP -->
   <tcp-message style="coral" bookmark="true">
     <opcode
-            regex-match="(.*)"
-            regex-replace="📡 HTTP $1"
+            match="^(?:[^:]+:\s*)?(.+)$"
+            replace="📡 HTTP $1"
         >http.request.method</opcode>
     <param>http.request.uri</param>
     <param>http.host</param>
@@ -277,8 +277,8 @@ Protocols covered:
   <!-- HTTP Response over TCP -->
   <tcp-message style="coral dashed" bookmark="true">
     <opcode
-            regex-match="(.*)"
-            regex-replace="📋 HTTP $1"
+            match="^(?:[^:]+:\s*)?(.+)$"
+            replace="📋 HTTP $1"
         >http.response.code</opcode>
     <param>http.response.phrase</param>
     <param>http.content_type</param>
@@ -293,44 +293,44 @@ Protocols covered:
 
   <!-- TLS Client Hello -->
   <tcp-message style="sea-green" bookmark="true">
-    <opcode regex-match=".*Client Hello.*" regex-replace="🤝 TLS Client Hello">tls.record</opcode>
+    <opcode match=".*Client Hello.*" replace="🤝 TLS Client Hello">tls.record</opcode>
     <param>tls.handshake.version</param>
     <param>tls.handshake.ciphersuites</param>
-    <param regex-match="Server Name: (.*)" regex-replace="🌐 SNI: $1">tls.handshake.extensions_server_name</param>
+    <param match="Server Name: (.*)" replace="🌐 SNI: $1">tls.handshake.extensions_server_name</param>
     <param>tls.handshake.extensions_alpn_str</param>
-    <remark regex-match=".*" regex-replace="💡 TLS Client Hello — Meraki device establishes encrypted tunnel to cloud dashboard; SNI shows the Meraki cloud endpoint (n###.meraki.com); required for configuration, monitoring, and firmware updates">tls</remark>
+    <remark match=".*" replace="💡 TLS Client Hello — Meraki device establishes encrypted tunnel to cloud dashboard; SNI shows the Meraki cloud endpoint (n###.meraki.com); required for configuration, monitoring, and firmware updates">tls</remark>
   </tcp-message>
 
   <!-- TLS Server Hello -->
   <tcp-message style="sea-green dashed" bookmark="true">
-    <opcode regex-match=".*Server Hello(?!.*Done).*" regex-replace="🤝 TLS Server Hello">tls.record</opcode>
+    <opcode match=".*Server Hello(?!.*Done).*" replace="🤝 TLS Server Hello">tls.record</opcode>
     <param>tls.handshake.version</param>
-    <param regex-match="Cipher Suite: (.*)" regex-replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
+    <param match="Cipher Suite: (.*)" replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
   </tcp-message>
 
   <!-- TLS Certificate -->
   <tcp-message style="forest-green">
     <opcode
-            regex-match=".*Certificate(?!.*Request|.*Verify|.*Status).*"
-            regex-replace="🔐 TLS Certificate"
+            match=".*Certificate(?!.*Request|.*Verify|.*Status).*"
+            replace="🔐 TLS Certificate"
         >tls.record</opcode>
     <param>tls.handshake.certificate_length</param>
   </tcp-message>
 
   <!-- TLS Change Cipher Spec -->
   <tcp-message style="slate dotted">
-    <opcode regex-match=".*Change Cipher Spec.*" regex-replace="🔒 TLS Change Cipher Spec">tls.record</opcode>
+    <opcode match=".*Change Cipher Spec.*" replace="🔒 TLS Change Cipher Spec">tls.record</opcode>
   </tcp-message>
 
   <!-- TLS Application Data -->
   <tcp-message style="slate dotted">
-    <opcode regex-match=".*Application Data.*" regex-replace="🔒 TLS Application Data">tls.record</opcode>
+    <opcode match=".*Application Data.*" replace="🔒 TLS Application Data">tls.record</opcode>
     <param>tls.record.length</param>
   </tcp-message>
 
   <!-- TLS Alert -->
   <tcp-message style="rust" bookmark="true">
-    <opcode regex-match=".*Alert.*" regex-replace="🚨 TLS Alert">tls.record</opcode>
+    <opcode match=".*Alert.*" replace="🚨 TLS Alert">tls.record</opcode>
     <param>tls.alert_message</param>
   </tcp-message>
 
@@ -347,8 +347,8 @@ Protocols covered:
 
   <udpv6-message style="amethyst">
     <opcode
-            regex-match="(.*)"
-            regex-replace="🔗 DHCPv6 $1"
+            match="^(?:[^:]+:\s*)?(.+)$"
+            replace="🔗 DHCPv6 $1"
         >dhcpv6.msgtype</opcode>
     <param>dhcpv6.xid</param>
     <param>dhcpv6.client_fqdn</param>
@@ -365,7 +365,7 @@ Protocols covered:
 
   <!-- TCP SYN -->
   <tcp-message style="slate dotted">
-    <opcode regex-match=".*\(SYN\)$" regex-replace="🔗 TCP SYN">tcp.flags</opcode>
+    <opcode match=".*\(SYN\)$" replace="🔗 TCP SYN">tcp.flags</opcode>
     <param>tcp.options.mss_val</param>
     <param>tcp.window_size_value</param>
   </tcp-message>
@@ -373,8 +373,8 @@ Protocols covered:
   <!-- TCP SYN-ACK -->
   <tcp-message style="slate dotted">
     <opcode
-            regex-match=".*\(SYN, ACK\)$"
-            regex-replace="🔗 TCP SYN-ACK"
+            match=".*\(SYN, ACK\)$"
+            replace="🔗 TCP SYN-ACK"
         >tcp.flags</opcode>
     <param>tcp.options.mss_val</param>
     <param>tcp.window_size_value</param>
@@ -382,12 +382,12 @@ Protocols covered:
 
   <!-- TCP FIN -->
   <tcp-message style="slate dotted">
-    <opcode regex-match=".*FIN.*" regex-replace="🔗 TCP FIN">tcp.flags</opcode>
+    <opcode match=".*FIN.*" replace="🔗 TCP FIN">tcp.flags</opcode>
   </tcp-message>
 
   <!-- TCP RST -->
   <tcp-message style="rust">
-    <opcode regex-match=".*RST.*" regex-replace="🔗 TCP RST">tcp.flags</opcode>
+    <opcode match=".*RST.*" replace="🔗 TCP RST">tcp.flags</opcode>
   </tcp-message>
 
   <!-- TCP catch-all removed — SYN/SYN-ACK/FIN/RST above suppress ACK noise -->

@@ -17,8 +17,8 @@ This template shows:
   <ipv6-message style="steel-blue">
     <opcode
         display="brief"
-        regex-match="134"
-        regex-replace="ICMPv6 Router Advertisement"
+        match="134"
+        replace="ICMPv6 Router Advertisement"
       >icmpv6.type</opcode>
     <param>icmpv6.nd.ra.router_lifetime</param>
     <param>icmpv6.nd.ra.cur_hop_limit</param>
@@ -30,8 +30,8 @@ This template shows:
   <ipv6-message style="slate-gray">
     <opcode
         display="brief"
-        regex-match="135"
-        regex-replace="ICMPv6 Neighbor Solicitation"
+        match="135"
+        replace="ICMPv6 Neighbor Solicitation"
       >icmpv6.type</opcode>
     <param>icmpv6.nd.ns.target_address</param>
     <param>icmpv6.opt.src_linkaddr</param>
@@ -41,8 +41,8 @@ This template shows:
   <ipv6-message style="slate-gray dashed">
     <opcode
         display="brief"
-        regex-match="136"
-        regex-replace="ICMPv6 Neighbor Advertisement"
+        match="136"
+        replace="ICMPv6 Neighbor Advertisement"
       >icmpv6.type</opcode>
     <param>icmpv6.nd.na.target_address</param>
     <param>icmpv6.nd.na.flag</param>
@@ -55,94 +55,94 @@ This template shows:
   <!-- EIGRP Hello (Opcode 5) - Neighbor discovery and keepalive -->
   <ipv6-message style="forest-green" priority="100">
     <opcode
-        regex-match="Opcode: Hello.*"
-        regex-replace="👋 EIGRP Hello"
+        match="Opcode: Hello.*"
+        replace="👋 EIGRP Hello"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
     <param>eigrp.par.holdtime</param>
   </ipv6-message>
 
   <!-- EIGRP Update (Opcode 1) - Routing table updates -->
   <ipv6-message style="sea-green dashed" priority="100">
     <opcode
-        regex-match="Opcode: Update.*"
-        regex-replace="📢 EIGRP Update"
+        match="Opcode: Update.*"
+        replace="📢 EIGRP Update"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
     <param>eigrp.flags</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv6.destination</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv6.destination</param>
     <param>eigrp.ipv6.prefixlen</param>
-    <param regex-match="(NextHop): (.*)" regex-replace="➡️ $1: $2">eigrp.ipv6.nexthop</param>
+    <param match="(NextHop): (.*)" replace="➡️ $1: $2">eigrp.ipv6.nexthop</param>
   </ipv6-message>
 
   <!-- EIGRP Query (Opcode 3) - Request for route information -->
   <ipv6-message style="amethyst" priority="100">
     <opcode
-        regex-match="Opcode: Query.*"
-        regex-replace="❓ EIGRP Query"
+        match="Opcode: Query.*"
+        replace="❓ EIGRP Query"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
     <param>eigrp.flags</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv6.destination</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv6.destination</param>
     <param>eigrp.ipv6.prefixlen</param>
   </ipv6-message>
 
   <!-- EIGRP Reply (Opcode 4) - Response to Query -->
   <ipv6-message style="forest-green dashed" priority="100">
     <opcode
-        regex-match="Opcode: Reply.*"
-        regex-replace="✅ EIGRP Reply"
+        match="Opcode: Reply.*"
+        replace="✅ EIGRP Reply"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
     <param>eigrp.flags</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv6.destination</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv6.destination</param>
     <param>eigrp.ipv6.prefixlen</param>
   </ipv6-message>
 
   <!-- EIGRP SIA-Query (Opcode 10) - Stuck-In-Active query -->
   <ipv6-message style="brick" priority="100">
     <opcode
-        regex-match="Opcode: SIA-Query.*"
-        regex-replace="⏳ EIGRP SIA-Query"
+        match="Opcode: SIA-Query.*"
+        replace="⏳ EIGRP SIA-Query"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv6.destination</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv6.destination</param>
     <param>eigrp.ipv6.prefixlen</param>
   </ipv6-message>
 
   <!-- EIGRP SIA-Reply (Opcode 11) - Stuck-In-Active reply -->
   <ipv6-message style="brick dashed" priority="100">
     <opcode
-        regex-match="Opcode: SIA-Reply.*"
-        regex-replace="⏳ EIGRP SIA-Reply"
+        match="Opcode: SIA-Reply.*"
+        replace="⏳ EIGRP SIA-Reply"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv6.destination</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv6.destination</param>
     <param>eigrp.ipv6.prefixlen</param>
   </ipv6-message>
 
   <!-- Generic EIGRP message - catches any other opcodes -->
   <ipv6-message style="crimson" priority="-10">
     <opcode
-        regex-match="Opcode: (.*)"
-        regex-replace="📨 EIGRP $1"
+        match="Opcode: (.*)"
+        replace="📨 EIGRP $1"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
     <param>eigrp.flags</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
     <param>eigrp.tlv_type</param>
   </ipv6-message>
 
@@ -153,89 +153,89 @@ This template shows:
   <!-- EIGRP Hello (IPv4) -->
   <ip-message style="forest-green">
     <opcode
-        regex-match="Opcode: (Hello).*"
-        regex-replace="👋 EIGRP $1"
+        match="Opcode: (Hello).*"
+        replace="👋 EIGRP $1"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
     <param>eigrp.par.holdtime</param>
   </ip-message>
 
   <!-- EIGRP Update (IPv4) -->
   <ip-message style="sea-green dashed">
     <opcode
-        regex-match="Opcode: (Update).*"
-        regex-replace="📢 EIGRP $1"
+        match="Opcode: (Update).*"
+        replace="📢 EIGRP $1"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
     <param>eigrp.flags</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(NextHop): (.*)" regex-replace="➡️ $1: $2">eigrp.ipv4.nexthop</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv4.destination</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(NextHop): (.*)" replace="➡️ $1: $2">eigrp.ipv4.nexthop</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv4.destination</param>
     <param>eigrp.ipv4.prefixlen</param>
   </ip-message>
 
   <!-- EIGRP Query (IPv4) -->
   <ip-message style="amethyst">
     <opcode
-        regex-match="Opcode: (Query).*"
-        regex-replace="❓ EIGRP $1"
+        match="Opcode: (Query).*"
+        replace="❓ EIGRP $1"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv4.destination</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv4.destination</param>
     <param>eigrp.ipv4.prefixlen</param>
   </ip-message>
 
   <!-- EIGRP Reply (IPv4) -->
   <ip-message style="forest-green dashed">
     <opcode
-        regex-match="Opcode: (Reply).*"
-        regex-replace="✅ EIGRP $1"
+        match="Opcode: (Reply).*"
+        replace="✅ EIGRP $1"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv4.destination</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv4.destination</param>
     <param>eigrp.ipv4.prefixlen</param>
   </ip-message>
 
   <!-- EIGRP SIA-Query (IPv4) -->
   <ip-message style="brick">
     <opcode
-        regex-match="Opcode: (SIA-Query).*"
-        regex-replace="⏳ EIGRP $1"
+        match="Opcode: (SIA-Query).*"
+        replace="⏳ EIGRP $1"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv4.destination</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv4.destination</param>
   </ip-message>
 
   <!-- EIGRP SIA-Reply (IPv4) -->
   <ip-message style="brick dashed">
     <opcode
-        regex-match="Opcode: (SIA-Reply).*"
-        regex-replace="⏳ EIGRP $1"
+        match="Opcode: (SIA-Reply).*"
+        replace="⏳ EIGRP $1"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
-    <param regex-match="(Destination): (.*)" regex-replace="🌐 $1: $2">eigrp.ipv4.destination</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Destination): (.*)" replace="🌐 $1: $2">eigrp.ipv4.destination</param>
   </ip-message>
 
   <!-- EIGRP generic (IPv4) -->
   <ip-message style="crimson">
     <opcode
-        regex-match="Opcode: (.*) \(\d+\)"
-        regex-replace="📨 EIGRP $1"
+        match="Opcode: (.*) \(\d+\)"
+        replace="📨 EIGRP $1"
       >eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
   </ip-message>
 
 </FXT>

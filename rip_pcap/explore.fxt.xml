@@ -64,13 +64,13 @@
        An empty Request (metric 16, address 0.0.0.0) requests full table -->
   <udp-message style="sea-green">
     <opcode
-            regex-match="Command: (Request) \(\d+\)"
-            regex-replace="❓ RIP $1"
+            match="Command: (Request) \(\d+\)"
+            replace="❓ RIP $1"
         >rip.command</opcode>
     <param>rip.version</param>
-    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">rip.ip</param>
+    <param match="(IP Address): (.*)" replace="🌐 $1: $2">rip.ip</param>
     <param>rip.netmask</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">rip.metric</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">rip.metric</param>
   </udp-message>
 
   <!-- =================================================================
@@ -82,14 +82,14 @@
        Contains up to 25 route entries per packet -->
   <udp-message style="sea-green dashed">
     <opcode
-            regex-match="Command: (Response) \(\d+\)"
-            regex-replace="📢 RIP $1"
+            match="Command: (Response) \(\d+\)"
+            replace="📢 RIP $1"
         >rip.command</opcode>
     <param>rip.version</param>
-    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">rip.ip</param>
+    <param match="(IP Address): (.*)" replace="🌐 $1: $2">rip.ip</param>
     <param>rip.netmask</param>
-    <param regex-match="(Next Hop): (.*)" regex-replace="➡️ $1: $2">rip.next_hop</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">rip.metric</param>
+    <param match="(Next Hop): (.*)" replace="➡️ $1: $2">rip.next_hop</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">rip.metric</param>
     <param>rip.route_tag</param>
   </udp-message>
 
@@ -101,8 +101,8 @@
        Originally used to enable tracing on RIP daemon -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Command: (Traceon) \(\d+\)"
-            regex-replace="RIP $1 (Obsolete)"
+            match="Command: (Traceon) \(\d+\)"
+            replace="RIP $1 (Obsolete)"
         >rip.command</opcode>
     <param>rip.version</param>
   </udp-message>
@@ -111,8 +111,8 @@
        Originally used to disable tracing on RIP daemon -->
   <udp-message style="amethyst">
     <opcode
-            regex-match="Command: (Traceoff) \(\d+\)"
-            regex-replace="RIP $1 (Obsolete)"
+            match="Command: (Traceoff) \(\d+\)"
+            replace="RIP $1 (Obsolete)"
         >rip.command</opcode>
     <param>rip.version</param>
   </udp-message>
@@ -124,40 +124,40 @@
   <!-- Generic RIP message - catches any unmatched RIP command types -->
   <udp-message style="steel-blue">
     <opcode
-            regex-match="Command: (.*) \(\d+\)"
-            regex-replace="📨 RIP $1"
+            match="Command: (.*) \(\d+\)"
+            replace="📨 RIP $1"
         >rip.command</opcode>
     <param>rip.version</param>
-    <param regex-match="(IP Address): (.*)" regex-replace="🌐 $1: $2">rip.ip</param>
+    <param match="(IP Address): (.*)" replace="🌐 $1: $2">rip.ip</param>
     <param>rip.netmask</param>
-    <param regex-match="(Next Hop): (.*)" regex-replace="➡️ $1: $2">rip.next_hop</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">rip.metric</param>
+    <param match="(Next Hop): (.*)" replace="➡️ $1: $2">rip.next_hop</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">rip.metric</param>
   </udp-message>
 
   <!-- RIPng Request (IPv6) -->
   <udpv6-message style="forest-green">
-    <opcode regex-match="Command: (Request) \(\d+\)" regex-replace="❓ RIPng $1">ripng.cmd</opcode>
-    <param regex-match="(IPv6 Prefix): (.*)" regex-replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
+    <opcode match="Command: (Request) \(\d+\)" replace="❓ RIPng $1">ripng.cmd</opcode>
+    <param match="(IPv6 Prefix): (.*)" replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
     <param>ripng.rte.prefix_length</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">ripng.rte.metric</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">ripng.rte.metric</param>
     <param>ripng.rte.route_tag</param>
   </udpv6-message>
 
   <!-- RIPng Response (IPv6) -->
   <udpv6-message style="forest-green dashed">
-    <opcode regex-match="Command: (Response) \(\d+\)" regex-replace="📢 RIPng $1">ripng.cmd</opcode>
-    <param regex-match="(IPv6 Prefix): (.*)" regex-replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
+    <opcode match="Command: (Response) \(\d+\)" replace="📢 RIPng $1">ripng.cmd</opcode>
+    <param match="(IPv6 Prefix): (.*)" replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
     <param>ripng.rte.prefix_length</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">ripng.rte.metric</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">ripng.rte.metric</param>
     <param>ripng.rte.route_tag</param>
   </udpv6-message>
 
   <!-- RIPng generic fallback -->
   <udpv6-message style="steel-blue">
-    <opcode regex-match="Command: (.*) \(\d+\)" regex-replace="📨 RIPng $1">ripng.cmd</opcode>
-    <param regex-match="(IPv6 Prefix): (.*)" regex-replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
+    <opcode match="Command: (.*) \(\d+\)" replace="📨 RIPng $1">ripng.cmd</opcode>
+    <param match="(IPv6 Prefix): (.*)" replace="🌐 $1: $2">ripng.rte.ipv6_prefix</param>
     <param>ripng.rte.prefix_length</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">ripng.rte.metric</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">ripng.rte.metric</param>
     <param>ripng.rte.route_tag</param>
   </udpv6-message>
 

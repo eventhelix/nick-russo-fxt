@@ -17,71 +17,71 @@ IOS-XR gRPC: 📖 GetConfig, 📝 MergeConfig, 🔄 ReplaceConfig, 🗑 DeleteCo
 
   <!-- gNMI Capabilities -->
   <tcp-message style="cerulean" bookmark="true">
-    <opcode regex-match="^:path: /gnmi\.gNMI/(Capabilities)" regex-replace="📋 gNMI $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 Query device-supported gNMI version, models, and encodings">http2</remark>
+    <opcode match="^:path: /gnmi\.gNMI/(Capabilities)" replace="📋 gNMI $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 Query device-supported gNMI version, models, and encodings">http2</remark>
   </tcp-message>
 
   <!-- gNMI Get -->
   <tcp-message style="royal-blue" bookmark="true">
-    <opcode regex-match="^:path: /gnmi\.gNMI/(Get)" regex-replace="📡 gNMI $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 Read operational or config state from device — returns snapshot of requested paths">http2</remark>
+    <opcode match="^:path: /gnmi\.gNMI/(Get)" replace="📡 gNMI $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 Read operational or config state from device — returns snapshot of requested paths">http2</remark>
   </tcp-message>
 
   <!-- gNMI Set -->
   <tcp-message style="amethyst" bookmark="true">
-    <opcode regex-match="^:path: /gnmi\.gNMI/(Set)" regex-replace="📝 gNMI $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 Modify device configuration — supports update, replace, and delete operations">http2</remark>
+    <opcode match="^:path: /gnmi\.gNMI/(Set)" replace="📝 gNMI $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 Modify device configuration — supports update, replace, and delete operations">http2</remark>
   </tcp-message>
 
   <!-- gNMI Subscribe -->
   <tcp-message style="teal" bookmark="true">
-    <opcode regex-match="^:path: /gnmi\.gNMI/(Subscribe)" regex-replace="📊 gNMI $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 Open streaming telemetry subscription — server pushes updates as state changes">http2</remark>
+    <opcode match="^:path: /gnmi\.gNMI/(Subscribe)" replace="📊 gNMI $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 Open streaming telemetry subscription — server pushes updates as state changes">http2</remark>
   </tcp-message>
 
   <!-- IOS-XR GetConfig -->
   <tcp-message style="royal-blue" bookmark="true">
-    <opcode regex-match="^:path: /.*/(GetConfig)" regex-replace="📖 gRPC $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 IOS-XR gRPC: retrieve running configuration via YANG model paths">http2</remark>
+    <opcode match="^:path: /.*/(GetConfig)" replace="📖 gRPC $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 IOS-XR gRPC: retrieve running configuration via YANG model paths">http2</remark>
   </tcp-message>
 
   <!-- IOS-XR MergeConfig -->
   <tcp-message style="amethyst" bookmark="true">
-    <opcode regex-match="^:path: /.*/(MergeConfig)" regex-replace="📝 gRPC $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 IOS-XR gRPC: merge config changes into running config (additive)">http2</remark>
+    <opcode match="^:path: /.*/(MergeConfig)" replace="📝 gRPC $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 IOS-XR gRPC: merge config changes into running config (additive)">http2</remark>
   </tcp-message>
 
   <!-- IOS-XR ReplaceConfig -->
   <tcp-message style="tangerine" bookmark="true">
-    <opcode regex-match="^:path: /.*/(ReplaceConfig)" regex-replace="🔄 gRPC $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 IOS-XR gRPC: replace entire config subtree at the specified path">http2</remark>
+    <opcode match="^:path: /.*/(ReplaceConfig)" replace="🔄 gRPC $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 IOS-XR gRPC: replace entire config subtree at the specified path">http2</remark>
   </tcp-message>
 
   <!-- IOS-XR DeleteConfig -->
   <tcp-message style="crimson" bookmark="true">
-    <opcode regex-match="^:path: /.*/(DeleteConfig)" regex-replace="🗑 gRPC $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 IOS-XR gRPC: delete config at the specified YANG model path">http2</remark>
+    <opcode match="^:path: /.*/(DeleteConfig)" replace="🗑 gRPC $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 IOS-XR gRPC: delete config at the specified YANG model path">http2</remark>
   </tcp-message>
 
   <!-- IOS-XR CreateSubs (Telemetry) -->
   <tcp-message style="teal" bookmark="true">
-    <opcode regex-match="^:path: /.*/(CreateSubs)" regex-replace="📊 gRPC $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
-    <remark regex-match=".*" regex-replace="💡 IOS-XR gRPC: create model-driven telemetry subscription for streaming data">http2</remark>
+    <opcode match="^:path: /.*/(CreateSubs)" replace="📊 gRPC $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
+    <remark match=".*" replace="💡 IOS-XR gRPC: create model-driven telemetry subscription for streaming data">http2</remark>
   </tcp-message>
 
   <!-- Generic gRPC Request (catch-all for other paths) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="^:path: /(.*)" regex-replace="📡 gRPC $1">http2.headers.path</opcode>
-    <param regex-match=":authority: (.*)" regex-replace="🏠 Authority: $1">http2.headers.authority</param>
+    <opcode match="^:path: /(.*)" replace="📡 gRPC $1">http2.headers.path</opcode>
+    <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
   </tcp-message>
 
   <!-- ============================================================
@@ -90,101 +90,101 @@ IOS-XR gRPC: 📖 GetConfig, 📝 MergeConfig, 🔄 ReplaceConfig, 🗑 DeleteCo
 
   <!-- gNMI CapabilityResponse -->
   <tcp-message style="cerulean">
-    <opcode regex-match="^Message Name: (gnmi\.CapabilityResponse)" regex-replace="📋 $1">protobuf.message.name</opcode>
-    <param regex-match="gNMI_version: (.*)" regex-replace="📋 gNMI Version: $1">pbf.gnmi.CapabilityResponse.gNMI_version</param>
-    <param regex-match="supported_encodings: (.*)" regex-replace="📦 Encodings: $1">pbf.gnmi.CapabilityResponse.supported_encodings</param>
-    <param regex-match="name: (.*)" regex-replace="📚 Model: $1">pbf.gnmi.ModelData.name</param>
-    <remark regex-match=".*" regex-replace="💡 Server responds with supported YANG models, gNMI version, and encoding formats (JSON_IETF, PROTO, etc.)">protobuf</remark>
+    <opcode match="^Message Name: (gnmi\.CapabilityResponse)" replace="📋 $1">protobuf.message.name</opcode>
+    <param match="gNMI_version: (.*)" replace="📋 gNMI Version: $1">pbf.gnmi.CapabilityResponse.gNMI_version</param>
+    <param match="supported_encodings: (.*)" replace="📦 Encodings: $1">pbf.gnmi.CapabilityResponse.supported_encodings</param>
+    <param match="name: (.*)" replace="📚 Model: $1">pbf.gnmi.ModelData.name</param>
+    <remark match=".*" replace="💡 Server responds with supported YANG models, gNMI version, and encoding formats (JSON_IETF, PROTO, etc.)">protobuf</remark>
   </tcp-message>
 
   <!-- gNMI GetRequest -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="^Message Name: (gnmi\.GetRequest)" regex-replace="📡 $1">protobuf.message.name</opcode>
-    <param regex-match="name: (.*)" regex-replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
-    <param regex-match="encoding: (.*)" regex-replace="📦 Encoding: $1">pbf.gnmi.GetRequest.encoding</param>
-    <remark regex-match=".*" regex-replace="💡 Client sends YANG path(s) to read — encoding specifies response format">protobuf</remark>
+    <opcode match="^Message Name: (gnmi\.GetRequest)" replace="📡 $1">protobuf.message.name</opcode>
+    <param match="name: (.*)" replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
+    <param match="encoding: (.*)" replace="📦 Encoding: $1">pbf.gnmi.GetRequest.encoding</param>
+    <remark match=".*" replace="💡 Client sends YANG path(s) to read — encoding specifies response format">protobuf</remark>
   </tcp-message>
 
   <!-- gNMI GetResponse -->
   <tcp-message style="sea-green">
-    <opcode regex-match="^Message Name: (gnmi\.GetResponse)" regex-replace="📡 $1">protobuf.message.name</opcode>
-    <param regex-match="name: (.*)" regex-replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
-    <param regex-match="Message Length: (\d+)" regex-replace="📦 $1 bytes">grpc.message_length</param>
-    <remark regex-match=".*" regex-replace="💡 Server returns snapshot of requested paths — contains Notification with timestamped updates">protobuf</remark>
+    <opcode match="^Message Name: (gnmi\.GetResponse)" replace="📡 $1">protobuf.message.name</opcode>
+    <param match="name: (.*)" replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
+    <param match="Message Length: (\d+)" replace="📦 $1 bytes">grpc.message_length</param>
+    <remark match=".*" replace="💡 Server returns snapshot of requested paths — contains Notification with timestamped updates">protobuf</remark>
   </tcp-message>
 
   <!-- gNMI SetRequest -->
   <tcp-message style="amethyst">
-    <opcode regex-match="^Message Name: (gnmi\.SetRequest)" regex-replace="📝 $1">protobuf.message.name</opcode>
-    <param regex-match="name: (.*)" regex-replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
-    <remark regex-match=".*" regex-replace="💡 Client sends config changes — update (merge), replace (overwrite), or delete operations on YANG paths">protobuf</remark>
+    <opcode match="^Message Name: (gnmi\.SetRequest)" replace="📝 $1">protobuf.message.name</opcode>
+    <param match="name: (.*)" replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
+    <remark match=".*" replace="💡 Client sends config changes — update (merge), replace (overwrite), or delete operations on YANG paths">protobuf</remark>
   </tcp-message>
 
   <!-- gNMI SetResponse -->
   <tcp-message style="sea-green">
-    <opcode regex-match="^Message Name: (gnmi\.SetResponse)" regex-replace="✅ $1">protobuf.message.name</opcode>
-    <param regex-match="op: (.*)" regex-replace="📝 Operation: $1">pbf.gnmi.UpdateResult.op</param>
-    <param regex-match="name: (.*)" regex-replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
-    <remark regex-match=".*" regex-replace="💡 Server confirms each operation result — UPDATE, REPLACE, or DELETE with per-path status">protobuf</remark>
+    <opcode match="^Message Name: (gnmi\.SetResponse)" replace="✅ $1">protobuf.message.name</opcode>
+    <param match="op: (.*)" replace="📝 Operation: $1">pbf.gnmi.UpdateResult.op</param>
+    <param match="name: (.*)" replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
+    <remark match=".*" replace="💡 Server confirms each operation result — UPDATE, REPLACE, or DELETE with per-path status">protobuf</remark>
   </tcp-message>
 
   <!-- gNMI SubscribeRequest -->
   <tcp-message style="teal">
-    <opcode regex-match="^Message Name: (gnmi\.SubscribeRequest)" regex-replace="📊 $1">protobuf.message.name</opcode>
-    <param regex-match="encoding: (.*)" regex-replace="📦 Encoding: $1">pbf.gnmi.SubscriptionList.encoding</param>
-    <param regex-match="mode: (.*)" regex-replace="📊 Mode: $1">pbf.gnmi.Subscription.mode</param>
-    <param regex-match="name: (.*)" regex-replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
-    <param regex-match="sample_interval: (.*)" regex-replace="⏱ Interval: $1">pbf.gnmi.Subscription.sample_interval</param>
-    <remark regex-match=".*" regex-replace="💡 Client subscribes to YANG paths — SAMPLE mode polls at interval, ON_CHANGE pushes on state change">protobuf</remark>
+    <opcode match="^Message Name: (gnmi\.SubscribeRequest)" replace="📊 $1">protobuf.message.name</opcode>
+    <param match="encoding: (.*)" replace="📦 Encoding: $1">pbf.gnmi.SubscriptionList.encoding</param>
+    <param match="mode: (.*)" replace="📊 Mode: $1">pbf.gnmi.Subscription.mode</param>
+    <param match="name: (.*)" replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
+    <param match="sample_interval: (.*)" replace="⏱ Interval: $1">pbf.gnmi.Subscription.sample_interval</param>
+    <remark match=".*" replace="💡 Client subscribes to YANG paths — SAMPLE mode polls at interval, ON_CHANGE pushes on state change">protobuf</remark>
   </tcp-message>
 
   <!-- gNMI SubscribeResponse (telemetry stream or sync marker) -->
   <tcp-message style="sea-green">
-    <opcode regex-match="^Message Name: (gnmi\.SubscribeResponse)" regex-replace="⏳ $1">protobuf.message.name</opcode>
-    <param regex-match="sync_response: (.*)" regex-replace="🔄 Sync: $1">pbf.gnmi.SubscribeResponse.sync_response</param>
-    <param regex-match="name: (.*)" regex-replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
-    <remark regex-match=".*" regex-replace="💡 Telemetry stream — periodic push of subscribed YANG paths (sync_response=true marks end of initial snapshot)">protobuf</remark>
+    <opcode match="^Message Name: (gnmi\.SubscribeResponse)" replace="⏳ $1">protobuf.message.name</opcode>
+    <param match="sync_response: (.*)" replace="🔄 Sync: $1">pbf.gnmi.SubscribeResponse.sync_response</param>
+    <param match="name: (.*)" replace="📂 Path: $1">pbf.gnmi.PathElem.name</param>
+    <remark match=".*" replace="💡 Telemetry stream — periodic push of subscribed YANG paths (sync_response=true marks end of initial snapshot)">protobuf</remark>
   </tcp-message>
 
   <!-- IOS-XR GetConfig Args -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="^Message Name: (.*ConfigGetArgs)" regex-replace="📖 $1">protobuf.message.name</opcode>
-    <param regex-match="yangpathjson: (.*)" regex-replace="📂 Path: $1">pbf.IOSXRExtensibleManagabilityService.ConfigGetArgs.yangpathjson</param>
-    <remark regex-match=".*" regex-replace="💡 IOS-XR GetConfig request — YANG path specifies which config subtree to retrieve">protobuf</remark>
+    <opcode match="^Message Name: (.*ConfigGetArgs)" replace="📖 $1">protobuf.message.name</opcode>
+    <param match="yangpathjson: (.*)" replace="📂 Path: $1">pbf.IOSXRExtensibleManagabilityService.ConfigGetArgs.yangpathjson</param>
+    <remark match=".*" replace="💡 IOS-XR GetConfig request — YANG path specifies which config subtree to retrieve">protobuf</remark>
   </tcp-message>
 
   <!-- IOS-XR GetConfig Reply -->
   <tcp-message style="sea-green">
-    <opcode regex-match="^Message Name: (.*ConfigGetReply)" regex-replace="📖 $1">protobuf.message.name</opcode>
-    <param regex-match="Message Length: (\d+)" regex-replace="📦 $1 bytes">grpc.message_length</param>
-    <remark regex-match=".*" regex-replace="💡 Server returns running config as JSON for the requested YANG path">protobuf</remark>
+    <opcode match="^Message Name: (.*ConfigGetReply)" replace="📖 $1">protobuf.message.name</opcode>
+    <param match="Message Length: (\d+)" replace="📦 $1 bytes">grpc.message_length</param>
+    <remark match=".*" replace="💡 Server returns running config as JSON for the requested YANG path">protobuf</remark>
   </tcp-message>
 
   <!-- IOS-XR CreateSubs Args -->
   <tcp-message style="teal">
-    <opcode regex-match="^Message Name: (.*CreateSubsArgs)" regex-replace="📊 $1">protobuf.message.name</opcode>
-    <param regex-match="subidstr: (.*)" regex-replace="📊 Subscription: $1">pbf.IOSXRExtensibleManagabilityService.CreateSubsArgs.subidstr</param>
-    <param regex-match="encode: (.*)" regex-replace="📦 Encoding: $1">pbf.IOSXRExtensibleManagabilityService.CreateSubsArgs.encode</param>
-    <remark regex-match=".*" regex-replace="💡 IOS-XR telemetry subscription request — subidstr references a pre-configured subscription policy">protobuf</remark>
+    <opcode match="^Message Name: (.*CreateSubsArgs)" replace="📊 $1">protobuf.message.name</opcode>
+    <param match="subidstr: (.*)" replace="📊 Subscription: $1">pbf.IOSXRExtensibleManagabilityService.CreateSubsArgs.subidstr</param>
+    <param match="encode: (.*)" replace="📦 Encoding: $1">pbf.IOSXRExtensibleManagabilityService.CreateSubsArgs.encode</param>
+    <remark match=".*" replace="💡 IOS-XR telemetry subscription request — subidstr references a pre-configured subscription policy">protobuf</remark>
   </tcp-message>
 
   <!-- IOS-XR CreateSubs Reply (periodic telemetry update) -->
   <tcp-message style="sea-green">
-    <opcode regex-match="^Message Name: (.*CreateSubsReply)" regex-replace="⏳ $1">protobuf.message.name</opcode>
-    <param regex-match="Message Length: (\d+)" regex-replace="📦 $1 bytes">grpc.message_length</param>
-    <remark regex-match=".*" regex-replace="💡 Periodic telemetry push — server streams encoded data (GPB, KVGPB, or JSON) at configured interval">protobuf</remark>
+    <opcode match="^Message Name: (.*CreateSubsReply)" replace="⏳ $1">protobuf.message.name</opcode>
+    <param match="Message Length: (\d+)" replace="📦 $1 bytes">grpc.message_length</param>
+    <remark match=".*" replace="💡 Periodic telemetry push — server streams encoded data (GPB, KVGPB, or JSON) at configured interval">protobuf</remark>
   </tcp-message>
 
   <!-- Generic Protobuf message (catch-all with name) -->
   <tcp-message style="sea-green">
-    <opcode regex-match="^Message Name: (.+)" regex-replace="📨 Protobuf $1">protobuf.message.name</opcode>
-    <param regex-match="Message Length: (\d+)" regex-replace="📦 $1 bytes">grpc.message_length</param>
+    <opcode match="^Message Name: (.+)" replace="📨 Protobuf $1">protobuf.message.name</opcode>
+    <param match="Message Length: (\d+)" replace="📦 $1 bytes">grpc.message_length</param>
   </tcp-message>
 
   <!-- gRPC DATA frame (protobuf not decoded) -->
   <tcp-message style="teal dashed">
-    <opcode regex-match="^Message Length: (\d+)" regex-replace="📦 gRPC Data ($1 bytes)">grpc.message_length</opcode>
-    <param regex-match=".*Stream Identifier: ([1-9]\d*)" regex-replace="🔢 Stream: $1">http2.streamid</param>
+    <opcode match="^Message Length: (\d+)" replace="📦 gRPC Data ($1 bytes)">grpc.message_length</opcode>
+    <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
   </tcp-message>
 
   <!-- ============================================================
@@ -193,60 +193,60 @@ IOS-XR gRPC: 📖 GetConfig, 📝 MergeConfig, 🔄 ReplaceConfig, 🗑 DeleteCo
 
   <!-- HTTP/2 Response HEADERS (status + grpc-status/message) -->
   <tcp-message style="steel-blue dashed">
-    <opcode regex-match="^Stream: (HEADERS).*" regex-replace="🔗 HTTP/2 $1">http2.stream</opcode>
-    <param regex-match=":status: (.*)" regex-replace="📋 Status: $1">http2.headers.status</param>
-    <param regex-match="Header: grpc-status: (.*)" regex-replace="📋 gRPC Status: $1">http2.header</param>
-    <param regex-match="Header: grpc-message: (.*)" regex-replace="📋 gRPC Message: $1">http2.header</param>
-    <param regex-match=".*Stream Identifier: ([1-9]\d*)" regex-replace="🔢 Stream: $1">http2.streamid</param>
+    <opcode match="^Stream: (HEADERS).*" replace="🔗 HTTP/2 $1">http2.stream</opcode>
+    <param match=":status: (.*)" replace="📋 Status: $1">http2.headers.status</param>
+    <param match="Header: grpc-status: (.*)" replace="📋 gRPC Status: $1">http2.header</param>
+    <param match="Header: grpc-message: (.*)" replace="📋 gRPC Message: $1">http2.header</param>
+    <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
   </tcp-message>
 
   <!-- HTTP/2 DATA frame -->
   <tcp-message style="steel-blue dashed">
-    <opcode regex-match="^Stream: (DATA).*" regex-replace="📦 HTTP/2 $1">http2.stream</opcode>
-    <param regex-match=".*End Stream: (True)" regex-replace="🏁 End Stream">http2.flags.end_stream</param>
-    <param regex-match=".*Stream Identifier: ([1-9]\d*)" regex-replace="🔢 Stream: $1">http2.streamid</param>
+    <opcode match="^Stream: (DATA).*" replace="📦 HTTP/2 $1">http2.stream</opcode>
+    <param match=".*End Stream: (True)" replace="🏁 End Stream">http2.flags.end_stream</param>
+    <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
   </tcp-message>
 
   <!-- HTTP/2 SETTINGS -->
   <tcp-message style="slate dotted">
-    <opcode regex-match="^Type: (SETTINGS).*" regex-replace="⚙ HTTP/2 $1">http2.type</opcode>
-    <param regex-match=".*ACK: (True)" regex-replace="✅ ACK">http2.flags.ack.settings</param>
-    <param regex-match="Initial Window Size: (.*)" regex-replace="📊 Window: $1">http2.settings.initial_window_size</param>
-    <param regex-match="Max concurrent streams: (.*)" regex-replace="🔢 Max Streams: $1">http2.settings.max_concurrent_streams</param>
+    <opcode match="^Type: (SETTINGS).*" replace="⚙ HTTP/2 $1">http2.type</opcode>
+    <param match=".*ACK: (True)" replace="✅ ACK">http2.flags.ack.settings</param>
+    <param match="Initial Window Size: (.*)" replace="📊 Window: $1">http2.settings.initial_window_size</param>
+    <param match="Max concurrent streams: (.*)" replace="🔢 Max Streams: $1">http2.settings.max_concurrent_streams</param>
   </tcp-message>
 
   <!-- HTTP/2 WINDOW_UPDATE -->
   <tcp-message style="slate dotted">
-    <opcode regex-match="^Type: (WINDOW_UPDATE).*" regex-replace="📊 HTTP/2 $1">http2.type</opcode>
-    <param regex-match=".*Window Size Increment: (\d+)" regex-replace="📊 Increment: $1">http2.window_update.window_size_increment</param>
-    <param regex-match=".*Stream Identifier: ([1-9]\d*)" regex-replace="🔢 Stream: $1">http2.streamid</param>
+    <opcode match="^Type: (WINDOW_UPDATE).*" replace="📊 HTTP/2 $1">http2.type</opcode>
+    <param match=".*Window Size Increment: (\d+)" replace="📊 Increment: $1">http2.window_update.window_size_increment</param>
+    <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
   </tcp-message>
 
   <!-- HTTP/2 PING -->
   <tcp-message style="slate dotted">
-    <opcode regex-match="^Type: (PING).*" regex-replace="💓 HTTP/2 $1">http2.type</opcode>
-    <param regex-match=".*ACK: (True)" regex-replace="✅ ACK">http2.flags.ack.ping</param>
+    <opcode match="^Type: (PING).*" replace="💓 HTTP/2 $1">http2.type</opcode>
+    <param match=".*ACK: (True)" replace="✅ ACK">http2.flags.ack.ping</param>
   </tcp-message>
 
   <!-- HTTP/2 GOAWAY -->
   <tcp-message style="brick" bookmark="true">
-    <opcode regex-match="^Type: (GOAWAY).*" regex-replace="🛑 HTTP/2 $1">http2.type</opcode>
-    <param regex-match=".*Last-Stream-ID: (\d+)" regex-replace="🔢 Last Stream: $1">http2.goaway.last_stream_id</param>
+    <opcode match="^Type: (GOAWAY).*" replace="🛑 HTTP/2 $1">http2.type</opcode>
+    <param match=".*Last-Stream-ID: (\d+)" replace="🔢 Last Stream: $1">http2.goaway.last_stream_id</param>
     <param>http2.goaway.error</param>
-    <remark regex-match=".*" regex-replace="💡 Server is shutting down — no new streams will be accepted">http2</remark>
+    <remark match=".*" replace="💡 Server is shutting down — no new streams will be accepted">http2</remark>
   </tcp-message>
 
   <!-- HTTP/2 RST_STREAM -->
   <tcp-message style="brick wave">
-    <opcode regex-match="^Type: (RST_STREAM).*" regex-replace="❌ HTTP/2 $1">http2.type</opcode>
-    <param regex-match="Error: (.*)" regex-replace="❌ $1">http2.rst_stream.error</param>
-    <param regex-match=".*Stream Identifier: ([1-9]\d*)" regex-replace="🔢 Stream: $1">http2.streamid</param>
+    <opcode match="^Type: (RST_STREAM).*" replace="❌ HTTP/2 $1">http2.type</opcode>
+    <param match="Error: (.*)" replace="❌ $1">http2.rst_stream.error</param>
+    <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
   </tcp-message>
 
   <!-- Generic HTTP/2 frame fallback -->
   <tcp-message style="slate dotted">
-    <opcode regex-match="^Type: (.+) \(.*\)" regex-replace="🔗 HTTP/2 $1">http2.type</opcode>
-    <param regex-match=".*Stream Identifier: ([1-9]\d*)" regex-replace="🔢 Stream: $1">http2.streamid</param>
+    <opcode match="^Type: (.+) \(.*\)" replace="🔗 HTTP/2 $1">http2.type</opcode>
+    <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
   </tcp-message>
 
   <!-- ============================================================
@@ -255,17 +255,17 @@ IOS-XR gRPC: 📖 GetConfig, 📝 MergeConfig, 🔄 ReplaceConfig, 🗑 DeleteCo
 
   <!-- TCP SYN (connection setup) -->
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((SYN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
   <!-- TCP FIN (connection teardown) -->
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*FIN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
   <!-- TCP RST (connection reset) -->
   <tcp-message style="crimson dotted">
-    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*RST.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
 </FXT>

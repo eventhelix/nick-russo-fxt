@@ -19,12 +19,12 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
   <!-- BGP OPEN Message -->
   <tcp-message style="royal-blue">
     <opcode
-            regex-match="^Type: (OPEN) Message \(.*\)"
-            regex-replace="🤝 BGP $1"
+            match="^Type: (OPEN) Message \(.*\)"
+            replace="🤝 BGP $1"
         >bgp.type</opcode>
-    <param regex-match="(My AS): (.*)" regex-replace="🆔 $1: $2">bgp.open.myas</param>
+    <param match="(My AS): (.*)" replace="🆔 $1: $2">bgp.open.myas</param>
     <param>bgp.open.holdtime</param>
-    <param regex-match="(BGP Identifier): (.*)" regex-replace="🆔 $1: $2">bgp.open.identifier</param>
+    <param match="(BGP Identifier): (.*)" replace="🆔 $1: $2">bgp.open.identifier</param>
     <param>bgp.cap</param>
     <param>bgp.cap.mp.afi</param>
     <param>bgp.cap.mp.safi</param>
@@ -33,10 +33,10 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
   <!-- BGP NOTIFICATION Message -->
   <tcp-message style="brick wave">
     <opcode
-            regex-match="^Type: (NOTIFICATION) Message \(.*\)"
-            regex-replace="🚨 BGP $1"
+            match="^Type: (NOTIFICATION) Message \(.*\)"
+            replace="🚨 BGP $1"
         >bgp.type</opcode>
-    <param regex-match="(Major error Code): (.*)" regex-replace="🚨 $1: $2">bgp.notify.major_error</param>
+    <param match="(Major error Code): (.*)" replace="🚨 $1: $2">bgp.notify.major_error</param>
     <param>bgp.notify.minor_error_open</param>
     <param>bgp.notify.minor_error_update</param>
     <param>bgp.notify.minor_error_cease</param>
@@ -48,21 +48,21 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
   <!-- BGP KEEPALIVE Message -->
   <tcp-message style="teal dashed">
     <opcode
-            regex-match="^Type: (KEEPALIVE) Message \(.*\)"
-            regex-replace="💓 BGP $1"
+            match="^Type: (KEEPALIVE) Message \(.*\)"
+            replace="💓 BGP $1"
         >bgp.type</opcode>
   </tcp-message>
 
   <!-- BGP UPDATE Message -->
   <tcp-message style="sea-green">
     <opcode
-            regex-match="^Type: (UPDATE) Message \(.*\)"
-            regex-replace="📢 BGP $1"
+            match="^Type: (UPDATE) Message \(.*\)"
+            replace="📢 BGP $1"
         >bgp.type</opcode>
-    <param regex-match="(.*)" regex-replace="🎯 $1">bgp.ext_community</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="🎯 $1">bgp.ext_com</param>
     <!-- Standard NLRI -->
-    <param regex-match="(.*)" regex-replace=". $1">bgp.NLRI prefix length</param>
-    <param regex-match="(.*) \(.*\)" regex-replace=". $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace=". $1">bgp.prefix_length</param>
+    <param match="(.*) \(.*\)" replace=". $1">bgp.nlri_prefix</param>
     <param>bgp.withdrawn_prefix</param>
     <param>bgp.Withdrawn route prefix length</param>
     <!-- MP-BGP NLRI -->
@@ -76,8 +76,8 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
     <param>bgp.update.path_attribute.mp_unreach_nlri.afi</param>
     <param>bgp.update.path_attribute.mp_unreach_nlri.safi</param>
     <!-- EVPN -->
-    <param regex-match="(Route Type): (.*)" regex-replace="🏷️ $1: $2">bgp.evpn.nlri.rt</param>
-    <param regex-match="(Route Distinguisher): (.*)" regex-replace="📍 $1: $2">bgp.evpn.nlri.rd</param>
+    <param match="(Route Type): (.*)" replace="🏷️ $1: $2">bgp.evpn.nlri.rt</param>
+    <param match="(Route Distinguisher): (.*)" replace="📍 $1: $2">bgp.evpn.nlri.rd</param>
     <param>bgp.evpn.nlri.mac_addr</param>
     <param>bgp.evpn.nlri.ip.addr</param>
     <param>bgp.evpn.nlri.etag</param>
@@ -95,32 +95,32 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
     <param>bgp.ls.sr.tlv.prefix.sid.index</param>
     <param>bgp.ls.sr.tlv.adjacency.sid.label</param>
     <!-- Generic path attributes — emoji-specific before fallback -->
-    <param regex-match="(Path Attribute - AS_PATH): (.*)" regex-replace="🛤️ AS_PATH: $2">bgp.update.path_attribute</param>
-    <param regex-match="(Path Attribute - NEXT_HOP): (.*)" regex-replace="➡️ NEXT_HOP: $2">bgp.update.path_attribute</param>
-    <param regex-match="(Path Attribute - LOCAL_PREF): (.*)" regex-replace="⭐ LOCAL_PREF: $2">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (MP_REACH_NLRI)" regex-replace="✅ $1">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (MP_UNREACH_NLRI)" regex-replace="🚫 $1 (Withdraw)">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (EXTENDED_COMMUNITIES)" regex-replace="🎯 $1">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - AS_PATH): (.*)" replace="🛤️ AS_PATH: $2">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - NEXT_HOP): (.*)" replace="➡️ NEXT_HOP: $2">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - LOCAL_PREF): (.*)" replace="⭐ LOCAL_PREF: $2">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (MP_REACH_NLRI)" replace="✅ $1">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (MP_UNREACH_NLRI)" replace="🚫 $1 (Withdraw)">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (EXTENDED_COMMUNITIES)" replace="🎯 $1">bgp.update.path_attribute</param>
     <param>bgp.update.path_attribute</param>
   </tcp-message>
 
   <!-- BGP ROUTE-REFRESH Message -->
   <tcp-message style="goldenrod">
     <opcode
-            regex-match="^Type: (ROUTE-REFRESH) Message \(.*\)"
-            regex-replace="🔄 BGP $1"
+            match="^Type: (ROUTE-REFRESH) Message \(.*\)"
+            replace="🔄 BGP $1"
         >bgp.type</opcode>
   </tcp-message>
 
   <!-- BMP Initiation Message -->
   <tcp-message style="sea-green">
-    <opcode regex-match="^Type: (Initiation Message) \(.*\)" regex-replace="📡 BMP $1">bmp.type</opcode>
+    <opcode match="^Type: (Initiation Message) \(.*\)" replace="📡 BMP $1">bmp.type</opcode>
     <param>bmp.version</param>
   </tcp-message>
 
   <!-- BMP Peer Up Notification -->
   <tcp-message style="forest-green">
-    <opcode regex-match="^Type: (Peer Up Notification) \(.*\)" regex-replace="✅ BMP $1">bmp.type</opcode>
+    <opcode match="^Type: (Peer Up Notification) \(.*\)" replace="✅ BMP $1">bmp.type</opcode>
     <param>bmp.peer.ip.addr</param>
     <param>bmp.peer.asn</param>
     <param>bmp.peer.id</param>
@@ -132,7 +132,7 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
 
   <!-- BMP Route Monitoring -->
   <tcp-message style="cerulean">
-    <opcode regex-match="^Type: (Route Monitoring) \(.*\)" regex-replace="🔍 BMP $1">bmp.type</opcode>
+    <opcode match="^Type: (Route Monitoring) \(.*\)" replace="🔍 BMP $1">bmp.type</opcode>
     <param>bmp.peer.ip.addr</param>
     <param>bmp.peer.asn</param>
     <param>bmp.peer.id</param>
@@ -141,7 +141,7 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
 
   <!-- BMP Statistics Report -->
   <tcp-message style="goldenrod">
-    <opcode regex-match="^Type: (Statistics Report) \(.*\)" regex-replace="📊 BMP $1">bmp.type</opcode>
+    <opcode match="^Type: (Statistics Report) \(.*\)" replace="📊 BMP $1">bmp.type</opcode>
     <param>bmp.peer.ip.addr</param>
     <param>bmp.peer.asn</param>
     <param>bmp.stats.count</param>
@@ -149,7 +149,7 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
 
   <!-- BMP Peer Down Notification -->
   <tcp-message style="brick">
-    <opcode regex-match="^Type: (Peer Down Notification) \(.*\)" regex-replace="⬇️ BMP $1">bmp.type</opcode>
+    <opcode match="^Type: (Peer Down Notification) \(.*\)" replace="⬇️ BMP $1">bmp.type</opcode>
     <param>bmp.peer.ip.addr</param>
     <param>bmp.peer.asn</param>
     <param>bmp.peer.id</param>
@@ -157,12 +157,12 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
 
   <!-- BMP Termination Message -->
   <tcp-message style="magenta">
-    <opcode regex-match="^Type: (Termination Message) \(.*\)" regex-replace="🛑 BMP $1">bmp.type</opcode>
+    <opcode match="^Type: (Termination Message) \(.*\)" replace="🛑 BMP $1">bmp.type</opcode>
   </tcp-message>
 
   <!-- BMP generic fallback -->
   <tcp-message style="teal">
-    <opcode regex-match="^Type: (.*) \(.*\)" regex-replace="📡 BMP $1">bmp.type</opcode>
+    <opcode match="^Type: (.*) \(.*\)" replace="📡 BMP $1">bmp.type</opcode>
     <param>bmp.peer.ip.addr</param>
     <param>bmp.peer.asn</param>
   </tcp-message>
@@ -170,30 +170,30 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
   <!-- Generic BGP message fallback (catches any BGP type not matched above) -->
   <tcp-message style="steel-blue">
     <opcode
-            regex-match="^Type: (.*) Message \(.*\)"
-            regex-replace="🤝 BGP $1"
+            match="^Type: (.*) Message \(.*\)"
+            replace="🤝 BGP $1"
         >bgp.type</opcode>
-    <param regex-match="(My AS): (.*)" regex-replace="🆔 $1: $2">bgp.open.myas</param>
+    <param match="(My AS): (.*)" replace="🆔 $1: $2">bgp.open.myas</param>
     <param>bgp.open.holdtime</param>
-    <param regex-match="(BGP Identifier): (.*)" regex-replace="🆔 $1: $2">bgp.open.identifier</param>
-    <param regex-match="(.*)" regex-replace="🎯 $1">bgp.ext_community</param>
+    <param match="(BGP Identifier): (.*)" replace="🆔 $1: $2">bgp.open.identifier</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="🎯 $1">bgp.ext_com</param>
     <param>bgp.cap</param>
     <param>bgp.cap.mp.afi</param>
     <param>bgp.cap.mp.safi</param>
     <param>bgp.update.path_attribute.mp_reach_nlri.next_hop</param>
-    <param regex-match="(.*)" regex-replace=". $1">bgp.NLRI prefix length</param>
-    <param regex-match="(.*) \(.*\)" regex-replace=". $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace=". $1">bgp.prefix_length</param>
+    <param match="(.*) \(.*\)" replace=". $1">bgp.nlri_prefix</param>
     <param>bgp.MP Reach NLRI prefix length</param>
     <param>bgp.MP Reach NLRI prefix</param>
     <param>bgp.Next hop</param>
-    <param regex-match="(Path Attribute - AS_PATH): (.*)" regex-replace="🛤️ AS_PATH: $2">bgp.update.path_attribute</param>
-    <param regex-match="(Path Attribute - NEXT_HOP): (.*)" regex-replace="➡️ NEXT_HOP: $2">bgp.update.path_attribute</param>
-    <param regex-match="(Path Attribute - LOCAL_PREF): (.*)" regex-replace="⭐ LOCAL_PREF: $2">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (MP_REACH_NLRI)" regex-replace="✅ $1">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (MP_UNREACH_NLRI)" regex-replace="🚫 $1 (Withdraw)">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (EXTENDED_COMMUNITIES)" regex-replace="🎯 $1">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - AS_PATH): (.*)" replace="🛤️ AS_PATH: $2">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - NEXT_HOP): (.*)" replace="➡️ NEXT_HOP: $2">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - LOCAL_PREF): (.*)" replace="⭐ LOCAL_PREF: $2">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (MP_REACH_NLRI)" replace="✅ $1">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (MP_UNREACH_NLRI)" replace="🚫 $1 (Withdraw)">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (EXTENDED_COMMUNITIES)" replace="🎯 $1">bgp.update.path_attribute</param>
     <param>bgp.update.path_attribute</param>
-    <param regex-match="(Major error Code): (.*)" regex-replace="🚨 $1: $2">bgp.notify.major_error</param>
+    <param match="(Major error Code): (.*)" replace="🚨 $1: $2">bgp.notify.major_error</param>
     <param>bgp.notify.minor_error_open</param>
     <param>bgp.notify.minor_error_update</param>
     <param>bgp.notify.minor_error_cease</param>
@@ -208,12 +208,12 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
   <!-- BGP OPEN Message over IPv6 -->
   <tcpv6-message style="royal-blue dotted">
     <opcode
-            regex-match="^Type: (OPEN) Message \(.*\)"
-            regex-replace="🤝 BGP $1"
+            match="^Type: (OPEN) Message \(.*\)"
+            replace="🤝 BGP $1"
         >bgp.type</opcode>
-    <param regex-match="(My AS): (.*)" regex-replace="🆔 $1: $2">bgp.open.myas</param>
+    <param match="(My AS): (.*)" replace="🆔 $1: $2">bgp.open.myas</param>
     <param>bgp.open.holdtime</param>
-    <param regex-match="(BGP Identifier): (.*)" regex-replace="🆔 $1: $2">bgp.open.identifier</param>
+    <param match="(BGP Identifier): (.*)" replace="🆔 $1: $2">bgp.open.identifier</param>
     <param>bgp.cap</param>
     <param>bgp.cap.mp.afi</param>
     <param>bgp.cap.mp.safi</param>
@@ -222,10 +222,10 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
   <!-- BGP NOTIFICATION Message over IPv6 -->
   <tcpv6-message style="brick wave">
     <opcode
-            regex-match="^Type: (NOTIFICATION) Message \(.*\)"
-            regex-replace="🚨 BGP $1"
+            match="^Type: (NOTIFICATION) Message \(.*\)"
+            replace="🚨 BGP $1"
         >bgp.type</opcode>
-    <param regex-match="(Major error Code): (.*)" regex-replace="🚨 $1: $2">bgp.notify.major_error</param>
+    <param match="(Major error Code): (.*)" replace="🚨 $1: $2">bgp.notify.major_error</param>
     <param>bgp.notify.minor_error_open</param>
     <param>bgp.notify.minor_error_update</param>
     <param>bgp.notify.minor_error_cease</param>
@@ -237,20 +237,20 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
   <!-- BGP KEEPALIVE Message over IPv6 -->
   <tcpv6-message style="teal dashed">
     <opcode
-            regex-match="^Type: (KEEPALIVE) Message \(.*\)"
-            regex-replace="💓 BGP $1"
+            match="^Type: (KEEPALIVE) Message \(.*\)"
+            replace="💓 BGP $1"
         >bgp.type</opcode>
   </tcpv6-message>
 
   <!-- BGP UPDATE Message over IPv6 -->
   <tcpv6-message style="sea-green dotted">
     <opcode
-            regex-match="^Type: (UPDATE) Message \(.*\)"
-            regex-replace="📢 BGP $1"
+            match="^Type: (UPDATE) Message \(.*\)"
+            replace="📢 BGP $1"
         >bgp.type</opcode>
-    <param regex-match="(.*)" regex-replace="🎯 $1">bgp.ext_community</param>
-    <param regex-match="(.*)" regex-replace=". $1">bgp.NLRI prefix length</param>
-    <param regex-match="(.*) \(.*\)" regex-replace=". $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="🎯 $1">bgp.ext_com</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace=". $1">bgp.prefix_length</param>
+    <param match="(.*) \(.*\)" replace=". $1">bgp.nlri_prefix</param>
     <param>bgp.withdrawn_prefix</param>
     <param>bgp.Withdrawn route prefix length</param>
     <param>bgp.update.path_attribute.mp_reach_nlri.afi</param>
@@ -259,8 +259,8 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
     <param>bgp.MP Reach NLRI prefix length</param>
     <param>bgp.MP Reach NLRI prefix</param>
     <param>bgp.Next hop</param>
-    <param regex-match="(Route Type): (.*)" regex-replace="🏷️ $1: $2">bgp.evpn.nlri.rt</param>
-    <param regex-match="(Route Distinguisher): (.*)" regex-replace="📍 $1: $2">bgp.evpn.nlri.rd</param>
+    <param match="(Route Type): (.*)" replace="🏷️ $1: $2">bgp.evpn.nlri.rt</param>
+    <param match="(Route Distinguisher): (.*)" replace="📍 $1: $2">bgp.evpn.nlri.rd</param>
     <param>bgp.evpn.nlri.mac_addr</param>
     <param>bgp.evpn.nlri.ip.addr</param>
     <param>bgp.flowspec_nlri.dst_prefix_filter</param>
@@ -270,50 +270,50 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
     <param>bgp.ls.nlri_node.protocol_id</param>
     <param>bgp.ls.tlv.igp_router_id</param>
     <param>bgp.ls.sr.tlv.prefix.sid.index</param>
-    <param regex-match="(Path Attribute - AS_PATH): (.*)" regex-replace="🛤️ AS_PATH: $2">bgp.update.path_attribute</param>
-    <param regex-match="(Path Attribute - NEXT_HOP): (.*)" regex-replace="➡️ NEXT_HOP: $2">bgp.update.path_attribute</param>
-    <param regex-match="(Path Attribute - LOCAL_PREF): (.*)" regex-replace="⭐ LOCAL_PREF: $2">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (MP_REACH_NLRI)" regex-replace="✅ $1">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (MP_UNREACH_NLRI)" regex-replace="🚫 $1 (Withdraw)">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (EXTENDED_COMMUNITIES)" regex-replace="🎯 $1">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - AS_PATH): (.*)" replace="🛤️ AS_PATH: $2">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - NEXT_HOP): (.*)" replace="➡️ NEXT_HOP: $2">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - LOCAL_PREF): (.*)" replace="⭐ LOCAL_PREF: $2">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (MP_REACH_NLRI)" replace="✅ $1">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (MP_UNREACH_NLRI)" replace="🚫 $1 (Withdraw)">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (EXTENDED_COMMUNITIES)" replace="🎯 $1">bgp.update.path_attribute</param>
     <param>bgp.update.path_attribute</param>
   </tcpv6-message>
 
   <!-- BGP ROUTE-REFRESH Message over IPv6 -->
   <tcpv6-message style="goldenrod dotted">
     <opcode
-            regex-match="^Type: (ROUTE-REFRESH) Message \(.*\)"
-            regex-replace="🔄 BGP $1"
+            match="^Type: (ROUTE-REFRESH) Message \(.*\)"
+            replace="🔄 BGP $1"
         >bgp.type</opcode>
   </tcpv6-message>
 
   <!-- Generic BGP message fallback over IPv6 -->
   <tcpv6-message style="steel-blue dotted">
     <opcode
-            regex-match="^Type: (.*) Message \(.*\)"
-            regex-replace="🤝 BGP $1"
+            match="^Type: (.*) Message \(.*\)"
+            replace="🤝 BGP $1"
         >bgp.type</opcode>
-    <param regex-match="(My AS): (.*)" regex-replace="🆔 $1: $2">bgp.open.myas</param>
+    <param match="(My AS): (.*)" replace="🆔 $1: $2">bgp.open.myas</param>
     <param>bgp.open.holdtime</param>
-    <param regex-match="(BGP Identifier): (.*)" regex-replace="🆔 $1: $2">bgp.open.identifier</param>
-    <param regex-match="(.*)" regex-replace="🎯 $1">bgp.ext_community</param>
+    <param match="(BGP Identifier): (.*)" replace="🆔 $1: $2">bgp.open.identifier</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="🎯 $1">bgp.ext_com</param>
     <param>bgp.cap</param>
     <param>bgp.cap.mp.afi</param>
     <param>bgp.cap.mp.safi</param>
     <param>bgp.update.path_attribute.mp_reach_nlri.next_hop</param>
-    <param regex-match="(.*)" regex-replace=". $1">bgp.NLRI prefix length</param>
-    <param regex-match="(.*) \(.*\)" regex-replace=". $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace=". $1">bgp.prefix_length</param>
+    <param match="(.*) \(.*\)" replace=". $1">bgp.nlri_prefix</param>
     <param>bgp.MP Reach NLRI prefix length</param>
     <param>bgp.MP Reach NLRI prefix</param>
     <param>bgp.Next hop</param>
-    <param regex-match="(Path Attribute - AS_PATH): (.*)" regex-replace="🛤️ AS_PATH: $2">bgp.update.path_attribute</param>
-    <param regex-match="(Path Attribute - NEXT_HOP): (.*)" regex-replace="➡️ NEXT_HOP: $2">bgp.update.path_attribute</param>
-    <param regex-match="(Path Attribute - LOCAL_PREF): (.*)" regex-replace="⭐ LOCAL_PREF: $2">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (MP_REACH_NLRI)" regex-replace="✅ $1">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (MP_UNREACH_NLRI)" regex-replace="🚫 $1 (Withdraw)">bgp.update.path_attribute</param>
-    <param regex-match="Path Attribute - (EXTENDED_COMMUNITIES)" regex-replace="🎯 $1">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - AS_PATH): (.*)" replace="🛤️ AS_PATH: $2">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - NEXT_HOP): (.*)" replace="➡️ NEXT_HOP: $2">bgp.update.path_attribute</param>
+    <param match="(Path Attribute - LOCAL_PREF): (.*)" replace="⭐ LOCAL_PREF: $2">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (MP_REACH_NLRI)" replace="✅ $1">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (MP_UNREACH_NLRI)" replace="🚫 $1 (Withdraw)">bgp.update.path_attribute</param>
+    <param match="Path Attribute - (EXTENDED_COMMUNITIES)" replace="🎯 $1">bgp.update.path_attribute</param>
     <param>bgp.update.path_attribute</param>
-    <param regex-match="(Major error Code): (.*)" regex-replace="🚨 $1: $2">bgp.notify.major_error</param>
+    <param match="(Major error Code): (.*)" replace="🚨 $1: $2">bgp.notify.major_error</param>
     <param>bgp.notify.minor_error_open</param>
     <param>bgp.notify.minor_error_update</param>
     <param>bgp.notify.minor_error_cease</param>
@@ -334,36 +334,36 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
 
   <!-- TCP-AO SYN (IPv4) -->
   <tcp-message style="orchid dotted">
-    <opcode regex-match=".*" regex-replace="🔐 TCP AO">tcp.options.ao</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 $1">tcp.flags</param>
-    <param regex-match="AO KeyID: (.*)" regex-replace="🔑 KeyID: $1">tcp.options.ao.keyid</param>
-    <param regex-match="AO RNextKeyID: (.*)" regex-replace="🔑 RNext: $1">tcp.options.ao.rnextkeyid</param>
-    <remark regex-match=".*" regex-replace="💡 TCP-AO (RFC 5925) — replaces MD5 with stronger HMAC authentication; supports key rotation via KeyID/RNextKeyID negotiation without dropping the session">tcp</remark>
+    <opcode match=".*" replace="🔐 TCP AO">tcp.options.ao</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🔗 $1">tcp.flags</param>
+    <param match="AO KeyID: (.*)" replace="🔑 KeyID: $1">tcp.options.ao.keyid</param>
+    <param match="AO RNextKeyID: (.*)" replace="🔑 RNext: $1">tcp.options.ao.rnextkeyid</param>
+    <remark match=".*" replace="💡 TCP-AO (RFC 5925) — replaces MD5 with stronger HMAC authentication; supports key rotation via KeyID/RNextKeyID negotiation without dropping the session">tcp</remark>
   </tcp-message>
 
   <!-- TCP MD5 SYN (IPv4) -->
   <tcp-message style="crimson dotted">
-    <opcode regex-match=".*" regex-replace="🔐 TCP MD5">tcp.options.md5</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 $1">tcp.flags</param>
-    <param regex-match="MD5 digest: (.*)" regex-replace="🔑 MD5: $1">tcp.options.md5.digest</param>
-    <remark regex-match=".*" regex-replace="💡 TCP MD5 — each segment carries an MD5 digest over the TCP header, payload, and shared secret; receiver silently drops segments with invalid digests (no RST), so mismatched keys appear as unanswered SYN retransmissions">tcp</remark>
+    <opcode match=".*" replace="🔐 TCP MD5">tcp.options.md5</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🔗 $1">tcp.flags</param>
+    <param match="MD5 digest: (.*)" replace="🔑 MD5: $1">tcp.options.md5.digest</param>
+    <remark match=".*" replace="💡 TCP MD5 — each segment carries an MD5 digest over the TCP header, payload, and shared secret; receiver silently drops segments with invalid digests (no RST), so mismatched keys appear as unanswered SYN retransmissions">tcp</remark>
   </tcp-message>
 
   <!-- TCP-AO SYN (IPv6) -->
   <tcpv6-message style="orchid dotted">
-    <opcode regex-match=".*" regex-replace="🔐 TCP AO">tcp.options.ao</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 $1">tcp.flags</param>
-    <param regex-match="AO KeyID: (.*)" regex-replace="🔑 KeyID: $1">tcp.options.ao.keyid</param>
-    <param regex-match="AO RNextKeyID: (.*)" regex-replace="🔑 RNext: $1">tcp.options.ao.rnextkeyid</param>
-    <remark regex-match=".*" regex-replace="💡 TCP-AO (RFC 5925) — replaces MD5 with stronger HMAC authentication; supports key rotation via KeyID/RNextKeyID negotiation without dropping the session">tcp</remark>
+    <opcode match=".*" replace="🔐 TCP AO">tcp.options.ao</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🔗 $1">tcp.flags</param>
+    <param match="AO KeyID: (.*)" replace="🔑 KeyID: $1">tcp.options.ao.keyid</param>
+    <param match="AO RNextKeyID: (.*)" replace="🔑 RNext: $1">tcp.options.ao.rnextkeyid</param>
+    <remark match=".*" replace="💡 TCP-AO (RFC 5925) — replaces MD5 with stronger HMAC authentication; supports key rotation via KeyID/RNextKeyID negotiation without dropping the session">tcp</remark>
   </tcpv6-message>
 
   <!-- TCP MD5 SYN (IPv6) -->
   <tcpv6-message style="crimson dotted">
-    <opcode regex-match=".*" regex-replace="🔐 TCP MD5">tcp.options.md5</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 $1">tcp.flags</param>
-    <param regex-match="MD5 digest: (.*)" regex-replace="🔑 MD5: $1">tcp.options.md5.digest</param>
-    <remark regex-match=".*" regex-replace="💡 TCP MD5 — each segment carries an MD5 digest over the TCP header, payload, and shared secret; receiver silently drops segments with invalid digests (no RST), so mismatched keys appear as unanswered SYN retransmissions">tcp</remark>
+    <opcode match=".*" replace="🔐 TCP MD5">tcp.options.md5</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🔗 $1">tcp.flags</param>
+    <param match="MD5 digest: (.*)" replace="🔑 MD5: $1">tcp.options.md5.digest</param>
+    <remark match=".*" replace="💡 TCP MD5 — each segment carries an MD5 digest over the TCP header, payload, and shared secret; receiver silently drops segments with invalid digests (no RST), so mismatched keys appear as unanswered SYN retransmissions">tcp</remark>
   </tcpv6-message>
 
   <!-- ============================================================
@@ -372,24 +372,24 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
 
   <!-- TCP SYN/FIN/RST (IPv4) -->
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((SYN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
   <tcp-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*FIN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
   <tcp-message style="crimson dotted">
-    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*RST.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcp-message>
 
   <!-- TCP SYN/FIN/RST (IPv6) -->
   <tcpv6-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((SYN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((SYN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcpv6-message>
   <tcpv6-message style="graphite dotted">
-    <opcode regex-match=".*Flags:.*\((.*FIN.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*FIN.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcpv6-message>
   <tcpv6-message style="crimson dotted">
-    <opcode regex-match=".*Flags:.*\((.*RST.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*RST.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
   </tcpv6-message>
 
 </FXT>

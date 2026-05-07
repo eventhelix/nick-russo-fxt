@@ -17,50 +17,50 @@ Emoji story for ICMP message lifecycle:
 
   <!-- ICMP Timestamp Request (type 13) -->
   <ip-message style="amethyst">
-    <opcode display="brief" regex-match="^13$" regex-replace="⏱ ICMP Timestamp Request">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
-    <param regex-match="(Originate Timestamp): (.*)" regex-replace="🕐 $1: $2">icmp.originate_timestamp</param>
+    <opcode display="brief" match="^13$" replace="⏱ ICMP Timestamp Request">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
+    <param match="(Originate Timestamp): (.*)" replace="🕐 $1: $2">icmp.originate_timestamp</param>
   </ip-message>
 
   <!-- ICMP Timestamp Reply (type 14) -->
   <ip-message style="amethyst">
-    <opcode display="brief" regex-match="^14$" regex-replace="🕐 ICMP Timestamp Reply">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
-    <param regex-match="(Originate Timestamp): (.*)" regex-replace="🕐 $1: $2">icmp.originate_timestamp</param>
-    <param regex-match="(Receive Timestamp): (.*)" regex-replace="📥 $1: $2">icmp.receive_timestamp</param>
-    <param regex-match="(Transmit Timestamp): (.*)" regex-replace="📤 $1: $2">icmp.transmit_timestamp</param>
+    <opcode display="brief" match="^14$" replace="🕐 ICMP Timestamp Reply">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
+    <param match="(Originate Timestamp): (.*)" replace="🕐 $1: $2">icmp.originate_timestamp</param>
+    <param match="(Receive Timestamp): (.*)" replace="📥 $1: $2">icmp.receive_timestamp</param>
+    <param match="(Transmit Timestamp): (.*)" replace="📤 $1: $2">icmp.transmit_timestamp</param>
   </ip-message>
 
   <!-- ICMP Information Request (type 15, deprecated) -->
   <ip-message style="slate">
-    <opcode display="brief" regex-match="^15$" regex-replace="🔍 ICMP Information Request">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <opcode display="brief" match="^15$" replace="🔍 ICMP Information Request">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
   </ip-message>
 
   <!-- ICMP Information Reply (type 16, deprecated) -->
   <ip-message style="slate">
-    <opcode display="brief" regex-match="^16$" regex-replace="📋 ICMP Information Reply">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <opcode display="brief" match="^16$" replace="📋 ICMP Information Reply">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
   </ip-message>
 
   <!-- ICMP Address Mask Request (type 17) -->
   <ip-message style="sea-green">
-    <opcode display="brief" regex-match="^17$" regex-replace="🎭 ICMP Address Mask Request">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
-    <param regex-match="(Address Mask): (.*)" regex-replace="🌐 $1: $2">icmp.address_mask</param>
+    <opcode display="brief" match="^17$" replace="🎭 ICMP Address Mask Request">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
+    <param match="(Address Mask): (.*)" replace="🌐 $1: $2">icmp.address_mask</param>
   </ip-message>
 
   <!-- ICMP Address Mask Reply (type 18) -->
   <ip-message style="sea-green">
-    <opcode display="brief" regex-match="^18$" regex-replace="🎭 ICMP Address Mask Reply">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
-    <param regex-match="(Address Mask): (.*)" regex-replace="🌐 $1: $2">icmp.address_mask</param>
+    <opcode display="brief" match="^18$" replace="🎭 ICMP Address Mask Reply">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
+    <param match="(Address Mask): (.*)" replace="🌐 $1: $2">icmp.address_mask</param>
   </ip-message>
 
   <!-- ============================================================
@@ -69,16 +69,16 @@ Emoji story for ICMP message lifecycle:
 
   <!-- ICMP Router Advertisement (type 9, IRDP) -->
   <ip-message style="teal">
-    <opcode display="brief" regex-match="^9$" regex-replace="📡 ICMP Router Advertisement">icmp.type</opcode>
-    <param regex-match="(Router Address): (.*)" regex-replace="🌐 $1: $2">icmp.router_address</param>
-    <param regex-match="(Preference Level): (.*)" regex-replace="🏆 $1: $2">icmp.pref_level</param>
-    <param regex-match="(Lifetime): (.*)" regex-replace="⏱ $1: $2">icmp.lifetime</param>
+    <opcode display="brief" match="^9$" replace="📡 ICMP Router Advertisement">icmp.type</opcode>
+    <param match="(Router Address): (.*)" replace="🌐 $1: $2">icmp.router_address</param>
+    <param match="(Preference Level): (.*)" replace="🏆 $1: $2">icmp.pref_level</param>
+    <param match="(Lifetime): (.*)" replace="⏱ $1: $2">icmp.lifetime</param>
     <param>icmp.num_addrs</param>
   </ip-message>
 
   <!-- ICMP Router Solicitation (type 10) -->
   <ip-message style="teal">
-    <opcode display="brief" regex-match="^10$" regex-replace="🔍 ICMP Router Solicitation">icmp.type</opcode>
+    <opcode display="brief" match="^10$" replace="🔍 ICMP Router Solicitation">icmp.type</opcode>
   </ip-message>
 
   <!-- ============================================================
@@ -90,21 +90,21 @@ Emoji story for ICMP message lifecycle:
 
   <!-- ICMP Redirect -->
   <ip-message style="goldenrod">
-    <opcode display="brief" regex-match="^5$" regex-replace="↪ ICMP Redirect">icmp.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
-    <param regex-match="(Gateway Address): (.*)" regex-replace="🌐 $1: $2">icmp.redir_gw</param>
+    <opcode display="brief" match="^5$" replace="↪ ICMP Redirect">icmp.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmp.code</param>
+    <param match="(Gateway Address): (.*)" replace="🌐 $1: $2">icmp.redir_gw</param>
   </ip-message>
 
   <!-- ICMP Dest Unreachable -->
   <ip-message style="crimson">
-    <opcode display="brief" regex-match="^3$" regex-replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+    <opcode display="brief" match="^3$" replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmp.code</param>
   </ip-message>
 
   <!-- ICMP Time Exceeded -->
   <ip-message style="goldenrod">
-    <opcode display="brief" regex-match="^11$" regex-replace="⏳ ICMP Time Exceeded">icmp.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+    <opcode display="brief" match="^11$" replace="⏳ ICMP Time Exceeded">icmp.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmp.code</param>
   </ip-message>
 
   <!-- ============================================================
@@ -113,29 +113,29 @@ Emoji story for ICMP message lifecycle:
 
   <!-- ICMP Echo Request -->
   <ip-message style="royal-blue">
-    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
-    <param regex-match="(Total Length): (.*)" regex-replace="📏 $1: $2">ip.len</param>
+    <opcode display="brief" match="^8$" replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
+    <param match="(Total Length): (.*)" replace="📏 $1: $2">ip.len</param>
   </ip-message>
 
   <!-- ICMP Echo Reply -->
   <ip-message style="forest-green">
-    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <opcode display="brief" match="^0$" replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
     <param>icmp.resp_to</param>
-    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmp.resptime</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+    <param match="(Response time): (.*)" replace="⏱ $1: $2">icmp.resptime</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
   </ip-message>
 
   <!-- ICMP generic fallback -->
   <ip-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMP Type $1">icmp.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <opcode display="brief" match="^(.+)$" replace="🔵 ICMP Type $1">icmp.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmp.code</param>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
   </ip-message>
 
   <!-- ============================================================
@@ -146,21 +146,21 @@ Emoji story for ICMP message lifecycle:
 
   <!-- ICMPv6 Dest Unreachable -->
   <ipv6-message style="crimson">
-    <opcode display="brief" regex-match="^1$" regex-replace="🚫 ICMPv6 Dest Unreachable">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <opcode display="brief" match="^1$" replace="🚫 ICMPv6 Dest Unreachable">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- ICMPv6 Packet Too Big -->
   <ipv6-message style="crimson">
-    <opcode display="brief" regex-match="^2$" regex-replace="📦 ICMPv6 Packet Too Big">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
-    <param regex-match="(MTU): (.*)" regex-replace="📏 $1: $2">icmpv6.mtu</param>
+    <opcode display="brief" match="^2$" replace="📦 ICMPv6 Packet Too Big">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
+    <param match="(MTU): (.*)" replace="📏 $1: $2">icmpv6.mtu</param>
   </ipv6-message>
 
   <!-- ICMPv6 Time Exceeded -->
   <ipv6-message style="goldenrod">
-    <opcode display="brief" regex-match="^3$" regex-replace="⏳ ICMPv6 Time Exceeded">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <opcode display="brief" match="^3$" replace="⏳ ICMPv6 Time Exceeded">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -169,38 +169,38 @@ Emoji story for ICMP message lifecycle:
 
   <!-- ICMPv6 NDP Router Solicitation (type 133) -->
   <ipv6-message style="sea-green">
-    <opcode display="brief" regex-match="^133$" regex-replace="🔍 ICMPv6 Router Solicitation">icmpv6.type</opcode>
-    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+    <opcode display="brief" match="^133$" replace="🔍 ICMPv6 Router Solicitation">icmpv6.type</opcode>
+    <param match="(Source Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
   </ipv6-message>
 
   <!-- ICMPv6 NDP Router Advertisement (type 134) -->
   <ipv6-message style="sea-green">
-    <opcode display="brief" regex-match="^134$" regex-replace="📡 ICMPv6 Router Advertisement">icmpv6.type</opcode>
-    <param regex-match="(Cur Hop Limit): (.*)" regex-replace="⏳ $1: $2">icmpv6.nd.ra.cur_hop_limit</param>
-    <param regex-match="(Router Lifetime): (.*)" regex-replace="⏱ $1: $2">icmpv6.nd.ra.router_lifetime</param>
-    <param regex-match="(Reachable Time): (.*)" regex-replace="⏱ $1: $2">icmpv6.nd.ra.reachable_time</param>
-    <param regex-match="(Retrans Timer): (.*)" regex-replace="⏱ $1: $2">icmpv6.nd.ra.retrans_timer</param>
-    <param regex-match="(Prefix): (.*)" regex-replace="🌐 $1: $2">icmpv6.opt.prefix</param>
-    <param regex-match="(Valid Lifetime): (.*)" regex-replace="⏱ $1: $2">icmpv6.opt.prefix.valid_lifetime</param>
-    <param regex-match="(Preferred Lifetime): (.*)" regex-replace="⏱ $1: $2">icmpv6.opt.prefix.preferred_lifetime</param>
-    <param regex-match="(MTU): (.*)" regex-replace="📏 $1: $2">icmpv6.opt.mtu</param>
-    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+    <opcode display="brief" match="^134$" replace="📡 ICMPv6 Router Advertisement">icmpv6.type</opcode>
+    <param match="(Cur Hop Limit): (.*)" replace="⏳ $1: $2">icmpv6.nd.ra.cur_hop_limit</param>
+    <param match="(Router Lifetime): (.*)" replace="⏱ $1: $2">icmpv6.nd.ra.router_lifetime</param>
+    <param match="(Reachable Time): (.*)" replace="⏱ $1: $2">icmpv6.nd.ra.reachable_time</param>
+    <param match="(Retrans Timer): (.*)" replace="⏱ $1: $2">icmpv6.nd.ra.retrans_timer</param>
+    <param match="(Prefix): (.*)" replace="🌐 $1: $2">icmpv6.opt.prefix</param>
+    <param match="(Valid Lifetime): (.*)" replace="⏱ $1: $2">icmpv6.opt.prefix.valid_lifetime</param>
+    <param match="(Preferred Lifetime): (.*)" replace="⏱ $1: $2">icmpv6.opt.prefix.preferred_lifetime</param>
+    <param match="(MTU): (.*)" replace="📏 $1: $2">icmpv6.opt.mtu</param>
+    <param match="(Source Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
   </ipv6-message>
 
   <!-- ICMPv6 NDP Neighbor Solicitation (type 135) -->
   <ipv6-message style="cerulean">
-    <opcode display="brief" regex-match="^135$" regex-replace="🔍 ICMPv6 Neighbor Solicitation">icmpv6.type</opcode>
-    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.ns.target_address</param>
-    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+    <opcode display="brief" match="^135$" replace="🔍 ICMPv6 Neighbor Solicitation">icmpv6.type</opcode>
+    <param match="(Target Address): (.*)" replace="🎯 $1: $2">icmpv6.nd.ns.target_address</param>
+    <param match="(Source Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
     <param>icmpv6.opt.nonce</param>
   </ipv6-message>
 
   <!-- ICMPv6 NDP Neighbor Advertisement (type 136) -->
   <ipv6-message style="teal">
-    <opcode display="brief" regex-match="^136$" regex-replace="📣 ICMPv6 Neighbor Advertisement">icmpv6.type</opcode>
-    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.na.target_address</param>
+    <opcode display="brief" match="^136$" replace="📣 ICMPv6 Neighbor Advertisement">icmpv6.type</opcode>
+    <param match="(Target Address): (.*)" replace="🎯 $1: $2">icmpv6.nd.na.target_address</param>
     <param>icmpv6.nd.na.flag</param>
-    <param regex-match="(Target Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.target_linkaddr</param>
+    <param match="(Target Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.target_linkaddr</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -209,27 +209,27 @@ Emoji story for ICMP message lifecycle:
 
   <!-- ICMPv6 Echo Request -->
   <ipv6-message style="royal-blue">
-    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
-    <param regex-match="(Hop Limit): (.*)" regex-replace="⏳ $1: $2">ipv6.hlim</param>
-    <param regex-match="(Payload Length): (.*)" regex-replace="📏 $1: $2">ipv6.plen</param>
+    <opcode display="brief" match="^128$" replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param match="(Hop Limit): (.*)" replace="⏳ $1: $2">ipv6.hlim</param>
+    <param match="(Payload Length): (.*)" replace="📏 $1: $2">ipv6.plen</param>
   </ipv6-message>
 
   <!-- ICMPv6 Echo Reply -->
   <ipv6-message style="forest-green">
-    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <opcode display="brief" match="^129$" replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
     <param>icmpv6.resp_to</param>
-    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmpv6.resptime</param>
-    <param regex-match="(Hop Limit): (.*)" regex-replace="⏳ $1: $2">ipv6.hlim</param>
+    <param match="(Response time): (.*)" replace="⏱ $1: $2">icmpv6.resptime</param>
+    <param match="(Hop Limit): (.*)" replace="⏳ $1: $2">ipv6.hlim</param>
   </ipv6-message>
 
   <!-- ICMPv6 generic -->
   <ipv6-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <opcode display="brief" match="^(.+)$" replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -237,12 +237,12 @@ Emoji story for ICMP message lifecycle:
        ============================================================ -->
 
   <tcp-message style="steel-blue">
-    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
-    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
-    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">tcp.seq</param>
-    <param regex-match="(Acknowledgment Number.*): (.*)" regex-replace="✅ $1: $2">tcp.ack</param>
-    <param regex-match="(TCP Segment Len): (.*)" regex-replace="📏 $1: $2">tcp.len</param>
+    <opcode match=".*Flags:.*\((.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <param match="(Source Port): (.*)" replace="📤 $1: $2">tcp.srcport</param>
+    <param match="(Destination Port): (.*)" replace="📥 $1: $2">tcp.dstport</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">tcp.seq</param>
+    <param match="(Acknowledgment Number.*): (.*)" replace="✅ $1: $2">tcp.ack</param>
+    <param match="(TCP Segment Len): (.*)" replace="📏 $1: $2">tcp.len</param>
   </tcp-message>
 
 </FXT>

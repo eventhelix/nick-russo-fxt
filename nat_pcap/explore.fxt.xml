@@ -23,14 +23,14 @@ Key params show NAT translation evidence:
 
   <!-- ICMP Dest Unreachable -->
   <ip-message style="crimson">
-    <opcode display="brief" regex-match="^3$" regex-replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+    <opcode display="brief" match="^3$" replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmp.code</param>
   </ip-message>
 
   <!-- ICMP Time Exceeded -->
   <ip-message style="goldenrod">
-    <opcode display="brief" regex-match="^11$" regex-replace="⏳ ICMP Time Exceeded">icmp.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+    <opcode display="brief" match="^11$" replace="⏳ ICMP Time Exceeded">icmp.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmp.code</param>
   </ip-message>
 
   <!-- ============================================================
@@ -39,32 +39,32 @@ Key params show NAT translation evidence:
 
   <!-- ICMP Echo Request -->
   <ip-message style="royal-blue">
-    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
-    <param regex-match="(Identification): (.*)" regex-replace="🔖 $1: $2">ip.id</param>
-    <param regex-match="(Total Length): (.*)" regex-replace="📏 $1: $2">ip.len</param>
+    <opcode display="brief" match="^8$" replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
+    <param match="(Identification): (.*)" replace="🔖 $1: $2">ip.id</param>
+    <param match="(Total Length): (.*)" replace="📏 $1: $2">ip.len</param>
   </ip-message>
 
   <!-- ICMP Echo Reply -->
   <ip-message style="forest-green">
-    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <opcode display="brief" match="^0$" replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
     <param>icmp.resp_to</param>
-    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmp.resptime</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
-    <param regex-match="(Identification): (.*)" regex-replace="🔖 $1: $2">ip.id</param>
+    <param match="(Response time): (.*)" replace="⏱ $1: $2">icmp.resptime</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
+    <param match="(Identification): (.*)" replace="🔖 $1: $2">ip.id</param>
   </ip-message>
 
   <!-- ICMP generic -->
   <ip-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMP Type $1">icmp.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
+    <opcode display="brief" match="^(.+)$" replace="🔵 ICMP Type $1">icmp.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmp.code</param>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
   </ip-message>
 
   <!-- ============================================================
@@ -73,21 +73,21 @@ Key params show NAT translation evidence:
 
   <!-- ICMPv6 Dest Unreachable -->
   <ipv6-message style="crimson">
-    <opcode display="brief" regex-match="^1$" regex-replace="🚫 ICMPv6 Dest Unreachable">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <opcode display="brief" match="^1$" replace="🚫 ICMPv6 Dest Unreachable">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- ICMPv6 Packet Too Big -->
   <ipv6-message style="crimson">
-    <opcode display="brief" regex-match="^2$" regex-replace="📦 ICMPv6 Packet Too Big">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
-    <param regex-match="(MTU): (.*)" regex-replace="📏 $1: $2">icmpv6.mtu</param>
+    <opcode display="brief" match="^2$" replace="📦 ICMPv6 Packet Too Big">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
+    <param match="(MTU): (.*)" replace="📏 $1: $2">icmpv6.mtu</param>
   </ipv6-message>
 
   <!-- ICMPv6 Time Exceeded -->
   <ipv6-message style="goldenrod">
-    <opcode display="brief" regex-match="^3$" regex-replace="⏳ ICMPv6 Time Exceeded">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <opcode display="brief" match="^3$" replace="⏳ ICMPv6 Time Exceeded">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -96,27 +96,27 @@ Key params show NAT translation evidence:
 
   <!-- ICMPv6 Echo Request -->
   <ipv6-message style="royal-blue">
-    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
-    <param regex-match="(Hop Limit): (.*)" regex-replace="⏳ $1: $2">ipv6.hlim</param>
-    <param regex-match="(Payload Length): (.*)" regex-replace="📏 $1: $2">ipv6.plen</param>
+    <opcode display="brief" match="^128$" replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param match="(Hop Limit): (.*)" replace="⏳ $1: $2">ipv6.hlim</param>
+    <param match="(Payload Length): (.*)" replace="📏 $1: $2">ipv6.plen</param>
   </ipv6-message>
 
   <!-- ICMPv6 Echo Reply -->
   <ipv6-message style="forest-green">
-    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <opcode display="brief" match="^129$" replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
     <param>icmpv6.resp_to</param>
-    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmpv6.resptime</param>
-    <param regex-match="(Hop Limit): (.*)" regex-replace="⏳ $1: $2">ipv6.hlim</param>
+    <param match="(Response time): (.*)" replace="⏱ $1: $2">icmpv6.resptime</param>
+    <param match="(Hop Limit): (.*)" replace="⏳ $1: $2">ipv6.hlim</param>
   </ipv6-message>
 
   <!-- ICMPv6 generic -->
   <ipv6-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <opcode display="brief" match="^(.+)$" replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -125,21 +125,21 @@ Key params show NAT translation evidence:
 
   <!-- UDP Data IPv4 -->
   <udp-message style="steel-blue">
-    <opcode regex-match=".*" regex-replace="📦 UDP Data">udp.payload</opcode>
-    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">udp.srcport</param>
-    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">udp.dstport</param>
-    <param regex-match="(Length): (.*)" regex-replace="📏 $1: $2">udp.length</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
-    <param regex-match="(Identification): (.*)" regex-replace="🔖 $1: $2">ip.id</param>
+    <opcode match=".*" replace="📦 UDP Data">udp.payload</opcode>
+    <param match="(Source Port): (.*)" replace="📤 $1: $2">udp.srcport</param>
+    <param match="(Destination Port): (.*)" replace="📥 $1: $2">udp.dstport</param>
+    <param match="(Length): (.*)" replace="📏 $1: $2">udp.length</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
+    <param match="(Identification): (.*)" replace="🔖 $1: $2">ip.id</param>
   </udp-message>
 
   <!-- UDP Data IPv6 -->
   <udpv6-message style="steel-blue">
-    <opcode regex-match=".*" regex-replace="📦 UDP Data">udp.payload</opcode>
-    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">udp.srcport</param>
-    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">udp.dstport</param>
-    <param regex-match="(Length): (.*)" regex-replace="📏 $1: $2">udp.length</param>
-    <param regex-match="(Hop Limit): (.*)" regex-replace="⏳ $1: $2">ipv6.hlim</param>
+    <opcode match=".*" replace="📦 UDP Data">udp.payload</opcode>
+    <param match="(Source Port): (.*)" replace="📤 $1: $2">udp.srcport</param>
+    <param match="(Destination Port): (.*)" replace="📥 $1: $2">udp.dstport</param>
+    <param match="(Length): (.*)" replace="📏 $1: $2">udp.length</param>
+    <param match="(Hop Limit): (.*)" replace="⏳ $1: $2">ipv6.hlim</param>
   </udpv6-message>
 
 </FXT>

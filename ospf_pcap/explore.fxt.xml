@@ -62,63 +62,63 @@
   <!-- Hello Packet - Neighbor discovery and keepalive -->
   <ip-message style="forest-green">
     <opcode
-            regex-match="Message Type: (Hello Packet) \(\d+\)"
-            regex-replace="👋 OSPF $1"
+            match="Message Type: (Hello Packet) \(\d+\)"
+            replace="👋 OSPF $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.hello.network_mask</param>
     <param>ospf.hello.hello_interval</param>
     <param>ospf.hello.router_dead_interval</param>
     <param>ospf.hello.router_priority</param>
-    <param regex-match="Designated Router: (.*)" regex-replace="👑 Designated Router: $1">ospf.hello.designated_router</param>
-    <param regex-match="Backup Designated Router: (.*)" regex-replace="👑 Backup Designated Router: $1">ospf.hello.backup_designated_router</param>
-    <param regex-match="Active Neighbor: (.*)" regex-replace="👥 Active Neighbor: $1">ospf.hello.active_neighbor</param>
+    <param match="Designated Router: (.*)" replace="👑 Designated Router: $1">ospf.hello.designated_router</param>
+    <param match="Backup Designated Router: (.*)" replace="👑 Backup Designated Router: $1">ospf.hello.backup_designated_router</param>
+    <param match="Active Neighbor: (.*)" replace="👥 Active Neighbor: $1">ospf.hello.active_neighbor</param>
     <param>ospf.v2.options</param>
   </ip-message>
 
   <!-- DB Description - Database synchronization -->
   <ip-message style="royal-blue">
     <opcode
-            regex-match="Message Type: (DB Description) \(\d+\)"
-            regex-replace="📋 OSPF $1"
+            match="Message Type: (DB Description) \(\d+\)"
+            replace="📋 OSPF $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.dbd</param>
     <param>ospf.db.dd_sequence</param>
     <param>ospf.db.interface_mtu</param>
     <param>ospf.v2.options</param>
     <param>ospf.lsa</param>
     <param>ospf.lsa.id</param>
-    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param match="Advertising Router: (.*)" replace="📣 Advertising Router: $1">ospf.advrouter</param>
   </ip-message>
 
   <!-- LS Request - Request specific LSAs -->
   <ip-message style="amethyst">
     <opcode
-            regex-match="Message Type: (LS Request) \(\d+\)"
-            regex-replace="🔍 OSPF $1"
+            match="Message Type: (LS Request) \(\d+\)"
+            replace="🔍 OSPF $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.lsa.id</param>
-    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param match="Advertising Router: (.*)" replace="📣 Advertising Router: $1">ospf.advrouter</param>
   </ip-message>
 
   <!-- LS Update - Flood LSAs to neighbors -->
   <ip-message style="sea-green dashed">
     <opcode
-            regex-match="Message Type: (LS Update) \(\d+\)"
-            regex-replace="📢 OSPF $1"
+            match="Message Type: (LS Update) \(\d+\)"
+            replace="📢 OSPF $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.lsa</param>
     <param>ospf.lsa.id</param>
-    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
-    <param regex-match="Sequence Number: (.*)" regex-replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
-    <param regex-match=".*= (LS Age .*)$" regex-replace="$1">ospf.lsa.age</param>
+    <param match="Advertising Router: (.*)" replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param match="Sequence Number: (.*)" replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
+    <param match=".*= (LS Age .*)$" replace="$1">ospf.lsa.age</param>
     <param>ospf.lsa.router</param>
     <param>ospf.lsa.asext</param>
   </ip-message>
@@ -126,24 +126,24 @@
   <!-- LS Acknowledge - Acknowledge received LSAs -->
   <ip-message style="teal dashed">
     <opcode
-            regex-match="Message Type: (LS Acknowledge) \(\d+\)"
-            regex-replace="✅ OSPF $1"
+            match="Message Type: (LS Acknowledge) \(\d+\)"
+            replace="✅ OSPF $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.lsa.id</param>
-    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
-    <param regex-match="Sequence Number: (.*)" regex-replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
+    <param match="Advertising Router: (.*)" replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param match="Sequence Number: (.*)" replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
   </ip-message>
 
   <!-- Generic OSPF message (fallback for any unmatched types) -->
   <ip-message style="steel-blue">
     <opcode
-            regex-match="Message Type: (.*) \(\d+\)"
-            regex-replace="📨 OSPF $1"
+            match="Message Type: (.*) \(\d+\)"
+            replace="📨 OSPF $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.version</param>
     <param>ospf.packet_length</param>
   </ip-message>
@@ -155,29 +155,29 @@
   <!-- Hello Packet - OSPFv3 -->
   <ipv6-message style="forest-green">
     <opcode
-            regex-match="Message Type: (Hello Packet) \(\d+\)"
-            regex-replace="👋 OSPFv3 $1"
+            match="Message Type: (Hello Packet) \(\d+\)"
+            replace="👋 OSPFv3 $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.v3.instance_id</param>
     <param>ospf.hello.hello_interval</param>
     <param>ospf.hello.router_dead_interval</param>
     <param>ospf.hello.router_priority</param>
-    <param regex-match="Designated Router: (.*)" regex-replace="👑 Designated Router: $1">ospf.hello.designated_router</param>
-    <param regex-match="Backup Designated Router: (.*)" regex-replace="👑 Backup Designated Router: $1">ospf.hello.backup_designated_router</param>
-    <param regex-match="Active Neighbor: (.*)" regex-replace="👥 Active Neighbor: $1">ospf.hello.active_neighbor</param>
+    <param match="Designated Router: (.*)" replace="👑 Designated Router: $1">ospf.hello.designated_router</param>
+    <param match="Backup Designated Router: (.*)" replace="👑 Backup Designated Router: $1">ospf.hello.backup_designated_router</param>
+    <param match="Active Neighbor: (.*)" replace="👥 Active Neighbor: $1">ospf.hello.active_neighbor</param>
     <param>ospf.v3.options</param>
   </ipv6-message>
 
   <!-- DB Description - OSPFv3 -->
   <ipv6-message style="royal-blue">
     <opcode
-            regex-match="Message Type: (DB Description) \(\d+\)"
-            regex-replace="📋 OSPFv3 $1"
+            match="Message Type: (DB Description) \(\d+\)"
+            replace="📋 OSPFv3 $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.v3.instance_id</param>
     <param>ospf.dbd</param>
     <param>ospf.db.dd_sequence</param>
@@ -185,60 +185,60 @@
     <param>ospf.v3.options</param>
     <param>ospf.lsa</param>
     <param>ospf.lsa.id</param>
-    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param match="Advertising Router: (.*)" replace="📣 Advertising Router: $1">ospf.advrouter</param>
   </ipv6-message>
 
   <!-- LS Request - OSPFv3 -->
   <ipv6-message style="amethyst">
     <opcode
-            regex-match="Message Type: (LS Request) \(\d+\)"
-            regex-replace="🔍 OSPFv3 $1"
+            match="Message Type: (LS Request) \(\d+\)"
+            replace="🔍 OSPFv3 $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.v3.instance_id</param>
     <param>ospf.lsa.id</param>
-    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param match="Advertising Router: (.*)" replace="📣 Advertising Router: $1">ospf.advrouter</param>
   </ipv6-message>
 
   <!-- LS Update - OSPFv3 -->
   <ipv6-message style="sea-green dashed">
     <opcode
-            regex-match="Message Type: (LS Update) \(\d+\)"
-            regex-replace="📢 OSPFv3 $1"
+            match="Message Type: (LS Update) \(\d+\)"
+            replace="📢 OSPFv3 $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.v3.instance_id</param>
     <param>ospf.lsa</param>
     <param>ospf.lsa.id</param>
-    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
-    <param regex-match="Sequence Number: (.*)" regex-replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
-    <param regex-match=".*= (LS Age .*)$" regex-replace="$1">ospf.lsa.age</param>
+    <param match="Advertising Router: (.*)" replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param match="Sequence Number: (.*)" replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
+    <param match=".*= (LS Age .*)$" replace="$1">ospf.lsa.age</param>
   </ipv6-message>
 
   <!-- LS Acknowledge - OSPFv3 -->
   <ipv6-message style="teal dashed">
     <opcode
-            regex-match="Message Type: (LS Acknowledge) \(\d+\)"
-            regex-replace="✅ OSPFv3 $1"
+            match="Message Type: (LS Acknowledge) \(\d+\)"
+            replace="✅ OSPFv3 $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.v3.instance_id</param>
     <param>ospf.lsa.id</param>
-    <param regex-match="Advertising Router: (.*)" regex-replace="📣 Advertising Router: $1">ospf.advrouter</param>
-    <param regex-match="Sequence Number: (.*)" regex-replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
+    <param match="Advertising Router: (.*)" replace="📣 Advertising Router: $1">ospf.advrouter</param>
+    <param match="Sequence Number: (.*)" replace="🔢 Sequence Number: $1">ospf.lsa.seqnum</param>
   </ipv6-message>
 
   <!-- Generic OSPFv3 message (fallback) -->
   <ipv6-message style="steel-blue">
     <opcode
-            regex-match="Message Type: (.*) \(\d+\)"
-            regex-replace="📨 OSPFv3 $1"
+            match="Message Type: (.*) \(\d+\)"
+            replace="📨 OSPFv3 $1"
         >ospf.msg</opcode>
-    <param regex-match="Source OSPF Router: (.*)" regex-replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
-    <param regex-match="Area ID: (.*)" regex-replace="🏠 Area ID: $1">ospf.area_id</param>
+    <param match="Source OSPF Router: (.*)" replace="🆔 Source OSPF Router: $1">ospf.srcrouter</param>
+    <param match="Area ID: (.*)" replace="🏠 Area ID: $1">ospf.area_id</param>
     <param>ospf.v3.instance_id</param>
     <param>ospf.version</param>
     <param>ospf.packet_length</param>
@@ -246,13 +246,13 @@
 
   <!-- ESP (for OSPFv3 with ESP null encryption) -->
   <ipv6-message style="steel-blue">
-    <opcode regex-match=".*" regex-replace="ESP">esp.spi</opcode>
+    <opcode match=".*" replace="ESP">esp.spi</opcode>
     <param>esp.spi</param>
     <param>esp.sequence</param>
   </ipv6-message>
 
   <ip-message style="steel-blue">
-    <opcode regex-match=".*" regex-replace="ESP">esp.spi</opcode>
+    <opcode match=".*" replace="ESP">esp.spi</opcode>
     <param>esp.spi</param>
     <param>esp.sequence</param>
   </ip-message>

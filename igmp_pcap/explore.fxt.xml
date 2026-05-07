@@ -19,80 +19,80 @@ Version markers use keycap emojis to test multi-codepoint rendering:
 
   <!-- IGMP Membership Query (v1/v2/v3) -->
   <ip-message style="cerulean">
-    <opcode regex-match="Type: (Membership Query) \(0x\w+\)" regex-replace="🔍 IGMP $1">igmp.type</opcode>
-    <param regex-match="Max Resp Time: (.*) \(0x\w+\)" regex-replace="⏱ Max Resp: $1">igmp.max_resp</param>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
+    <opcode match="Type: (Membership Query) \(0x\w+\)" replace="🔍 IGMP $1">igmp.type</opcode>
+    <param match="Max Resp Time: (.*) \(0x\w+\)" replace="⏱ Max Resp: $1">igmp.max_resp</param>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">igmp.maddr</param>
     <param>igmp.version</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
-    <param regex-match=".*QRV: (\d+)" regex-replace="🔢 QRV: $1">igmp.qrv</param>
-    <param regex-match="(QQIC): (.*)" regex-replace="⏱ $1: $2">igmp.qqic</param>
-    <param regex-match="(Num Src): (.*)" regex-replace="🔢 $1: $2">igmp.num_src</param>
-    <param regex-match="(Source Address): (.*)" regex-replace="📤 $1: $2">igmp.saddr</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
+    <param match=".*QRV: (\d+)" replace="🔢 QRV: $1">igmp.qrv</param>
+    <param match="(QQIC): (.*)" replace="⏱ $1: $2">igmp.qqic</param>
+    <param match="(Num Src): (.*)" replace="🔢 $1: $2">igmp.num_src</param>
+    <param match="(Source Address): (.*)" replace="📤 $1: $2">igmp.saddr</param>
   </ip-message>
 
   <!-- IGMPv3 Membership Report (0x22) -->
   <ip-message style="royal-blue">
-    <opcode regex-match="Type: (Membership Report) \(0x22\)" regex-replace="📣 3️⃣ IGMPv3 $1">igmp.type</opcode>
-    <param regex-match="(Num Group Records): (.*)" regex-replace="🔢 $1: $2">igmp.num_grp_recs</param>
-    <param regex-match="(Record Type): (.*)" regex-replace="📋 $1: $2">igmp.record_type</param>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
-    <param regex-match="(Num Src): (.*)" regex-replace="🔢 $1: $2">igmp.num_src</param>
-    <param regex-match="(Source Address): (.*)" regex-replace="📤 $1: $2">igmp.saddr</param>
+    <opcode match="Type: (Membership Report) \(0x22\)" replace="📣 3️⃣ IGMPv3 $1">igmp.type</opcode>
+    <param match="(Num Group Records): (.*)" replace="🔢 $1: $2">igmp.num_grp_recs</param>
+    <param match="(Record Type): (.*)" replace="📋 $1: $2">igmp.record_type</param>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">igmp.maddr</param>
+    <param match="(Num Src): (.*)" replace="🔢 $1: $2">igmp.num_src</param>
+    <param match="(Source Address): (.*)" replace="📤 $1: $2">igmp.saddr</param>
   </ip-message>
 
   <!-- IGMPv2 Membership Report (0x16) -->
   <ip-message style="forest-green">
-    <opcode regex-match="Type: (Membership Report) \(0x16\)" regex-replace="📣 2️⃣ IGMPv2 $1">igmp.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
-    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">ip.dst</param>
+    <opcode match="Type: (Membership Report) \(0x16\)" replace="📣 2️⃣ IGMPv2 $1">igmp.type</opcode>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">igmp.maddr</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
+    <param match="(Destination Address): (.*)" replace="🎯 $1: $2">ip.dst</param>
   </ip-message>
 
   <!-- IGMPv1 Membership Report (0x12) -->
   <ip-message style="sea-green">
-    <opcode regex-match="Type: (Membership Report) \(0x12\)" regex-replace="📣 1️⃣ IGMPv1 $1">igmp.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
-    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">ip.dst</param>
+    <opcode match="Type: (Membership Report) \(0x12\)" replace="📣 1️⃣ IGMPv1 $1">igmp.type</opcode>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">igmp.maddr</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
+    <param match="(Destination Address): (.*)" replace="🎯 $1: $2">ip.dst</param>
   </ip-message>
 
   <!-- IGMPv2 Leave Group -->
   <ip-message style="magenta">
-    <opcode regex-match="Type: (Leave Group) \(0x\w+\)" regex-replace="🛑 IGMP $1">igmp.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
-    <param regex-match="(Time to Live): (.*)" regex-replace="⏳ $1: $2">ip.ttl</param>
-    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">ip.dst</param>
+    <opcode match="Type: (Leave Group) \(0x\w+\)" replace="🛑 IGMP $1">igmp.type</opcode>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">igmp.maddr</param>
+    <param match="(Time to Live): (.*)" replace="⏳ $1: $2">ip.ttl</param>
+    <param match="(Destination Address): (.*)" replace="🎯 $1: $2">ip.dst</param>
   </ip-message>
 
   <!-- IGMP Traceroute Request (mtrace) -->
   <ip-message style="goldenrod">
-    <opcode regex-match="Type: (Traceroute Request) \(0x\w+\)" regex-replace="🔎 IGMP $1">igmp.type</opcode>
-    <param regex-match="(Source Address): (.*)" regex-replace="📤 $1: $2">igmp.mtrace.saddr</param>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
-    <param regex-match="(Response Address): (.*)" regex-replace="📥 $1: $2">igmp.mtrace.raddr</param>
-    <param regex-match="(Response Destination Address): (.*)" regex-replace="🎯 $1: $2">igmp.mtrace.rspaddr</param>
-    <param regex-match="(Max Hops): (.*)" regex-replace="⏳ $1: $2">igmp.mtrace.max_hops</param>
-    <param regex-match="(Query ID): (.*)" regex-replace="🆔 $1: $2">igmp.mtrace.q_id</param>
+    <opcode match="Type: (Traceroute Request) \(0x\w+\)" replace="🔎 IGMP $1">igmp.type</opcode>
+    <param match="(Source Address): (.*)" replace="📤 $1: $2">igmp.mtrace.saddr</param>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">igmp.maddr</param>
+    <param match="(Response Address): (.*)" replace="📥 $1: $2">igmp.mtrace.raddr</param>
+    <param match="(Response Destination Address): (.*)" replace="🎯 $1: $2">igmp.mtrace.rspaddr</param>
+    <param match="(Max Hops): (.*)" replace="⏳ $1: $2">igmp.mtrace.max_hops</param>
+    <param match="(Query ID): (.*)" replace="🆔 $1: $2">igmp.mtrace.q_id</param>
   </ip-message>
 
   <!-- IGMP Traceroute Response (mtrace) -->
   <ip-message style="teal">
-    <opcode regex-match="Type: (Traceroute Response) \(0x\w+\)" regex-replace="🔎 IGMP $1">igmp.type</opcode>
-    <param regex-match="(Source Address): (.*)" regex-replace="📤 $1: $2">igmp.mtrace.saddr</param>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
-    <param regex-match="(Response Address): (.*)" regex-replace="📥 $1: $2">igmp.mtrace.raddr</param>
-    <param regex-match="(Query ID): (.*)" regex-replace="🆔 $1: $2">igmp.mtrace.q_id</param>
-    <param regex-match="(Forwarding Code): (.*)" regex-replace="📋 $1: $2">igmp.mtrace.q_fwd_code</param>
-    <param regex-match="(Routing Protocol): (.*)" regex-replace="🔗 $1: $2">igmp.mtrace.q_rtg_proto</param>
-    <param regex-match="(Incoming Interface Address): (.*)" regex-replace="📥 $1: $2">igmp.mtrace.q_inaddr</param>
-    <param regex-match="(Outgoing Interface Address): (.*)" regex-replace="📤 $1: $2">igmp.mtrace.q_outaddr</param>
-    <param regex-match="(Previous-Hop Router Address): (.*)" regex-replace="🔗 $1: $2">igmp.mtrace.q_prevrtr</param>
+    <opcode match="Type: (Traceroute Response) \(0x\w+\)" replace="🔎 IGMP $1">igmp.type</opcode>
+    <param match="(Source Address): (.*)" replace="📤 $1: $2">igmp.mtrace.saddr</param>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">igmp.maddr</param>
+    <param match="(Response Address): (.*)" replace="📥 $1: $2">igmp.mtrace.raddr</param>
+    <param match="(Query ID): (.*)" replace="🆔 $1: $2">igmp.mtrace.q_id</param>
+    <param match="(Forwarding Code): (.*)" replace="📋 $1: $2">igmp.mtrace.q_fwd_code</param>
+    <param match="(Routing Protocol): (.*)" replace="🔗 $1: $2">igmp.mtrace.q_rtg_proto</param>
+    <param match="(Incoming Interface Address): (.*)" replace="📥 $1: $2">igmp.mtrace.q_inaddr</param>
+    <param match="(Outgoing Interface Address): (.*)" replace="📤 $1: $2">igmp.mtrace.q_outaddr</param>
+    <param match="(Previous-Hop Router Address): (.*)" replace="🔗 $1: $2">igmp.mtrace.q_prevrtr</param>
   </ip-message>
 
   <!-- IGMP generic fallback -->
   <ip-message style="amethyst">
-    <opcode regex-match="Type: (.*) \(0x\w+\)" regex-replace="🔄 IGMP $1">igmp.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">igmp.maddr</param>
+    <opcode match="Type: (.*) \(0x\w+\)" replace="🔄 IGMP $1">igmp.type</opcode>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">igmp.maddr</param>
     <param>igmp.version</param>
   </ip-message>
 
@@ -102,36 +102,36 @@ Version markers use keycap emojis to test multi-codepoint rendering:
 
   <!-- MLD Query (Type 130, v1 and v2) -->
   <ipv6-message style="cerulean">
-    <opcode display="brief" regex-match="^130$" regex-replace="🔍 MLD Query">icmpv6.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">icmpv6.mld.multicast_address</param>
-    <param regex-match="(Maximum Response Delay): (.*)" regex-replace="⏱ $1: $2">icmpv6.mld.maximum_response_delay</param>
-    <param regex-match="(Maximum Response Code): (.*)" regex-replace="⏱ $1: $2">icmpv6.mld.maximum_response_code</param>
-    <param regex-match=".*QRV.*: (\d+)" regex-replace="🔢 QRV: $1">icmpv6.mld.flag.qrv</param>
-    <param regex-match="(QQIC): (.*)" regex-replace="⏱ $1: $2">icmpv6.mld.qqi</param>
-    <param regex-match="(Number of Sources): (.*)" regex-replace="🔢 $1: $2">icmpv6.mld.nb_sources</param>
-    <param regex-match="(Source Address): (.*)" regex-replace="📤 $1: $2">icmpv6.mld.source_address</param>
+    <opcode display="brief" match="^130$" replace="🔍 MLD Query">icmpv6.type</opcode>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">icmpv6.mld.multicast_address</param>
+    <param match="(Maximum Response Delay): (.*)" replace="⏱ $1: $2">icmpv6.mld.maximum_response_delay</param>
+    <param match="(Maximum Response Code): (.*)" replace="⏱ $1: $2">icmpv6.mld.maximum_response_code</param>
+    <param match=".*QRV.*: (\d+)" replace="🔢 QRV: $1">icmpv6.mld.flag.qrv</param>
+    <param match="(QQIC): (.*)" replace="⏱ $1: $2">icmpv6.mld.qqi</param>
+    <param match="(Number of Sources): (.*)" replace="🔢 $1: $2">icmpv6.mld.nb_sources</param>
+    <param match="(Source Address): (.*)" replace="📤 $1: $2">icmpv6.mld.source_address</param>
   </ipv6-message>
 
   <!-- MLDv1 Report (Type 131) -->
   <ipv6-message style="forest-green">
-    <opcode display="brief" regex-match="^131$" regex-replace="📣 1️⃣ MLDv1 Report">icmpv6.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">icmpv6.mld.multicast_address</param>
+    <opcode display="brief" match="^131$" replace="📣 1️⃣ MLDv1 Report">icmpv6.type</opcode>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">icmpv6.mld.multicast_address</param>
   </ipv6-message>
 
   <!-- MLD Done (Type 132) -->
   <ipv6-message style="magenta">
-    <opcode display="brief" regex-match="^132$" regex-replace="🛑 MLD Done">icmpv6.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">icmpv6.mld.multicast_address</param>
+    <opcode display="brief" match="^132$" replace="🛑 MLD Done">icmpv6.type</opcode>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">icmpv6.mld.multicast_address</param>
   </ipv6-message>
 
   <!-- MLDv2 Report (Type 143) -->
   <ipv6-message style="royal-blue">
-    <opcode display="brief" regex-match="^143$" regex-replace="📣 2️⃣ MLDv2 Report">icmpv6.type</opcode>
-    <param regex-match="(Number of Multicast Address Records): (.*)" regex-replace="🔢 $1: $2">icmpv6.mldr.nb_mcast_records</param>
-    <param regex-match="(Record Type): (.*)" regex-replace="📋 $1: $2">icmpv6.mldr.mar.record_type</param>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="👥 $1: $2">icmpv6.mldr.mar.multicast_address</param>
-    <param regex-match="(Number of Sources): (.*)" regex-replace="🔢 $1: $2">icmpv6.mldr.mar.nb_sources</param>
-    <param regex-match="(Source Address): (.*)" regex-replace="📤 $1: $2">icmpv6.mldr.mar.source_address</param>
+    <opcode display="brief" match="^143$" replace="📣 2️⃣ MLDv2 Report">icmpv6.type</opcode>
+    <param match="(Number of Multicast Address Records): (.*)" replace="🔢 $1: $2">icmpv6.mldr.nb_mcast_records</param>
+    <param match="(Record Type): (.*)" replace="📋 $1: $2">icmpv6.mldr.mar.record_type</param>
+    <param match="(Multicast Address): (.*)" replace="👥 $1: $2">icmpv6.mldr.mar.multicast_address</param>
+    <param match="(Number of Sources): (.*)" replace="🔢 $1: $2">icmpv6.mldr.mar.nb_sources</param>
+    <param match="(Source Address): (.*)" replace="📤 $1: $2">icmpv6.mldr.mar.source_address</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -139,23 +139,23 @@ Version markers use keycap emojis to test multi-codepoint rendering:
        ============================================================ -->
 
   <ipv6-message style="sea-green">
-    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <opcode display="brief" match="^128$" replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
   </ipv6-message>
 
   <ipv6-message style="forest-green">
-    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <opcode display="brief" match="^129$" replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
     <param>icmpv6.resp_to</param>
-    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmpv6.resptime</param>
+    <param match="(Response time): (.*)" replace="⏱ $1: $2">icmpv6.resptime</param>
   </ipv6-message>
 
   <!-- ICMPv6 generic -->
   <ipv6-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <opcode display="brief" match="^(.+)$" replace="🔵 ICMPv6 Type $1">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -163,11 +163,11 @@ Version markers use keycap emojis to test multi-codepoint rendering:
        ============================================================ -->
 
   <udpv6-message style="goldenrod">
-    <opcode display="brief" regex-match="^0$" regex-replace="🔍 DNS Query">dns.flags.opcode</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🌐 $1: $2">dns.qry.name</param>
+    <opcode display="brief" match="^0$" replace="🔍 DNS Query">dns.flags.opcode</opcode>
+    <param match="(Name): (.*)" replace="🌐 $1: $2">dns.qry.name</param>
     <param>dns.qry.type</param>
-    <param regex-match="(AAAA Address): (.*)" regex-replace="🌐 $1: $2">dns.aaaa</param>
-    <param regex-match="(Address): (.*)" regex-replace="🌐 $1: $2">dns.a</param>
+    <param match="(AAAA Address): (.*)" replace="🌐 $1: $2">dns.aaaa</param>
+    <param match="(Address): (.*)" replace="🌐 $1: $2">dns.a</param>
   </udpv6-message>
 
 </FXT>

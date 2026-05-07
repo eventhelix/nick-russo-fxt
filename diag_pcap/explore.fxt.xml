@@ -13,14 +13,14 @@
        ============================================================ -->
 
   <ip-message style="royal-blue">
-    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <opcode display="brief" match="^8$" replace="📡 ICMP Echo Request">icmp.type</opcode>
     <param>icmp.code</param>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
   </ip-message>
 
   <ip-message style="forest-green">
-    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <opcode display="brief" match="^0$" replace="✅ ICMP Echo Reply">icmp.type</opcode>
     <param>icmp.code</param>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
@@ -28,33 +28,33 @@
   </ip-message>
 
   <ip-message style="crimson">
-    <opcode display="brief" regex-match="^3$" regex-replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
+    <opcode display="brief" match="^3$" replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
     <param>icmp.code</param>
     <param>icmp.ident</param>
   </ip-message>
 
   <ip-message style="goldenrod">
-    <opcode display="brief" regex-match="^11$" regex-replace="⚠️️ ICMP Time Exceeded">icmp.type</opcode>
+    <opcode display="brief" match="^11$" replace="⚠️️ ICMP Time Exceeded">icmp.type</opcode>
     <param>icmp.code</param>
     <param>icmp.ident</param>
   </ip-message>
 
   <!-- ICMP Timestamp Request (Type 13) — used by IP SLA ICMP Jitter -->
   <ip-message style="cerulean">
-    <opcode display="brief" regex-match="^13$" regex-replace="⏱️ ICMP Timestamp Request">icmp.type</opcode>
+    <opcode display="brief" match="^13$" replace="⏱️ ICMP Timestamp Request">icmp.type</opcode>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
   </ip-message>
 
   <!-- ICMP Timestamp Reply (Type 14) -->
   <ip-message style="sea-green">
-    <opcode display="brief" regex-match="^14$" regex-replace="⏱️ ICMP Timestamp Reply">icmp.type</opcode>
+    <opcode display="brief" match="^14$" replace="⏱️ ICMP Timestamp Reply">icmp.type</opcode>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
   </ip-message>
 
   <ip-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="📨 ICMP Type $1">icmp.type</opcode>
+    <opcode display="brief" match="^(.+)$" replace="📨 ICMP Type $1">icmp.type</opcode>
     <param>icmp.code</param>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
@@ -65,19 +65,19 @@
        ============================================================ -->
 
   <ipv6-message style="royal-blue">
-    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <opcode display="brief" match="^128$" replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
     <param>icmpv6.code</param>
     <param>icmpv6.echo.identifier</param>
   </ipv6-message>
 
   <ipv6-message style="forest-green">
-    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <opcode display="brief" match="^129$" replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
     <param>icmpv6.code</param>
     <param>icmpv6.echo.identifier</param>
   </ipv6-message>
 
   <ipv6-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="📨 ICMPv6 Type $1">icmpv6.type</opcode>
+    <opcode display="brief" match="^(.+)$" replace="📨 ICMPv6 Type $1">icmpv6.type</opcode>
     <param>icmpv6.code</param>
   </ipv6-message>
 
@@ -87,14 +87,14 @@
 
   <!-- IP SLA Control — responder setup -->
   <udp-message style="amethyst">
-    <opcode regex-match="^1967$" regex-replace="🎛️ IP SLA Control" display="brief">udp.dstport</opcode>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
+    <opcode match="^1967$" replace="🎛️ IP SLA Control" display="brief">udp.dstport</opcode>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
   </udp-message>
 
   <!-- IP SLA Control Response — responder acknowledges -->
   <udp-message style="amethyst dashed">
-    <opcode regex-match="^1967$" regex-replace="🎛️ IP SLA Control Response" display="brief">udp.srcport</opcode>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
+    <opcode match="^1967$" replace="🎛️ IP SLA Control Response" display="brief">udp.srcport</opcode>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
   </udp-message>
 
   <!-- ============================================================
@@ -103,37 +103,37 @@
 
   <!-- UDP Echo (port 7) -->
   <udp-message style="royal-blue">
-    <opcode regex-match="^7$" regex-replace="📡 UDP Echo" display="brief">udp.dstport</opcode>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
+    <opcode match="^7$" replace="📡 UDP Echo" display="brief">udp.dstport</opcode>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
   </udp-message>
 
   <!-- UDP Echo Response (from port 7) -->
   <udp-message style="forest-green">
-    <opcode regex-match="^7$" regex-replace="✅ UDP Echo Response" display="brief">udp.srcport</opcode>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
+    <opcode match="^7$" replace="✅ UDP Echo Response" display="brief">udp.srcport</opcode>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
   </udp-message>
 
   <!-- UDP Chargen (port 19) -->
   <udp-message style="royal-blue">
-    <opcode regex-match="^19$" regex-replace="📝 UDP Chargen" display="brief">udp.dstport</opcode>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
+    <opcode match="^19$" replace="📝 UDP Chargen" display="brief">udp.dstport</opcode>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
   </udp-message>
 
   <!-- UDP Chargen Response (from port 19) -->
   <udp-message style="forest-green">
-    <opcode regex-match="^19$" regex-replace="📝 UDP Chargen Response" display="brief">udp.srcport</opcode>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
+    <opcode match="^19$" replace="📝 UDP Chargen Response" display="brief">udp.srcport</opcode>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
   </udp-message>
 
   <!-- UDP Discard (port 9) -->
   <udp-message style="slate">
-    <opcode regex-match="^9$" regex-replace="🗑️ UDP Discard" display="brief">udp.dstport</opcode>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
+    <opcode match="^9$" replace="🗑️ UDP Discard" display="brief">udp.dstport</opcode>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
   </udp-message>
 
   <!-- IP SLA UDP Probe (fallback for other UDP) -->
   <udp-message style="cerulean">
-    <opcode regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 IP SLA Probe ($1)">udp.payload</opcode>
+    <opcode match="UDP payload \((\d+ bytes)\)" replace="📦 IP SLA Probe ($1)">udp.payload</opcode>
     <param>data.len</param>
   </udp-message>
 
@@ -143,42 +143,42 @@
 
   <!-- TCP Echo (port 7) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="^7$" regex-replace="📡 TCP Echo" display="brief">tcp.dstport</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🏷️ Flags: $1">tcp.flags</param>
+    <opcode match="^7$" replace="📡 TCP Echo" display="brief">tcp.dstport</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🏷️ Flags: $1">tcp.flags</param>
     <param>tcp.len</param>
   </tcp-message>
 
   <!-- TCP Chargen (port 19) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="^19$" regex-replace="📝 TCP Chargen" display="brief">tcp.dstport</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🏷️ Flags: $1">tcp.flags</param>
+    <opcode match="^19$" replace="📝 TCP Chargen" display="brief">tcp.dstport</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🏷️ Flags: $1">tcp.flags</param>
     <param>tcp.len</param>
   </tcp-message>
 
   <!-- TCP Daytime (port 13) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="^13$" regex-replace="🕐 TCP Daytime" display="brief">tcp.dstport</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🏷️ Flags: $1">tcp.flags</param>
+    <opcode match="^13$" replace="🕐 TCP Daytime" display="brief">tcp.dstport</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🏷️ Flags: $1">tcp.flags</param>
     <param>tcp.len</param>
   </tcp-message>
 
   <!-- TCP Discard (port 9) -->
   <tcp-message style="slate">
-    <opcode regex-match="^9$" regex-replace="🗑️ TCP Discard" display="brief">tcp.dstport</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🏷️ Flags: $1">tcp.flags</param>
+    <opcode match="^9$" replace="🗑️ TCP Discard" display="brief">tcp.dstport</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🏷️ Flags: $1">tcp.flags</param>
     <param>tcp.len</param>
   </tcp-message>
 
   <!-- TCP Finger (port 79) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="^79$" regex-replace="👆 TCP Finger" display="brief">tcp.dstport</opcode>
-    <param regex-match=".*Flags:.*\((.*)\)" regex-replace="🏷️ Flags: $1">tcp.flags</param>
+    <opcode match="^79$" replace="👆 TCP Finger" display="brief">tcp.dstport</opcode>
+    <param match=".*Flags:.*\((.*)\)" replace="🏷️ Flags: $1">tcp.flags</param>
     <param>tcp.len</param>
   </tcp-message>
 
   <!-- TCP generic fallback -->
   <tcp-message style="steel-blue">
-    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
     <param>tcp.srcport</param>
     <param>tcp.dstport</param>
     <param>tcp.len</param>

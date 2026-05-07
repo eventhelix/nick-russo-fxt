@@ -14,59 +14,59 @@
        ============================================================ -->
 
   <ip-message style="royal-blue">
-    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <opcode display="brief" match="^8$" replace="📡 ICMP Echo Request">icmp.type</opcode>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
     <param>ip.ttl</param>
-    <param regex-match=".*= Number: (.*)" regex-replace="📋 IP Option: $1">ip.opt.type.number</param>
-    <param regex-match="(Source Route): (.*)" regex-replace="🗺 $1: $2">ip.src_rt</param>
-    <param regex-match="(Recorded Route): (.*)" regex-replace="📍 $1: $2">ip.rec_rt</param>
-    <param regex-match="(Time stamp): (.*)" regex-replace="⏱ $1: $2">ip.opt.time_stamp</param>
+    <param match=".*= Number: (.*)" replace="📋 IP Option: $1">ip.opt.type.number</param>
+    <param match="(Source Route): (.*)" replace="🗺 $1: $2">ip.src_rt</param>
+    <param match="(Recorded Route): (.*)" replace="📍 $1: $2">ip.rec_rt</param>
+    <param match="(Time stamp): (.*)" replace="⏱ $1: $2">ip.opt.time_stamp</param>
   </ip-message>
 
   <ip-message style="forest-green">
-    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <opcode display="brief" match="^0$" replace="✅ ICMP Echo Reply">icmp.type</opcode>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
     <param>icmp.resp_to</param>
     <param>ip.ttl</param>
-    <param regex-match=".*= Number: (.*)" regex-replace="📋 IP Option: $1">ip.opt.type.number</param>
-    <param regex-match="(Recorded Route): (.*)" regex-replace="📍 $1: $2">ip.rec_rt</param>
-    <param regex-match="(Time stamp): (.*)" regex-replace="⏱ $1: $2">ip.opt.time_stamp</param>
+    <param match=".*= Number: (.*)" replace="📋 IP Option: $1">ip.opt.type.number</param>
+    <param match="(Recorded Route): (.*)" replace="📍 $1: $2">ip.rec_rt</param>
+    <param match="(Time stamp): (.*)" replace="⏱ $1: $2">ip.opt.time_stamp</param>
   </ip-message>
 
   <ip-message style="crimson">
-    <opcode display="brief" regex-match="^3$" regex-replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
+    <opcode display="brief" match="^3$" replace="🚫 ICMP Dest Unreachable">icmp.type</opcode>
     <param>icmp.code</param>
     <param>icmp.ident</param>
   </ip-message>
 
   <ip-message style="magenta">
-    <opcode display="brief" regex-match="^12$" regex-replace="⚠️ ICMP Parameter Problem">icmp.type</opcode>
+    <opcode display="brief" match="^12$" replace="⚠️ ICMP Parameter Problem">icmp.type</opcode>
     <param>icmp.code</param>
   </ip-message>
 
   <ip-message style="goldenrod">
-    <opcode display="brief" regex-match="^11$" regex-replace="⚠️ ICMP Time Exceeded">icmp.type</opcode>
+    <opcode display="brief" match="^11$" replace="⚠️ ICMP Time Exceeded">icmp.type</opcode>
     <param>icmp.code</param>
     <param>ip.ttl</param>
   </ip-message>
 
   <ip-message style="goldenrod">
-    <opcode display="brief" regex-match="^5$" regex-replace="↩ ICMP Redirect">icmp.type</opcode>
+    <opcode display="brief" match="^5$" replace="↩ ICMP Redirect">icmp.type</opcode>
     <param>icmp.code</param>
   </ip-message>
 
   <ip-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="📨 ICMP Type $1">icmp.type</opcode>
+    <opcode display="brief" match="^(.+)$" replace="📨 ICMP Type $1">icmp.type</opcode>
     <param>icmp.code</param>
     <param>icmp.ident</param>
     <param>icmp.seq</param>
     <param>ip.ttl</param>
-    <param regex-match=".*= Number: (.*)" regex-replace="📋 IP Option: $1">ip.opt.type.number</param>
-    <param regex-match="(Source Route): (.*)" regex-replace="🗺 $1: $2">ip.src_rt</param>
-    <param regex-match="(Recorded Route): (.*)" regex-replace="📍 $1: $2">ip.rec_rt</param>
-    <param regex-match="(Time stamp): (.*)" regex-replace="⏱ $1: $2">ip.opt.time_stamp</param>
+    <param match=".*= Number: (.*)" replace="📋 IP Option: $1">ip.opt.type.number</param>
+    <param match="(Source Route): (.*)" replace="🗺 $1: $2">ip.src_rt</param>
+    <param match="(Recorded Route): (.*)" replace="📍 $1: $2">ip.rec_rt</param>
+    <param match="(Time stamp): (.*)" replace="⏱ $1: $2">ip.opt.time_stamp</param>
   </ip-message>
 
   <!-- ============================================================
@@ -75,94 +75,94 @@
 
   <!-- IKEv2 SA Init — crypto handshake -->
   <ipv6-message style="amethyst">
-    <opcode regex-match="Exchange type: (IKE_SA_INIT) \(\d+\)" regex-replace="🔐🤝 IKEv2 $1">isakmp.exchangetype</opcode>
-    <param regex-match="(Initiator SPI): (.*)" regex-replace="🆔 $1: $2">isakmp.ispi</param>
-    <param regex-match="(Responder SPI): (.*)" regex-replace="🤝 $1: $2">isakmp.rspi</param>
+    <opcode match="Exchange type: (IKE_SA_INIT) \(\d+\)" replace="🔐🤝 IKEv2 $1">isakmp.exchangetype</opcode>
+    <param match="(Initiator SPI): (.*)" replace="🆔 $1: $2">isakmp.ispi</param>
+    <param match="(Responder SPI): (.*)" replace="🤝 $1: $2">isakmp.rspi</param>
     <param>isakmp.messageid</param>
     <param>isakmp.flags</param>
   </ipv6-message>
 
   <!-- IKEv2 Auth — identity verification -->
   <ipv6-message style="sea-green">
-    <opcode regex-match="Exchange type: (IKE_AUTH) \(\d+\)" regex-replace="🔑✅ IKEv2 $1">isakmp.exchangetype</opcode>
-    <param regex-match="(Initiator SPI): (.*)" regex-replace="🆔 $1: $2">isakmp.ispi</param>
-    <param regex-match="(Responder SPI): (.*)" regex-replace="🤝 $1: $2">isakmp.rspi</param>
+    <opcode match="Exchange type: (IKE_AUTH) \(\d+\)" replace="🔑✅ IKEv2 $1">isakmp.exchangetype</opcode>
+    <param match="(Initiator SPI): (.*)" replace="🆔 $1: $2">isakmp.ispi</param>
+    <param match="(Responder SPI): (.*)" replace="🤝 $1: $2">isakmp.rspi</param>
     <param>isakmp.messageid</param>
     <param>isakmp.flags</param>
   </ipv6-message>
 
   <!-- IKEv2 Create Child SA — IPsec tunnel establishment -->
   <ipv6-message style="cerulean">
-    <opcode regex-match="Exchange type: (CREATE_CHILD_SA) \(\d+\)" regex-replace="🔒📦 IKEv2 $1">isakmp.exchangetype</opcode>
-    <param regex-match="(Initiator SPI): (.*)" regex-replace="🆔 $1: $2">isakmp.ispi</param>
-    <param regex-match="(Responder SPI): (.*)" regex-replace="🤝 $1: $2">isakmp.rspi</param>
+    <opcode match="Exchange type: (CREATE_CHILD_SA) \(\d+\)" replace="🔒📦 IKEv2 $1">isakmp.exchangetype</opcode>
+    <param match="(Initiator SPI): (.*)" replace="🆔 $1: $2">isakmp.ispi</param>
+    <param match="(Responder SPI): (.*)" replace="🤝 $1: $2">isakmp.rspi</param>
     <param>isakmp.messageid</param>
     <param>isakmp.flags</param>
   </ipv6-message>
 
   <!-- IKEv2 Informational — keepalive/delete/notify -->
   <ipv6-message style="teal dashed">
-    <opcode regex-match="Exchange type: (INFORMATIONAL) \(\d+\)" regex-replace="ℹ🔒 IKEv2 $1">isakmp.exchangetype</opcode>
-    <param regex-match="(Initiator SPI): (.*)" regex-replace="🆔 $1: $2">isakmp.ispi</param>
-    <param regex-match="(Responder SPI): (.*)" regex-replace="🤝 $1: $2">isakmp.rspi</param>
+    <opcode match="Exchange type: (INFORMATIONAL) \(\d+\)" replace="ℹ🔒 IKEv2 $1">isakmp.exchangetype</opcode>
+    <param match="(Initiator SPI): (.*)" replace="🆔 $1: $2">isakmp.ispi</param>
+    <param match="(Responder SPI): (.*)" replace="🤝 $1: $2">isakmp.rspi</param>
     <param>isakmp.messageid</param>
     <param>isakmp.flags</param>
   </ipv6-message>
 
   <!-- IKEv2 generic fallback -->
   <ipv6-message style="amethyst">
-    <opcode regex-match="Exchange type: (.*) \(\d+\)" regex-replace="🔑🔒 IKEv2 $1">isakmp.exchangetype</opcode>
-    <param regex-match="(Initiator SPI): (.*)" regex-replace="🆔 $1: $2">isakmp.ispi</param>
-    <param regex-match="(Responder SPI): (.*)" regex-replace="🤝 $1: $2">isakmp.rspi</param>
+    <opcode match="Exchange type: (.*) \(\d+\)" replace="🔑🔒 IKEv2 $1">isakmp.exchangetype</opcode>
+    <param match="(Initiator SPI): (.*)" replace="🆔 $1: $2">isakmp.ispi</param>
+    <param match="(Responder SPI): (.*)" replace="🤝 $1: $2">isakmp.rspi</param>
     <param>isakmp.messageid</param>
     <param>isakmp.flags</param>
   </ipv6-message>
 
   <ipv6-message style="sea-green">
-    <opcode regex-match=".*" regex-replace="🔒 IPv6 AH">ah.spi</opcode>
+    <opcode match=".*" replace="🔒 IPv6 AH">ah.spi</opcode>
     <param>ah.spi</param>
     <param>ah.sequence</param>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
   </ipv6-message>
 
   <ipv6-message style="royal-blue">
-    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <opcode display="brief" match="^128$" replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
     <param>icmpv6.echo.identifier</param>
     <param>icmpv6.echo.sequence_number</param>
     <param>ipv6.hlim</param>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.hopopts.nxt</param>
-    <param regex-match="(Routing Type): (.*)" regex-replace="🗺 $1: $2">ipv6.routing.type</param>
-    <param regex-match="(Segments Left): (.*)" regex-replace="📍 $1: $2">ipv6.routing.segleft</param>
-    <param regex-match="(Address.*): (.*)" regex-replace="📍 $1: $2">ipv6.routing.src.addr</param>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.hopopts.nxt</param>
+    <param match="(Routing Type): (.*)" replace="🗺 $1: $2">ipv6.routing.type</param>
+    <param match="(Segments Left): (.*)" replace="📍 $1: $2">ipv6.routing.segleft</param>
+    <param match="(Address.*): (.*)" replace="📍 $1: $2">ipv6.routing.src.addr</param>
   </ipv6-message>
 
   <ipv6-message style="forest-green">
-    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <opcode display="brief" match="^129$" replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
     <param>icmpv6.echo.identifier</param>
     <param>icmpv6.echo.sequence_number</param>
     <param>icmpv6.resp_to</param>
     <param>ipv6.hlim</param>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.hopopts.nxt</param>
-    <param regex-match="(Routing Type): (.*)" regex-replace="🗺 $1: $2">ipv6.routing.type</param>
-    <param regex-match="(Segments Left): (.*)" regex-replace="📍 $1: $2">ipv6.routing.segleft</param>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.hopopts.nxt</param>
+    <param match="(Routing Type): (.*)" replace="🗺 $1: $2">ipv6.routing.type</param>
+    <param match="(Segments Left): (.*)" replace="📍 $1: $2">ipv6.routing.segleft</param>
   </ipv6-message>
 
   <ipv6-message style="goldenrod">
-    <opcode display="brief" regex-match="^3$" regex-replace="⚠️ ICMPv6 Time Exceeded">icmpv6.type</opcode>
+    <opcode display="brief" match="^3$" replace="⚠️ ICMPv6 Time Exceeded">icmpv6.type</opcode>
     <param>icmpv6.code</param>
   </ipv6-message>
 
   <ipv6-message style="crimson">
-    <opcode display="brief" regex-match="^1$" regex-replace="🚫 ICMPv6 Dest Unreachable">icmpv6.type</opcode>
+    <opcode display="brief" match="^1$" replace="🚫 ICMPv6 Dest Unreachable">icmpv6.type</opcode>
     <param>icmpv6.code</param>
   </ipv6-message>
 
   <ipv6-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="📨 ICMPv6 Type $1">icmpv6.type</opcode>
+    <opcode display="brief" match="^(.+)$" replace="📨 ICMPv6 Type $1">icmpv6.type</opcode>
     <param>icmpv6.code</param>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -171,88 +171,88 @@
 
   <!-- UDP-Lite: coverage=0 means full datagram (like regular UDP) -->
   <udp-message style="sea-green">
-    <opcode regex-match="Checksum coverage: (0)" regex-replace="📦🛡 UDP-Lite Full Coverage">udp.checksum_coverage</opcode>
-    <param regex-match="(Checksum coverage): (.*)" regex-replace="🛡 $1: $2 (entire datagram)">udp.checksum_coverage</param>
-    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">udp.checksum</param>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
-    <remark regex-match=".*" regex-replace="💡 Full coverage: checksum protects entire datagram, equivalent to standard UDP">udp.stream</remark>
+    <opcode match="Checksum coverage: (0)" replace="📦🛡 UDP-Lite Full Coverage">udp.checksum_coverage</opcode>
+    <param match="(Checksum coverage): (.*)" replace="🛡 $1: $2 (entire datagram)">udp.checksum_coverage</param>
+    <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
+    <remark match=".*" replace="💡 Full coverage: checksum protects entire datagram, equivalent to standard UDP">udp.stream</remark>
   </udp-message>
 
   <!-- UDP-Lite: coverage=8 means header only (minimum, payload unprotected) -->
   <udp-message style="goldenrod">
-    <opcode regex-match="Checksum coverage: (8)" regex-replace="📦⚠️ UDP-Lite Header Only">udp.checksum_coverage</opcode>
-    <param regex-match="(Checksum coverage): (.*)" regex-replace="⚠️ $1: $2 (header only — payload unprotected)">udp.checksum_coverage</param>
-    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">udp.checksum</param>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
-    <remark regex-match=".*" regex-replace="💡 Header only: minimum 8-byte coverage, payload bit errors tolerated (ideal for VoIP/video)">udp.stream</remark>
+    <opcode match="Checksum coverage: (8)" replace="📦⚠️ UDP-Lite Header Only">udp.checksum_coverage</opcode>
+    <param match="(Checksum coverage): (.*)" replace="⚠️ $1: $2 (header only — payload unprotected)">udp.checksum_coverage</param>
+    <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
+    <remark match=".*" replace="💡 Header only: minimum 8-byte coverage, payload bit errors tolerated (ideal for VoIP/video)">udp.stream</remark>
   </udp-message>
 
   <!-- UDP-Lite: bogus coverage (value exceeds datagram length or < 8) -->
   <udp-message style="brick">
-    <opcode regex-match="Checksum coverage: (\d+).*bogus.*" regex-replace="📦🚫 UDP-Lite Bogus Coverage ($1 bytes)">udp.checksum_coverage</opcode>
-    <param regex-match="(Checksum coverage): (.*)" regex-replace="🚫 $1: $2">udp.checksum_coverage</param>
-    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">udp.checksum</param>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
-    <remark regex-match=".*" regex-replace="💡 Bogus coverage: value exceeds datagram length, receiver should discard this packet">udp.stream</remark>
+    <opcode match="Checksum coverage: (\d+).*bogus.*" replace="📦🚫 UDP-Lite Bogus Coverage ($1 bytes)">udp.checksum_coverage</opcode>
+    <param match="(Checksum coverage): (.*)" replace="🚫 $1: $2">udp.checksum_coverage</param>
+    <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
+    <remark match=".*" replace="💡 Bogus coverage: value exceeds datagram length, receiver should discard this packet">udp.stream</remark>
   </udp-message>
 
   <!-- UDP-Lite: other coverage values = partial checksum -->
   <udp-message style="cerulean">
-    <opcode regex-match="Checksum coverage: (\d+)" regex-replace="📦🔒 UDP-Lite Partial ($1 bytes)">udp.checksum_coverage</opcode>
-    <param regex-match="(Checksum coverage): (.*)" regex-replace="🔒 $1: $2">udp.checksum_coverage</param>
-    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">udp.checksum</param>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
-    <remark regex-match=".*" regex-replace="💡 Partial coverage: header + first bytes checksummed, remaining payload may have bit errors">udp.stream</remark>
+    <opcode match="Checksum coverage: (\d+)" replace="📦🔒 UDP-Lite Partial ($1 bytes)">udp.checksum_coverage</opcode>
+    <param match="(Checksum coverage): (.*)" replace="🔒 $1: $2">udp.checksum_coverage</param>
+    <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
+    <remark match=".*" replace="💡 Partial coverage: header + first bytes checksummed, remaining payload may have bit errors">udp.stream</remark>
   </udp-message>
 
   <!-- UDP-Lite IPv6: coverage=0 (full) -->
   <udpv6-message style="sea-green">
-    <opcode regex-match="Checksum coverage: (0)" regex-replace="📦🛡 UDP-Lite Full Coverage">udp.checksum_coverage</opcode>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
-    <param regex-match="(Checksum coverage): (.*)" regex-replace="🛡 $1: $2 (entire datagram)">udp.checksum_coverage</param>
-    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">udp.checksum</param>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
-    <remark regex-match=".*" regex-replace="💡 Full coverage: checksum protects entire datagram, equivalent to standard UDP">udp.stream</remark>
+    <opcode match="Checksum coverage: (0)" replace="📦🛡 UDP-Lite Full Coverage">udp.checksum_coverage</opcode>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Checksum coverage): (.*)" replace="🛡 $1: $2 (entire datagram)">udp.checksum_coverage</param>
+    <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
+    <remark match=".*" replace="💡 Full coverage: checksum protects entire datagram, equivalent to standard UDP">udp.stream</remark>
   </udpv6-message>
 
   <!-- UDP-Lite IPv6: coverage=8 (header only) -->
   <udpv6-message style="goldenrod">
-    <opcode regex-match="Checksum coverage: (8)" regex-replace="📦⚠️ UDP-Lite Header Only">udp.checksum_coverage</opcode>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
-    <param regex-match="(Checksum coverage): (.*)" regex-replace="⚠️ $1: $2 (header only — payload unprotected)">udp.checksum_coverage</param>
-    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">udp.checksum</param>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
-    <remark regex-match=".*" regex-replace="💡 Header only: minimum 8-byte coverage, payload bit errors tolerated (ideal for VoIP/video)">udp.stream</remark>
+    <opcode match="Checksum coverage: (8)" replace="📦⚠️ UDP-Lite Header Only">udp.checksum_coverage</opcode>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Checksum coverage): (.*)" replace="⚠️ $1: $2 (header only — payload unprotected)">udp.checksum_coverage</param>
+    <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
+    <remark match=".*" replace="💡 Header only: minimum 8-byte coverage, payload bit errors tolerated (ideal for VoIP/video)">udp.stream</remark>
   </udpv6-message>
 
   <!-- UDP-Lite IPv6: bogus coverage -->
   <udpv6-message style="brick">
-    <opcode regex-match="Checksum coverage: (\d+).*bogus.*" regex-replace="📦🚫 UDP-Lite Bogus Coverage ($1 bytes)">udp.checksum_coverage</opcode>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
-    <param regex-match="(Checksum coverage): (.*)" regex-replace="🚫 $1: $2">udp.checksum_coverage</param>
-    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">udp.checksum</param>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
-    <remark regex-match=".*" regex-replace="💡 Bogus coverage: value exceeds datagram length, receiver should discard this packet">udp.stream</remark>
+    <opcode match="Checksum coverage: (\d+).*bogus.*" replace="📦🚫 UDP-Lite Bogus Coverage ($1 bytes)">udp.checksum_coverage</opcode>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Checksum coverage): (.*)" replace="🚫 $1: $2">udp.checksum_coverage</param>
+    <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
+    <remark match=".*" replace="💡 Bogus coverage: value exceeds datagram length, receiver should discard this packet">udp.stream</remark>
   </udpv6-message>
 
   <!-- UDP-Lite IPv6: partial coverage -->
   <udpv6-message style="cerulean">
-    <opcode regex-match="Checksum coverage: (\d+)" regex-replace="📦🔒 UDP-Lite Partial ($1 bytes)">udp.checksum_coverage</opcode>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
-    <param regex-match="(Checksum coverage): (.*)" regex-replace="🔒 $1: $2">udp.checksum_coverage</param>
-    <param regex-match="(Checksum): (.*)" regex-replace="🔢 $1: $2">udp.checksum</param>
-    <param regex-match="UDP payload \((\d+ bytes)\)" regex-replace="📦 Payload: $1">udp.payload</param>
-    <remark regex-match=".*" regex-replace="💡 Partial coverage: header + first bytes checksummed, remaining payload may have bit errors">udp.stream</remark>
+    <opcode match="Checksum coverage: (\d+)" replace="📦🔒 UDP-Lite Partial ($1 bytes)">udp.checksum_coverage</opcode>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Checksum coverage): (.*)" replace="🔒 $1: $2">udp.checksum_coverage</param>
+    <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
+    <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
+    <remark match=".*" replace="💡 Partial coverage: header + first bytes checksummed, remaining payload may have bit errors">udp.stream</remark>
   </udpv6-message>
 
   <!-- IPv6 traceroute / UDP probe -->
   <udpv6-message style="royal-blue">
-    <opcode regex-match=".*" regex-replace="📡 IPv6 UDP Probe">udp.dstport</opcode>
+    <opcode match=".*" replace="📡 IPv6 UDP Probe">udp.dstport</opcode>
     <param>ipv6.hlim</param>
-    <param regex-match="(Next Header): (.*)" regex-replace="⛓ $1: $2">ipv6.nxt</param>
-    <param regex-match="(Routing Type): (.*)" regex-replace="🗺 $1: $2">ipv6.routing.type</param>
-    <param regex-match="(Segments Left): (.*)" regex-replace="📍 $1: $2">ipv6.routing.segleft</param>
-    <param regex-match="(Address.*): (.*)" regex-replace="📍 $1: $2">ipv6.routing.src.addr</param>
+    <param match="(Next Header): (.*)" replace="⛓ $1: $2">ipv6.nxt</param>
+    <param match="(Routing Type): (.*)" replace="🗺 $1: $2">ipv6.routing.type</param>
+    <param match="(Segments Left): (.*)" replace="📍 $1: $2">ipv6.routing.segleft</param>
+    <param match="(Address.*): (.*)" replace="📍 $1: $2">ipv6.routing.src.addr</param>
   </udpv6-message>
 
   <!-- ============================================================
@@ -260,9 +260,9 @@
        ============================================================ -->
 
   <ip-message style="slate">
-    <opcode display="brief" regex-match="^0x01$" regex-replace="🧩 IPv4 Fragment (MF)">ip.flags</opcode>
-    <param regex-match="(Identification): (.*)" regex-replace="🆔 $1: $2">ip.id</param>
-    <param regex-match=".*= Fragment Offset.* (\d+)" regex-replace="📍 Offset: $1">ip.frag_offset</param>
+    <opcode display="brief" match="^0x01$" replace="🧩 IPv4 Fragment (MF)">ip.flags</opcode>
+    <param match="(Identification): (.*)" replace="🆔 $1: $2">ip.id</param>
+    <param match=".*= Fragment Offset.* (\d+)" replace="📍 Offset: $1">ip.frag_offset</param>
     <param>ip.ttl</param>
   </ip-message>
 

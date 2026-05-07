@@ -17,82 +17,82 @@ Emoji story for SR lifecycle:
 
   <!-- PCEP Open -->
   <tcp-message style="forest-green">
-    <opcode regex-match="Message Type: (Open) \(\d+\)" regex-replace="🤝 PCEP $1">pcep.msg</opcode>
-    <param regex-match="(Keepalive): (.*)" regex-replace="⏱ $1: $2">pcep.obj.open.keepalive</param>
-    <param regex-match="(DeadTimer): (.*)" regex-replace="⏱ $1: $2">pcep.obj.open.deadtime</param>
-    <param regex-match="(SID): (.*)" regex-replace="🆔 $1: $2">pcep.obj.open.sid</param>
-    <param regex-match="(MSD): (.*)" regex-replace="📏 $1: $2">pcep.tlv.sr-pce-capability.msd</param>
-    <param regex-match="Flags: (.*)" regex-replace="🔧 Stateful: $1">pcep.stateful-pce-capability.flags</param>
+    <opcode match="Message Type: (Open) \(\d+\)" replace="🤝 PCEP $1">pcep.msg</opcode>
+    <param match="(Keepalive): (.*)" replace="⏱ $1: $2">pcep.obj.open.keepalive</param>
+    <param match="(DeadTimer): (.*)" replace="⏱ $1: $2">pcep.obj.open.deadtime</param>
+    <param match="(SID): (.*)" replace="🆔 $1: $2">pcep.obj.open.sid</param>
+    <param match="(MSD): (.*)" replace="📏 $1: $2">pcep.tlv.sr-pce-capability.msd</param>
+    <param match="Flags: (.*)" replace="🔧 Stateful: $1">pcep.stateful-pce-capability.flags</param>
   </tcp-message>
 
   <!-- PCEP Keepalive -->
   <tcp-message style="sea-green dashed">
-    <opcode regex-match="Message Type: (Keepalive) \(\d+\)" regex-replace="💓 PCEP $1">pcep.msg</opcode>
+    <opcode match="Message Type: (Keepalive) \(\d+\)" replace="💓 PCEP $1">pcep.msg</opcode>
   </tcp-message>
 
   <!-- PCEP PCReq -->
   <tcp-message style="royal-blue">
-    <opcode regex-match=".*\((PCReq)\) \(\d+\)" regex-replace="🔍 PCEP $1">pcep.msg</opcode>
-    <param regex-match="(Source IPv4 address): (.*)" regex-replace="📤 $1: $2">pcep.obj.end_point.source_ipv4_address</param>
-    <param regex-match="(Destination IPv4 address): (.*)" regex-replace="🎯 $1: $2">pcep.obj.end_point.destination_ipv4_address</param>
-    <param regex-match="(Bandwidth): (.*)" regex-replace="📊 $1: $2">pcep.bandwidth</param>
-    <param regex-match="(Setup Priority): (.*)" regex-replace="🏆 $1: $2">pcep.obj.lspa.setup_priority</param>
-    <param regex-match="(Holding Priority): (.*)" regex-replace="🏆 $1: $2">pcep.obj.lspa.holding_priority</param>
+    <opcode match=".*\((PCReq)\) \(\d+\)" replace="🔍 PCEP $1">pcep.msg</opcode>
+    <param match="(Source IPv4 address): (.*)" replace="📤 $1: $2">pcep.obj.end_point.source_ipv4_address</param>
+    <param match="(Destination IPv4 address): (.*)" replace="🎯 $1: $2">pcep.obj.end_point.destination_ipv4_address</param>
+    <param match="(Bandwidth): (.*)" replace="📊 $1: $2">pcep.bandwidth</param>
+    <param match="(Setup Priority): (.*)" replace="🏆 $1: $2">pcep.obj.lspa.setup_priority</param>
+    <param match="(Holding Priority): (.*)" replace="🏆 $1: $2">pcep.obj.lspa.holding_priority</param>
   </tcp-message>
 
   <!-- PCEP PCRep -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*\((PCRep)\) \(\d+\)" regex-replace="🛤 PCEP $1">pcep.msg</opcode>
-    <param regex-match=".*SID/Label: (\d+)" regex-replace="🏷 SR Label: $1">pcep.subobj.sr.sid.label</param>
-    <param regex-match="(IPv4 Node-ID): (.*)" regex-replace="🌐 $1: $2">pcep.subobj.sr.nai.ipv4node</param>
-    <param regex-match="(Metric Value): (.*)" regex-replace="📊 $1: $2">pcep.obj.metric.metric_value</param>
+    <opcode match=".*\((PCRep)\) \(\d+\)" replace="🛤 PCEP $1">pcep.msg</opcode>
+    <param match=".*SID/Label: (\d+)" replace="🏷 SR Label: $1">pcep.subobj.sr.sid.label</param>
+    <param match="(IPv4 Node-ID): (.*)" replace="🌐 $1: $2">pcep.subobj.sr.nai.ipv4node</param>
+    <param match="(Metric Value): (.*)" replace="📊 $1: $2">pcep.obj.metric.metric_value</param>
   </tcp-message>
 
   <!-- PCEP PCRpt (Stateful LSP State Report) -->
   <tcp-message style="goldenrod">
-    <opcode regex-match=".*\((PCRpt)\) \(\d+\)" regex-replace="📋 PCEP $1">pcep.msg</opcode>
-    <param regex-match=".*PLSP-ID: (\d+)" regex-replace="🆔 PLSP-ID: $1">pcep.obj.lsp.plsp-id</param>
-    <param regex-match="(Symbolic Path Name): (.*)" regex-replace="🏷 $1: $2">pcep.tlv.symbolic-path-name</param>
-    <param regex-match=".*Operational \(O\): (.*) \(\d+\)" regex-replace="🔄 Oper: $1">pcep.obj.lsp.flags.operational</param>
-    <param regex-match=".*Delegate \(D\): (.*)" regex-replace="🔧 Delegate: $1">pcep.obj.lsp.flags.delegate</param>
-    <param regex-match="(Tunnel Endpoint Address): (.*)" regex-replace="🎯 $1: $2">pcep.tlv.ipv4-lsp-id.tunnel-endpoint-addr</param>
-    <param regex-match="(Tunnel ID): (.*)" regex-replace="🔗 $1: $2">pcep.tlv.ipv4-lsp-id.tunnel-id</param>
+    <opcode match=".*\((PCRpt)\) \(\d+\)" replace="📋 PCEP $1">pcep.msg</opcode>
+    <param match=".*PLSP-ID: (\d+)" replace="🆔 PLSP-ID: $1">pcep.obj.lsp.plsp-id</param>
+    <param match="(Symbolic Path Name): (.*)" replace="🏷 $1: $2">pcep.tlv.symbolic-path-name</param>
+    <param match=".*Operational \(O\): (.*) \(\d+\)" replace="🔄 Oper: $1">pcep.obj.lsp.flags.operational</param>
+    <param match=".*Delegate \(D\): (.*)" replace="🔧 Delegate: $1">pcep.obj.lsp.flags.delegate</param>
+    <param match="(Tunnel Endpoint Address): (.*)" replace="🎯 $1: $2">pcep.tlv.ipv4-lsp-id.tunnel-endpoint-addr</param>
+    <param match="(Tunnel ID): (.*)" replace="🔗 $1: $2">pcep.tlv.ipv4-lsp-id.tunnel-id</param>
   </tcp-message>
 
   <!-- PCEP PCUpd (Stateful LSP Update) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match=".*\((PCUpd)\) \(\d+\)" regex-replace="📝 PCEP $1">pcep.msg</opcode>
-    <param regex-match=".*PLSP-ID: (\d+)" regex-replace="🆔 PLSP-ID: $1">pcep.obj.lsp.plsp-id</param>
-    <param regex-match="(Symbolic Path Name): (.*)" regex-replace="🏷 $1: $2">pcep.tlv.symbolic-path-name</param>
-    <param regex-match=".*SID/Label: (\d+)" regex-replace="🏷 SR Label: $1">pcep.subobj.sr.sid.label</param>
-    <param regex-match="(IPv4 Node-ID): (.*)" regex-replace="🌐 $1: $2">pcep.subobj.sr.nai.ipv4node</param>
+    <opcode match=".*\((PCUpd)\) \(\d+\)" replace="📝 PCEP $1">pcep.msg</opcode>
+    <param match=".*PLSP-ID: (\d+)" replace="🆔 PLSP-ID: $1">pcep.obj.lsp.plsp-id</param>
+    <param match="(Symbolic Path Name): (.*)" replace="🏷 $1: $2">pcep.tlv.symbolic-path-name</param>
+    <param match=".*SID/Label: (\d+)" replace="🏷 SR Label: $1">pcep.subobj.sr.sid.label</param>
+    <param match="(IPv4 Node-ID): (.*)" replace="🌐 $1: $2">pcep.subobj.sr.nai.ipv4node</param>
   </tcp-message>
 
   <!-- PCEP PCInitiate -->
   <tcp-message style="amethyst">
-    <opcode regex-match=".*\((PCInitiate)\) \(\d+\)" regex-replace="🚀 PCEP $1">pcep.msg</opcode>
-    <param regex-match=".*PLSP-ID: (\d+)" regex-replace="🆔 PLSP-ID: $1">pcep.obj.lsp.plsp-id</param>
-    <param regex-match="(Symbolic Path Name): (.*)" regex-replace="🏷 $1: $2">pcep.tlv.symbolic-path-name</param>
-    <param regex-match="(Destination IPv4 address): (.*)" regex-replace="🎯 $1: $2">pcep.obj.end_point.destination_ipv4_address</param>
-    <param regex-match="(Bandwidth): (.*)" regex-replace="📊 $1: $2">pcep.bandwidth</param>
+    <opcode match=".*\((PCInitiate)\) \(\d+\)" replace="🚀 PCEP $1">pcep.msg</opcode>
+    <param match=".*PLSP-ID: (\d+)" replace="🆔 PLSP-ID: $1">pcep.obj.lsp.plsp-id</param>
+    <param match="(Symbolic Path Name): (.*)" replace="🏷 $1: $2">pcep.tlv.symbolic-path-name</param>
+    <param match="(Destination IPv4 address): (.*)" replace="🎯 $1: $2">pcep.obj.end_point.destination_ipv4_address</param>
+    <param match="(Bandwidth): (.*)" replace="📊 $1: $2">pcep.bandwidth</param>
   </tcp-message>
 
   <!-- PCEP PCErr -->
   <tcp-message style="crimson">
-    <opcode regex-match=".*\((PCErr)\) \(\d+\)" regex-replace="🚫 PCEP $1">pcep.msg</opcode>
-    <param regex-match="(Error-Type): (.*)" regex-replace="📋 $1: $2">pcep.error.type</param>
-    <param regex-match="(Error-value): (.*)" regex-replace="📋 $1: $2">pcep.error.value</param>
+    <opcode match=".*\((PCErr)\) \(\d+\)" replace="🚫 PCEP $1">pcep.msg</opcode>
+    <param match="(Error-Type): (.*)" replace="📋 $1: $2">pcep.error.type</param>
+    <param match="(Error-value): (.*)" replace="📋 $1: $2">pcep.error.value</param>
   </tcp-message>
 
   <!-- PCEP Close -->
   <tcp-message style="magenta">
-    <opcode regex-match="Message Type: (Close) \(\d+\)" regex-replace="🛑 PCEP $1">pcep.msg</opcode>
+    <opcode match="Message Type: (Close) \(\d+\)" replace="🛑 PCEP $1">pcep.msg</opcode>
   </tcp-message>
 
   <!-- PCEP generic fallback -->
   <tcp-message style="steel-blue">
-    <opcode regex-match="Message Type: (?:.*\((\w+)\)|(\w+)) \(\d+\)" regex-replace="🔄 PCEP $1$2">pcep.msg</opcode>
-    <param regex-match=".*PLSP-ID: (\d+)" regex-replace="🆔 PLSP-ID: $1">pcep.obj.lsp.plsp-id</param>
+    <opcode match="Message Type: (?:.*\((\w+)\)|(\w+)) \(\d+\)" replace="🔄 PCEP $1$2">pcep.msg</opcode>
+    <param match=".*PLSP-ID: (\d+)" replace="🆔 PLSP-ID: $1">pcep.obj.lsp.plsp-id</param>
   </tcp-message>
 
   <!-- ============================================================
@@ -101,44 +101,44 @@ Emoji story for SR lifecycle:
 
   <!-- BGP OPEN -->
   <tcp-message style="forest-green">
-    <opcode regex-match="Type: (OPEN) Message \(\d+\)" regex-replace="🤝 BGP $1">bgp.type</opcode>
-    <param regex-match="(BGP Identifier): (.*)" regex-replace="🆔 $1: $2">bgp.open.identifier</param>
-    <param regex-match="(My AS): (.*)" regex-replace="🌐 $1: $2">bgp.open.myas</param>
-    <param regex-match="(Hold Time): (.*)" regex-replace="⏱ $1: $2">bgp.open.holdtime</param>
+    <opcode match="Type: (OPEN) Message \(\d+\)" replace="🤝 BGP $1">bgp.type</opcode>
+    <param match="(BGP Identifier): (.*)" replace="🆔 $1: $2">bgp.open.identifier</param>
+    <param match="(My AS): (.*)" replace="🌐 $1: $2">bgp.open.myas</param>
+    <param match="(Hold Time): (.*)" replace="⏱ $1: $2">bgp.open.holdtime</param>
     <param>bgp.cap.mp.afi</param>
     <param>bgp.cap.mp.safi</param>
   </tcp-message>
 
   <!-- BGP UPDATE -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="Type: (UPDATE) Message \(\d+\)" regex-replace="📢 BGP $1">bgp.type</opcode>
+    <opcode match="Type: (UPDATE) Message \(\d+\)" replace="📢 BGP $1">bgp.type</opcode>
     <param>bgp.update.path_attribute.origin</param>
     <param>bgp.update.path_attribute.local_pref</param>
-    <param regex-match="(Next Hop): (.*)" regex-replace="🌐 $1: $2">bgp.update.path_attribute.mp_reach_nlri.next_hop</param>
-    <param regex-match="(NLRI Type): (.*)" regex-replace="📋 $1: $2">bgp.ls.nlri_type</param>
-    <param regex-match="(Node Name): (.*)" regex-replace="🏷 $1: $2">bgp.ls.tlv.node_name_value</param>
-    <param regex-match="(IP Reachability.*Prefix IP): (.*)" regex-replace="🌐 $1: $2">bgp.ls.nlri_ip_reachability_prefix_ip</param>
-    <param regex-match=".*SID/Label: (\d+)" regex-replace="🏷 Prefix SID: $1">bgp.ls.sr.tlv.prefix.sid.label</param>
-    <param regex-match=".*SID/Label: (\d+)" regex-replace="🏷 Adj SID: $1">bgp.ls.sr.tlv.adjacency.sid.label</param>
-    <param regex-match="(Range Size): (.*)" regex-replace="📏 $1: $2">bgp.ls.sr.tlv.capabilities.range_size</param>
-    <param regex-match=".*From Label: (\d+)" regex-replace="🏷 SRGB Base: $1">bgp.ls.sr.tlv.capabilities.sid.label</param>
+    <param match="(Next Hop): (.*)" replace="🌐 $1: $2">bgp.update.path_attribute.mp_reach_nlri.next_hop</param>
+    <param match="(NLRI Type): (.*)" replace="📋 $1: $2">bgp.ls.nlri_type</param>
+    <param match="(Node Name): (.*)" replace="🏷 $1: $2">bgp.ls.tlv.node_name_value</param>
+    <param match="(IP Reachability.*Prefix IP): (.*)" replace="🌐 $1: $2">bgp.ls.nlri_ip_reachability_prefix_ip</param>
+    <param match=".*SID/Label: (\d+)" replace="🏷 Prefix SID: $1">bgp.ls.sr.tlv.prefix.sid.label</param>
+    <param match=".*SID/Label: (\d+)" replace="🏷 Adj SID: $1">bgp.ls.sr.tlv.adjacency.sid.label</param>
+    <param match="(Range Size): (.*)" replace="📏 $1: $2">bgp.ls.sr.tlv.capabilities.range_size</param>
+    <param match=".*From Label: (\d+)" replace="🏷 SRGB Base: $1">bgp.ls.sr.tlv.capabilities.sid.label</param>
   </tcp-message>
 
   <!-- BGP NOTIFICATION -->
   <tcp-message style="crimson">
-    <opcode regex-match="Type: (NOTIFICATION) Message \(\d+\)" regex-replace="🚨 BGP $1">bgp.type</opcode>
-    <param regex-match="(Major Error Code): (.*)" regex-replace="📋 $1: $2">bgp.notification.major_error</param>
-    <param regex-match="(Minor Error Code): (.*)" regex-replace="📋 $1: $2">bgp.notification.minor_error</param>
+    <opcode match="Type: (NOTIFICATION) Message \(\d+\)" replace="🚨 BGP $1">bgp.type</opcode>
+    <param match="(Major Error Code): (.*)" replace="📋 $1: $2">bgp.notification.major_error</param>
+    <param match="(Minor Error Code): (.*)" replace="📋 $1: $2">bgp.notification.minor_error</param>
   </tcp-message>
 
   <!-- BGP KEEPALIVE -->
   <tcp-message style="sea-green dashed">
-    <opcode regex-match="Type: (KEEPALIVE) Message \(\d+\)" regex-replace="💓 BGP $1">bgp.type</opcode>
+    <opcode match="Type: (KEEPALIVE) Message \(\d+\)" replace="💓 BGP $1">bgp.type</opcode>
   </tcp-message>
 
   <!-- BGP generic fallback -->
   <tcp-message style="goldenrod">
-    <opcode regex-match="Type: (.*) Message \(\d+\)" regex-replace="🔄 BGP $1">bgp.type</opcode>
+    <opcode match="Type: (.*) Message \(\d+\)" replace="🔄 BGP $1">bgp.type</opcode>
   </tcp-message>
 
   <!-- ============================================================
@@ -147,47 +147,47 @@ Emoji story for SR lifecycle:
 
   <!-- IS-IS Hello (L1/L2/P2P) -->
   <mac-message style="sea-green">
-    <opcode regex-match=".*PDU Type: ((?:L[12]|P2P) HELLO) \(\d+\)" regex-replace="👋 IS-IS $1">isis.type</opcode>
-    <param regex-match="(Source ID): (.*)" regex-replace="🆔 $1: $2">isis.hello.source_id</param>
-    <param regex-match="(Area Address): (.*)" regex-replace="🌐 $1: $2">isis.hello.area_address</param>
-    <param regex-match="(Holding Timer): (.*)" regex-replace="⏱ $1: $2">isis.hello.holding_timer</param>
-    <param regex-match="(IPv4 Interface Address): (.*)" regex-replace="🌐 $1: $2">isis.hello.clv_ipv4_int_addr</param>
-    <param regex-match="(IPv6 Interface Address): (.*)" regex-replace="🌐 $1: $2">isis.hello.clv_ipv6_int_addr</param>
-    <param regex-match=".*Priority: (\d+)" regex-replace="🏆 Priority: $1">isis.hello.priority</param>
-    <param regex-match="(LAN ID): (.*)" regex-replace="🔗 $1: $2">isis.hello.lan_id</param>
-    <param regex-match="(Adjacency State): (.*)" regex-replace="🔄 $1: $2">isis.hello.adjacency_state</param>
+    <opcode match=".*PDU Type: ((?:L[12]|P2P) HELLO) \(\d+\)" replace="👋 IS-IS $1">isis.type</opcode>
+    <param match="(Source ID): (.*)" replace="🆔 $1: $2">isis.hello.source_id</param>
+    <param match="(Area Address): (.*)" replace="🌐 $1: $2">isis.hello.area_address</param>
+    <param match="(Holding Timer): (.*)" replace="⏱ $1: $2">isis.hello.holding_timer</param>
+    <param match="(IPv4 Interface Address): (.*)" replace="🌐 $1: $2">isis.hello.clv_ipv4_int_addr</param>
+    <param match="(IPv6 Interface Address): (.*)" replace="🌐 $1: $2">isis.hello.clv_ipv6_int_addr</param>
+    <param match=".*Priority: (\d+)" replace="🏆 Priority: $1">isis.hello.priority</param>
+    <param match="(LAN ID): (.*)" replace="🔗 $1: $2">isis.hello.lan_id</param>
+    <param match="(Adjacency State): (.*)" replace="🔄 $1: $2">isis.hello.adjacency_state</param>
   </mac-message>
 
   <!-- IS-IS LSP -->
   <mac-message style="amethyst">
-    <opcode regex-match=".*PDU Type: (L[12] LSP) \(\d+\)" regex-replace="📢 IS-IS $1">isis.type</opcode>
-    <param regex-match="(LSP ID): (.*)" regex-replace="🆔 $1: $2">isis.lsp.lsp_id</param>
-    <param regex-match="(Hostname): (.*)" regex-replace="🏷 $1: $2">isis.lsp.hostname</param>
-    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">isis.lsp.sequence_number</param>
-    <param regex-match="(TE Router ID): (.*)" regex-replace="🌐 $1: $2">isis.lsp.clv_te_router_id</param>
-    <param regex-match="(IPv4 prefix): (.*)" regex-replace="🌐 $1: $2">isis.lsp.ext_ip_reachability.ipv4_prefix</param>
-    <param regex-match="(IS Neighbor ID): (.*)" regex-replace="🔗 $1: $2">isis.lsp.ext_is_reachability.is_neighbor_id</param>
-    <param regex-match="(SR Cap.*Label): (.*)" regex-replace="🏷 SRGB: $2">isis.lsp.sr_cap.label</param>
-    <param regex-match=".*SID/Label/Index: (\S+)" regex-replace="🏷 Prefix SID: $1">isis.lsp.sid.sli_index</param>
+    <opcode match=".*PDU Type: (L[12] LSP) \(\d+\)" replace="📢 IS-IS $1">isis.type</opcode>
+    <param match="(LSP ID): (.*)" replace="🆔 $1: $2">isis.lsp.lsp_id</param>
+    <param match="(Hostname): (.*)" replace="🏷 $1: $2">isis.lsp.hostname</param>
+    <param match="(Sequence Number): (.*)" replace="🔢 $1: $2">isis.lsp.sequence_number</param>
+    <param match="(TE Router ID): (.*)" replace="🌐 $1: $2">isis.lsp.clv_te_router_id</param>
+    <param match="(IPv4 prefix): (.*)" replace="🌐 $1: $2">isis.lsp.ext_ip_reachability.ipv4_prefix</param>
+    <param match="(IS Neighbor ID): (.*)" replace="🔗 $1: $2">isis.lsp.ext_is_reachability.is_neighbor_id</param>
+    <param match="(SR Cap.*Label): (.*)" replace="🏷 SRGB: $2">isis.lsp.sr_cap.label</param>
+    <param match=".*SID/Label/Index: (\S+)" replace="🏷 Prefix SID: $1">isis.lsp.sid.sli_index</param>
   </mac-message>
 
   <!-- IS-IS CSNP -->
   <mac-message style="cerulean">
-    <opcode regex-match=".*PDU Type: (L[12] CSNP) \(\d+\)" regex-replace="📋 IS-IS $1">isis.type</opcode>
-    <param regex-match="(Source ID): (.*)" regex-replace="🆔 $1: $2">isis.csnp.source_id</param>
+    <opcode match=".*PDU Type: (L[12] CSNP) \(\d+\)" replace="📋 IS-IS $1">isis.type</opcode>
+    <param match="(Source ID): (.*)" replace="🆔 $1: $2">isis.csnp.source_id</param>
     <param>isis.csnp.lsp_id</param>
     <param>isis.csnp.lsp_seq_num</param>
   </mac-message>
 
   <!-- IS-IS PSNP -->
   <mac-message style="teal">
-    <opcode regex-match=".*PDU Type: (L[12] PSNP) \(\d+\)" regex-replace="🔍 IS-IS $1">isis.type</opcode>
-    <param regex-match="(Source ID): (.*)" regex-replace="🆔 $1: $2">isis.psnp.source_id</param>
+    <opcode match=".*PDU Type: (L[12] PSNP) \(\d+\)" replace="🔍 IS-IS $1">isis.type</opcode>
+    <param match="(Source ID): (.*)" replace="🆔 $1: $2">isis.psnp.source_id</param>
   </mac-message>
 
   <!-- IS-IS generic fallback -->
   <mac-message style="crimson">
-    <opcode regex-match=".*PDU Type: (.*) \(\d+\)" regex-replace="🔄 IS-IS $1">isis.type</opcode>
+    <opcode match=".*PDU Type: (.*) \(\d+\)" replace="🔄 IS-IS $1">isis.type</opcode>
   </mac-message>
 
   <!-- ============================================================
@@ -196,55 +196,55 @@ Emoji story for SR lifecycle:
 
   <!-- OSPF Hello -->
   <ip-message style="sea-green">
-    <opcode regex-match="Message Type: (Hello Packet) \(\d+\)" regex-replace="👋 OSPF $1">ospf.msg</opcode>
-    <param regex-match="(Source OSPF Router): (.*)" regex-replace="🆔 $1: $2">ospf.srcrouter</param>
-    <param regex-match="(Area ID): (.*)" regex-replace="🌐 $1: $2">ospf.area_id</param>
-    <param regex-match="(Designated Router): (.*)" regex-replace="🏆 $1: $2">ospf.hello.designated_router</param>
-    <param regex-match="(Backup Designated Router): (.*)" regex-replace="🏆 $1: $2">ospf.hello.backup_designated_router</param>
-    <param regex-match="(Active Neighbor): (.*)" regex-replace="🔗 $1: $2">ospf.hello.active_neighbor</param>
+    <opcode match="Message Type: (Hello Packet) \(\d+\)" replace="👋 OSPF $1">ospf.msg</opcode>
+    <param match="(Source OSPF Router): (.*)" replace="🆔 $1: $2">ospf.srcrouter</param>
+    <param match="(Area ID): (.*)" replace="🌐 $1: $2">ospf.area_id</param>
+    <param match="(Designated Router): (.*)" replace="🏆 $1: $2">ospf.hello.designated_router</param>
+    <param match="(Backup Designated Router): (.*)" replace="🏆 $1: $2">ospf.hello.backup_designated_router</param>
+    <param match="(Active Neighbor): (.*)" replace="🔗 $1: $2">ospf.hello.active_neighbor</param>
   </ip-message>
 
   <!-- OSPF DB Description -->
   <ip-message style="royal-blue">
-    <opcode regex-match="Message Type: (DB Description) \(\d+\)" regex-replace="📋 OSPF $1">ospf.msg</opcode>
-    <param regex-match="(Source OSPF Router): (.*)" regex-replace="🆔 $1: $2">ospf.srcrouter</param>
-    <param regex-match="(Area ID): (.*)" regex-replace="🌐 $1: $2">ospf.area_id</param>
+    <opcode match="Message Type: (DB Description) \(\d+\)" replace="📋 OSPF $1">ospf.msg</opcode>
+    <param match="(Source OSPF Router): (.*)" replace="🆔 $1: $2">ospf.srcrouter</param>
+    <param match="(Area ID): (.*)" replace="🌐 $1: $2">ospf.area_id</param>
     <param>ospf.dbd</param>
     <param>ospf.lsa</param>
   </ip-message>
 
   <!-- OSPF LS Update -->
   <ip-message style="amethyst">
-    <opcode regex-match="Message Type: (LS Update) \(\d+\)" regex-replace="📢 OSPF $1">ospf.msg</opcode>
-    <param regex-match="(Source OSPF Router): (.*)" regex-replace="🆔 $1: $2">ospf.srcrouter</param>
-    <param regex-match="(Area ID): (.*)" regex-replace="🌐 $1: $2">ospf.area_id</param>
-    <param regex-match="(Number of LSAs): (.*)" regex-replace="🔢 $1: $2">ospf.ls.number_of_lsas</param>
+    <opcode match="Message Type: (LS Update) \(\d+\)" replace="📢 OSPF $1">ospf.msg</opcode>
+    <param match="(Source OSPF Router): (.*)" replace="🆔 $1: $2">ospf.srcrouter</param>
+    <param match="(Area ID): (.*)" replace="🌐 $1: $2">ospf.area_id</param>
+    <param match="(Number of LSAs): (.*)" replace="🔢 $1: $2">ospf.ls.number_of_lsas</param>
     <param>ospf.lsa</param>
-    <param regex-match="(Advertising Router): (.*)" regex-replace="🆔 $1: $2">ospf.advrouter</param>
+    <param match="(Advertising Router): (.*)" replace="🆔 $1: $2">ospf.advrouter</param>
     <param>ospf.lsid_opaque_type</param>
   </ip-message>
 
   <!-- OSPF LS Request -->
   <ip-message style="goldenrod">
-    <opcode regex-match="Message Type: (LS Request) \(\d+\)" regex-replace="🔍 OSPF $1">ospf.msg</opcode>
-    <param regex-match="(Source OSPF Router): (.*)" regex-replace="🆔 $1: $2">ospf.srcrouter</param>
-    <param regex-match="(Area ID): (.*)" regex-replace="🌐 $1: $2">ospf.area_id</param>
+    <opcode match="Message Type: (LS Request) \(\d+\)" replace="🔍 OSPF $1">ospf.msg</opcode>
+    <param match="(Source OSPF Router): (.*)" replace="🆔 $1: $2">ospf.srcrouter</param>
+    <param match="(Area ID): (.*)" replace="🌐 $1: $2">ospf.area_id</param>
     <param>ospf.lsa</param>
   </ip-message>
 
   <!-- OSPF LS Acknowledge -->
   <ip-message style="teal">
-    <opcode regex-match="Message Type: (LS Acknowledge) \(\d+\)" regex-replace="✅ OSPF $1">ospf.msg</opcode>
-    <param regex-match="(Source OSPF Router): (.*)" regex-replace="🆔 $1: $2">ospf.srcrouter</param>
-    <param regex-match="(Area ID): (.*)" regex-replace="🌐 $1: $2">ospf.area_id</param>
+    <opcode match="Message Type: (LS Acknowledge) \(\d+\)" replace="✅ OSPF $1">ospf.msg</opcode>
+    <param match="(Source OSPF Router): (.*)" replace="🆔 $1: $2">ospf.srcrouter</param>
+    <param match="(Area ID): (.*)" replace="🌐 $1: $2">ospf.area_id</param>
     <param>ospf.lsa</param>
   </ip-message>
 
   <!-- OSPF generic fallback -->
   <ip-message style="crimson">
-    <opcode regex-match="Message Type: (.*) \(\d+\)" regex-replace="🔄 OSPF $1">ospf.msg</opcode>
-    <param regex-match="(Source OSPF Router): (.*)" regex-replace="🆔 $1: $2">ospf.srcrouter</param>
-    <param regex-match="(Area ID): (.*)" regex-replace="🌐 $1: $2">ospf.area_id</param>
+    <opcode match="Message Type: (.*) \(\d+\)" replace="🔄 OSPF $1">ospf.msg</opcode>
+    <param match="(Source OSPF Router): (.*)" replace="🆔 $1: $2">ospf.srcrouter</param>
+    <param match="(Area ID): (.*)" replace="🌐 $1: $2">ospf.area_id</param>
   </ip-message>
 
   <!-- ============================================================
@@ -253,19 +253,19 @@ Emoji story for SR lifecycle:
 
   <!-- MPLS Echo Request -->
   <udp-message style="royal-blue">
-    <opcode regex-match="Message Type: (MPLS Echo Request) \(\d+\)" regex-replace="📡 $1">mpls_echo.msg_type</opcode>
+    <opcode match="Message Type: (MPLS Echo Request) \(\d+\)" replace="📡 $1">mpls_echo.msg_type</opcode>
     <param>mpls_echo.reply_mode</param>
-    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">mpls_echo.sequence</param>
+    <param match="(Sequence Number): (.*)" replace="🔢 $1: $2">mpls_echo.sequence</param>
     <param>mpls_echo.tlv.fec.type</param>
     <param>mpls_echo.tlv.fec.nil_label</param>
   </udp-message>
 
   <!-- MPLS Echo Reply -->
   <udp-message style="forest-green">
-    <opcode regex-match="Message Type: (MPLS Echo Reply) \(\d+\)" regex-replace="✅ $1">mpls_echo.msg_type</opcode>
-    <param regex-match="(Return Code): (.*)" regex-replace="📋 $1: $2">mpls_echo.return_code</param>
+    <opcode match="Message Type: (MPLS Echo Reply) \(\d+\)" replace="✅ $1">mpls_echo.msg_type</opcode>
+    <param match="(Return Code): (.*)" replace="📋 $1: $2">mpls_echo.return_code</param>
     <param>mpls_echo.return_subcode</param>
-    <param regex-match="(Sequence Number): (.*)" regex-replace="🔢 $1: $2">mpls_echo.sequence</param>
+    <param match="(Sequence Number): (.*)" replace="🔢 $1: $2">mpls_echo.sequence</param>
   </udp-message>
 
   <!-- ============================================================
@@ -273,11 +273,11 @@ Emoji story for SR lifecycle:
        ============================================================ -->
 
   <ip-message style="goldenrod">
-    <opcode regex-match=".*MPLS Label: (.+?) \(.*" regex-replace="🏷 MPLS Label $1">mpls.label</opcode>
-    <param regex-match=".*MPLS TTL: (\d+)" regex-replace="⏳ MPLS TTL: $1">mpls.ttl</param>
-    <param regex-match=".*Bottom Of Label Stack: (\d)" regex-replace="📦 Bottom: $1">mpls.bottom</param>
-    <param regex-match=".*Experimental Bits: (\d+)" regex-replace="🔧 EXP: $1">mpls.exp</param>
-    <param regex-match="Type: (.*) \(\d+\)" regex-replace="📦 Inner: $1">icmp.type</param>
+    <opcode match=".*MPLS Label: (.+?) \(.*" replace="🏷 MPLS Label $1">mpls.label</opcode>
+    <param match=".*MPLS TTL: (\d+)" replace="⏳ MPLS TTL: $1">mpls.ttl</param>
+    <param match=".*Bottom Of Label Stack: (\d)" replace="📦 Bottom: $1">mpls.bottom</param>
+    <param match=".*Experimental Bits: (\d+)" replace="🔧 EXP: $1">mpls.exp</param>
+    <param match="Type: (.*) \(\d+\)" replace="📦 Inner: $1">icmp.type</param>
   </ip-message>
 
   <!-- ============================================================
@@ -285,22 +285,22 @@ Emoji story for SR lifecycle:
        ============================================================ -->
 
   <ip-message style="royal-blue">
-    <opcode display="brief" regex-match="^8$" regex-replace="📡 ICMP Echo Request">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <opcode display="brief" match="^8$" replace="📡 ICMP Echo Request">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
   </ip-message>
 
   <ip-message style="forest-green">
-    <opcode display="brief" regex-match="^0$" regex-replace="✅ ICMP Echo Reply">icmp.type</opcode>
-    <param regex-match="(Identifier.*): (.*)" regex-replace="🆔 $1: $2">icmp.ident</param>
-    <param regex-match="(Sequence Number.*): (.*)" regex-replace="🔢 $1: $2">icmp.seq</param>
+    <opcode display="brief" match="^0$" replace="✅ ICMP Echo Reply">icmp.type</opcode>
+    <param match="(Identifier.*): (.*)" replace="🆔 $1: $2">icmp.ident</param>
+    <param match="(Sequence Number.*): (.*)" replace="🔢 $1: $2">icmp.seq</param>
     <param>icmp.resp_to</param>
-    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmp.resptime</param>
+    <param match="(Response time): (.*)" replace="⏱ $1: $2">icmp.resptime</param>
   </ip-message>
 
   <ip-message style="steel-blue">
-    <opcode display="brief" regex-match="^(.+)$" regex-replace="🔵 ICMP Type $1">icmp.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmp.code</param>
+    <opcode display="brief" match="^(.+)$" replace="🔵 ICMP Type $1">icmp.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmp.code</param>
   </ip-message>
 
   <!-- ============================================================
@@ -308,17 +308,17 @@ Emoji story for SR lifecycle:
        ============================================================ -->
 
   <ipv6-message style="royal-blue">
-    <opcode display="brief" regex-match="^128$" regex-replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <opcode display="brief" match="^128$" replace="📡 ICMPv6 Echo Request">icmpv6.type</opcode>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
   </ipv6-message>
 
   <ipv6-message style="forest-green">
-    <opcode display="brief" regex-match="^129$" regex-replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <opcode display="brief" match="^129$" replace="✅ ICMPv6 Echo Reply">icmpv6.type</opcode>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
     <param>icmpv6.resp_to</param>
-    <param regex-match="(Response time): (.*)" regex-replace="⏱ $1: $2">icmpv6.resptime</param>
+    <param match="(Response time): (.*)" replace="⏱ $1: $2">icmpv6.resptime</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -326,9 +326,9 @@ Emoji story for SR lifecycle:
        ============================================================ -->
 
   <tcp-message style="steel-blue">
-    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
-    <param regex-match="(Source Port): (.*)" regex-replace="📤 $1: $2">tcp.srcport</param>
-    <param regex-match="(Destination Port): (.*)" regex-replace="📥 $1: $2">tcp.dstport</param>
+    <opcode match=".*Flags:.*\((.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <param match="(Source Port): (.*)" replace="📤 $1: $2">tcp.srcport</param>
+    <param match="(Destination Port): (.*)" replace="📥 $1: $2">tcp.dstport</param>
   </tcp-message>
 
 </FXT>

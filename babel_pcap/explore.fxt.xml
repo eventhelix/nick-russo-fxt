@@ -4,66 +4,66 @@
 
   <!-- Babel over IPv4 -->
   <udp-message style="royal-blue">
-    <opcode regex-match="Message Type: (hello).*" regex-replace="👋 Babel Hello">babel.message.type</opcode>
-    <param regex-match="(Seqno): (.*)" regex-replace="🔢 $1: $2">babel.message.seqno</param>
+    <opcode match="Message Type: (hello).*" replace="👋 Babel Hello">babel.message.type</opcode>
+    <param match="(Seqno): (.*)" replace="🔢 $1: $2">babel.message.seqno</param>
     <param>babel.message.interval</param>
   </udp-message>
 
   <udp-message style="forest-green">
-    <opcode regex-match="Message Type: (ihu).*" regex-replace="👂 Babel IHU">babel.message.type</opcode>
-    <param regex-match="(Rxcost): (.*)" regex-replace="📶 $1: $2">babel.message.rxcost</param>
+    <opcode match="Message Type: (ihu).*" replace="👂 Babel IHU">babel.message.type</opcode>
+    <param match="(Rxcost): (.*)" replace="📶 $1: $2">babel.message.rxcost</param>
     <param>babel.message.interval</param>
-    <param regex-match="(Raw Prefix): (.*)" regex-replace="🌐 $1: $2">babel.message.prefix</param>
+    <param match="(Raw Prefix): (.*)" replace="🌐 $1: $2">babel.message.prefix</param>
     <param>babel.message.plen</param>
   </udp-message>
 
   <udp-message style="goldenrod">
-    <opcode regex-match="Message Type: (update).*" regex-replace="📢 Babel Update">babel.message.type</opcode>
-    <param regex-match="(Raw Prefix): (.*)" regex-replace="🌐 $1: $2">babel.message.prefix</param>
+    <opcode match="Message Type: (update).*" replace="📢 Babel Update">babel.message.type</opcode>
+    <param match="(Raw Prefix): (.*)" replace="🌐 $1: $2">babel.message.prefix</param>
     <param>babel.message.plen</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">babel.message.metric</param>
-    <param regex-match="(Seqno): (.*)" regex-replace="🔢 $1: $2">babel.message.seqno</param>
-    <param regex-match="(Router ID): (.*)" regex-replace="🆔 $1: $2">babel.message.routerid</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">babel.message.metric</param>
+    <param match="(Seqno): (.*)" replace="🔢 $1: $2">babel.message.seqno</param>
+    <param match="(Router ID): (.*)" replace="🆔 $1: $2">babel.message.routerid</param>
   </udp-message>
 
   <udp-message style="steel-blue">
-    <opcode regex-match="Message Type: (.*).*" regex-replace="📨 Babel $1">babel.message.type</opcode>
-    <param regex-match="(Raw Prefix): (.*)" regex-replace="🌐 $1: $2">babel.message.prefix</param>
+    <opcode match="Message Type: (.*).*" replace="📨 Babel $1">babel.message.type</opcode>
+    <param match="(Raw Prefix): (.*)" replace="🌐 $1: $2">babel.message.prefix</param>
     <param>babel.message.plen</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">babel.message.metric</param>
-    <param regex-match="(Seqno): (.*)" regex-replace="🔢 $1: $2">babel.message.seqno</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">babel.message.metric</param>
+    <param match="(Seqno): (.*)" replace="🔢 $1: $2">babel.message.seqno</param>
   </udp-message>
 
   <!-- Babel over IPv6 -->
   <udpv6-message style="royal-blue">
-    <opcode regex-match="Message Type: (hello).*" regex-replace="👋 Babel Hello">babel.message.type</opcode>
-    <param regex-match="(Seqno): (.*)" regex-replace="🔢 $1: $2">babel.message.seqno</param>
+    <opcode match="Message Type: (hello).*" replace="👋 Babel Hello">babel.message.type</opcode>
+    <param match="(Seqno): (.*)" replace="🔢 $1: $2">babel.message.seqno</param>
     <param>babel.message.interval</param>
   </udpv6-message>
 
   <udpv6-message style="forest-green">
-    <opcode regex-match="Message Type: (ihu).*" regex-replace="👂 Babel IHU">babel.message.type</opcode>
-    <param regex-match="(Rxcost): (.*)" regex-replace="📶 $1: $2">babel.message.rxcost</param>
+    <opcode match="Message Type: (ihu).*" replace="👂 Babel IHU">babel.message.type</opcode>
+    <param match="(Rxcost): (.*)" replace="📶 $1: $2">babel.message.rxcost</param>
     <param>babel.message.interval</param>
-    <param regex-match="(Raw Prefix): (.*)" regex-replace="🌐 $1: $2">babel.message.prefix</param>
+    <param match="(Raw Prefix): (.*)" replace="🌐 $1: $2">babel.message.prefix</param>
     <param>babel.message.plen</param>
   </udpv6-message>
 
   <udpv6-message style="goldenrod">
-    <opcode regex-match="Message Type: (update).*" regex-replace="📢 Babel Update">babel.message.type</opcode>
-    <param regex-match="(Raw Prefix): (.*)" regex-replace="🌐 $1: $2">babel.message.prefix</param>
+    <opcode match="Message Type: (update).*" replace="📢 Babel Update">babel.message.type</opcode>
+    <param match="(Raw Prefix): (.*)" replace="🌐 $1: $2">babel.message.prefix</param>
     <param>babel.message.plen</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">babel.message.metric</param>
-    <param regex-match="(Seqno): (.*)" regex-replace="🔢 $1: $2">babel.message.seqno</param>
-    <param regex-match="(Router ID): (.*)" regex-replace="🆔 $1: $2">babel.message.routerid</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">babel.message.metric</param>
+    <param match="(Seqno): (.*)" replace="🔢 $1: $2">babel.message.seqno</param>
+    <param match="(Router ID): (.*)" replace="🆔 $1: $2">babel.message.routerid</param>
   </udpv6-message>
 
   <udpv6-message style="steel-blue">
-    <opcode regex-match="Message Type: (.*).*" regex-replace="📨 Babel $1">babel.message.type</opcode>
-    <param regex-match="(Raw Prefix): (.*)" regex-replace="🌐 $1: $2">babel.message.prefix</param>
+    <opcode match="Message Type: (.*).*" replace="📨 Babel $1">babel.message.type</opcode>
+    <param match="(Raw Prefix): (.*)" replace="🌐 $1: $2">babel.message.prefix</param>
     <param>babel.message.plen</param>
-    <param regex-match="(Metric): (.*)" regex-replace="📏 $1: $2">babel.message.metric</param>
-    <param regex-match="(Seqno): (.*)" regex-replace="🔢 $1: $2">babel.message.seqno</param>
+    <param match="(Metric): (.*)" replace="📏 $1: $2">babel.message.metric</param>
+    <param match="(Seqno): (.*)" replace="🔢 $1: $2">babel.message.seqno</param>
   </udpv6-message>
 
 </FXT>

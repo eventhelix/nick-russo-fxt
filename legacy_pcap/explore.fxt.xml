@@ -4,9 +4,9 @@
 
   <!-- IPX RIP (most specific, matched first) -->
   <mac-message style="amethyst">
-    <opcode regex-match="RIP packet type: (.*) \(\d+\)" regex-replace="📢 IPX RIP $1">ipxrip.packet_type</opcode>
-    <param regex-match="(Source Address): (.*)" regex-replace="🌐 $1: $2">ipx.src</param>
-    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">ipx.dst</param>
+    <opcode match="RIP packet type: (.*) \(\d+\)" replace="📢 IPX RIP $1">ipxrip.packet_type</opcode>
+    <param match="(Source Address): (.*)" replace="🌐 $1: $2">ipx.src</param>
+    <param match="(Destination Address): (.*)" replace="🎯 $1: $2">ipx.dst</param>
     <param>ipxrip.route_vector</param>
     <param>ipxrip.hops</param>
     <param>ipxrip.ticks</param>
@@ -14,24 +14,24 @@
 
   <!-- IPX SAP -->
   <mac-message style="amethyst">
-    <opcode regex-match="SAP packet type: (.*) \(\d+\)" regex-replace="🔍 IPX SAP $1">ipxsap.packet_type</opcode>
-    <param regex-match="(Source Address): (.*)" regex-replace="🌐 $1: $2">ipx.src</param>
-    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">ipx.dst</param>
+    <opcode match="SAP packet type: (.*) \(\d+\)" replace="🔍 IPX SAP $1">ipxsap.packet_type</opcode>
+    <param match="(Source Address): (.*)" replace="🌐 $1: $2">ipx.src</param>
+    <param match="(Destination Address): (.*)" replace="🎯 $1: $2">ipx.dst</param>
     <param>ipxsap.server.type</param>
   </mac-message>
 
   <!-- IPX (fallback for unmatched packet types) -->
   <mac-message style="amethyst">
-    <opcode regex-match="Packet Type: (.*)" regex-replace="📨 IPX $1">ipx.packet_type</opcode>
-    <param regex-match="(Source Address): (.*)" regex-replace="🌐 $1: $2">ipx.src</param>
-    <param regex-match="(Destination Address): (.*)" regex-replace="🎯 $1: $2">ipx.dst</param>
+    <opcode match="Packet Type: (.*)" replace="📨 IPX $1">ipx.packet_type</opcode>
+    <param match="(Source Address): (.*)" replace="🌐 $1: $2">ipx.src</param>
+    <param match="(Destination Address): (.*)" replace="🎯 $1: $2">ipx.dst</param>
     <param>ipx.src.socket</param>
     <param>ipx.dst.socket</param>
   </mac-message>
 
   <!-- AARP - AppleTalk Address Resolution Protocol -->
   <mac-message style="goldenrod">
-    <opcode regex-match="Opcode: (.*) \(\d+\)" regex-replace="🔍 AARP $1">aarp.opcode</opcode>
+    <opcode match="Opcode: (.*) \(\d+\)" replace="🔍 AARP $1">aarp.opcode</opcode>
     <param>aarp.src.proto_id</param>
     <param>aarp.dst.proto_id</param>
     <param>aarp.src.hw_mac</param>
@@ -39,7 +39,7 @@
 
   <!-- RTMP - AppleTalk Routing Table Maintenance Protocol -->
   <mac-message style="goldenrod">
-    <opcode regex-match="Function: (.*) \(\d+\)" regex-replace="📢 RTMP $1">rtmp.function</opcode>
+    <opcode match="Function: (.*) \(\d+\)" replace="📢 RTMP $1">rtmp.function</opcode>
     <param>llap.src</param>
     <param>llap.dst</param>
     <param>ddp.type</param>
@@ -47,7 +47,7 @@
 
   <!-- AppleTalk DDP (fallback for unmatched DDP types) -->
   <mac-message style="goldenrod">
-    <opcode regex-match="Protocol type: (.*) \(\d+\)" regex-replace="🍎 DDP $1">ddp.type</opcode>
+    <opcode match="Protocol type: (.*) \(\d+\)" replace="🍎 DDP $1">ddp.type</opcode>
     <param>ddp.src.net</param>
     <param>ddp.dst.net</param>
     <param>ddp.src.node</param>
@@ -58,26 +58,26 @@
 
   <!-- DECnet NSP (session layer, more specific - matched first) -->
   <mac-message style="royal-blue">
-    <opcode regex-match="DNA NSP message: (.*) \(0x\w+\)" regex-replace="🔗 DECnet NSP $1">dec_dna.nsp.msg_type</opcode>
-    <param regex-match="(Transmitting system ID): (.*)" regex-replace="🆔 $1: $2">dec_dna.src_node</param>
-    <param regex-match="(Destination system ID): (.*)" regex-replace="🎯 $1: $2">dec_dna.dst_node</param>
+    <opcode match="DNA NSP message: (.*) \(0x\w+\)" replace="🔗 DECnet NSP $1">dec_dna.nsp.msg_type</opcode>
+    <param match="(Transmitting system ID): (.*)" replace="🆔 $1: $2">dec_dna.src_node</param>
+    <param match="(Destination system ID): (.*)" replace="🎯 $1: $2">dec_dna.dst_node</param>
     <param>dec_dna.nsp.disc_reason</param>
   </mac-message>
 
   <!-- DECnet Routing (control plane) -->
   <mac-message style="royal-blue">
-    <opcode regex-match=".*Routing control message: (.*) \(0x\w+\)" regex-replace="📢 DECnet $1">dec_dna.rt.msg_type</opcode>
+    <opcode match=".*Routing control message: (.*) \(0x\w+\)" replace="📢 DECnet $1">dec_dna.rt.msg_type</opcode>
     <param>dec_dna.ctl.id</param>
     <param>dec_dna.ctl.timer</param>
     <param>dec_dna.ctl.prio</param>
-    <param regex-match="(Router ID): (.*)" regex-replace="🆔 $1: $2">dec_dna.ctl.router_id</param>
+    <param match="(Router ID): (.*)" replace="🆔 $1: $2">dec_dna.ctl.router_id</param>
     <param>dec_dna.ctl.router_state</param>
     <param>dec_dna.ctl.segment</param>
   </mac-message>
 
   <!-- DLSw Capabilities Exchange -->
   <tcp-message style="steel-blue">
-    <opcode regex-match="Message Type: (Capabilities Exchange) \(0x\w+\)" regex-replace="🤝 DLSw $1">dlsw.message_type</opcode>
+    <opcode match="Message Type: (Capabilities Exchange) \(0x\w+\)" replace="🤝 DLSw $1">dlsw.message_type</opcode>
     <param>dlsw.capex_type</param>
     <param>dlsw.dlsw_version</param>
     <param>dlsw.initial_pacing_window</param>
@@ -87,9 +87,9 @@
 
   <!-- DLSw Data/Circuit messages -->
   <tcp-message style="steel-blue">
-    <opcode regex-match="Message Type: (.*) \(0x\w+\)" regex-replace="🌉 DLSw $1">dlsw.message_type</opcode>
-    <param regex-match="(Origin MAC Address): (.*)" regex-replace="🌐 $1: $2">dlsw.origin_mac_address</param>
-    <param regex-match="(Target MAC Address): (.*)" regex-replace="🎯 $1: $2">dlsw.target_mac_address</param>
+    <opcode match="Message Type: (.*) \(0x\w+\)" replace="🌉 DLSw $1">dlsw.message_type</opcode>
+    <param match="(Origin MAC Address): (.*)" replace="🌐 $1: $2">dlsw.origin_mac_address</param>
+    <param match="(Target MAC Address): (.*)" replace="🎯 $1: $2">dlsw.target_mac_address</param>
     <param>dlsw.origin_link_sap</param>
     <param>dlsw.target_link_sap</param>
     <param>dlsw.frame_direction</param>
@@ -98,54 +98,54 @@
 
   <!-- ES-IS: End System to Intermediate System -->
   <mac-message style="forest-green">
-    <opcode regex-match=".*PDU Type: (.*) \(\d+\)" regex-replace="👋 ES-IS $1">esis.type</opcode>
+    <opcode match=".*PDU Type: (.*) \(\d+\)" replace="👋 ES-IS $1">esis.type</opcode>
     <param>esis.net</param>
     <param>esis.htime</param>
   </mac-message>
 
   <!-- CLNP Echo Request -->
   <mac-message style="forest-green">
-    <opcode regex-match=".*Type: Echo Request.*" regex-replace="📡 CLNP Echo Request">clnp.cnf.type</opcode>
-    <param regex-match="(Source NSAP): (.*)" regex-replace="🌐 $1: $2">clnp.ssap</param>
-    <param regex-match="(Destination NSAP): (.*)" regex-replace="🎯 $1: $2">clnp.dsap</param>
+    <opcode match=".*Type: Echo Request.*" replace="📡 CLNP Echo Request">clnp.cnf.type</opcode>
+    <param match="(Source NSAP): (.*)" replace="🌐 $1: $2">clnp.ssap</param>
+    <param match="(Destination NSAP): (.*)" replace="🎯 $1: $2">clnp.dsap</param>
     <param>clnp.pdu.len</param>
   </mac-message>
 
   <!-- CLNP Echo Response -->
   <mac-message style="forest-green">
-    <opcode regex-match=".*Type: Echo Response.*" regex-replace="✅ CLNP Echo Response">clnp.cnf.type</opcode>
-    <param regex-match="(Source NSAP): (.*)" regex-replace="🌐 $1: $2">clnp.ssap</param>
-    <param regex-match="(Destination NSAP): (.*)" regex-replace="🎯 $1: $2">clnp.dsap</param>
+    <opcode match=".*Type: Echo Response.*" replace="✅ CLNP Echo Response">clnp.cnf.type</opcode>
+    <param match="(Source NSAP): (.*)" replace="🌐 $1: $2">clnp.ssap</param>
+    <param match="(Destination NSAP): (.*)" replace="🎯 $1: $2">clnp.dsap</param>
     <param>clnp.pdu.len</param>
   </mac-message>
 
   <!-- CLNP (fallback) -->
   <mac-message style="forest-green">
-    <opcode regex-match=".*" regex-replace="📨 CLNS">clnp.type</opcode>
+    <opcode match=".*" replace="📨 CLNS">clnp.type</opcode>
     <param>clnp.type</param>
-    <param regex-match="(Source NSAP): (.*)" regex-replace="🌐 $1: $2">clnp.ssap</param>
-    <param regex-match="(Destination NSAP): (.*)" regex-replace="🎯 $1: $2">clnp.dsap</param>
+    <param match="(Source NSAP): (.*)" replace="🌐 $1: $2">clnp.ssap</param>
+    <param match="(Destination NSAP): (.*)" replace="🎯 $1: $2">clnp.dsap</param>
   </mac-message>
 
   <!-- IS-IS (used in CLNS captures) -->
   <mac-message style="crimson">
-    <opcode regex-match=".*PDU Type: (.*) \(\d+\)" regex-replace="📢 IS-IS $1">isis.type</opcode>
-    <param regex-match="(SystemID.*): (.*)" regex-replace="🆔 $1: $2">isis.hello.source_id</param>
+    <opcode match=".*PDU Type: (.*) \(\d+\)" replace="📢 IS-IS $1">isis.type</opcode>
+    <param match="(SystemID.*): (.*)" replace="🆔 $1: $2">isis.hello.source_id</param>
     <param>isis.hello.area_address</param>
     <param>isis.hello.holding_timer</param>
-    <param regex-match="(LSP-ID): (.*)" regex-replace="🆔 $1: $2">isis.lsp.lsp_id</param>
-    <param regex-match="(Hostname): (.*)" regex-replace="🏷️ $1: $2">isis.lsp.hostname</param>
-    <param regex-match="(Sequence number): (.*)" regex-replace="🔢 $1: $2">isis.lsp.sequence_number</param>
-    <param regex-match="(Source-ID): (.*)" regex-replace="🆔 $1: $2">isis.csnp.source_id</param>
-    <param regex-match="(Source-ID): (.*)" regex-replace="🆔 $1: $2">isis.psnp.source_id</param>
+    <param match="(LSP-ID): (.*)" replace="🆔 $1: $2">isis.lsp.lsp_id</param>
+    <param match="(Hostname): (.*)" replace="🏷️ $1: $2">isis.lsp.hostname</param>
+    <param match="(Sequence number): (.*)" replace="🔢 $1: $2">isis.lsp.sequence_number</param>
+    <param match="(Source-ID): (.*)" replace="🆔 $1: $2">isis.csnp.source_id</param>
+    <param match="(Source-ID): (.*)" replace="🆔 $1: $2">isis.psnp.source_id</param>
   </mac-message>
 
   <!-- EIGRP for IPX -->
   <mac-message style="steel-blue">
-    <opcode regex-match="Opcode: (.*) \(\d+\)" regex-replace="📢 EIGRP $1">eigrp.opcode</opcode>
-    <param regex-match="(Autonomous System): (.*)" regex-replace="🆔 $1: $2">eigrp.as</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">eigrp.seq</param>
-    <param regex-match="(Acknowledge): (.*)" regex-replace="✅ $1: $2">eigrp.ack</param>
+    <opcode match="Opcode: (.*) \(\d+\)" replace="📢 EIGRP $1">eigrp.opcode</opcode>
+    <param match="(Autonomous System): (.*)" replace="🆔 $1: $2">eigrp.as</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">eigrp.seq</param>
+    <param match="(Acknowledge): (.*)" replace="✅ $1: $2">eigrp.ack</param>
   </mac-message>
 
 

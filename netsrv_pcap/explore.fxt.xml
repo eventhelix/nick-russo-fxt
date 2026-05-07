@@ -13,116 +13,116 @@
 
   <!-- DHCPv4 Discover -->
   <udp-message style="royal-blue">
-    <opcode regex-match="DHCP: (Discover) \(\d+\)" regex-replace="🔍 DHCP $1">dhcp.option.dhcp</opcode>
-    <param regex-match="(Relay.*IP Address): (.*)" regex-replace="🔗 $1: $2">dhcp.ip.relay</param>
-    <param regex-match="(Domain Name): (.*)" regex-replace="🏷 $1: $2">dhcp.option.domain_name</param>
+    <opcode match="DHCP: (Discover) \(\d+\)" replace="🔍 DHCP $1">dhcp.option.dhcp</opcode>
+    <param match="(Relay.*IP Address): (.*)" replace="🔗 $1: $2">dhcp.ip.relay</param>
+    <param match="(Domain Name): (.*)" replace="🏷 $1: $2">dhcp.option.domain_name</param>
   </udp-message>
 
   <!-- DHCPv4 Offer -->
   <udp-message style="sea-green">
-    <opcode regex-match="DHCP: (Offer) \(\d+\)" regex-replace="📋 DHCP $1">dhcp.option.dhcp</opcode>
-    <param regex-match="(Your.*IP Address): (.*)" regex-replace="🌐 $1: $2">dhcp.ip.your</param>
-    <param regex-match="(DHCP Server Identifier): (.*)" regex-replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
-    <param regex-match="(IP Address Lease Time): (.*)" regex-replace="⏱ $1: $2">dhcp.option.ip_address_lease_time</param>
-    <param regex-match="(Subnet Mask): (.*)" regex-replace="🌐 $1: $2">dhcp.option.subnet_mask</param>
-    <param regex-match="(Router): (.*)" regex-replace="🌐 $1: $2">dhcp.option.router</param>
-    <param regex-match="(Domain Name Server): (.*)" regex-replace="🌐 $1: $2">dhcp.option.domain_name_server</param>
-    <param regex-match="(Domain Name): (.*)" regex-replace="🏷 $1: $2">dhcp.option.domain_name</param>
+    <opcode match="DHCP: (Offer) \(\d+\)" replace="📋 DHCP $1">dhcp.option.dhcp</opcode>
+    <param match="(Your.*IP Address): (.*)" replace="🌐 $1: $2">dhcp.ip.your</param>
+    <param match="(DHCP Server Identifier): (.*)" replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
+    <param match="(IP Address Lease Time): (.*)" replace="⏱ $1: $2">dhcp.option.ip_address_lease_time</param>
+    <param match="(Subnet Mask): (.*)" replace="🌐 $1: $2">dhcp.option.subnet_mask</param>
+    <param match="(Router): (.*)" replace="🌐 $1: $2">dhcp.option.router</param>
+    <param match="(Domain Name Server): (.*)" replace="🌐 $1: $2">dhcp.option.domain_name_server</param>
+    <param match="(Domain Name): (.*)" replace="🏷 $1: $2">dhcp.option.domain_name</param>
   </udp-message>
 
   <!-- DHCPv4 Request -->
   <udp-message style="amethyst">
-    <opcode regex-match="DHCP: (Request) \(\d+\)" regex-replace="📝 DHCP $1">dhcp.option.dhcp</opcode>
-    <param regex-match="(DHCP Server Identifier): (.*)" regex-replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
-    <param regex-match="(Relay.*IP Address): (.*)" regex-replace="🔗 $1: $2">dhcp.ip.relay</param>
+    <opcode match="DHCP: (Request) \(\d+\)" replace="📝 DHCP $1">dhcp.option.dhcp</opcode>
+    <param match="(DHCP Server Identifier): (.*)" replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
+    <param match="(Relay.*IP Address): (.*)" replace="🔗 $1: $2">dhcp.ip.relay</param>
   </udp-message>
 
   <!-- DHCPv4 ACK -->
   <udp-message style="forest-green">
-    <opcode regex-match="DHCP: (ACK) \(\d+\)" regex-replace="✅ DHCP $1">dhcp.option.dhcp</opcode>
-    <param regex-match="(Your.*IP Address): (.*)" regex-replace="🌐 $1: $2">dhcp.ip.your</param>
-    <param regex-match="(DHCP Server Identifier): (.*)" regex-replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
-    <param regex-match="(IP Address Lease Time): (.*)" regex-replace="⏱ $1: $2">dhcp.option.ip_address_lease_time</param>
-    <param regex-match="(Renewal Time Value): (.*)" regex-replace="⏱ $1: $2">dhcp.option.renewal_time_value</param>
-    <param regex-match="(Subnet Mask): (.*)" regex-replace="🌐 $1: $2">dhcp.option.subnet_mask</param>
-    <param regex-match="(Router): (.*)" regex-replace="🌐 $1: $2">dhcp.option.router</param>
-    <param regex-match="(Domain Name Server): (.*)" regex-replace="🌐 $1: $2">dhcp.option.domain_name_server</param>
-    <param regex-match="(Domain Name): (.*)" regex-replace="🏷 $1: $2">dhcp.option.domain_name</param>
+    <opcode match="DHCP: (ACK) \(\d+\)" replace="✅ DHCP $1">dhcp.option.dhcp</opcode>
+    <param match="(Your.*IP Address): (.*)" replace="🌐 $1: $2">dhcp.ip.your</param>
+    <param match="(DHCP Server Identifier): (.*)" replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
+    <param match="(IP Address Lease Time): (.*)" replace="⏱ $1: $2">dhcp.option.ip_address_lease_time</param>
+    <param match="(Renewal Time Value): (.*)" replace="⏱ $1: $2">dhcp.option.renewal_time_value</param>
+    <param match="(Subnet Mask): (.*)" replace="🌐 $1: $2">dhcp.option.subnet_mask</param>
+    <param match="(Router): (.*)" replace="🌐 $1: $2">dhcp.option.router</param>
+    <param match="(Domain Name Server): (.*)" replace="🌐 $1: $2">dhcp.option.domain_name_server</param>
+    <param match="(Domain Name): (.*)" replace="🏷 $1: $2">dhcp.option.domain_name</param>
   </udp-message>
 
   <!-- DHCPv4 NAK -->
   <udp-message style="crimson">
-    <opcode regex-match="DHCP: (NAK) \(\d+\)" regex-replace="🚫 DHCP $1">dhcp.option.dhcp</opcode>
-    <param regex-match="(DHCP Server Identifier): (.*)" regex-replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
+    <opcode match="DHCP: (NAK) \(\d+\)" replace="🚫 DHCP $1">dhcp.option.dhcp</opcode>
+    <param match="(DHCP Server Identifier): (.*)" replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
   </udp-message>
 
   <!-- DHCPv4 Release -->
   <udp-message style="magenta">
-    <opcode regex-match="DHCP: (Release) \(\d+\)" regex-replace="🛑 DHCP $1">dhcp.option.dhcp</opcode>
-    <param regex-match="(DHCP Server Identifier): (.*)" regex-replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
+    <opcode match="DHCP: (Release) \(\d+\)" replace="🛑 DHCP $1">dhcp.option.dhcp</opcode>
+    <param match="(DHCP Server Identifier): (.*)" replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
   </udp-message>
 
   <!-- DHCPv4 Inform -->
   <udp-message style="cerulean">
-    <opcode regex-match="DHCP: (Inform) \(\d+\)" regex-replace="🔄 DHCP $1">dhcp.option.dhcp</opcode>
-    <param regex-match="(Domain Name Server): (.*)" regex-replace="🌐 $1: $2">dhcp.option.domain_name_server</param>
-    <param regex-match="(Domain Name): (.*)" regex-replace="🏷 $1: $2">dhcp.option.domain_name</param>
+    <opcode match="DHCP: (Inform) \(\d+\)" replace="🔄 DHCP $1">dhcp.option.dhcp</opcode>
+    <param match="(Domain Name Server): (.*)" replace="🌐 $1: $2">dhcp.option.domain_name_server</param>
+    <param match="(Domain Name): (.*)" replace="🏷 $1: $2">dhcp.option.domain_name</param>
   </udp-message>
 
   <!-- DHCPv4 generic fallback -->
   <udp-message style="steel-blue">
-    <opcode regex-match="DHCP: (.*) \(\d+\)" regex-replace="🔄 DHCP $1">dhcp.option.dhcp</opcode>
-    <param regex-match="(Your.*IP Address): (.*)" regex-replace="🌐 $1: $2">dhcp.ip.your</param>
-    <param regex-match="(Relay.*IP Address): (.*)" regex-replace="🔗 $1: $2">dhcp.ip.relay</param>
-    <param regex-match="(DHCP Server Identifier): (.*)" regex-replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
-    <param regex-match="(IP Address Lease Time): (.*)" regex-replace="⏱ $1: $2">dhcp.option.ip_address_lease_time</param>
-    <param regex-match="(Subnet Mask): (.*)" regex-replace="🌐 $1: $2">dhcp.option.subnet_mask</param>
-    <param regex-match="(Router): (.*)" regex-replace="🌐 $1: $2">dhcp.option.router</param>
-    <param regex-match="(Domain Name Server): (.*)" regex-replace="🌐 $1: $2">dhcp.option.domain_name_server</param>
-    <param regex-match="(Domain Name): (.*)" regex-replace="🏷 $1: $2">dhcp.option.domain_name</param>
+    <opcode match="DHCP: (.*) \(\d+\)" replace="🔄 DHCP $1">dhcp.option.dhcp</opcode>
+    <param match="(Your.*IP Address): (.*)" replace="🌐 $1: $2">dhcp.ip.your</param>
+    <param match="(Relay.*IP Address): (.*)" replace="🔗 $1: $2">dhcp.ip.relay</param>
+    <param match="(DHCP Server Identifier): (.*)" replace="🌐 $1: $2">dhcp.option.dhcp_server_id</param>
+    <param match="(IP Address Lease Time): (.*)" replace="⏱ $1: $2">dhcp.option.ip_address_lease_time</param>
+    <param match="(Subnet Mask): (.*)" replace="🌐 $1: $2">dhcp.option.subnet_mask</param>
+    <param match="(Router): (.*)" replace="🌐 $1: $2">dhcp.option.router</param>
+    <param match="(Domain Name Server): (.*)" replace="🌐 $1: $2">dhcp.option.domain_name_server</param>
+    <param match="(Domain Name): (.*)" replace="🏷 $1: $2">dhcp.option.domain_name</param>
   </udp-message>
 
 
   <!-- DNS Response (BEFORE Query — dns.flags.response shows "Message is a response" for responses) -->
   <udp-message style="forest-green">
-    <opcode regex-match=".*Message is a (response)" regex-replace="✅ DNS Response">dns.flags.response</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🔍 $1: $2">dns.qry.name</param>
-    <param regex-match="(Type): (.*)" regex-replace="🏷 $1: $2">dns.qry.type</param>
-    <param regex-match=".*= Reply code: (.*)" regex-replace="📋 Reply: $1">dns.flags.rcode</param>
-    <param regex-match="(Address): (.*)" regex-replace="🌐 A: $2">dns.a</param>
-    <param regex-match="(AAAA Address): (.*)" regex-replace="🌐 AAAA: $2">dns.aaaa</param>
-    <param regex-match="(Name): (.*)" regex-replace="✅ $1: $2">dns.resp.name</param>
-    <param regex-match="(CNAME): (.*)" regex-replace="🔗 $1: $2">dns.cname</param>
-    <param regex-match="(Mail Exchange): (.*)" regex-replace="📧 MX: $2">dns.mx.mail_exchange</param>
-    <param regex-match="(Name Server): (.*)" regex-replace="🌐 NS: $2">dns.ns</param>
-    <param regex-match="(Primary name server): (.*)" regex-replace="🌐 SOA: $2">dns.soa.mname</param>
-    <param regex-match="(TXT): (.*)" regex-replace="📝 $1: $2">dns.txt</param>
-    <param regex-match="(Domain Name): (.*)" regex-replace="🔄 PTR: $2">dns.ptr.domain_name</param>
+    <opcode match=".*Message is a (response)" replace="✅ DNS Response">dns.flags.response</opcode>
+    <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
+    <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
+    <param match=".*= Reply code: (.*)" replace="📋 Reply: $1">dns.flags.rcode</param>
+    <param match="(Address): (.*)" replace="🌐 A: $2">dns.a</param>
+    <param match="(AAAA Address): (.*)" replace="🌐 AAAA: $2">dns.aaaa</param>
+    <param match="(Name): (.*)" replace="✅ $1: $2">dns.resp.name</param>
+    <param match="(CNAME): (.*)" replace="🔗 $1: $2">dns.cname</param>
+    <param match="(Mail Exchange): (.*)" replace="📧 MX: $2">dns.mx.mail_exchange</param>
+    <param match="(Name Server): (.*)" replace="🌐 NS: $2">dns.ns</param>
+    <param match="(Primary name server): (.*)" replace="🌐 SOA: $2">dns.soa.mname</param>
+    <param match="(TXT): (.*)" replace="📝 $1: $2">dns.txt</param>
+    <param match="(Domain Name): (.*)" replace="🔄 PTR: $2">dns.ptr.domain_name</param>
   </udp-message>
 
   <!-- DNS Query -->
   <udp-message style="royal-blue">
-    <opcode display="brief" regex-match="^0$" regex-replace="🔍 DNS Query">dns.flags.opcode</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🔍 $1: $2">dns.qry.name</param>
-    <param regex-match="(Type): (.*)" regex-replace="🏷 $1: $2">dns.qry.type</param>
+    <opcode display="brief" match="^0$" replace="🔍 DNS Query">dns.flags.opcode</opcode>
+    <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
+    <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
   </udp-message>
 
   <!-- NTP Client -->
   <udp-message style="cerulean">
-    <opcode display="brief" regex-match="^3$" regex-replace="⏰ NTP Request">ntp.flags.mode</opcode>
-    <param regex-match=".*Version number: (NTP Version \d+).*" regex-replace="$1">ntp.flags.vn</param>
-    <param regex-match=".*Leap Indicator: (.*) \(\d+\)" regex-replace="Leap: $1">ntp.flags.li</param>
-    <param regex-match="(Peer Clock Stratum): (.*)" regex-replace="📊 $1: $2">ntp.stratum</param>
+    <opcode display="brief" match="^3$" replace="⏰ NTP Request">ntp.flags.mode</opcode>
+    <param match=".*Version number: (NTP Version \d+).*" replace="$1">ntp.flags.vn</param>
+    <param match=".*Leap Indicator: (.*) \(\d+\)" replace="Leap: $1">ntp.flags.li</param>
+    <param match="(Peer Clock Stratum): (.*)" replace="📊 $1: $2">ntp.stratum</param>
     <param>ntp.ppoll</param>
   </udp-message>
 
   <!-- NTP Server -->
   <udp-message style="sea-green">
-    <opcode display="brief" regex-match="^4$" regex-replace="🕐 NTP Response">ntp.flags.mode</opcode>
-    <param regex-match=".*Version number: (NTP Version \d+).*" regex-replace="$1">ntp.flags.vn</param>
-    <param regex-match=".*Leap Indicator: (.*) \(\d+\)" regex-replace="Leap: $1">ntp.flags.li</param>
-    <param regex-match="(Peer Clock Stratum): (.*)" regex-replace="📊 $1: $2">ntp.stratum</param>
-    <param regex-match="(Reference ID): (.*)" regex-replace="⏱️ $1: $2">ntp.refid</param>
+    <opcode display="brief" match="^4$" replace="🕐 NTP Response">ntp.flags.mode</opcode>
+    <param match=".*Version number: (NTP Version \d+).*" replace="$1">ntp.flags.vn</param>
+    <param match=".*Leap Indicator: (.*) \(\d+\)" replace="Leap: $1">ntp.flags.li</param>
+    <param match="(Peer Clock Stratum): (.*)" replace="📊 $1: $2">ntp.stratum</param>
+    <param match="(Reference ID): (.*)" replace="⏱️ $1: $2">ntp.refid</param>
     <param>ntp.ppoll</param>
     <param>ntp.rootdelay</param>
     <param>ntp.rootdispersion</param>
@@ -130,188 +130,188 @@
 
   <!-- NTP Broadcast -->
   <udp-message style="goldenrod">
-    <opcode display="brief" regex-match="^5$" regex-replace="📢 NTP Broadcast">ntp.flags.mode</opcode>
-    <param regex-match=".*Version number: (NTP Version \d+).*" regex-replace="$1">ntp.flags.vn</param>
-    <param regex-match="(Peer Clock Stratum): (.*)" regex-replace="📊 $1: $2">ntp.stratum</param>
-    <param regex-match="(Reference ID): (.*)" regex-replace="⏱️ $1: $2">ntp.refid</param>
+    <opcode display="brief" match="^5$" replace="📢 NTP Broadcast">ntp.flags.mode</opcode>
+    <param match=".*Version number: (NTP Version \d+).*" replace="$1">ntp.flags.vn</param>
+    <param match="(Peer Clock Stratum): (.*)" replace="📊 $1: $2">ntp.stratum</param>
+    <param match="(Reference ID): (.*)" replace="⏱️ $1: $2">ntp.refid</param>
     <param>ntp.ppoll</param>
   </udp-message>
 
   <!-- NTP Symmetric Active -->
   <udp-message style="amethyst">
-    <opcode display="brief" regex-match="^1$" regex-replace="🔄 NTP Symmetric Active">ntp.flags.mode</opcode>
-    <param regex-match=".*Version number: (NTP Version \d+).*" regex-replace="$1">ntp.flags.vn</param>
-    <param regex-match="(Peer Clock Stratum): (.*)" regex-replace="📊 $1: $2">ntp.stratum</param>
-    <param regex-match="(Reference ID): (.*)" regex-replace="⏱️ $1: $2">ntp.refid</param>
+    <opcode display="brief" match="^1$" replace="🔄 NTP Symmetric Active">ntp.flags.mode</opcode>
+    <param match=".*Version number: (NTP Version \d+).*" replace="$1">ntp.flags.vn</param>
+    <param match="(Peer Clock Stratum): (.*)" replace="📊 $1: $2">ntp.stratum</param>
+    <param match="(Reference ID): (.*)" replace="⏱️ $1: $2">ntp.refid</param>
     <param>ntp.ppoll</param>
   </udp-message>
 
   <!-- NTP Symmetric Passive -->
   <udp-message style="teal">
-    <opcode display="brief" regex-match="^2$" regex-replace="🔄 NTP Symmetric Passive">ntp.flags.mode</opcode>
-    <param regex-match=".*Version number: (NTP Version \d+).*" regex-replace="$1">ntp.flags.vn</param>
-    <param regex-match="(Peer Clock Stratum): (.*)" regex-replace="📊 $1: $2">ntp.stratum</param>
-    <param regex-match="(Reference ID): (.*)" regex-replace="⏱️ $1: $2">ntp.refid</param>
+    <opcode display="brief" match="^2$" replace="🔄 NTP Symmetric Passive">ntp.flags.mode</opcode>
+    <param match=".*Version number: (NTP Version \d+).*" replace="$1">ntp.flags.vn</param>
+    <param match="(Peer Clock Stratum): (.*)" replace="📊 $1: $2">ntp.stratum</param>
+    <param match="(Reference ID): (.*)" replace="⏱️ $1: $2">ntp.refid</param>
     <param>ntp.ppoll</param>
   </udp-message>
 
   <!-- NTP generic fallback -->
   <udp-message style="steel-blue">
-    <opcode display="brief" regex-match="(\d+)" regex-replace="📨 NTP Mode $1">ntp.flags.mode</opcode>
-    <param regex-match=".*Version number: (NTP Version \d+).*" regex-replace="$1">ntp.flags.vn</param>
-    <param regex-match="(Peer Clock Stratum): (.*)" regex-replace="📊 $1: $2">ntp.stratum</param>
-    <param regex-match="(Reference ID): (.*)" regex-replace="⏱️ $1: $2">ntp.refid</param>
+    <opcode display="brief" match="(\d+)" replace="📨 NTP Mode $1">ntp.flags.mode</opcode>
+    <param match=".*Version number: (NTP Version \d+).*" replace="$1">ntp.flags.vn</param>
+    <param match="(Peer Clock Stratum): (.*)" replace="📊 $1: $2">ntp.stratum</param>
+    <param match="(Reference ID): (.*)" replace="⏱️ $1: $2">ntp.refid</param>
     <param>ntp.ppoll</param>
   </udp-message>
 
   <!-- SNMP Get Request -->
   <udp-message style="cerulean">
-    <opcode regex-match=".*get-request.*" regex-replace="📋 SNMP Get">snmp.data</opcode>
-    <param regex-match="(Version): (.*)" regex-replace="🏷 $1: $2">snmp.version</param>
-    <param regex-match="(Community): (.*)" regex-replace="👥 $1: $2">snmp.community</param>
-    <param regex-match="(msgUserName): (.*)" regex-replace="👤 $1: $2">snmp.msgUserName</param>
-    <param regex-match="Object Name: [\d.]+ \((.*)\)" regex-replace="🔍 OID: $1">snmp.name</param>
+    <opcode match=".*get-request.*" replace="📋 SNMP Get">snmp.data</opcode>
+    <param match="(Version): (.*)" replace="🏷 $1: $2">snmp.version</param>
+    <param match="(Community): (.*)" replace="👥 $1: $2">snmp.community</param>
+    <param match="(msgUserName): (.*)" replace="👤 $1: $2">snmp.msgUserName</param>
+    <param match="Object Name: [\d.]+ \((.*)\)" replace="🔍 OID: $1">snmp.name</param>
   </udp-message>
 
   <!-- SNMP Get-Next Request -->
   <udp-message style="cerulean">
-    <opcode regex-match=".*get-next-request.*" regex-replace="📋 SNMP Get-Next">snmp.data</opcode>
-    <param regex-match="(Version): (.*)" regex-replace="🏷 $1: $2">snmp.version</param>
-    <param regex-match="(Community): (.*)" regex-replace="👥 $1: $2">snmp.community</param>
-    <param regex-match="(msgUserName): (.*)" regex-replace="👤 $1: $2">snmp.msgUserName</param>
-    <param regex-match="Object Name: [\d.]+ \((.*)\)" regex-replace="🔍 OID: $1">snmp.name</param>
+    <opcode match=".*get-next-request.*" replace="📋 SNMP Get-Next">snmp.data</opcode>
+    <param match="(Version): (.*)" replace="🏷 $1: $2">snmp.version</param>
+    <param match="(Community): (.*)" replace="👥 $1: $2">snmp.community</param>
+    <param match="(msgUserName): (.*)" replace="👤 $1: $2">snmp.msgUserName</param>
+    <param match="Object Name: [\d.]+ \((.*)\)" replace="🔍 OID: $1">snmp.name</param>
   </udp-message>
 
   <!-- SNMP Get Response -->
   <udp-message style="sea-green">
-    <opcode regex-match=".*get-response.*" regex-replace="✅ SNMP Response">snmp.data</opcode>
-    <param regex-match="(Version): (.*)" regex-replace="🏷 $1: $2">snmp.version</param>
-    <param regex-match="(Community): (.*)" regex-replace="👥 $1: $2">snmp.community</param>
-    <param regex-match="(msgUserName): (.*)" regex-replace="👤 $1: $2">snmp.msgUserName</param>
-    <param regex-match="Object Name: [\d.]+ \((.*)\)" regex-replace="🔍 OID: $1">snmp.name</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📦 $1: $2">snmp.value.octets</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📦 $1: $2">snmp.value.int</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📊 $1: $2">snmp.value.counter</param>
-    <param regex-match="(error-status): (.*)" regex-replace="📋 $1: $2">snmp.error_status</param>
+    <opcode match=".*get-response.*" replace="✅ SNMP Response">snmp.data</opcode>
+    <param match="(Version): (.*)" replace="🏷 $1: $2">snmp.version</param>
+    <param match="(Community): (.*)" replace="👥 $1: $2">snmp.community</param>
+    <param match="(msgUserName): (.*)" replace="👤 $1: $2">snmp.msgUserName</param>
+    <param match="Object Name: [\d.]+ \((.*)\)" replace="🔍 OID: $1">snmp.name</param>
+    <param match="(Value.*): (.*)" replace="📦 $1: $2">snmp.value.octets</param>
+    <param match="(Value.*): (.*)" replace="📦 $1: $2">snmp.value.int</param>
+    <param match="(Value.*): (.*)" replace="📊 $1: $2">snmp.value.counter</param>
+    <param match="(error-status): (.*)" replace="📋 $1: $2">snmp.error_status</param>
   </udp-message>
 
   <!-- SNMP Set Request -->
   <udp-message style="amethyst">
-    <opcode regex-match=".*set-request.*" regex-replace="✏️ SNMP Set">snmp.data</opcode>
-    <param regex-match="(Version): (.*)" regex-replace="🏷 $1: $2">snmp.version</param>
-    <param regex-match="(Community): (.*)" regex-replace="👥 $1: $2">snmp.community</param>
-    <param regex-match="(msgUserName): (.*)" regex-replace="👤 $1: $2">snmp.msgUserName</param>
-    <param regex-match="Object Name: [\d.]+ \((.*)\)" regex-replace="🔍 OID: $1">snmp.name</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📦 $1: $2">snmp.value.octets</param>
+    <opcode match=".*set-request.*" replace="✏️ SNMP Set">snmp.data</opcode>
+    <param match="(Version): (.*)" replace="🏷 $1: $2">snmp.version</param>
+    <param match="(Community): (.*)" replace="👥 $1: $2">snmp.community</param>
+    <param match="(msgUserName): (.*)" replace="👤 $1: $2">snmp.msgUserName</param>
+    <param match="Object Name: [\d.]+ \((.*)\)" replace="🔍 OID: $1">snmp.name</param>
+    <param match="(Value.*): (.*)" replace="📦 $1: $2">snmp.value.octets</param>
   </udp-message>
 
   <!-- SNMPv1 Trap -->
   <udp-message style="goldenrod">
-    <opcode regex-match=".*trap \(\d+\)" regex-replace="⚠️ SNMP Trap">snmp.data</opcode>
-    <param regex-match="(Version): (.*)" regex-replace="🏷 $1: $2">snmp.version</param>
-    <param regex-match="(Community): (.*)" regex-replace="👥 $1: $2">snmp.community</param>
-    <param regex-match="(generic-trap): (.*)" regex-replace="⚠️ $1: $2">snmp.generic_trap</param>
-    <param regex-match="(enterprise): (.*)" regex-replace="🏢 $1: $2">snmp.enterprise</param>
-    <param regex-match="Object Name: [\d.]+ \((.*)\)" regex-replace="🔍 OID: $1">snmp.name</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📦 $1: $2">snmp.value.octets</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📦 $1: $2">snmp.value.int</param>
+    <opcode match=".*trap \(\d+\)" replace="⚠️ SNMP Trap">snmp.data</opcode>
+    <param match="(Version): (.*)" replace="🏷 $1: $2">snmp.version</param>
+    <param match="(Community): (.*)" replace="👥 $1: $2">snmp.community</param>
+    <param match="(generic-trap): (.*)" replace="⚠️ $1: $2">snmp.generic_trap</param>
+    <param match="(enterprise): (.*)" replace="🏢 $1: $2">snmp.enterprise</param>
+    <param match="Object Name: [\d.]+ \((.*)\)" replace="🔍 OID: $1">snmp.name</param>
+    <param match="(Value.*): (.*)" replace="📦 $1: $2">snmp.value.octets</param>
+    <param match="(Value.*): (.*)" replace="📦 $1: $2">snmp.value.int</param>
   </udp-message>
 
   <!-- SNMPv2c/v3 Trap -->
   <udp-message style="goldenrod">
-    <opcode regex-match=".*snmpV2-trap.*" regex-replace="⚠️ SNMP Trap">snmp.data</opcode>
-    <param regex-match="(Version): (.*)" regex-replace="🏷 $1: $2">snmp.version</param>
-    <param regex-match="(Community): (.*)" regex-replace="👥 $1: $2">snmp.community</param>
-    <param regex-match="(msgUserName): (.*)" regex-replace="👤 $1: $2">snmp.msgUserName</param>
-    <param regex-match="Object Name: [\d.]+ \((.*)\)" regex-replace="🔍 OID: $1">snmp.name</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📦 $1: $2">snmp.value.octets</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📦 $1: $2">snmp.value.oid</param>
+    <opcode match=".*snmpV2-trap.*" replace="⚠️ SNMP Trap">snmp.data</opcode>
+    <param match="(Version): (.*)" replace="🏷 $1: $2">snmp.version</param>
+    <param match="(Community): (.*)" replace="👥 $1: $2">snmp.community</param>
+    <param match="(msgUserName): (.*)" replace="👤 $1: $2">snmp.msgUserName</param>
+    <param match="Object Name: [\d.]+ \((.*)\)" replace="🔍 OID: $1">snmp.name</param>
+    <param match="(Value.*): (.*)" replace="📦 $1: $2">snmp.value.octets</param>
+    <param match="(Value.*): (.*)" replace="📦 $1: $2">snmp.value.oid</param>
   </udp-message>
 
   <!-- SNMP Report (v3 discovery) -->
   <udp-message style="steel-blue">
-    <opcode regex-match=".*report.*" regex-replace="📊 SNMP Report">snmp.data</opcode>
-    <param regex-match="(msgUserName): (.*)" regex-replace="👤 $1: $2">snmp.msgUserName</param>
-    <param regex-match="Object Name: [\d.]+ \((.*)\)" regex-replace="🔍 OID: $1">snmp.name</param>
-    <param regex-match="(Value.*): (.*)" regex-replace="📊 $1: $2">snmp.value.counter</param>
+    <opcode match=".*report.*" replace="📊 SNMP Report">snmp.data</opcode>
+    <param match="(msgUserName): (.*)" replace="👤 $1: $2">snmp.msgUserName</param>
+    <param match="Object Name: [\d.]+ \((.*)\)" replace="🔍 OID: $1">snmp.name</param>
+    <param match="(Value.*): (.*)" replace="📊 $1: $2">snmp.value.counter</param>
   </udp-message>
 
   <!-- Syslog Emergency/Alert/Critical (0-2) -->
   <udp-message style="brick wave">
-    <opcode display="brief" regex-match="^[012]$" regex-replace="🔥 Syslog CRITICAL">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^[012]$" replace="🔥 Syslog CRITICAL">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </udp-message>
 
   <!-- Syslog Error (3) -->
   <udp-message style="brick">
-    <opcode display="brief" regex-match="^3$" regex-replace="⚠️ Syslog ERROR">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^3$" replace="⚠️ Syslog ERROR">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </udp-message>
 
   <!-- Syslog Warning (4) -->
   <udp-message style="goldenrod">
-    <opcode display="brief" regex-match="^4$" regex-replace="⚠️️ Syslog WARNING">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^4$" replace="⚠️️ Syslog WARNING">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </udp-message>
 
   <!-- Syslog Notice (5) -->
   <udp-message style="sea-green">
-    <opcode display="brief" regex-match="^5$" regex-replace="📋 Syslog NOTICE">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^5$" replace="📋 Syslog NOTICE">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </udp-message>
 
   <!-- Syslog Info (6) -->
   <udp-message style="cerulean">
-    <opcode display="brief" regex-match="^6$" regex-replace="ℹ️ Syslog INFO">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^6$" replace="ℹ️ Syslog INFO">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </udp-message>
 
   <!-- Syslog Debug (7) -->
   <udp-message style="slate dashed">
-    <opcode display="brief" regex-match="^7$" regex-replace="🔍 Syslog DEBUG">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^7$" replace="🔍 Syslog DEBUG">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </udp-message>
 
   <!-- Syslog generic fallback -->
   <udp-message style="steel-blue">
-    <opcode display="brief" regex-match="(\d+)" regex-replace="📝 Syslog Level $1">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="(\d+)" replace="📝 Syslog Level $1">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </udp-message>
 
   <!-- SSH Message -->
   <tcp-message>
-    <opcode regex-match="Message Code: (.*)" regex-replace="🔐 SSH $1">ssh.message_code</opcode>
+    <opcode match="Message Code: (.*)" replace="🔐 SSH $1">ssh.message_code</opcode>
     <param>ssh.direction</param>
     <param>ssh.kex_algorithms</param>
   </tcp-message>
 
   <!-- SSH Protocol -->
   <tcp-message>
-    <opcode regex-match="Protocol: (.*)" regex-replace="🤝 SSH $1">ssh.protocol</opcode>
+    <opcode match="Protocol: (.*)" replace="🤝 SSH $1">ssh.protocol</opcode>
   </tcp-message>
 
   <!-- Telnet option negotiation -->
   <tcp-message style="amethyst">
-    <opcode regex-match="Command: (.*) \(\d+\)" regex-replace="🔧 Telnet $1">telnet.cmd</opcode>
+    <opcode match="Command: (.*) \(\d+\)" replace="🔧 Telnet $1">telnet.cmd</opcode>
     <param>telnet.subcmd</param>
   </tcp-message>
 
   <!-- Telnet data (login prompts, command output, user input) -->
   <tcp-message style="sea-green">
-    <opcode regex-match="Data: (.*)" regex-replace="📝 Telnet Data">telnet.data</opcode>
+    <opcode match="Data: (.*)" replace="📝 Telnet Data">telnet.data</opcode>
     <param>telnet.data</param>
   </tcp-message>
 
   <!-- RDP Negotiation (inside COTP) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="Type: (.*)" regex-replace="🖥 RDP $1">rdp.neg_type</opcode>
+    <opcode match="Type: (.*)" replace="🖥 RDP $1">rdp.neg_type</opcode>
     <param>rdp.rt_cookie</param>
     <param>rdp.negReq.requestedProtocols</param>
     <param>rdp.negReq.selectedProtocol</param>
@@ -319,34 +319,34 @@
 
   <!-- VNC Server version -->
   <tcp-message style="sea-green">
-    <opcode regex-match="Server protocol version: (.*)" regex-replace="🖥 VNC Server v$1">vnc.server_proto_ver</opcode>
+    <opcode match="Server protocol version: (.*)" replace="🖥 VNC Server v$1">vnc.server_proto_ver</opcode>
   </tcp-message>
 
   <!-- VNC Client version -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Client protocol version: (.*)" regex-replace="💻 VNC Client v$1">vnc.client_proto_ver</opcode>
+    <opcode match="Client protocol version: (.*)" replace="💻 VNC Client v$1">vnc.client_proto_ver</opcode>
   </tcp-message>
 
   <!-- VNC Server security types offered -->
   <tcp-message style="teal">
-    <opcode regex-match=".*" regex-replace="🔐 VNC Security Types">vnc.num_security_types</opcode>
+    <opcode match=".*" replace="🔐 VNC Security Types">vnc.num_security_types</opcode>
     <param>vnc.num_security_types</param>
     <param>vnc.security_type</param>
   </tcp-message>
 
   <!-- VNC Security type selected by client -->
   <tcp-message style="teal">
-    <opcode regex-match="Security type selected: (.*) \(\d+\)" regex-replace="🔐 VNC Security: $1">vnc.client_security_type</opcode>
+    <opcode match="Security type selected: (.*) \(\d+\)" replace="🔐 VNC Security: $1">vnc.client_security_type</opcode>
   </tcp-message>
 
   <!-- VNC Auth result -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*Authentication result: (.*)" regex-replace="✅ VNC Auth: $1">vnc.auth_result</opcode>
+    <opcode match=".*Authentication result: (.*)" replace="✅ VNC Auth: $1">vnc.auth_result</opcode>
   </tcp-message>
 
   <!-- VNC Desktop (Server Init) -->
   <tcp-message style="amethyst">
-    <opcode regex-match="Desktop name: (.*)" regex-replace="🖥 VNC Desktop: $1">vnc.desktop_name</opcode>
+    <opcode match="Desktop name: (.*)" replace="🖥 VNC Desktop: $1">vnc.desktop_name</opcode>
     <param>vnc.width</param>
     <param>vnc.height</param>
     <param>vnc.server_bits_per_pixel</param>
@@ -356,13 +356,13 @@
 
   <!-- VNC Client Init (share desktop) -->
   <tcp-message style="cerulean">
-    <opcode regex-match=".*" regex-replace="💻 VNC Client Init">vnc.share_desktop_flag</opcode>
+    <opcode match=".*" replace="💻 VNC Client Init">vnc.share_desktop_flag</opcode>
     <param>vnc.share_desktop_flag</param>
   </tcp-message>
 
   <!-- VNC Set Pixel Format -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Client Message Type: (Set Pixel Format) \(\d+\)" regex-replace="💻 VNC $1">vnc.client_message_type</opcode>
+    <opcode match="Client Message Type: (Set Pixel Format) \(\d+\)" replace="💻 VNC $1">vnc.client_message_type</opcode>
     <param>vnc.client_bits_per_pixel</param>
     <param>vnc.client_depth</param>
     <param>vnc.client_true_color_flag</param>
@@ -370,14 +370,14 @@
 
   <!-- VNC Set Encodings -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Client Message Type: (Set Encodings) \(\d+\)" regex-replace="💻 VNC $1">vnc.client_message_type</opcode>
+    <opcode match="Client Message Type: (Set Encodings) \(\d+\)" replace="💻 VNC $1">vnc.client_message_type</opcode>
     <param>vnc.client_set_encodings_num</param>
     <param>vnc.client_set_encodings_encoding_type</param>
   </tcp-message>
 
   <!-- VNC Framebuffer Update Request -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Client Message Type: (Framebuffer Update Request) \(\d+\)" regex-replace="💻 VNC $1">vnc.client_message_type</opcode>
+    <opcode match="Client Message Type: (Framebuffer Update Request) \(\d+\)" replace="💻 VNC $1">vnc.client_message_type</opcode>
     <param>vnc.update_req_incremental</param>
     <param>vnc.update_req_width</param>
     <param>vnc.update_req_height</param>
@@ -385,12 +385,12 @@
 
   <!-- VNC generic client message -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Client Message Type: (.*) \(\d+\)" regex-replace="💻 VNC $1">vnc.client_message_type</opcode>
+    <opcode match="Client Message Type: (.*) \(\d+\)" replace="💻 VNC $1">vnc.client_message_type</opcode>
   </tcp-message>
 
   <!-- VNC Framebuffer Update (server) -->
   <tcp-message style="sea-green">
-    <opcode regex-match="Server Message Type: (Framebuffer Update) \(\d+\)" regex-replace="🖥 VNC $1">vnc.server_message_type</opcode>
+    <opcode match="Server Message Type: (Framebuffer Update) \(\d+\)" replace="🖥 VNC $1">vnc.server_message_type</opcode>
     <param>vnc.fb_update_num_rects</param>
     <param>vnc.fb_update_encoding_type</param>
     <param>vnc.fb_update_width</param>
@@ -399,20 +399,20 @@
 
   <!-- VNC generic server message -->
   <tcp-message style="sea-green">
-    <opcode regex-match="Server Message Type: (.*) \(\d+\)" regex-replace="🖥 VNC $1">vnc.server_message_type</opcode>
+    <opcode match="Server Message Type: (.*) \(\d+\)" replace="🖥 VNC $1">vnc.server_message_type</opcode>
   </tcp-message>
 
   <!-- COTP (for RDP connection setup) -->
   <tcp-message style="goldenrod">
-    <opcode regex-match="PDU Type: (.*)" regex-replace="🔗 COTP $1">cotp.type</opcode>
+    <opcode match="PDU Type: (.*)" replace="🔗 COTP $1">cotp.type</opcode>
     <param>cotp.srcref</param>
     <param>cotp.destref</param>
   </tcp-message>
 
   <!-- CMP (Certificate Management Protocol) — BEFORE HTTP so CMP content is visible -->
   <tcp-message style="sea-green">
-    <opcode regex-match="body: (ir) \(\d+\)" regex-replace="📝 CMP Initial Registration">cmp.body</opcode>
-    <param regex-match="(transactionID): (.*)" regex-replace="🆔 $1: $2">cmp.transactionID</param>
+    <opcode match="body: (ir) \(\d+\)" replace="📝 CMP Initial Registration">cmp.body</opcode>
+    <param match="(transactionID): (.*)" replace="🆔 $1: $2">cmp.transactionID</param>
     <param>cmp.pvno</param>
     <param>cmp.protectionAlg_element</param>
     <param>cmp.senderKID</param>
@@ -420,8 +420,8 @@
   </tcp-message>
 
   <tcp-message style="forest-green">
-    <opcode regex-match="body: (ip) \(\d+\)" regex-replace="✅ CMP Init Response">cmp.body</opcode>
-    <param regex-match="(transactionID): (.*)" regex-replace="🆔 $1: $2">cmp.transactionID</param>
+    <opcode match="body: (ip) \(\d+\)" replace="✅ CMP Init Response">cmp.body</opcode>
+    <param match="(transactionID): (.*)" replace="🆔 $1: $2">cmp.transactionID</param>
     <param>cmp.pkistatus</param>
     <param>cmp.protectionAlg_element</param>
     <param>cmp.caPubs</param>
@@ -429,97 +429,97 @@
   </tcp-message>
 
   <tcp-message style="royal-blue">
-    <opcode regex-match="body: (cr) \(\d+\)" regex-replace="📄 CMP Cert Request">cmp.body</opcode>
-    <param regex-match="(transactionID): (.*)" regex-replace="🆔 $1: $2">cmp.transactionID</param>
+    <opcode match="body: (cr) \(\d+\)" replace="📄 CMP Cert Request">cmp.body</opcode>
+    <param match="(transactionID): (.*)" replace="🆔 $1: $2">cmp.transactionID</param>
     <param>cmp.pvno</param>
     <param>cmp.protectionAlg_element</param>
     <param>cmp.senderKID</param>
   </tcp-message>
 
   <tcp-message style="cerulean">
-    <opcode regex-match="body: (cp) \(\d+\)" regex-replace="✅ CMP Cert Response">cmp.body</opcode>
-    <param regex-match="(transactionID): (.*)" regex-replace="🆔 $1: $2">cmp.transactionID</param>
+    <opcode match="body: (cp) \(\d+\)" replace="✅ CMP Cert Response">cmp.body</opcode>
+    <param match="(transactionID): (.*)" replace="🆔 $1: $2">cmp.transactionID</param>
     <param>cmp.pkistatus</param>
     <param>cmp.protectionAlg_element</param>
     <param>cmp.extraCerts</param>
   </tcp-message>
 
   <tcp-message style="goldenrod">
-    <opcode regex-match="body: (certConf) \(\d+\)" regex-replace="✅ CMP Cert Confirm">cmp.body</opcode>
-    <param regex-match="(transactionID): (.*)" regex-replace="🆔 $1: $2">cmp.transactionID</param>
+    <opcode match="body: (certConf) \(\d+\)" replace="✅ CMP Cert Confirm">cmp.body</opcode>
+    <param match="(transactionID): (.*)" replace="🆔 $1: $2">cmp.transactionID</param>
     <param>cmp.certHash</param>
     <param>cmp.certReqId</param>
   </tcp-message>
 
   <tcp-message style="teal">
-    <opcode regex-match="body: (pkiconf) \(\d+\)" regex-replace="✅ CMP PKI Confirm">cmp.body</opcode>
-    <param regex-match="(transactionID): (.*)" regex-replace="🆔 $1: $2">cmp.transactionID</param>
+    <opcode match="body: (pkiconf) \(\d+\)" replace="✅ CMP PKI Confirm">cmp.body</opcode>
+    <param match="(transactionID): (.*)" replace="🆔 $1: $2">cmp.transactionID</param>
   </tcp-message>
 
   <!-- CMP generic fallback -->
   <tcp-message style="amethyst">
-    <opcode regex-match="body: (.*) \(\d+\)" regex-replace="🔄 CMP $1">cmp.body</opcode>
-    <param regex-match="(transactionID): (.*)" regex-replace="🆔 $1: $2">cmp.transactionID</param>
+    <opcode match="body: (.*) \(\d+\)" replace="🔄 CMP $1">cmp.body</opcode>
+    <param match="(transactionID): (.*)" replace="🆔 $1: $2">cmp.transactionID</param>
     <param>cmp.pvno</param>
     <param>cmp.pkistatus</param>
   </tcp-message>
 
   <!-- HTTP Request (after CMP so CMP-over-HTTP shows CMP content) -->
   <tcp-message style="royal-blue">
-    <opcode regex-match=".*" regex-replace="🌐 HTTP">http.request.method</opcode>
+    <opcode match=".*" replace="🌐 HTTP">http.request.method</opcode>
     <param>http.request.uri</param>
     <param>http.host</param>
   </tcp-message>
 
   <!-- RSH (Remote Shell) command -->
   <tcp-message style="royal-blue">
-    <opcode regex-match="Command to execute: (.*)" regex-replace="🔧 RSH: $1">rsh.command</opcode>
+    <opcode match="Command to execute: (.*)" replace="🔧 RSH: $1">rsh.command</opcode>
     <param>rsh.client_username</param>
     <param>rsh.server_username</param>
   </tcp-message>
 
   <!-- RSH server response data -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*" regex-replace="✅ RSH Response">rsh.server_client_data</opcode>
+    <opcode match=".*" replace="✅ RSH Response">rsh.server_client_data</opcode>
   </tcp-message>
 
   <!-- RSH client data -->
   <tcp-message style="cerulean">
-    <opcode regex-match=".*" regex-replace="📤 RSH Client Data">rsh.client_server_data</opcode>
+    <opcode match=".*" replace="📤 RSH Client Data">rsh.client_server_data</opcode>
   </tcp-message>
 
   <!-- Syslog over TCP: Error (3) -->
   <tcp-message style="brick">
-    <opcode display="brief" regex-match="^3$" regex-replace="⚠️ Syslog ERROR">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^3$" replace="⚠️ Syslog ERROR">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </tcp-message>
 
   <!-- Syslog over TCP: Warning (4) -->
   <tcp-message style="goldenrod">
-    <opcode display="brief" regex-match="^4$" regex-replace="⚠️️ Syslog WARNING">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^4$" replace="⚠️️ Syslog WARNING">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </tcp-message>
 
   <!-- Syslog over TCP: Notice (5) -->
   <tcp-message style="sea-green">
-    <opcode display="brief" regex-match="^5$" regex-replace="📋 Syslog NOTICE">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^5$" replace="📋 Syslog NOTICE">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </tcp-message>
 
   <!-- Syslog over TCP: Info (6) -->
   <tcp-message style="cerulean">
-    <opcode display="brief" regex-match="^6$" regex-replace="ℹ️ Syslog INFO">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="^6$" replace="ℹ️ Syslog INFO">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </tcp-message>
 
   <!-- Syslog over TCP: fallback -->
   <tcp-message style="steel-blue">
-    <opcode display="brief" regex-match="(\d+)" regex-replace="📝 Syslog Level $1">syslog.level</opcode>
-    <param regex-match=".*Facility: (.*) \(\d+\)" regex-replace="🏷 Facility: $1">syslog.facility</param>
+    <opcode display="brief" match="(\d+)" replace="📝 Syslog Level $1">syslog.level</opcode>
+    <param match=".*Facility: (.*) \(\d+\)" replace="🏷 Facility: $1">syslog.facility</param>
     <param>syslog.msg</param>
   </tcp-message>
 
@@ -527,13 +527,13 @@
 
   <!-- HTTP Response -->
   <tcp-message style="forest-green">
-    <opcode regex-match=".*" regex-replace="✅ HTTP Response">http.response.code</opcode>
+    <opcode match=".*" replace="✅ HTTP Response">http.response.code</opcode>
     <param>http.response.phrase</param>
   </tcp-message>
 
   <!-- TLS Handshake (Client Hello) -->
   <tcp-message style="sea-green">
-    <opcode regex-match="Handshake Type: (Client Hello) \(\d+\)" regex-replace="🤝 TLS $1">tls.handshake.type</opcode>
+    <opcode match="Handshake Type: (Client Hello) \(\d+\)" replace="🤝 TLS $1">tls.handshake.type</opcode>
     <param>tls.handshake.version</param>
     <param>tls.handshake.extensions_server_name</param>
     <param>tls.handshake.ja3</param>
@@ -541,7 +541,7 @@
 
   <!-- TLS Handshake (Server Hello) -->
   <tcp-message style="forest-green">
-    <opcode regex-match="Handshake Type: (Server Hello) \(\d+\)" regex-replace="🤝 TLS $1">tls.handshake.type</opcode>
+    <opcode match="Handshake Type: (Server Hello) \(\d+\)" replace="🤝 TLS $1">tls.handshake.type</opcode>
     <param>tls.handshake.version</param>
     <param>tls.handshake.ciphersuite</param>
     <param>tls.handshake.ja3s</param>
@@ -549,31 +549,31 @@
 
   <!-- TLS Handshake (Certificate, Key Exchange, etc.) -->
   <tcp-message style="cerulean">
-    <opcode regex-match="Handshake Type: (.*) \(\d+\)" regex-replace="🔐 TLS $1">tls.handshake.type</opcode>
+    <opcode match="Handshake Type: (.*) \(\d+\)" replace="🔐 TLS $1">tls.handshake.type</opcode>
     <param>tls.handshake.version</param>
   </tcp-message>
 
   <!-- TLS Change Cipher Spec -->
   <tcp-message style="teal dashed">
-    <opcode regex-match="(Change Cipher Spec).*" regex-replace="🔒 TLS $1">tls.change_cipher_spec</opcode>
+    <opcode match="(Change Cipher Spec).*" replace="🔒 TLS $1">tls.change_cipher_spec</opcode>
   </tcp-message>
 
   <!-- TLS Application Data (encrypted) -->
   <tcp-message style="steel-blue dashed">
-    <opcode regex-match="Content Type: (Application Data) \(\d+\)" regex-replace="🔒 TLS $1">tls.record.content_type</opcode>
+    <opcode match="Content Type: (Application Data) \(\d+\)" replace="🔒 TLS $1">tls.record.content_type</opcode>
     <param>tls.app_data_proto</param>
   </tcp-message>
 
   <!-- TCP generic fallback (must be last) -->
   <tcp-message>
-    <opcode regex-match=".*Flags:.*\((.*)\)" regex-replace="🔗 TCP ($1)">tcp.flags</opcode>
+    <opcode match=".*Flags:.*\((.*)\)" replace="🔗 TCP ($1)">tcp.flags</opcode>
     <param>tcp.srcport</param>
     <param>tcp.dstport</param>
   </tcp-message>
 
   <!-- DHCPv6 Relay (before client messages — relay wraps inner messages) -->
   <udpv6-message style="goldenrod">
-    <opcode regex-match="Message type: (Relay-forw) \(\d+\)" regex-replace="🔄 DHCPv6 Relay Forward">dhcpv6.msgtype</opcode>
+    <opcode match="Message type: (Relay-forw) \(\d+\)" replace="🔄 DHCPv6 Relay Forward">dhcpv6.msgtype</opcode>
     <param>dhcpv6.linkaddr</param>
     <param>dhcpv6.peeraddr</param>
     <param>dhcpv6.hopcount</param>
@@ -581,117 +581,117 @@
   </udpv6-message>
 
   <udpv6-message style="teal">
-    <opcode regex-match="Message type: (Relay-reply) \(\d+\)" regex-replace="🔄 DHCPv6 Relay Reply">dhcpv6.msgtype</opcode>
+    <opcode match="Message type: (Relay-reply) \(\d+\)" replace="🔄 DHCPv6 Relay Reply">dhcpv6.msgtype</opcode>
     <param>dhcpv6.linkaddr</param>
     <param>dhcpv6.peeraddr</param>
   </udpv6-message>
 
   <!-- DHCPv6 Solicit -->
   <udpv6-message style="royal-blue">
-    <opcode regex-match="Message type: (Solicit) \(\d+\)" regex-replace="🔍 DHCPv6 $1">dhcpv6.msgtype</opcode>
-    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">dhcpv6.xid</param>
+    <opcode match="Message type: (Solicit) \(\d+\)" replace="🔍 DHCPv6 $1">dhcpv6.msgtype</opcode>
+    <param match="(Transaction ID): (.*)" replace="🆔 $1: $2">dhcpv6.xid</param>
     <param>dhcpv6.duid.bytes</param>
   </udpv6-message>
 
   <!-- DHCPv6 Advertise -->
   <udpv6-message style="sea-green">
-    <opcode regex-match="Message type: (Advertise) \(\d+\)" regex-replace="📋 DHCPv6 $1">dhcpv6.msgtype</opcode>
-    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">dhcpv6.xid</param>
+    <opcode match="Message type: (Advertise) \(\d+\)" replace="📋 DHCPv6 $1">dhcpv6.msgtype</opcode>
+    <param match="(Transaction ID): (.*)" replace="🆔 $1: $2">dhcpv6.xid</param>
     <param>dhcpv6.duid.bytes</param>
-    <param regex-match="(IPv6 address): (.*)" regex-replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
-    <param regex-match="(Prefix): (.*)" regex-replace="🌐 $1: $2">dhcpv6.iaprefix.pref_addr</param>
-    <param regex-match="(DNS.*server): (.*)" regex-replace="🌐 $1: $2">dhcpv6.dns_server</param>
+    <param match="(IPv6 address): (.*)" replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
+    <param match="(Prefix): (.*)" replace="🌐 $1: $2">dhcpv6.iaprefix.pref_addr</param>
+    <param match="(DNS.*server): (.*)" replace="🌐 $1: $2">dhcpv6.dns_server</param>
   </udpv6-message>
 
   <!-- DHCPv6 Request -->
   <udpv6-message style="amethyst">
-    <opcode regex-match="Message type: (Request) \(\d+\)" regex-replace="📝 DHCPv6 $1">dhcpv6.msgtype</opcode>
-    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">dhcpv6.xid</param>
+    <opcode match="Message type: (Request) \(\d+\)" replace="📝 DHCPv6 $1">dhcpv6.msgtype</opcode>
+    <param match="(Transaction ID): (.*)" replace="🆔 $1: $2">dhcpv6.xid</param>
     <param>dhcpv6.duid.bytes</param>
   </udpv6-message>
 
   <!-- DHCPv6 Reply -->
   <udpv6-message style="forest-green">
-    <opcode regex-match="Message type: (Reply) \(\d+\)" regex-replace="✅ DHCPv6 $1">dhcpv6.msgtype</opcode>
-    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">dhcpv6.xid</param>
+    <opcode match="Message type: (Reply) \(\d+\)" replace="✅ DHCPv6 $1">dhcpv6.msgtype</opcode>
+    <param match="(Transaction ID): (.*)" replace="🆔 $1: $2">dhcpv6.xid</param>
     <param>dhcpv6.duid.bytes</param>
-    <param regex-match="(IPv6 address): (.*)" regex-replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
+    <param match="(IPv6 address): (.*)" replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
     <param>dhcpv6.iaaddr.pref_lifetime</param>
     <param>dhcpv6.iaaddr.valid_lifetime</param>
-    <param regex-match="(Prefix): (.*)" regex-replace="🌐 $1: $2">dhcpv6.iaprefix.pref_addr</param>
+    <param match="(Prefix): (.*)" replace="🌐 $1: $2">dhcpv6.iaprefix.pref_addr</param>
     <param>dhcpv6.iaid.t1</param>
     <param>dhcpv6.iaid.t2</param>
-    <param regex-match="(DNS.*server): (.*)" regex-replace="🌐 $1: $2">dhcpv6.dns_server</param>
+    <param match="(DNS.*server): (.*)" replace="🌐 $1: $2">dhcpv6.dns_server</param>
     <param>dhcpv6.search_list_entry</param>
   </udpv6-message>
 
   <!-- DHCPv6 Renew -->
   <udpv6-message style="cerulean">
-    <opcode regex-match="Message type: (Renew) \(\d+\)" regex-replace="🔄 DHCPv6 $1">dhcpv6.msgtype</opcode>
-    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">dhcpv6.xid</param>
+    <opcode match="Message type: (Renew) \(\d+\)" replace="🔄 DHCPv6 $1">dhcpv6.msgtype</opcode>
+    <param match="(Transaction ID): (.*)" replace="🆔 $1: $2">dhcpv6.xid</param>
     <param>dhcpv6.duid.bytes</param>
-    <param regex-match="(IPv6 address): (.*)" regex-replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
+    <param match="(IPv6 address): (.*)" replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
   </udpv6-message>
 
   <!-- DHCPv6 Release -->
   <udpv6-message style="magenta">
-    <opcode regex-match="Message type: (Release) \(\d+\)" regex-replace="🛑 DHCPv6 $1">dhcpv6.msgtype</opcode>
-    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">dhcpv6.xid</param>
+    <opcode match="Message type: (Release) \(\d+\)" replace="🛑 DHCPv6 $1">dhcpv6.msgtype</opcode>
+    <param match="(Transaction ID): (.*)" replace="🆔 $1: $2">dhcpv6.xid</param>
     <param>dhcpv6.duid.bytes</param>
-    <param regex-match="(IPv6 address): (.*)" regex-replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
+    <param match="(IPv6 address): (.*)" replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
   </udpv6-message>
 
   <!-- DHCPv6 Information-request -->
   <udpv6-message style="cerulean">
-    <opcode regex-match="Message type: (Information-request) \(\d+\)" regex-replace="🔄 DHCPv6 $1">dhcpv6.msgtype</opcode>
-    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">dhcpv6.xid</param>
+    <opcode match="Message type: (Information-request) \(\d+\)" replace="🔄 DHCPv6 $1">dhcpv6.msgtype</opcode>
+    <param match="(Transaction ID): (.*)" replace="🆔 $1: $2">dhcpv6.xid</param>
     <param>dhcpv6.duid.bytes</param>
   </udpv6-message>
 
   <!-- DHCPv6 generic fallback -->
   <udpv6-message style="forest-green">
-    <opcode regex-match="Message type: (.*) \(\d+\)" regex-replace="🔄 DHCPv6 $1">dhcpv6.msgtype</opcode>
-    <param regex-match="(Transaction ID): (.*)" regex-replace="🆔 $1: $2">dhcpv6.xid</param>
+    <opcode match="Message type: (.*) \(\d+\)" replace="🔄 DHCPv6 $1">dhcpv6.msgtype</opcode>
+    <param match="(Transaction ID): (.*)" replace="🆔 $1: $2">dhcpv6.xid</param>
     <param>dhcpv6.duid.bytes</param>
-    <param regex-match="(IPv6 address): (.*)" regex-replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
+    <param match="(IPv6 address): (.*)" replace="🌐 $1: $2">dhcpv6.iaaddr.ip</param>
     <param>dhcpv6.iaaddr.pref_lifetime</param>
     <param>dhcpv6.iaaddr.valid_lifetime</param>
-    <param regex-match="(Prefix): (.*)" regex-replace="🌐 $1: $2">dhcpv6.iaprefix.pref_addr</param>
+    <param match="(Prefix): (.*)" replace="🌐 $1: $2">dhcpv6.iaprefix.pref_addr</param>
     <param>dhcpv6.iaid.t1</param>
     <param>dhcpv6.iaid.t2</param>
-    <param regex-match="(DNS.*server): (.*)" regex-replace="🌐 $1: $2">dhcpv6.dns_server</param>
+    <param match="(DNS.*server): (.*)" replace="🌐 $1: $2">dhcpv6.dns_server</param>
     <param>dhcpv6.search_list_entry</param>
   </udpv6-message>
 
   <!-- DNS Response over IPv6 (BEFORE Query) -->
   <udpv6-message style="forest-green">
-    <opcode regex-match=".*Message is a (response)" regex-replace="✅ DNS Response">dns.flags.response</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🔍 $1: $2">dns.qry.name</param>
-    <param regex-match="(Type): (.*)" regex-replace="🏷 $1: $2">dns.qry.type</param>
-    <param regex-match=".*= Reply code: (.*)" regex-replace="📋 Reply: $1">dns.flags.rcode</param>
-    <param regex-match="(Address): (.*)" regex-replace="🌐 A: $2">dns.a</param>
-    <param regex-match="(AAAA Address): (.*)" regex-replace="🌐 AAAA: $2">dns.aaaa</param>
-    <param regex-match="(Name): (.*)" regex-replace="✅ $1: $2">dns.resp.name</param>
-    <param regex-match="(CNAME): (.*)" regex-replace="🔗 $1: $2">dns.cname</param>
+    <opcode match=".*Message is a (response)" replace="✅ DNS Response">dns.flags.response</opcode>
+    <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
+    <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
+    <param match=".*= Reply code: (.*)" replace="📋 Reply: $1">dns.flags.rcode</param>
+    <param match="(Address): (.*)" replace="🌐 A: $2">dns.a</param>
+    <param match="(AAAA Address): (.*)" replace="🌐 AAAA: $2">dns.aaaa</param>
+    <param match="(Name): (.*)" replace="✅ $1: $2">dns.resp.name</param>
+    <param match="(CNAME): (.*)" replace="🔗 $1: $2">dns.cname</param>
   </udpv6-message>
 
   <!-- DNS Query over IPv6 -->
   <udpv6-message style="royal-blue">
-    <opcode display="brief" regex-match="^0$" regex-replace="🔍 DNS Query">dns.flags.opcode</opcode>
-    <param regex-match="(Name): (.*)" regex-replace="🔍 $1: $2">dns.qry.name</param>
-    <param regex-match="(Type): (.*)" regex-replace="🏷 $1: $2">dns.qry.type</param>
+    <opcode display="brief" match="^0$" replace="🔍 DNS Query">dns.flags.opcode</opcode>
+    <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
+    <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
   </udpv6-message>
 
   <!-- Wake-on-LAN -->
   <mac-message style="amethyst">
-    <opcode regex-match=".*" regex-replace="⚡ Wake-on-LAN">wol</opcode>
+    <opcode match=".*" replace="⚡ Wake-on-LAN">wol</opcode>
     <param>wol.mac</param>
   </mac-message>
 
   <!-- SNMPv3 encrypted (fallback when encrypted data not decodable) -->
   <udp-message style="sea-green">
-    <opcode regex-match=".*" regex-replace="🔒 SNMPv3 Encrypted">snmp.msgData</opcode>
-    <param regex-match="(msgUserName): (.*)" regex-replace="👤 $1: $2">snmp.msgUserName</param>
+    <opcode match=".*" replace="🔒 SNMPv3 Encrypted">snmp.msgData</opcode>
+    <param match="(msgUserName): (.*)" replace="👤 $1: $2">snmp.msgUserName</param>
   </udp-message>
 
 </FXT>

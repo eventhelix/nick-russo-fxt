@@ -48,11 +48,11 @@ ICMPv6 Types:
 
   <!-- GRE carrying IPv6 (protocol 47, show outer IPv4 tunnel) -->
   <message style="goldenrod">
-    <opcode regex-match="Protocol Type: (IPv6) \(0x\w+\)" regex-replace="🔗 GRE 6️⃣ in 4️⃣ Tunnel">gre.proto</opcode>
-    <param regex-match="(Source Address): (.*)" regex-replace="6️⃣ Inner Src: $2">ipv6.src</param>
-    <param regex-match="(Destination Address): (.*)" regex-replace="6️⃣ Inner Dst: $2">ipv6.dst</param>
-    <param regex-match="Type: (.*) \(\d+\)" regex-replace="Inner: $1">icmpv6.type</param>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <opcode match="Protocol Type: (IPv6) \(0x\w+\)" replace="🔗 GRE 6️⃣ in 4️⃣ Tunnel">gre.proto</opcode>
+    <param match="(Source Address): (.*)" replace="6️⃣ Inner Src: $2">ipv6.src</param>
+    <param match="(Destination Address): (.*)" replace="6️⃣ Inner Dst: $2">ipv6.dst</param>
+    <param match="Type: (.*) \(\d+\)" replace="Inner: $1">icmpv6.type</param>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
     <source>
       <address skip-inner="1" display="brief">ip.src</address>
     </source>
@@ -63,14 +63,14 @@ ICMPv6 Types:
 
   <!-- IPv6-in-IPv4 tunnel (protocol 41: 6to4, 6rd, ISATAP, manual) -->
   <message style="royal-blue">
-    <opcode display="brief" skip-inner="1" regex-match="^41$" regex-replace="🔗 6️⃣ in 4️⃣ Tunnel">ip.proto</opcode>
-    <param regex-match="(Source Address): (.*)" regex-replace="6️⃣ Inner Src: $2">ipv6.src</param>
-    <param regex-match="(Destination Address): (.*)" regex-replace="6️⃣ Inner Dst: $2">ipv6.dst</param>
-    <param regex-match="Type: (.*) \(\d+\)" regex-replace="Inner: $1">icmpv6.type</param>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.ns.target_address</param>
-    <param regex-match="(Router Lifetime): (.*)" regex-replace="⏱ $1: $2">icmpv6.nd.ra.router_lifetime</param>
-    <param regex-match="(Prefix): (.*)" regex-replace="🌐 $1: $2">icmpv6.opt.prefix</param>
+    <opcode display="brief" skip-inner="1" match="^41$" replace="🔗 6️⃣ in 4️⃣ Tunnel">ip.proto</opcode>
+    <param match="(Source Address): (.*)" replace="6️⃣ Inner Src: $2">ipv6.src</param>
+    <param match="(Destination Address): (.*)" replace="6️⃣ Inner Dst: $2">ipv6.dst</param>
+    <param match="Type: (.*) \(\d+\)" replace="Inner: $1">icmpv6.type</param>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Target Address): (.*)" replace="🎯 $1: $2">icmpv6.nd.ns.target_address</param>
+    <param match="(Router Lifetime): (.*)" replace="⏱ $1: $2">icmpv6.nd.ra.router_lifetime</param>
+    <param match="(Prefix): (.*)" replace="🌐 $1: $2">icmpv6.opt.prefix</param>
     <source>
       <address skip-inner="1" display="brief">ip.src</address>
     </source>
@@ -89,8 +89,8 @@ ICMPv6 Types:
        parameters: rank, instance, version, DTSN, and configuration. -->
   <ipv6-message style="royal-blue">
     <opcode
-            regex-match=".*DODAG Information Object.*"
-            regex-replace="📡 RPL DIO"
+            match=".*DODAG Information Object.*"
+            replace="📡 RPL DIO"
         >icmpv6.code</opcode>
     <param>icmpv6.rpl.dio.instance</param>
     <param>icmpv6.rpl.dio.rank</param>
@@ -108,8 +108,8 @@ ICMPv6 Types:
        specific DODAG parameters. -->
   <ipv6-message style="sea-green">
     <opcode
-            regex-match=".*DODAG Information Solicitation.*"
-            regex-replace="🔍 RPL DIS"
+            match=".*DODAG Information Solicitation.*"
+            replace="🔍 RPL DIS"
         >icmpv6.code</opcode>
     <param>icmpv6.rpl.opt.solicited.instance</param>
     <param>icmpv6.rpl.opt.solicited.dodagid</param>
@@ -123,8 +123,8 @@ ICMPv6 Types:
        information options. -->
   <ipv6-message style="amethyst">
     <opcode
-            regex-match=".*Destination Advertisement Object\)$"
-            regex-replace="📢 RPL DAO"
+            match=".*Destination Advertisement Object\)$"
+            replace="📢 RPL DAO"
         >icmpv6.code</opcode>
     <param>icmpv6.rpl.dao.instance</param>
     <param>icmpv6.rpl.dao.sequence</param>
@@ -138,8 +138,8 @@ ICMPv6 Types:
   <!-- RPL DAO-ACK (Code 3) -->
   <ipv6-message style="forest-green dashed">
     <opcode
-            regex-match=".*Destination Advertisement Object Acknowledgement.*"
-            regex-replace="✅ RPL DAO-ACK"
+            match=".*Destination Advertisement Object Acknowledgement.*"
+            replace="✅ RPL DAO-ACK"
         >icmpv6.code</opcode>
     <param>icmpv6.rpl.dao.instance</param>
     <param>icmpv6.rpl.dao.sequence</param>
@@ -154,8 +154,8 @@ ICMPv6 Types:
        for host mobility and multihoming in 6LoWPAN networks -->
   <ipv6-message style="goldenrod">
     <opcode
-            regex-match="^156$"
-            regex-replace="📍 ILNP Locator Update"
+            match="^156$"
+            replace="📍 ILNP Locator Update"
         >icmpv6.type</opcode>
     <param>icmpv6.ilnp.nb_locs</param>
     <param>icmpv6.ilnp.nb_locator</param>
@@ -174,12 +174,12 @@ ICMPv6 Types:
   <ipv6-message style="tangerine">
     <opcode
             display="brief"
-            regex-match="^137$"
-            regex-replace="↪ NDP Redirect"
+            match="^137$"
+            replace="↪ NDP Redirect"
         >icmpv6.type</opcode>
     <param>icmpv6.nd.rd.target_address</param>
     <param>icmpv6.rd.na.destination_address</param>
-    <param regex-match="(Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.linkaddr</param>
+    <param match="(Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.linkaddr</param>
   </ipv6-message>
 
   <!-- Router Solicitation (Type 133)
@@ -187,10 +187,10 @@ ICMPv6 Types:
   <ipv6-message style="sea-green">
     <opcode
             display="brief"
-            regex-match="^133$"
-            regex-replace="🔍 NDP Router Solicitation"
+            match="^133$"
+            replace="🔍 NDP Router Solicitation"
         >icmpv6.type</opcode>
-    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+    <param match="(Source Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
   </ipv6-message>
 
   <!-- Router Advertisement (Type 134)
@@ -200,16 +200,16 @@ ICMPv6 Types:
   <ipv6-message style="forest-green">
     <opcode
             display="brief"
-            regex-match="^134$"
-            regex-replace="📡 NDP Router Advertisement"
+            match="^134$"
+            replace="📡 NDP Router Advertisement"
         >icmpv6.type</opcode>
     <param>icmpv6.nd.ra.cur_hop_limit</param>
-    <param regex-match="(Router Lifetime): (.*)" regex-replace="⏱ $1: $2">icmpv6.nd.ra.router_lifetime</param>
+    <param match="(Router Lifetime): (.*)" replace="⏱ $1: $2">icmpv6.nd.ra.router_lifetime</param>
     <param>icmpv6.nd.ra.reachable_time</param>
-    <param regex-match="(Prefix): (.*)" regex-replace="🌐 $1: $2">icmpv6.opt.prefix</param>
+    <param match="(Prefix): (.*)" replace="🌐 $1: $2">icmpv6.opt.prefix</param>
     <param>icmpv6.opt.prefix.length</param>
-    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
-    <param regex-match="(MTU): (.*)" regex-replace="📏 $1: $2">icmpv6.opt.mtu</param>
+    <param match="(Source Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+    <param match="(MTU): (.*)" replace="📏 $1: $2">icmpv6.opt.mtu</param>
     <param>icmpv6.opt.aro.status</param>
     <param>icmpv6.opt.aro.registration_lifetime</param>
     <param>icmpv6.opt.aro.eui64</param>
@@ -220,11 +220,11 @@ ICMPv6 Types:
   <ipv6-message style="cerulean">
     <opcode
             display="brief"
-            regex-match="^135$"
-            regex-replace="🔍 NDP Neighbor Solicitation"
+            match="^135$"
+            replace="🔍 NDP Neighbor Solicitation"
         >icmpv6.type</opcode>
-    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.ns.target_address</param>
-    <param regex-match="(Source Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
+    <param match="(Target Address): (.*)" replace="🎯 $1: $2">icmpv6.nd.ns.target_address</param>
+    <param match="(Source Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.src_linkaddr</param>
   </ipv6-message>
 
   <!-- Neighbor Advertisement (Type 136)
@@ -232,12 +232,12 @@ ICMPv6 Types:
   <ipv6-message style="teal">
     <opcode
             display="brief"
-            regex-match="^136$"
-            regex-replace="📣 NDP Neighbor Advertisement"
+            match="^136$"
+            replace="📣 NDP Neighbor Advertisement"
         >icmpv6.type</opcode>
-    <param regex-match="(Target Address): (.*)" regex-replace="🎯 $1: $2">icmpv6.nd.na.target_address</param>
+    <param match="(Target Address): (.*)" replace="🎯 $1: $2">icmpv6.nd.na.target_address</param>
     <param>icmpv6.nd.na.flag</param>
-    <param regex-match="(Link-layer address): (.*)" regex-replace="🔗 $1: $2">icmpv6.opt.linkaddr</param>
+    <param match="(Link-layer address): (.*)" replace="🔗 $1: $2">icmpv6.opt.linkaddr</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -248,26 +248,26 @@ ICMPv6 Types:
   <ipv6-message style="sea-green dotted">
     <opcode
             display="brief"
-            regex-match="^128$"
-            regex-replace="📡 ICMPv6 Echo Request"
+            match="^128$"
+            replace="📡 ICMPv6 Echo Request"
         >icmpv6.type</opcode>
     <param>ipv6.src</param>
     <param>ipv6.dst</param>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
   </ipv6-message>
 
   <!-- ICMPv6 Echo Reply (Type 129) -->
   <ipv6-message style="forest-green">
     <opcode
             display="brief"
-            regex-match="^129$"
-            regex-replace="✅ ICMPv6 Echo Reply"
+            match="^129$"
+            replace="✅ ICMPv6 Echo Reply"
         >icmpv6.type</opcode>
     <param>ipv6.src</param>
     <param>ipv6.dst</param>
-    <param regex-match="(Identifier): (.*)" regex-replace="🆔 $1: $2">icmpv6.echo.identifier</param>
-    <param regex-match="(Sequence): (.*)" regex-replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
+    <param match="(Identifier): (.*)" replace="🆔 $1: $2">icmpv6.echo.identifier</param>
+    <param match="(Sequence): (.*)" replace="🔢 $1: $2">icmpv6.echo.sequence_number</param>
     <param>icmpv6.resp_to</param>
     <param>icmpv6.resptime</param>
   </ipv6-message>
@@ -280,10 +280,10 @@ ICMPv6 Types:
   <ipv6-message style="slate-blue dotted">
     <opcode
             display="brief"
-            regex-match="^130$"
-            regex-replace="🔍 MLD Query"
+            match="^130$"
+            replace="🔍 MLD Query"
         >icmpv6.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="📡 $1: $2">icmpv6.mld.multicast_address</param>
+    <param match="(Multicast Address): (.*)" replace="📡 $1: $2">icmpv6.mld.multicast_address</param>
     <param>icmpv6.mld.maximum_response_delay</param>
   </ipv6-message>
 
@@ -291,30 +291,30 @@ ICMPv6 Types:
   <ipv6-message style="slate-blue dotted">
     <opcode
             display="brief"
-            regex-match="^131$"
-            regex-replace="📣 MLD Report v1"
+            match="^131$"
+            replace="📣 MLD Report v1"
         >icmpv6.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="📡 $1: $2">icmpv6.mld.multicast_address</param>
+    <param match="(Multicast Address): (.*)" replace="📡 $1: $2">icmpv6.mld.multicast_address</param>
   </ipv6-message>
 
   <!-- MLD Done (Type 132) -->
   <ipv6-message style="slate-blue dotted">
     <opcode
             display="brief"
-            regex-match="^132$"
-            regex-replace="🛑 MLD Done"
+            match="^132$"
+            replace="🛑 MLD Done"
         >icmpv6.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="📡 $1: $2">icmpv6.mld.multicast_address</param>
+    <param match="(Multicast Address): (.*)" replace="📡 $1: $2">icmpv6.mld.multicast_address</param>
   </ipv6-message>
 
   <!-- MLD Report v2 (Type 143) -->
   <ipv6-message style="slate-blue dotted">
     <opcode
             display="brief"
-            regex-match="^143$"
-            regex-replace="📣 MLD Report v2"
+            match="^143$"
+            replace="📣 MLD Report v2"
         >icmpv6.type</opcode>
-    <param regex-match="(Multicast Address): (.*)" regex-replace="📡 $1: $2">icmpv6.mld.multicast_address</param>
+    <param match="(Multicast Address): (.*)" replace="📡 $1: $2">icmpv6.mld.multicast_address</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -325,47 +325,47 @@ ICMPv6 Types:
   <ipv6-message style="crimson">
     <opcode
             display="brief"
-            regex-match="^1$"
-            regex-replace="🚫 ICMPv6 Dest Unreachable"
+            match="^1$"
+            replace="🚫 ICMPv6 Dest Unreachable"
         >icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- Packet Too Big (Type 2) -->
   <ipv6-message style="crimson">
     <opcode
             display="brief"
-            regex-match="^2$"
-            regex-replace="📦 ICMPv6 Packet Too Big"
+            match="^2$"
+            replace="📦 ICMPv6 Packet Too Big"
         >icmpv6.type</opcode>
-    <param regex-match="(MTU): (.*)" regex-replace="📏 $1: $2">icmpv6.mtu</param>
+    <param match="(MTU): (.*)" replace="📏 $1: $2">icmpv6.mtu</param>
   </ipv6-message>
 
   <!-- Time Exceeded (Type 3) -->
   <ipv6-message style="crimson">
     <opcode
             display="brief"
-            regex-match="^3$"
-            regex-replace="⏳ ICMPv6 Time Exceeded"
+            match="^3$"
+            replace="⏳ ICMPv6 Time Exceeded"
         >icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- Parameter Problem (Type 4) -->
   <ipv6-message style="crimson">
     <opcode
             display="brief"
-            regex-match="^4$"
-            regex-replace="⚠️ ICMPv6 Parameter Problem"
+            match="^4$"
+            replace="⚠️ ICMPv6 Parameter Problem"
         >icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
     <param>icmpv6.pointer</param>
   </ipv6-message>
 
   <!-- Generic ICMPv6 catch-all -->
   <ipv6-message style="slate">
-    <opcode regex-match="Type: (.*)" regex-replace="ICMPv6 $1">icmpv6.type</opcode>
-    <param regex-match="(Code): (.*)" regex-replace="📋 $1: $2">icmpv6.code</param>
+    <opcode match="Type: (.*)" replace="ICMPv6 $1">icmpv6.type</opcode>
+    <param match="(Code): (.*)" replace="📋 $1: $2">icmpv6.code</param>
   </ipv6-message>
 
   <!-- ============================================================
@@ -374,7 +374,7 @@ ICMPv6 Types:
 
   <!-- DNS Query over IPv6 -->
   <udpv6-message style="sea-green">
-    <opcode regex-match="\(query\)$" regex-replace="🔍 DNS Query">dns</opcode>
+    <opcode match="\(query\)$" replace="🔍 DNS Query">dns</opcode>
     <param>dns.id</param>
     <param>dns.qry.name</param>
     <param>dns.qry.type</param>
@@ -382,7 +382,7 @@ ICMPv6 Types:
 
   <!-- DNS Response over IPv6 -->
   <udpv6-message style="forest-green dashed">
-    <opcode regex-match="^Domain">dns</opcode>
+    <opcode match="^Domain">dns</opcode>
     <param>dns.id</param>
     <param>dns.qry.name</param>
     <param>dns.resp.name</param>
@@ -400,8 +400,8 @@ ICMPv6 Types:
   <udpv6-message style="amethyst">
     <opcode
             display="brief"
-            regex-match="^1$"
-            regex-replace="🔍 RIPng Request"
+            match="^1$"
+            replace="🔍 RIPng Request"
         >ripng.cmd</opcode>
     <param>ripng.rte.ipv6_prefix</param>
     <param>ripng.rte.prefix_length</param>
@@ -412,8 +412,8 @@ ICMPv6 Types:
   <udpv6-message style="forest-green dashed">
     <opcode
             display="brief"
-            regex-match="^2$"
-            regex-replace="📢 RIPng Response"
+            match="^2$"
+            replace="📢 RIPng Response"
         >ripng.cmd</opcode>
     <param>ripng.rte.ipv6_prefix</param>
     <param>ripng.rte.prefix_length</param>
@@ -422,7 +422,7 @@ ICMPv6 Types:
 
   <!-- Generic RIPng (catch-all) -->
   <udpv6-message style="sea-green dashed">
-    <opcode regex-match="Command: (.*)" regex-replace="RIPng $1">ripng.cmd</opcode>
+    <opcode match="Command: (.*)" replace="RIPng $1">ripng.cmd</opcode>
     <param>ripng.rte.ipv6_prefix</param>
     <param>ripng.rte.prefix_length</param>
     <param>ripng.rte.metric</param>
@@ -435,8 +435,8 @@ ICMPv6 Types:
   <!-- TCP SYN -->
   <tcpv6-message style="sea-green">
     <opcode
-            regex-match="Set$"
-            regex-replace="🔗 TCP SYN"
+            match="Set$"
+            replace="🔗 TCP SYN"
         >tcp.flags.syn</opcode>
     <param>tcp.stream</param>
     <param>tcp.srcport</param>
@@ -448,8 +448,8 @@ ICMPv6 Types:
   <!-- TCP FIN -->
   <tcpv6-message style="forest-green dashed">
     <opcode
-            regex-match="Set$"
-            regex-replace="🏁 TCP FIN"
+            match="Set$"
+            replace="🏁 TCP FIN"
         >tcp.flags.fin</opcode>
     <param>tcp.stream</param>
     <param>tcp.srcport</param>
@@ -461,8 +461,8 @@ ICMPv6 Types:
   <!-- TCP RST -->
   <tcpv6-message style="crimson wave">
     <opcode
-            regex-match="Set$"
-            regex-replace="🚫 TCP RST"
+            match="Set$"
+            replace="🚫 TCP RST"
         >tcp.flags.reset</opcode>
     <param>tcp.stream</param>
     <param>tcp.srcport</param>
@@ -510,7 +510,7 @@ ICMPv6 Types:
 
   <!-- SSH Protocol Version Exchange -->
   <tcpv6-message style="amethyst">
-    <opcode regex-match="Protocol: (.*)" regex-replace="SSH $1">ssh.protocol</opcode>
+    <opcode match="Protocol: (.*)" replace="SSH $1">ssh.protocol</opcode>
     <param>tcp.stream</param>
     <param>ssh.direction</param>
     <param>tcp.len</param>
@@ -518,7 +518,7 @@ ICMPv6 Types:
 
   <!-- SSH Key Exchange -->
   <tcpv6-message style="amethyst">
-    <opcode regex-match="Message Code: (.*)" regex-replace="SSH $1">ssh.message_code</opcode>
+    <opcode match="Message Code: (.*)" replace="SSH $1">ssh.message_code</opcode>
     <param>tcp.stream</param>
     <param>ssh.direction</param>
     <param>ssh.packet_length</param>
@@ -526,7 +526,7 @@ ICMPv6 Types:
 
   <!-- SSH Encrypted Packet -->
   <tcpv6-message style="amethyst dotted">
-    <opcode regex-match="Packet Length: (.*)" regex-replace="SSH Encrypted (len=$1)">ssh.packet_length</opcode>
+    <opcode match="Packet Length: (.*)" replace="SSH Encrypted (len=$1)">ssh.packet_length</opcode>
     <param>tcp.stream</param>
     <param>ssh.direction</param>
   </tcpv6-message>
@@ -539,8 +539,8 @@ ICMPv6 Types:
   <tcpv6-message style="sea-green">
     <opcode
             display="brief"
-            regex-match="^1$"
-            regex-replace="🤝 BGP OPEN"
+            match="^1$"
+            replace="🤝 BGP OPEN"
         >bgp.type</opcode>
     <param>tcp.stream</param>
     <param>bgp.version</param>
@@ -555,8 +555,8 @@ ICMPv6 Types:
   <tcpv6-message style="forest-green">
     <opcode
             display="brief"
-            regex-match="^2$"
-            regex-replace="📢 BGP UPDATE"
+            match="^2$"
+            replace="📢 BGP UPDATE"
         >bgp.type</opcode>
     <param>tcp.stream</param>
     <param>bgp.origin</param>
@@ -572,8 +572,8 @@ ICMPv6 Types:
   <tcpv6-message style="crimson wave">
     <opcode
             display="brief"
-            regex-match="^3$"
-            regex-replace="⚠️ BGP NOTIFICATION"
+            match="^3$"
+            replace="⚠️ BGP NOTIFICATION"
         >bgp.type</opcode>
     <param>tcp.stream</param>
     <param>bgp.notify.major_error</param>
@@ -584,15 +584,15 @@ ICMPv6 Types:
   <tcpv6-message style="sea-green dotted">
     <opcode
             display="brief"
-            regex-match="^4$"
-            regex-replace="💓 BGP KEEPALIVE"
+            match="^4$"
+            replace="💓 BGP KEEPALIVE"
         >bgp.type</opcode>
     <param>tcp.stream</param>
   </tcpv6-message>
 
   <!-- Generic BGP -->
   <tcpv6-message style="amethyst">
-    <opcode regex-match="^Type: (.*)" regex-replace="BGP $1">bgp.type</opcode>
+    <opcode match="^Type: (.*)" replace="BGP $1">bgp.type</opcode>
     <param>tcp.stream</param>
     <param>bgp.version</param>
     <param>bgp.my_as</param>
@@ -620,8 +620,8 @@ ICMPv6 Types:
   <ipv6-message style="forest-green">
     <opcode
             display="brief"
-            regex-match="^5$"
-            regex-replace="👋 EIGRPv6 Hello"
+            match="^5$"
+            replace="👋 EIGRPv6 Hello"
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.flags</param>
@@ -635,8 +635,8 @@ ICMPv6 Types:
   <ipv6-message style="sea-green dashed">
     <opcode
             display="brief"
-            regex-match="^1$"
-            regex-replace="📢 EIGRPv6 Update"
+            match="^1$"
+            replace="📢 EIGRPv6 Update"
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.flags</param>
@@ -652,8 +652,8 @@ ICMPv6 Types:
   <ipv6-message style="amethyst">
     <opcode
             display="brief"
-            regex-match="^3$"
-            regex-replace="❓ EIGRPv6 Query"
+            match="^3$"
+            replace="❓ EIGRPv6 Query"
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.flags</param>
@@ -669,8 +669,8 @@ ICMPv6 Types:
   <ipv6-message style="forest-green">
     <opcode
             display="brief"
-            regex-match="^4$"
-            regex-replace="✅ EIGRPv6 Reply"
+            match="^4$"
+            replace="✅ EIGRPv6 Reply"
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.flags</param>
@@ -685,8 +685,8 @@ ICMPv6 Types:
   <!-- Generic EIGRP over IPv6 -->
   <ipv6-message style="slate-blue">
     <opcode
-            regex-match="(.*)"
-            regex-replace="EIGRPv6 Opcode $1"
+            match="^(?:[^:]+:\s*)?(.+)$"
+            replace="EIGRPv6 Opcode $1"
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.tlv_type</param>
@@ -703,8 +703,8 @@ ICMPv6 Types:
        application-layer templates above (SSH, HTTP, BGP, etc.) -->
   <tcpv6-message style="slate-blue dotted">
     <opcode
-            regex-match=".*"
-            regex-replace="📦 TCP Data"
+            match=".*"
+            replace="📦 TCP Data"
         >tcp.len</opcode>
     <param>tcp.stream</param>
     <param>tcp.srcport</param>
