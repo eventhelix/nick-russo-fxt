@@ -1,8 +1,26 @@
 # Nick Russo PCAP — VisualEther FXT Files
 
-This repository contains **FXT files** ([Field Extraction Templates](https://www.eventhelix.com/visualether/)) for use with [VisualEther](https://www.eventhelix.com/visualether/) — a tool that turns Wireshark packet captures into protocol sequence diagrams.
+## In memory of Nick Russo (1985–2024)
 
-The templates are designed to be used against the late **[Nick Russo](https://www.eventhelix.com/visualether/)**'s comprehensive packet-capture collection, covering 41 protocol families across routing, switching, IP services, MPLS, tunneling, multicast, management, applications, collaboration, IoT/wireless, and SDN.
+[Nicholas "Nick" Russo](https://github.com/nickrusso42518) (December 20, 1985 – June 10, 2024) was a **CCDE (#20160041)** and **CCIE (#42518)** network engineer and one of the most prolific networking educators of his generation — an internationally recognized expert in IP/MPLS networking and design. A 2008 Computer Science graduate of the Rochester Institute of Technology, he authored books and podcasts, recorded a deep catalog of Pluralsight courses spanning BGP, OSPF, MPLS, IPsec, automation, and the CCIE/CCNP curricula, contributed open-source automation tooling, and ran [njrusmc.net](https://njrusmc.net/) as a free public reference for engineers studying and troubleshooting in the field. The community remembers him as "a bright light in network engineering."
+
+Nick described his packet captures as *"job aids"* — references that answer questions like *"what does an OSPF adjacency actually look like on the wire?"*:
+
+> *Packet captures help reveal the ground truth. Use these PCAPs as references when troubleshooting complex issues.*
+> — Nick Russo
+
+**This repository is a derivative of Nick's work.** The FXT templates here exist only to turn his capture collection into searchable visual sequence diagrams — the same captures, continuing his teaching. The fully rendered, interactive diagrams are hosted at **<https://diagrams.eventhelix.com/nick-russo/>**.
+
+Explore more of Nick's work:
+
+- [github.com/nickrusso42518](https://github.com/nickrusso42518) — his labs, automation tooling, and CCIE/CCNP study material
+- In Memoriam: [Cisco Learning Network](https://learningnetwork.cisco.com/s/question/0D56e0000DuvttBCQQ/nick-russo-in-memoriamdecember-20-1985-june-10-2024) · [NANOG](https://nanog.org/resources/memoriam/memoriam-russo/)
+
+---
+
+## What's in this repository
+
+This repository contains **FXT files** ([Field Extraction Templates](https://www.eventhelix.com/visualether/)) for use with [VisualEther](https://www.eventhelix.com/visualether/) — a tool that turns Wireshark packet captures into protocol sequence diagrams. The templates render Nick Russo's comprehensive packet-capture collection, covering 41 protocol families across routing, switching, IP services, MPLS, tunneling, multicast, management, applications, collaboration, IoT/wireless, and SDN.
 
 ## See the rendered diagrams first
 
@@ -18,12 +36,11 @@ If you want to run the templates yourself — to tweak labels, add captures, or 
 
 ### 1. The pcap files
 
-Nick's site (`njrusmc.net`) is no longer reachable. The captures survive in two public archives:
+Nick's site (`njrusmc.net`) is no longer reachable. His original job-aid page — where he published the captures himself, under his own terms — survives on the Internet Archive:
 
-- **<https://github.com/kaelemc/NickRussoContent>** — community archive, organized as zipped per-protocol bundles (e.g. `bgp_pcap.zip`).
-- **[Wayback Machine snapshot](https://web.archive.org/web/20240502155743/https://njrusmc.net/jobaid/jobaid.html)** — last reachable copy of the original page.
+- **[Wayback Machine snapshot of `njrusmc.net/jobaid`](https://web.archive.org/web/20240719051541/https://njrusmc.net/jobaid/jobaid.html)**
 
-> Nick's original "personal use only, no redistribution" clause continues to govern the source pcaps regardless of where they're obtained. Use them for personal study, troubleshooting, and education.
+> Nick marked these captures **"personal use only, no redistribution."** Please honor that: download them from his own archived page above (not third-party mirrors), and use them for personal study, troubleshooting, and education.
 
 ### 2. VisualEther
 
@@ -48,10 +65,9 @@ Each `<protocol>_pcap/` directory contains:
 git clone https://github.com/eventhelix/nick-russo-fxt.git
 cd nick-russo-fxt
 
-# 2. Drop the matching pcap zip from the community archive into the
-#    corresponding directory and unzip it. For example:
-#       bgp_pcap.zip → bgp_pcap/*.pcapng
-unzip ../bgp_pcap.zip -d bgp_pcap/
+# 2. Download the matching captures from Nick's archived job-aid page
+#    (Wayback Machine, linked above) and place the .pcap/.pcapng files
+#    into the matching directory, e.g. bgp_pcap/.
 
 # 3. Render with VisualEther.
 visualether generate \
@@ -82,23 +98,10 @@ For a script that batches all 41 families with the right options per protocol, s
 
 Pull requests are welcome — better opcode labels, richer parameter extraction, clearer host-role mappings, fixes for misleading rendering. See the per-protocol READMEs for the kinds of refinements that matter most for each family.
 
-When opening a PR, please also describe which capture(s) you tested against so reviewers can spot-check the rendered output.
-
-## About Nick Russo
-
-Nick Russo (1989–2024) was a CCIE-certified network engineer and educator who described his packet captures as "job aids" — references to help individuals in their daily work and technical studies:
-
-> *Packet captures help reveal the ground truth. Use these PCAPs as references when troubleshooting complex issues.*
-
-This repository, and the rendered diagrams at <https://diagrams.eventhelix.com/nick-russo/>, are a continuation of his teaching: the same captures, turned into searchable visual flows that make protocol behavior obvious at a glance.
-
-More of Nick's work survives at:
-
-- <https://github.com/nickrusso42518>
-- <https://github.com/kaelemc/NickRussoContent>
+When opening a PR, please describe which capture(s) you tested against (pull them from Nick's archived job-aid page on the Wayback Machine) so reviewers can spot-check the rendered output.
 
 ## License
 
-The FXT templates, hosts files, and per-protocol READMEs in this repository are © **EventHelix.com Inc.**, made available for use with VisualEther.
+The files **in this repository** — the `explore.fxt.xml` templates, `hosts.txt` files, and per-protocol READMEs, all authored by EventHelix.com Inc. — are released under the [MIT License](LICENSE).
 
-Nick Russo's pcap files (referenced but not redistributed here) remain governed by his original copyright and personal-use terms.
+The license applies **only to the files shared in this repository.** It does **not** cover Nick Russo's packet captures: those are not included or redistributed here and remain governed by his original copyright and "personal use only, no redistribution" terms.
