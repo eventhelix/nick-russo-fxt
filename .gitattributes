@@ -1,0 +1,4 @@
+# Store all text files with LF line endings in the repository and on checkout,
+# regardless of each contributor's core.autocrlf setting. The repo is all text
+# (XML / txt / md); there are no binary assets to exempt.
+* text=auto eol=lf
