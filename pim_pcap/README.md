@@ -18,9 +18,12 @@ visualether generate \
     --fxt explore.fxt.xml \
     --input "<your-captures>/*.pcapng" \
     --hosts-file hosts.txt \
-    --output output \
-    --format combined
+    --output output
 ```
+
+VisualEther auto-selects the output per edition: **Community Edition** renders
+a PDF; **Professional Trial / Professional / Server** render the interactive
+combined HTML + PDF viewer.
 
 `hosts.txt` was authored against captures from Nick Russo's `pim_pcap`
 collection — see the [top-level README](../README.md) for download

@@ -68,17 +68,21 @@ cd nick-russo-fxt
 # 2. Download the matching captures from Nick's archived job-aid page
 #    (Wayback Machine, linked above) and place the .pcap/.pcapng files
 #    into the matching directory, e.g. bgp_pcap/.
+```
 
-# 3. Render with VisualEther.
+**3. Render with VisualEther:**
+
+```bash
 visualether generate \
     --fxt bgp_pcap/explore.fxt.xml \
     --input "bgp_pcap/*.pcapng" \
     --output output/bgp_pcap \
-    --hosts-file bgp_pcap/hosts.txt \
-    --format combined
-
-# 4. Open the resulting HTML/PDF.
+    --hosts-file bgp_pcap/hosts.txt
 ```
+
+VisualEther picks the output for your edition automatically: the free **Community Edition** renders a **PDF** sequence diagram, while **Professional Trial, Professional, and Server** render the interactive **combined** HTML + PDF viewer.
+
+**4.** Open the resulting PDF — or, on Professional/Server, the HTML viewer.
 
 For a script that batches all 41 families with the right options per protocol, see EventHelix's private companion repo (the same script that produces <https://diagrams.eventhelix.com/nick-russo/>).
 
