@@ -128,7 +128,7 @@ Emoji story for L2VPN lifecycle:
     <opcode match="^7471$" replace="🔗 STT Tunnel" display="brief">tcp.dstport</opcode>
     <param match="(TCP Segment Len): (.*)" replace="📏 Segment: $2 bytes">tcp.len</param>
     <param match="(Data.*): (.*)" replace="📦 Payload: $2 bytes">data.len</param>
-    <remark match=".*" replace="💡 STT encapsulates L2 frames in TCP; inner payload is not dissected by tshark">tcp.dstport</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] STT encapsulates L2 frames in TCP; inner payload is not dissected by tshark">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="teal">

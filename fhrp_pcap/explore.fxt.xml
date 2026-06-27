@@ -12,7 +12,7 @@ that tell the redundancy lifecycle story:
   - 🔍 Solicitation   - requesting router information
 -->
 
-<FXT>
+<FXT auto-v6="true">
 
   <!-- ============================================================
        HSRP (Hot Standby Router Protocol)
@@ -167,37 +167,8 @@ that tell the redundancy lifecycle story:
        GLBP over IPv6
        ============================================================ -->
 
-  <udpv6-message style="forest-green">
-    <opcode match="Type: (Hello) \(\d+\)" replace="💓 GLBP $1">glbp.type</opcode>
-    <param match="(Group): (.*)" replace="👥 $1: $2">glbp.group</param>
-    <param match="(VG State): (.*)" replace="🔄 $1: $2">glbp.hello.vgstate</param>
-    <param match="(Priority): (.*)" replace="🏆 $1: $2">glbp.hello.priority</param>
-    <param match="(Virtual IPv6 Address): (.*)" replace="🌐 $1: $2">glbp.hello.virtualipv6</param>
-    <param match="(Owner ID): (.*)" replace="🆔 $1: $2">glbp.ownerid</param>
-    <param match="(VF State): (.*)" replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
-    <param match="(Virtual MAC): (.*)" replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
-  </udpv6-message>
 
-  <udpv6-message style="cerulean">
-    <opcode match="Type: (Request/Response) \(\d+\)" replace="🔄 GLBP $1">glbp.type</opcode>
-    <param match="(Group): (.*)" replace="👥 $1: $2">glbp.group</param>
-    <param match="(VG State): (.*)" replace="🔄 $1: $2">glbp.hello.vgstate</param>
-    <param match="(Priority): (.*)" replace="🏆 $1: $2">glbp.hello.priority</param>
-    <param match="(Owner ID): (.*)" replace="🆔 $1: $2">glbp.ownerid</param>
-    <param match="(VF State): (.*)" replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
-    <param match="(Virtual MAC): (.*)" replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
-  </udpv6-message>
 
-  <udpv6-message style="forest-green">
-    <opcode match="Type: (.*) \(\d+\)" replace="🔄 GLBP $1">glbp.type</opcode>
-    <param match="(Group): (.*)" replace="👥 $1: $2">glbp.group</param>
-    <param match="(VG State): (.*)" replace="🔄 $1: $2">glbp.hello.vgstate</param>
-    <param match="(Priority): (.*)" replace="🏆 $1: $2">glbp.hello.priority</param>
-    <param match="(Virtual IPv6 Address): (.*)" replace="🌐 $1: $2">glbp.hello.virtualipv6</param>
-    <param match="(Owner ID): (.*)" replace="🆔 $1: $2">glbp.ownerid</param>
-    <param match="(VF State): (.*)" replace="🔄 $1: $2">glbp.reqresp.vfstate</param>
-    <param match="(Virtual MAC): (.*)" replace="🔗 $1: $2">glbp.reqresp.virtualmac</param>
-  </udpv6-message>
 
   <!-- ============================================================
        IRDP (ICMP Router Discovery Protocol)

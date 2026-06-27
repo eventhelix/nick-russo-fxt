@@ -29,7 +29,7 @@ Coverage:
     <param match=":authority: (.*)" replace="🏠 Authority: $1">http2.headers.authority</param>
     <param match=":path: (.*)" replace="📂 Path: $1">http2.headers.path</param>
     <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
-    <remark match=".*" replace="💡 HTTP/2 GET retrieves a resource — multiplexed over a single TCP connection via streams (no head-of-line blocking at application layer)">http2</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] HTTP/2 GET retrieves a resource — multiplexed over a single TCP connection via streams (no head-of-line blocking at application layer)">frame.number</remark>
   </tcp-message>
 
   <!-- HTTP/2 POST -->
@@ -39,7 +39,7 @@ Coverage:
     <param match=":path: (.*)" replace="📂 Path: $1">http2.headers.path</param>
     <param match="content-type: (.*)" replace="📦 Content-Type: $1">http2.headers.content_type</param>
     <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
-    <remark match=".*" replace="💡 HTTP/2 POST sends data to server — request body follows in DATA frames on the same stream">http2</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] HTTP/2 POST sends data to server — request body follows in DATA frames on the same stream">frame.number</remark>
   </tcp-message>
 
   <!-- HTTP/2 PUT/PATCH/DELETE/OPTIONS/HEAD -->
@@ -60,7 +60,7 @@ Coverage:
     <param match="location: (.*)" replace="📂 Location: $1">http2.headers.location</param>
     <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
     <param match="Time since request: (.*)" replace="⏱ $1">http2.time</param>
-    <remark match=".*" replace="💡 Redirect — client must follow the Location header to the new URL (301=permanent, 302=temporary, 307=preserve method)">http2</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Redirect — client must follow the Location header to the new URL (301=permanent, 302=temporary, 307=preserve method)">frame.number</remark>
   </tcp-message>
 
   <!-- HTTP/2 2xx Success -->
@@ -80,7 +80,7 @@ Coverage:
     <param match="content-type: (.*)" replace="📦 Content-Type: $1">http2.headers.content_type</param>
     <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
     <param match="Time since request: (.*)" replace="⏱ $1">http2.time</param>
-    <remark match=".*" replace="💡 Client error — 400=bad request, 401=unauthorized, 403=forbidden, 404=not found">http2</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Client error — 400=bad request, 401=unauthorized, 403=forbidden, 404=not found">frame.number</remark>
   </tcp-message>
 
   <!-- HTTP/2 5xx Server Error -->
@@ -89,7 +89,7 @@ Coverage:
     <param match="content-type: (.*)" replace="📦 Content-Type: $1">http2.headers.content_type</param>
     <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
     <param match="Time since request: (.*)" replace="⏱ $1">http2.time</param>
-    <remark match=".*" replace="💡 Server error — 500=internal error, 502=bad gateway, 503=service unavailable, 504=gateway timeout">http2</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server error — 500=internal error, 502=bad gateway, 503=service unavailable, 504=gateway timeout">frame.number</remark>
   </tcp-message>
 
   <!-- ============================================================
@@ -114,7 +114,7 @@ Coverage:
     <param match=".*ACK: (True)" replace="✅ ACK">http2.flags.ack.settings</param>
     <param match="Initial Window Size: (.*)" replace="📊 Window: $1">http2.settings.initial_window_size</param>
     <param match="Max concurrent streams: (.*)" replace="🔢 Max Streams: $1">http2.settings.max_concurrent_streams</param>
-    <remark match=".*" replace="💡 HTTP/2 connection preface — peers exchange settings (max streams, window size, frame size) before any request">http2</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] HTTP/2 connection preface — peers exchange settings (max streams, window size, frame size) before any request">frame.number</remark>
   </tcp-message>
 
   <!-- HTTP/2 WINDOW_UPDATE -->
@@ -141,7 +141,7 @@ Coverage:
     <opcode match="^Type: (GOAWAY).*" replace="🛑 HTTP/2 $1">http2.type</opcode>
     <param>http2.goaway.last_stream_id</param>
     <param>http2.goaway.error</param>
-    <remark match=".*" replace="💡 Server gracefully shuts down — last_stream_id tells client which requests were processed; client must retry higher-numbered streams on a new connection">http2</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server gracefully shuts down — last_stream_id tells client which requests were processed; client must retry higher-numbered streams on a new connection">frame.number</remark>
   </tcp-message>
 
   <!-- HTTP/2 RST_STREAM -->
@@ -149,7 +149,7 @@ Coverage:
     <opcode match="^Type: (RST_STREAM).*" replace="❌ HTTP/2 $1">http2.type</opcode>
     <param match="Error: (.*)" replace="❌ $1">http2.rst_stream.error</param>
     <param match=".*Stream Identifier: ([1-9]\d*)" replace="🔢 Stream: $1">http2.streamid</param>
-    <remark match=".*" replace="💡 Abruptly terminates a single stream without closing the TCP connection — other streams continue unaffected">http2</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Abruptly terminates a single stream without closing the TCP connection — other streams continue unaffected">frame.number</remark>
   </tcp-message>
 
   <!-- HTTP/2 HEADERS fallback -->
@@ -173,14 +173,14 @@ Coverage:
   <udp-message style="sky-blue">
     <opcode match="^Type: (A) .*" replace="🔍 DNS Query A">dns.qry.type</opcode>
     <param match="Name: (.*)" replace="🌐 $1">dns.qry.name</param>
-    <remark match=".*" replace="💡 DNS A record query — resolve hostname to IPv4 address (first step before any HTTP connection)">dns</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DNS A record query — resolve hostname to IPv4 address (first step before any HTTP connection)">frame.number</remark>
   </udp-message>
 
   <!-- DNS Query AAAA -->
   <udp-message style="cerulean">
     <opcode match="^Type: (AAAA) .*" replace="🔍 DNS Query AAAA">dns.qry.type</opcode>
     <param match="Name: (.*)" replace="🌐 $1">dns.qry.name</param>
-    <remark match=".*" replace="💡 DNS AAAA record query — resolve hostname to IPv6 address">dns</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DNS AAAA record query — resolve hostname to IPv6 address">frame.number</remark>
   </udp-message>
 
   <!-- DNS Response A -->
@@ -215,7 +215,7 @@ Coverage:
     <opcode match="^:method: (GET)$" replace="📡 HTTP/3 $1">http3.headers.method</opcode>
     <param match=":authority: (.*)" replace="🏠 Authority: $1">http3.headers.authority</param>
     <param match=":path: (.*)" replace="📂 Path: $1">http3.headers.path</param>
-    <remark match=".*" replace="💡 HTTP/3 GET over QUIC — each request uses an independent stream, so one slow response can't block others (no head-of-line blocking at any layer)">http3</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] HTTP/3 GET over QUIC — each request uses an independent stream, so one slow response can't block others (no head-of-line blocking at any layer)">frame.number</remark>
   </udp-message>
 
   <!-- HTTP/3 POST -->
@@ -263,7 +263,7 @@ Coverage:
   <!-- HTTP/3 SETTINGS -->
   <udp-message style="coral">
     <opcode match="^Type: (SETTINGS).*" replace="⚙ HTTP/3 $1">http3.frame_type</opcode>
-    <remark match=".*" replace="💡 HTTP/3 settings exchange — peers declare QPACK table capacity, max concurrent streams; unlike HTTP/2, this uses a dedicated unidirectional control stream">http3</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] HTTP/3 settings exchange — peers declare QPACK table capacity, max concurrent streams; unlike HTTP/2, this uses a dedicated unidirectional control stream">frame.number</remark>
   </udp-message>
 
   <!-- HTTP/3 HEADERS frame (fallback when method/status not decoded) -->
@@ -274,23 +274,23 @@ Coverage:
   <!-- HTTP/3 DATA frame -->
   <udp-message style="teal">
     <opcode match="^(DATA).*len=(\d+).*" replace="📦 HTTP/3 $1 ($2 bytes)">http3.frame</opcode>
-    <remark match=".*" replace="💡 HTTP/3 DATA frame carries the response body — transmitted on the same QUIC stream as the HEADERS, independently of other requests">http3</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] HTTP/3 DATA frame carries the response body — transmitted on the same QUIC stream as the HEADERS, independently of other requests">frame.number</remark>
   </udp-message>
 
   <!-- HTTP/3 Uni Stream (Control/QPACK Encoder/Decoder) -->
   <udp-message style="coral dotted">
     <opcode match="^UNI STREAM: (Control Stream).*" replace="⚙ HTTP/3 $1">http3.stream.uni</opcode>
-    <remark match=".*" replace="💡 HTTP/3 unidirectional control stream — carries SETTINGS and GOAWAY frames; each peer creates exactly one">http3</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] HTTP/3 unidirectional control stream — carries SETTINGS and GOAWAY frames; each peer creates exactly one">frame.number</remark>
   </udp-message>
 
   <udp-message style="orchid dotted">
     <opcode match="^UNI STREAM: (QPACK Encoder).*" replace="🗜 HTTP/3 $1">http3.stream.uni</opcode>
-    <remark match=".*" replace="💡 QPACK encoder stream — sends dynamic table updates for header compression (replaces HTTP/2 HPACK with out-of-order safe design)">http3</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] QPACK encoder stream — sends dynamic table updates for header compression (replaces HTTP/2 HPACK with out-of-order safe design)">frame.number</remark>
   </udp-message>
 
   <udp-message style="orchid dotted">
     <opcode match="^UNI STREAM: (QPACK Decoder).*" replace="🗜 HTTP/3 $1">http3.stream.uni</opcode>
-    <remark match=".*" replace="💡 QPACK decoder stream — acknowledges received header table entries so encoder can evict safely">http3</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] QPACK decoder stream — acknowledges received header table entries so encoder can evict safely">frame.number</remark>
   </udp-message>
 
   <!-- HTTP/3 Generic Uni Stream -->
@@ -314,7 +314,7 @@ Coverage:
     <param match="Server Name: (.*)" replace="🌐 SNI: $1">tls.handshake.extensions_server_name</param>
     <param match=".*ALPN.*: (h3.*)" replace="📡 ALPN: $1">tls.handshake.extensions_alpn_str</param>
     <param match="Version: (.*)" replace="📋 QUIC: $1">quic.version</param>
-    <remark match=".*" replace="💡 QUIC Initial carries TLS 1.3 ClientHello — SNI selects server certificate; ALPN negotiates h3; connection IDs enable seamless path migration (e.g., Wi-Fi to cellular)">quic</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] QUIC Initial carries TLS 1.3 ClientHello — SNI selects server certificate; ALPN negotiates h3; connection IDs enable seamless path migration (e.g., Wi-Fi to cellular)">frame.number</remark>
   </udp-message>
 
   <!-- QUIC Server Hello (TLS inside Initial/Handshake) -->
@@ -322,7 +322,7 @@ Coverage:
     <opcode match=".*Server Hello.*" replace="🤝 QUIC Server Hello">tls.handshake.type</opcode>
     <param match="Cipher Suite: (.*)" replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
     <param match="Version: (.*)" replace="📋 QUIC: $1">quic.version</param>
-    <remark match=".*" replace="💡 Server selects TLS 1.3 cipher — QUIC completes handshake in 1-RTT (vs TCP+TLS 2-3 RTT); returning clients can send 0-RTT data immediately">quic</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server selects TLS 1.3 cipher — QUIC completes handshake in 1-RTT (vs TCP+TLS 2-3 RTT); returning clients can send 0-RTT data immediately">frame.number</remark>
   </udp-message>
 
   <!-- QUIC CRYPTO frame -->
@@ -330,13 +330,13 @@ Coverage:
     <opcode match="^Frame Type: (CRYPTO).*" replace="🔐 QUIC CRYPTO">quic.frame_type</opcode>
     <param match="Offset: (.*)" replace="📋 Offset: $1">quic.crypto.offset</param>
     <param match="Version: (.*)" replace="📋 QUIC: $1">quic.version</param>
-    <remark match=".*" replace="💡 TLS handshake data (Certificate chain, CertificateVerify, Finished) carried in QUIC CRYPTO frames — encrypted at handshake level, decoded with keylog">quic</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] TLS handshake data (Certificate chain, CertificateVerify, Finished) carried in QUIC CRYPTO frames — encrypted at handshake level, decoded with keylog">frame.number</remark>
   </udp-message>
 
   <!-- QUIC HANDSHAKE_DONE -->
   <udp-message style="forest-green" bookmark="true">
     <opcode match="^Frame Type: (HANDSHAKE_DONE).*" replace="✅ QUIC Handshake Done">quic.frame_type</opcode>
-    <remark match=".*" replace="💡 Server confirms handshake complete — client can now discard handshake keys and send 1-RTT application data; the QUIC connection is fully established">quic</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server confirms handshake complete — client can now discard handshake keys and send 1-RTT application data; the QUIC connection is fully established">frame.number</remark>
   </udp-message>
 
   <!-- QUIC ACK -->
@@ -348,21 +348,21 @@ Coverage:
   <!-- QUIC NEW_CONNECTION_ID -->
   <udp-message style="cerulean">
     <opcode match="^Frame Type: (NEW_CONNECTION_ID).*" replace="🔄 QUIC New Connection ID">quic.frame_type</opcode>
-    <remark match=".*" replace="💡 Server provides alternative connection IDs — enables connection migration across network changes (Wi-Fi ↔ cellular) without re-handshaking">quic</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server provides alternative connection IDs — enables connection migration across network changes (Wi-Fi ↔ cellular) without re-handshaking">frame.number</remark>
   </udp-message>
 
   <!-- QUIC Initial fallback -->
   <udp-message style="tangerine dashed">
     <opcode match=".*Packet Type: (Initial).*" replace="🔗 QUIC $1">quic.long.packet_type</opcode>
     <param match="Version: (.*)" replace="📋 QUIC: $1">quic.version</param>
-    <remark match=".*" replace="💡 QUIC Initial packet — carries ClientHello (client→server) or ServerHello+ACK (server→client); padded to 1200+ bytes to prevent amplification attacks">quic</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] QUIC Initial packet — carries ClientHello (client→server) or ServerHello+ACK (server→client); padded to 1200+ bytes to prevent amplification attacks">frame.number</remark>
   </udp-message>
 
   <!-- QUIC Handshake fallback -->
   <udp-message style="cerulean dashed">
     <opcode match=".*Packet Type: (Handshake).*" replace="🔐 QUIC $1">quic.long.packet_type</opcode>
     <param match="Version: (.*)" replace="📋 QUIC: $1">quic.version</param>
-    <remark match=".*" replace="💡 QUIC Handshake packet — carries encrypted TLS data (Certificate, Finished) in CRYPTO frames; uses handshake-level encryption keys">quic</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] QUIC Handshake packet — carries encrypted TLS data (Certificate, Finished) in CRYPTO frames; uses handshake-level encryption keys">frame.number</remark>
   </udp-message>
 
   <!-- QUIC Short Header with STREAM info -->
@@ -392,7 +392,7 @@ Coverage:
     <param match="Server Name: (.*)" replace="🌐 SNI: $1">tls.handshake.extensions_server_name</param>
     <param match=".*ALPN.*: (h2|http/1\.1)" replace="📡 ALPN: $1">tls.handshake.extensions_alpn_str</param>
     <param match="TLS (1\.[23]).*" replace="🔐 TLS $1">tls.handshake.extensions_supported_version</param>
-    <remark match=".*" replace="💡 TLS Client Hello initiates the handshake — SNI tells the server which certificate to use (required for virtual hosting); ALPN negotiates h2 vs http/1.1">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] TLS Client Hello initiates the handshake — SNI tells the server which certificate to use (required for virtual hosting); ALPN negotiates h2 vs http/1.1">frame.number</remark>
   </tcp-message>
 
   <!-- TLS Server Hello -->
@@ -400,13 +400,13 @@ Coverage:
     <opcode match=".*Server Hello.*" replace="🤝 TLS Server Hello">tls.handshake.type</opcode>
     <param match="Cipher Suite: (.*)" replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
     <param match=".*Supported Version: TLS (1\.[23]).*" replace="🔐 TLS $1">tls.handshake.extensions_supported_version</param>
-    <remark match=".*" replace="💡 Server selects TLS version and cipher suite — TLS 1.3 completes in 1-RTT (vs 2-RTT for TLS 1.2) with forward secrecy via ephemeral key exchange">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server selects TLS version and cipher suite — TLS 1.3 completes in 1-RTT (vs 2-RTT for TLS 1.2) with forward secrecy via ephemeral key exchange">frame.number</remark>
   </tcp-message>
 
   <!-- TLS Certificate -->
   <tcp-message style="amethyst dashed">
     <opcode match=".*Certificate.*" replace="🔐 TLS Certificate">tls.handshake.type</opcode>
-    <remark match=".*" replace="💡 Server presents X.509 certificate chain — client validates against trusted CAs to authenticate the server's identity">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server presents X.509 certificate chain — client validates against trusted CAs to authenticate the server's identity">frame.number</remark>
   </tcp-message>
 
   <!-- TLS Other Handshake -->
@@ -417,7 +417,7 @@ Coverage:
   <!-- TLS Change Cipher Spec -->
   <tcp-message style="plum dashed">
     <opcode match=".*Change Cipher Spec.*" replace="🔒 TLS Change Cipher Spec">tls.change_cipher_spec</opcode>
-    <remark match=".*" replace="💡 Signals switch to negotiated cipher — all subsequent data encrypted (TLS 1.3 sends this for backwards compatibility only)">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Signals switch to negotiated cipher — all subsequent data encrypted (TLS 1.3 sends this for backwards compatibility only)">frame.number</remark>
   </tcp-message>
 
   <!-- TLS Application Data -->
@@ -434,7 +434,7 @@ Coverage:
     <opcode match="(GET)" replace="📡 HTTP $1">http.request.method</opcode>
     <param display="brief" match="(.*)" replace="📂 URI: $1">http.request.uri</param>
     <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
-    <remark match=".*" replace="💡 HTTP/1.1 GET — unlike HTTP/2, requests are serialized per connection (head-of-line blocking); browsers open 6 parallel connections as workaround">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] HTTP/1.1 GET — unlike HTTP/2, requests are serialized per connection (head-of-line blocking); browsers open 6 parallel connections as workaround">frame.number</remark>
   </tcp-message>
 
   <!-- HTTP/1.x POST -->
@@ -491,7 +491,7 @@ Coverage:
     <opcode match=".*Here I am.*" replace="👋 WCCP Here I Am">wccp.message</opcode>
     <param match=".*: (10\..*)" replace="🖥 Web Cache: $1">wccp.wc_identity_ip_address.ipv4</param>
     <param match="Standard.*service \((\d+)\)" replace="📋 Service: $1">wccp.service_info_type</param>
-    <remark match=".*" replace="💡 Web cache announces itself to router — WCCP enables transparent HTTP redirection so clients don't need proxy configuration">wccp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Web cache announces itself to router — WCCP enables transparent HTTP redirection so clients don't need proxy configuration">frame.number</remark>
   </udp-message>
 
   <!-- WCCP I See You -->
@@ -499,7 +499,7 @@ Coverage:
     <opcode match=".*I see you.*" replace="👀 WCCP I See You">wccp.message</opcode>
     <param match=".*: (10\..*)" replace="🖥 Router: $1">wccp.router_identity.ip_address.ipv4</param>
     <param match="Receive ID: (.*)" replace="🔢 Receive ID: $1">wccp.router_identity.receive_id</param>
-    <remark match=".*" replace="💡 Router acknowledges web cache — includes member list so all caches know the cluster topology">wccp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Router acknowledges web cache — includes member list so all caches know the cluster topology">frame.number</remark>
   </udp-message>
 
   <!-- WCCP Redirect Assign -->
@@ -507,13 +507,13 @@ Coverage:
     <opcode match=".*Redirect assign.*" replace="🔀 WCCP Redirect Assign">wccp.message</opcode>
     <param match=".*: (Mask|Hash).*" replace="📋 Assignment: $1">wccp.alt_assignment_info.assignment_type</param>
     <param match=".*: (Supported)" replace="🔗 GRE: $1">wccp.capability_info.forwarding_method_flag.gre</param>
-    <remark match=".*" replace="💡 Web cache tells router how to distribute traffic — mask assignment maps client IP ranges to specific caches; GRE or L2 forwarding method">wccp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Web cache tells router how to distribute traffic — mask assignment maps client IP ranges to specific caches; GRE or L2 forwarding method">frame.number</remark>
   </udp-message>
 
   <!-- WCCP Removal Query -->
   <udp-message style="brick">
     <opcode match=".*Removal query.*" replace="🗑 WCCP Removal Query">wccp.message</opcode>
-    <remark match=".*" replace="💡 Router asks web cache to confirm removal from the service group — cache must respond or be forcibly removed">wccp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Router asks web cache to confirm removal from the service group — cache must respond or be forcibly removed">frame.number</remark>
   </udp-message>
 
   <!-- WCCP Generic -->

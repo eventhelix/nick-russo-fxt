@@ -18,7 +18,7 @@ Protocol Overview:
    - RTP (Real-time Transport Protocol): Media transport
    - RTCP (RTP Control Protocol): Quality feedback and synchronization
 -->
-<FXT>
+<FXT auto-v6="true">
 
   <!-- ═══════════════════════════════════════════════════════════════════════
        SIP REQUESTS (UDP/IPv4)
@@ -40,7 +40,7 @@ Protocol Overview:
     <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
     <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
     <param match="Media Attribute.*: (.*)" replace="📋 Attr: $1">sdp.media_attr</param>
-    <remark match=".*" replace="💡 SIP INVITE initiates a call — carries SDP offer with codec/media proposals; callee responds with 180 Ringing, then 200 OK with SDP answer">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] SIP INVITE initiates a call — carries SDP offer with codec/media proposals; callee responds with 180 Ringing, then 200 OK with SDP answer">frame.number</remark>
   </udp-message>
 
   <!-- SIP REGISTER - Registration -->
@@ -63,7 +63,7 @@ Protocol Overview:
     <param>sip.auth.uri</param>
     <param>sip.auth.digest.response</param>
     <param>sip.auth.algorithm</param>
-    <remark match=".*" replace="💡 SIP REGISTER binds a contact URI to an AOR (Address of Record) at the registrar; Expires=0 means unregister; 401 triggers Digest auth challenge">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] SIP REGISTER binds a contact URI to an AOR (Address of Record) at the registrar; Expires=0 means unregister; 401 triggers Digest auth challenge">frame.number</remark>
   </udp-message>
 
   <!-- SIP BYE - Call termination -->
@@ -74,7 +74,7 @@ Protocol Overview:
     <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
     <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
     <param match="Reason: (.*)" replace="📋 Reason: $1">sip.Reason</param>
-    <remark match=".*" replace="💡 SIP BYE terminates an established dialog — both sides send BYE to release media resources; Reason header explains why (e.g., user hangup)">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] SIP BYE terminates an established dialog — both sides send BYE to release media resources; Reason header explains why (e.g., user hangup)">frame.number</remark>
   </udp-message>
 
   <!-- SIP CANCEL - Cancel pending request -->
@@ -228,7 +228,7 @@ Protocol Overview:
     <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
     <param match="Authentication Scheme: (.*)" replace="🔐 Scheme: $1">sip.auth.scheme</param>
     <param match="Realm: (.*)" replace="🔐 Realm: $1">sip.auth.realm</param>
-    <remark match=".*" replace="💡 401 Unauthorized — server challenges client with Digest auth (realm + nonce); client must retry with computed response hash using shared secret">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 401 Unauthorized — server challenges client with Digest auth (realm + nonce); client must retry with computed response hash using shared secret">frame.number</remark>
   </udp-message>
 
   <!-- SIP 407 Proxy Authentication Required -->
@@ -236,7 +236,7 @@ Protocol Overview:
     <opcode match=".*SIP/2.0 (407.*)" replace="🔐 SIP $1">sip.Status-Line</opcode>
     <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
     <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
-    <remark match=".*" replace="💡 407 Proxy Auth Required — SIP proxy challenges the request; same Digest auth flow as 401 but for proxy-level authentication">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 407 Proxy Auth Required — SIP proxy challenges the request; same Digest auth flow as 401 but for proxy-level authentication">frame.number</remark>
   </udp-message>
 
   <!-- SIP 486 Busy Here -->
@@ -244,7 +244,7 @@ Protocol Overview:
     <opcode match=".*SIP/2.0 (486.*)" replace="🚫 SIP $1">sip.Status-Line</opcode>
     <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
     <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
-    <remark match=".*" replace="💡 486 Busy Here — callee's device is busy; caller hears busy tone; call may be forwarded if CFNB (Call Forward No Busy) is configured">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 486 Busy Here — callee's device is busy; caller hears busy tone; call may be forwarded if CFNB (Call Forward No Busy) is configured">frame.number</remark>
   </udp-message>
 
   <!-- SIP 4xx Client Errors -->
@@ -261,7 +261,7 @@ Protocol Overview:
     <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
     <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
     <param match="Warning: (.*)" replace="⚠️ Warning: $1">sip.Warning</param>
-    <remark match=".*" replace="💡 5xx Server Error — proxy or UAS failure; 500=Internal Error, 503=Service Unavailable (overloaded); client should retry with exponential backoff">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 5xx Server Error — proxy or UAS failure; 500=Internal Error, 503=Service Unavailable (overloaded); client should retry with exponential backoff">frame.number</remark>
   </udp-message>
 
   <!-- SIP 6xx Global Errors -->
@@ -270,7 +270,7 @@ Protocol Overview:
     <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
     <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
     <param match="Warning: (.*)" replace="⚠️ Warning: $1">sip.Warning</param>
-    <remark match=".*" replace="💡 6xx Global Failure — 600=Busy Everywhere (all endpoints busy), 603=Decline (callee explicitly rejected); no point trying other contacts">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 6xx Global Failure — 600=Busy Everywhere (all endpoints busy), 603=Decline (callee explicitly rejected); no point trying other contacts">frame.number</remark>
   </udp-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -280,7 +280,7 @@ Protocol Overview:
   <!-- SIP 100 Trying -->
   <udp-message style="slate dashed">
     <opcode match=".*SIP/2.0 (100 Trying)" replace="⏳ SIP $1">sip.Status-Line</opcode>
-    <remark match=".*" replace="💡 100 Trying — proxy accepted the request and is searching for the callee; stops retransmission timer; no end-to-end significance">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 100 Trying — proxy accepted the request and is searching for the callee; stops retransmission timer; no end-to-end significance">frame.number</remark>
   </udp-message>
 
   <!-- SIP 180 Ringing -->
@@ -288,7 +288,7 @@ Protocol Overview:
     <opcode match=".*SIP/2.0 (180 Ringing)" replace="🔔 SIP $1">sip.Status-Line</opcode>
     <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
     <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
-    <remark match=".*" replace="💡 180 Ringing — callee's phone is alerting; caller hears locally generated ringback; 183 with SDP offers early media (in-band ringback) instead">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 180 Ringing — callee's phone is alerting; caller hears locally generated ringback; 183 with SDP offers early media (in-band ringback) instead">frame.number</remark>
   </udp-message>
 
   <!-- SIP 183 Session Progress -->
@@ -298,7 +298,7 @@ Protocol Overview:
     <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
     <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
     <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
-    <remark match=".*" replace="💡 183 Session Progress — carries SDP answer for early media (ringback tone, IVR prompts); RTP flows before call is answered; requires PRACK if 100rel is negotiated">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 183 Session Progress — carries SDP answer for early media (ringback tone, IVR prompts); RTP flows before call is answered; requires PRACK if 100rel is negotiated">frame.number</remark>
   </udp-message>
 
   <!-- SIP 1xx Provisional (other) -->
@@ -320,7 +320,7 @@ Protocol Overview:
     <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
     <param match="Media Attribute.*: (.*)" replace="📋 Attr: $1">sdp.media_attr</param>
     <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
-    <remark match=".*" replace="💡 200 OK — call answered (for INVITE) or registration accepted (for REGISTER); SDP answer completes codec negotiation; caller must send ACK to complete 3-way handshake">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 200 OK — call answered (for INVITE) or registration accepted (for REGISTER); SDP answer completes codec negotiation; caller must send ACK to complete 3-way handshake">frame.number</remark>
   </udp-message>
 
   <!-- SIP 2xx Success (other) -->
@@ -338,7 +338,7 @@ Protocol Overview:
     <param match=".*&lt;(.*)&gt;" replace="📞 From: $1">sip.from.addr</param>
     <param match=".*&lt;(.*)&gt;" replace="📞 To: $1">sip.to.addr</param>
     <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
-    <remark match=".*" replace="💡 3xx Redirect — callee moved; Contact header contains new URI; 301=permanent (update AOR), 302=temporary (try once), 305=use specified proxy">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 3xx Redirect — callee moved; Contact header contains new URI; 301=permanent (update AOR), 302=temporary (try once), 305=use specified proxy">frame.number</remark>
   </udp-message>
 
   <!-- Generic SIP Response (fallback) -->
@@ -381,7 +381,7 @@ Protocol Overview:
   <!-- TCP SIP 180 Ringing -->
   <tcp-message style="tangerine">
     <opcode match=".*SIP/2.0 (180 Ringing)" replace="🔔 SIP $1">sip.Status-Line</opcode>
-    <remark match=".*" replace="💡 180 Ringing — callee's phone is alerting; caller hears locally generated ringback">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 180 Ringing — callee's phone is alerting; caller hears locally generated ringback">frame.number</remark>
   </tcp-message>
 
   <!-- TCP SIP 183 Session Progress -->
@@ -389,7 +389,7 @@ Protocol Overview:
     <opcode match=".*SIP/2.0 (183 Session Progress)" replace="🎵 SIP $1">sip.Status-Line</opcode>
     <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
     <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
-    <remark match=".*" replace="💡 183 Session Progress — early media with SDP answer; RTP flows before call is answered">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 183 Session Progress — early media with SDP answer; RTP flows before call is answered">frame.number</remark>
   </tcp-message>
 
   <!-- TCP SIP 200 OK -->
@@ -398,7 +398,7 @@ Protocol Overview:
     <param match="Contact: (.*)" replace="📞 Contact: $1">sip.Contact</param>
     <param match="Media Description.*: (.*)" replace="🎵 Media: $1">sdp.media</param>
     <param match="Connection Information.*: (.*)" replace="🌐 Connection: $1">sdp.connection_info</param>
-    <remark match=".*" replace="💡 200 OK — call answered or registration accepted; SDP answer completes codec negotiation; ACK required to complete INVITE 3-way handshake">sip</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 200 OK — call answered or registration accepted; SDP answer completes codec negotiation; ACK required to complete INVITE 3-way handshake">frame.number</remark>
   </tcp-message>
 
   <!-- TCP SIP 4xx/5xx/6xx Error -->
@@ -531,7 +531,7 @@ Protocol Overview:
     <param match="Event ID: (.*)" replace="🔢 Digit: $1">rtpevent.event_id</param>
     <param display="brief" match="(True|False)" replace="🏁 End: $1">rtpevent.end_of_event</param>
     <param match="Event Duration: (.*)" replace="⏱ Duration: $1">rtpevent.duration</param>
-    <remark match=".*" replace="💡 DTMF digit sent as RTP Named Telephone Event (RFC 4733) — out-of-band signaling preserves digit accuracy across codec transcoding">rtpevent</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DTMF digit sent as RTP Named Telephone Event (RFC 4733) — out-of-band signaling preserves digit accuracy across codec transcoding">frame.number</remark>
   </udp-message>
 
   <udpv6-message filter="true" style="crimson wave">
@@ -552,15 +552,6 @@ Protocol Overview:
     <param>rtp.setup-frame</param>
   </udp-message>
 
-  <udpv6-message filter="true">
-    <opcode match=".*" replace="🎵 RTP">rtp</opcode>
-    <param match="Payload type: (.*)" replace="🎵 Codec: $1">rtp.p_type</param>
-    <param match="Synchronization Source identifier: (.*)" replace="🔢 SSRC: $1">rtp.ssrc</param>
-    <param>rtp.seq</param>
-    <param>rtp.timestamp</param>
-    <param match=".*Marker:\s*(.*)" replace="Marker: $1">rtp.marker</param>
-    <param>rtp.setup-frame</param>
-  </udpv6-message>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
        RTCP - RTP Control Protocol
@@ -572,7 +563,7 @@ Protocol Overview:
     <opcode display="brief" match="^200$" replace="📊 RTCP SR">rtcp.pt</opcode>
     <param match="Sender.s packet count: (.*)" replace="📦 Packets: $1">rtcp.sender.packetcount</param>
     <param match="Sender.s octet count: (.*)" replace="📦 Bytes: $1">rtcp.sender.octetcount</param>
-    <remark match=".*" replace="💡 RTCP Sender Report — media sender reports packet/byte counts and NTP timestamp for lip-sync; receivers use this to calculate jitter and loss">rtcp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] RTCP Sender Report — media sender reports packet/byte counts and NTP timestamp for lip-sync; receivers use this to calculate jitter and loss">frame.number</remark>
   </udp-message>
 
   <!-- RTCP Receiver Report -->
@@ -580,7 +571,7 @@ Protocol Overview:
     <opcode display="brief" match="^201$" replace="📊 RTCP RR">rtcp.pt</opcode>
     <param match="Fraction lost: (.*)" replace="📊 Loss: $1">rtcp.ssrc.fraction</param>
     <param match="Interarrival jitter: (.*)" replace="📊 Jitter: $1">rtcp.ssrc.jitter</param>
-    <remark match=".*" replace="💡 RTCP Receiver Report — reports packet loss fraction and jitter for each source; high jitter or loss indicates network congestion affecting voice quality">rtcp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] RTCP Receiver Report — reports packet loss fraction and jitter for each source; high jitter or loss indicates network congestion affecting voice quality">frame.number</remark>
   </udp-message>
 
   <!-- RTCP Source Description -->
@@ -620,17 +611,6 @@ Protocol Overview:
   </udp-message>
 
   <!-- RTCP IPv6 -->
-  <udpv6-message filter="true">
-    <opcode display="brief">rtcp</opcode>
-    <param>rtcp.pt</param>
-    <param>rtcp.rc</param>
-    <param>rtcp.senderssrc</param>
-    <param>rtcp.ssrc.identifier</param>
-    <param>rtcp.timestamp.rtp</param>
-    <param match="Sender.s packet count: (.*)" replace="📦 Packets: $1">rtcp.sender.packetcount</param>
-    <param match="Sender.s octet count: (.*)" replace="📦 Bytes: $1">rtcp.sender.octetcount</param>
-    <param>rtcp.sc</param>
-  </udpv6-message>
 
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -641,13 +621,13 @@ Protocol Overview:
   <tcp-message style="sea-green" bookmark="true">
     <opcode match="Message ID: (OffHook) .*" replace="📞 SCCP $1">skinny.messageId</opcode>
     <param display="brief" match="(\d+)" replace="🔗 Line: $1">skinny.lineInstance</param>
-    <remark match=".*" replace="💡 SCCP OffHook — phone notifies CUCM the handset is lifted; CUCM responds with dial tone (StartTone) and prepares to collect digits">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] SCCP OffHook — phone notifies CUCM the handset is lifted; CUCM responds with dial tone (StartTone) and prepares to collect digits">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP OnHook -->
   <tcp-message style="magenta" bookmark="true">
     <opcode match="Message ID: (OnHook) .*" replace="📞 SCCP $1">skinny.messageId</opcode>
-    <remark match=".*" replace="💡 SCCP OnHook — handset replaced; CUCM tears down media channels (StopMediaTransmission, CloseReceiveChannel) and releases the call">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] SCCP OnHook — handset replaced; CUCM tears down media channels (StopMediaTransmission, CloseReceiveChannel) and releases the call">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP CallState -->
@@ -655,7 +635,7 @@ Protocol Overview:
     <opcode match="Message ID: (CallState) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
     <param match="callState: (.*)" replace="📋 State: $1">skinny.callState</param>
     <param display="brief" match="(\d+)" replace="🔗 CallRef: $1">skinny.callReference</param>
-    <remark match=".*" replace="💡 CUCM pushes call state to phone — OffHook/Proceed/RingOut/Connected/OnHook; phone updates display and soft keys accordingly">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] CUCM pushes call state to phone — OffHook/Proceed/RingOut/Connected/OnHook; phone updates display and soft keys accordingly">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP CallInfoV2 -->
@@ -665,7 +645,7 @@ Protocol Overview:
     <param match="calledParty: (.*)" replace="📞 Called: $1">skinny.calledParty</param>
     <param match="callType: (.*)" replace="📋 Type: $1">skinny.callType</param>
     <param match="callSecurityStatus: (.*)" replace="🔐 Security: $1">skinny.callSecurityStatus</param>
-    <remark match=".*" replace="💡 CUCM sends caller/called party info for phone display; callType (InBound/OutBound) and security status (Authenticated/Encrypted) update the lock icon">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] CUCM sends caller/called party info for phone display; callType (InBound/OutBound) and security status (Authenticated/Encrypted) update the lock icon">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP OpenReceiveChannel -->
@@ -673,7 +653,7 @@ Protocol Overview:
     <opcode match="Message ID: (OpenReceiveChannel) .*" replace="🎵 SCCP $1">skinny.messageId</opcode>
     <param match="compressionType: (.*)" replace="🎵 Codec: $1">skinny.compressionType</param>
     <param match="milliSecondPacketSize: (.*)" replace="⏱ Ptime: $1 ms">skinny.milliSecondPacketSize</param>
-    <remark match=".*" replace="💡 CUCM tells phone to open an RTP receive channel with specified codec and packetization; phone responds with OpenReceiveChannelAck containing its IP:port">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] CUCM tells phone to open an RTP receive channel with specified codec and packetization; phone responds with OpenReceiveChannelAck containing its IP:port">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP OpenReceiveChannelAck -->
@@ -690,7 +670,7 @@ Protocol Overview:
     <param match="remoteIpAddr IPv4 Address: (.*)" replace="🌐 Remote IP: $1">skinny.remoteIpAddr.ipv4</param>
     <param match="remotePortNumber: (.*)" replace="🔢 Remote Port: $1">skinny.remotePortNumber</param>
     <param match="compressionType: (.*)" replace="🎵 Codec: $1">skinny.compressionType</param>
-    <remark match=".*" replace="💡 CUCM tells phone where to send RTP — remote IP:port is the other phone's receive address; codec must match the negotiated type">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] CUCM tells phone where to send RTP — remote IP:port is the other phone's receive address; codec must match the negotiated type">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP StartMediaTransmissionAck -->
@@ -703,14 +683,14 @@ Protocol Overview:
   <!-- SCCP StopMediaTransmission / CloseReceiveChannel -->
   <tcp-message style="slate">
     <opcode match="Message ID: (StopMediaTransmission|CloseReceiveChannel) .*" replace="🛑 SCCP $1">skinny.messageId</opcode>
-    <remark match=".*" replace="💡 CUCM tears down the RTP channel — phone stops sending/receiving media; happens on call disconnect, hold, or codec change">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] CUCM tears down the RTP channel — phone stops sending/receiving media; happens on call disconnect, hold, or codec change">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP StartTone -->
   <tcp-message style="tangerine">
     <opcode match="Message ID: (StartTone) .*" replace="🔔 SCCP $1">skinny.messageId</opcode>
     <param match="tone: (.*)" replace="🔊 Tone: $1">skinny.tone</param>
-    <remark match=".*" replace="💡 CUCM tells phone to play a tone — InsideDialTone (ready for digits), AlertingTone (ringback), BusyTone, ReorderTone (fast busy = route failure)">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] CUCM tells phone to play a tone — InsideDialTone (ready for digits), AlertingTone (ringback), BusyTone, ReorderTone (fast busy = route failure)">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP StopTone -->
@@ -722,7 +702,7 @@ Protocol Overview:
   <tcp-message style="tangerine">
     <opcode match="Message ID: (SetRinger) .*" replace="🔔 SCCP $1">skinny.messageId</opcode>
     <param match="ringMode: (.*)" replace="🔊 Ring: $1">skinny.ringMode</param>
-    <remark match=".*" replace="💡 CUCM controls the physical ringer — RingOff on answer/cancel, InsideRing for internal calls, OutsideRing for external; distinctive ring identifies call source">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] CUCM controls the physical ringer — RingOff on answer/cancel, InsideRing for internal calls, OutsideRing for external; distinctive ring identifies call source">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP SetLamp -->
@@ -735,7 +715,7 @@ Protocol Overview:
   <tcp-message style="amethyst" bookmark="true">
     <opcode match="Message ID: (DialedNumber) .*" replace="🔢 SCCP $1">skinny.messageId</opcode>
     <param match="dialedNumber: (.*)" replace="📞 Number: $1">skinny.dialedNumber</param>
-    <remark match=".*" replace="💡 Phone sends collected digits to CUCM — CUCM matches against dial plan (route patterns, translation patterns) to determine call routing">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Phone sends collected digits to CUCM — CUCM matches against dial plan (route patterns, translation patterns) to determine call routing">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP KeypadButton -->
@@ -754,37 +734,37 @@ Protocol Overview:
     <opcode match="Message ID: (RegisterReq|EnhancedAlarm) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
     <param match="DeviceName: (.*)" replace="🖥 Device: $1">skinny.DeviceName</param>
     <param match="stationIpAddr: (.*)" replace="🌐 IP: $1">skinny.stationIpAddr</param>
-    <remark match=".*" replace="💡 SCCP RegisterReq — phone sends its device name (SEP + MAC), IP address, and protocol version to CUCM; CUCM responds with RegisterAck and begins provisioning">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] SCCP RegisterReq — phone sends its device name (SEP + MAC), IP address, and protocol version to CUCM; CUCM responds with RegisterAck and begins provisioning">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="forest-green" bookmark="true">
     <opcode match="Message ID: (RegisterAck) .*" replace="✅ SCCP $1">skinny.messageId</opcode>
-    <remark match=".*" replace="💡 SCCP RegisterAck — CUCM accepts the phone; follows with CapabilitiesReq, ButtonTemplate, SoftKeyTemplate to provision the phone's features">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] SCCP RegisterAck — CUCM accepts the phone; follows with CapabilitiesReq, ButtonTemplate, SoftKeyTemplate to provision the phone's features">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP Capabilities -->
   <tcp-message style="cerulean dashed">
     <opcode match="Message ID: (CapabilitiesReq|CapabilitiesRes) .*" replace="🔧 SCCP $1">skinny.messageId</opcode>
     <param match="compressionType: (.*)" replace="🎵 Codec: $1">skinny.compressionType</param>
-    <remark match=".*" replace="💡 CUCM asks phone for supported codecs (G.711, G.722, G.729); phone replies with its codec list; CUCM uses this for region-based codec selection during calls">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] CUCM asks phone for supported codecs (G.711, G.722, G.729); phone replies with its codec list; CUCM uses this for region-based codec selection during calls">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP Config/Button/SoftKey templates -->
   <tcp-message style="slate dashed">
     <opcode match="Message ID: (ButtonTemplateReq|ButtonTemplateRes|SoftKeyTemplateReq|SoftKeyTemplateRes|SoftKeySetReq|SoftKeySetRes|ConfigStatReq|ConfigStatV2Res) .*" replace="🔧 SCCP $1">skinny.messageId</opcode>
-    <remark match=".*" replace="💡 Phone provisioning — CUCM sends button layout (line/speed-dial/BLF), soft key labels, and device configuration; phone renders its UI from these templates">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Phone provisioning — CUCM sends button layout (line/speed-dial/BLF), soft key labels, and device configuration; phone renders its UI from these templates">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP Line/Forward -->
   <tcp-message style="cerulean">
     <opcode match="Message ID: (LineStatReq|LineStatV2Res) .*" replace="📋 SCCP $1">skinny.messageId</opcode>
     <param match="lineDirNumber: (.*)" replace="📞 DN: $1">skinny.lineDirNumber</param>
-    <remark match=".*" replace="💡 Phone queries directory number (DN) for each line button; CUCM responds with the DN, display name, and voicemail settings">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Phone queries directory number (DN) for each line button; CUCM responds with the DN, display name, and voicemail settings">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="slate dashed">
     <opcode match="Message ID: (ForwardStatReq|ForwardStatRes) .*" replace="↪ SCCP $1">skinny.messageId</opcode>
-    <remark match=".*" replace="💡 Call forwarding status — phone queries/receives CFA (Call Forward All), CFB (Busy), CFNA (No Answer) settings per line">skinny</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Call forwarding status — phone queries/receives CFA (Call Forward All), CFB (Busy), CFNA (No Answer) settings per line">frame.number</remark>
   </tcp-message>
 
   <!-- SCCP TimeDateReq/Res -->
@@ -836,19 +816,19 @@ Protocol Overview:
     <param match="Called party number digits: (.*)" replace="📞 Called: $1">q931.called_party_number.digits</param>
     <param match="Calling party number digits: (.*)" replace="📞 Calling: $1">q931.calling_party_number.digits</param>
     <param match="dialledDigits: (.*)" replace="📞 Dialed: $1">h225.dialledDigits</param>
-    <remark match=".*" replace="💡 H.225 Setup — initiates an H.323 call; carries called/calling numbers, bearer capability, and H.245 address for media negotiation">q931</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] H.225 Setup — initiates an H.323 call; carries called/calling numbers, bearer capability, and H.245 address for media negotiation">frame.number</remark>
   </tcp-message>
 
   <!-- Q.931 CALL PROCEEDING -->
   <tcp-message style="cerulean">
     <opcode match=".*CALL PROCEEDING.*" replace="📋 H.225 Call Proceeding">q931.message_type</opcode>
-    <remark match=".*" replace="💡 Call Proceeding — gateway accepted the Setup and is routing the call; H.245 address may be included for early media negotiation">q931</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Call Proceeding — gateway accepted the Setup and is routing the call; H.245 address may be included for early media negotiation">frame.number</remark>
   </tcp-message>
 
   <!-- Q.931 ALERTING -->
   <tcp-message style="tangerine">
     <opcode match=".*ALERTING.*" replace="🔔 H.225 Alerting">q931.message_type</opcode>
-    <remark match=".*" replace="💡 Alerting — remote phone is ringing; caller hears ringback tone; Progress indicator may signal in-band audio available">q931</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Alerting — remote phone is ringing; caller hears ringback tone; Progress indicator may signal in-band audio available">frame.number</remark>
   </tcp-message>
 
   <!-- Q.931 PROGRESS -->
@@ -861,14 +841,14 @@ Protocol Overview:
   <tcp-message style="forest-green" bookmark="true">
     <opcode match=".*CONNECT.*" replace="✅ H.225 Connect">q931.message_type</opcode>
     <param match="Connected party number digits: (.*)" replace="📞 Connected: $1">q931.connected_number.digits</param>
-    <remark match=".*" replace="💡 Connect — call answered; media channel is now established; both sides exchange RTP audio/video on negotiated ports">q931</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Connect — call answered; media channel is now established; both sides exchange RTP audio/video on negotiated ports">frame.number</remark>
   </tcp-message>
 
   <!-- Q.931 RELEASE COMPLETE -->
   <tcp-message style="magenta" bookmark="true">
     <opcode match=".*RELEASE COMPLETE.*" replace="🛑 H.225 Release Complete">q931.message_type</opcode>
     <param match=".*Cause value: (.*)" replace="📋 Cause: $1">q931.cause_value</param>
-    <remark match=".*" replace="💡 Release Complete — call terminated; Cause value explains why (16=Normal clearing, 17=User busy, 34=No circuit available)">q931</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Release Complete — call terminated; Cause value explains why (16=Normal clearing, 17=User busy, 34=No circuit available)">frame.number</remark>
   </tcp-message>
 
   <!-- Q.931 NOTIFY -->
@@ -879,7 +859,7 @@ Protocol Overview:
   <!-- Q.931 FACILITY -->
   <tcp-message style="slate dashed">
     <opcode match=".*FACILITY.*" replace="📋 H.225 Facility">q931.message_type</opcode>
-    <remark match=".*" replace="💡 Facility — mid-call supplementary service (hold, transfer, conference); also used for H.245 tunneling and call diversion">q931</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Facility — mid-call supplementary service (hold, transfer, conference); also used for H.245 tunneling and call diversion">frame.number</remark>
   </tcp-message>
 
   <!-- Q.931 Generic -->

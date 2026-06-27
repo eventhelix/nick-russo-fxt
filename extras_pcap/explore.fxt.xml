@@ -175,7 +175,7 @@
     <param match="(Checksum coverage): (.*)" replace="🛡 $1: $2 (entire datagram)">udp.checksum_coverage</param>
     <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
     <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
-    <remark match=".*" replace="💡 Full coverage: checksum protects entire datagram, equivalent to standard UDP">udp.stream</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Full coverage: checksum protects entire datagram, equivalent to standard UDP">frame.number</remark>
   </udp-message>
 
   <!-- UDP-Lite: coverage=8 means header only (minimum, payload unprotected) -->
@@ -184,7 +184,7 @@
     <param match="(Checksum coverage): (.*)" replace="⚠️ $1: $2 (header only — payload unprotected)">udp.checksum_coverage</param>
     <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
     <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
-    <remark match=".*" replace="💡 Header only: minimum 8-byte coverage, payload bit errors tolerated (ideal for VoIP/video)">udp.stream</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Header only: minimum 8-byte coverage, payload bit errors tolerated (ideal for VoIP/video)">frame.number</remark>
   </udp-message>
 
   <!-- UDP-Lite: bogus coverage (value exceeds datagram length or < 8) -->
@@ -193,7 +193,7 @@
     <param match="(Checksum coverage): (.*)" replace="🚫 $1: $2">udp.checksum_coverage</param>
     <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
     <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
-    <remark match=".*" replace="💡 Bogus coverage: value exceeds datagram length, receiver should discard this packet">udp.stream</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Bogus coverage: value exceeds datagram length, receiver should discard this packet">frame.number</remark>
   </udp-message>
 
   <!-- UDP-Lite: other coverage values = partial checksum -->
@@ -202,7 +202,7 @@
     <param match="(Checksum coverage): (.*)" replace="🔒 $1: $2">udp.checksum_coverage</param>
     <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
     <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
-    <remark match=".*" replace="💡 Partial coverage: header + first bytes checksummed, remaining payload may have bit errors">udp.stream</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Partial coverage: header + first bytes checksummed, remaining payload may have bit errors">frame.number</remark>
   </udp-message>
 
   <!-- UDP-Lite IPv6: coverage=0 (full) -->
@@ -212,7 +212,7 @@
     <param match="(Checksum coverage): (.*)" replace="🛡 $1: $2 (entire datagram)">udp.checksum_coverage</param>
     <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
     <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
-    <remark match=".*" replace="💡 Full coverage: checksum protects entire datagram, equivalent to standard UDP">udp.stream</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Full coverage: checksum protects entire datagram, equivalent to standard UDP">frame.number</remark>
   </udpv6-message>
 
   <!-- UDP-Lite IPv6: coverage=8 (header only) -->
@@ -222,7 +222,7 @@
     <param match="(Checksum coverage): (.*)" replace="⚠️ $1: $2 (header only — payload unprotected)">udp.checksum_coverage</param>
     <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
     <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
-    <remark match=".*" replace="💡 Header only: minimum 8-byte coverage, payload bit errors tolerated (ideal for VoIP/video)">udp.stream</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Header only: minimum 8-byte coverage, payload bit errors tolerated (ideal for VoIP/video)">frame.number</remark>
   </udpv6-message>
 
   <!-- UDP-Lite IPv6: bogus coverage -->
@@ -232,7 +232,7 @@
     <param match="(Checksum coverage): (.*)" replace="🚫 $1: $2">udp.checksum_coverage</param>
     <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
     <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
-    <remark match=".*" replace="💡 Bogus coverage: value exceeds datagram length, receiver should discard this packet">udp.stream</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Bogus coverage: value exceeds datagram length, receiver should discard this packet">frame.number</remark>
   </udpv6-message>
 
   <!-- UDP-Lite IPv6: partial coverage -->
@@ -242,7 +242,7 @@
     <param match="(Checksum coverage): (.*)" replace="🔒 $1: $2">udp.checksum_coverage</param>
     <param match="(Checksum): (.*)" replace="🔢 $1: $2">udp.checksum</param>
     <param match="UDP payload \((\d+ bytes)\)" replace="📦 Payload: $1">udp.payload</param>
-    <remark match=".*" replace="💡 Partial coverage: header + first bytes checksummed, remaining payload may have bit errors">udp.stream</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Partial coverage: header + first bytes checksummed, remaining payload may have bit errors">frame.number</remark>
   </udpv6-message>
 
   <!-- IPv6 traceroute / UDP probe -->

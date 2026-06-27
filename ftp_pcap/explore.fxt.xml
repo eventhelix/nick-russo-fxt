@@ -19,48 +19,48 @@ Emoji story for FTP lifecycle:
   <tcp-message style="amethyst" bookmark="true">
     <opcode match="Request command: (USER)" replace="👤 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="👤 Username: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 FTP login step 1: client identifies itself">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] FTP login step 1: client identifies itself">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="amethyst" bookmark="true">
     <opcode match="Request command: (PASS)" replace="🔐 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 FTP login step 2: password sent in cleartext (use FTPS for encryption)">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] FTP login step 2: password sent in cleartext (use FTPS for encryption)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="teal" bookmark="true">
     <opcode match="Request command: (AUTH)" replace="🔒 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="🔐 Method: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Upgrade to TLS/SSL encryption — all subsequent commands and data are protected">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Upgrade to TLS/SSL encryption — all subsequent commands and data are protected">frame.number</remark>
   </tcp-message>
 
   <!-- FTP Navigation -->
   <tcp-message style="sea-green">
     <opcode match="Request command: (PWD)" replace="📂 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Print current working directory on the server">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Print current working directory on the server">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="sea-green">
     <opcode match="Request command: (CWD)" replace="📂 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📂 Path: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Change to a different directory on the server">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Change to a different directory on the server">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="sea-green">
     <opcode match="Request command: (CDUP)" replace="📂 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Move up to the parent directory">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Move up to the parent directory">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="sea-green">
     <opcode match="Request command: (MKD)" replace="📂 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📂 Directory: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Create a new directory on the server">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Create a new directory on the server">frame.number</remark>
   </tcp-message>
 
   <!-- FTP Directory Listing -->
   <tcp-message style="cerulean">
     <opcode match="Request command: (LIST)" replace="📋 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📂 Path: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Request directory listing — server opens data connection to send file list">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Request directory listing — server opens data connection to send file list">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
@@ -72,19 +72,19 @@ Emoji story for FTP lifecycle:
   <tcp-message style="royal-blue" bookmark="true">
     <opcode match="Request command: (RETR)" replace="📥 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📄 File: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Download file from server — data sent over separate data connection">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Download file from server — data sent over separate data connection">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="forest-green" bookmark="true">
     <opcode match="Request command: (STOR)" replace="📤 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📄 File: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Upload file to server — data sent over separate data connection">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Upload file to server — data sent over separate data connection">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="forest-green">
     <opcode match="Request command: (APPE)" replace="📤 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📄 File: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Append data to existing file on server">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Append data to existing file on server">frame.number</remark>
   </tcp-message>
 
   <!-- FTP File Operations -->
@@ -96,30 +96,30 @@ Emoji story for FTP lifecycle:
   <tcp-message style="tangerine">
     <opcode match="Request command: (RNFR)" replace="✏ FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📄 From: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Rename step 1: specify the file to rename">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Rename step 1: specify the file to rename">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="tangerine">
     <opcode match="Request command: (RNTO)" replace="✏ FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📄 To: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Rename step 2: specify the new name">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Rename step 2: specify the new name">frame.number</remark>
   </tcp-message>
 
   <!-- FTP Data Channel Setup -->
   <tcp-message style="cerulean">
     <opcode match="Request command: (PASV)" replace="🔗 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Passive mode: server provides IP:port for client to connect data channel">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Passive mode: server provides IP:port for client to connect data channel">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request command: (EPSV)" replace="🔗 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Extended passive mode (IPv6 compatible): server provides port number only">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Extended passive mode (IPv6 compatible): server provides port number only">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request command: (PORT)" replace="🔗 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="🔗 $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Active mode: client provides IP:port for server to connect data channel">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Active mode: client provides IP:port for server to connect data channel">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
@@ -131,18 +131,18 @@ Emoji story for FTP lifecycle:
   <tcp-message style="slate">
     <opcode match="Request command: (TYPE)" replace="🔧 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="🔧 Mode: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Set transfer type: A=ASCII (text), I=Image/Binary">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Set transfer type: A=ASCII (text), I=Image/Binary">frame.number</remark>
   </tcp-message>
 
   <!-- FTP System/Info -->
   <tcp-message style="slate dashed">
     <opcode match="Request command: (FEAT)" replace="🤝 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 List server features and extensions">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] List server features and extensions">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="slate dashed">
     <opcode match="Request command: (SYST)" replace="🤝 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Query server operating system type">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Query server operating system type">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="slate dashed">
@@ -153,12 +153,12 @@ Emoji story for FTP lifecycle:
   <!-- FTP Session Control -->
   <tcp-message style="slate dashed">
     <opcode match="Request command: (NOOP)" replace="💓 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Keepalive — prevents server timeout during idle periods">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Keepalive — prevents server timeout during idle periods">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="magenta">
     <opcode match="Request command: (QUIT)" replace="🛑 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Close FTP session — server responds 221 and drops connection">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Close FTP session — server responds 221 and drops connection">frame.number</remark>
   </tcp-message>
 
   <!-- FTP generic command fallback -->
@@ -175,14 +175,14 @@ Emoji story for FTP lifecycle:
   <tcp-message style="forest-green" bookmark="true">
     <opcode match=".*\((220)\)" replace="🤝 FTP $1 Ready">ftp.response.code</opcode>
     <param match="(Response arg): (.*)" replace="🏷 $2">ftp.response.arg</param>
-    <remark match=".*" replace="💡 Server is ready — announces software version and capabilities">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server is ready — announces software version and capabilities">frame.number</remark>
   </tcp-message>
 
   <!-- 226 Transfer Complete -->
   <tcp-message style="forest-green" bookmark="true">
     <opcode match=".*\((226)\)" replace="✅ FTP $1 Transfer Complete">ftp.response.code</opcode>
     <param match="(Response arg): (.*)" replace="📋 $2">ftp.response.arg</param>
-    <remark match=".*" replace="💡 File transfer finished successfully — data connection closed">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] File transfer finished successfully — data connection closed">frame.number</remark>
   </tcp-message>
 
   <!-- 227 Entering Passive Mode -->
@@ -190,34 +190,34 @@ Emoji story for FTP lifecycle:
     <opcode match=".*\((227)\)" replace="🔗 FTP $1 Passive Mode">ftp.response.code</opcode>
     <param match="(Passive IP address): (.*)" replace="🌐 $1: $2">ftp.passive.ip</param>
     <param match="(Passive port): (.*)" replace="🔗 $1: $2">ftp.passive.port</param>
-    <remark match=".*" replace="💡 Server provides IP:port for data connection — client connects to this address">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server provides IP:port for data connection — client connects to this address">frame.number</remark>
   </tcp-message>
 
   <!-- 229 Entering Extended Passive Mode -->
   <tcp-message style="cerulean">
     <opcode match=".*\((229)\)" replace="🔗 FTP $1 Extended Passive">ftp.response.code</opcode>
     <param match="(Passive port): (.*)" replace="🔗 Port: $2">ftp.passive.port</param>
-    <remark match=".*" replace="💡 Extended passive mode for IPv6 — server provides port only (uses same IP)">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Extended passive mode for IPv6 — server provides port only (uses same IP)">frame.number</remark>
   </tcp-message>
 
   <!-- 230 User Logged In -->
   <tcp-message style="forest-green" bookmark="true">
     <opcode match=".*\((230)\)" replace="✅ FTP $1 Logged In">ftp.response.code</opcode>
     <param match="(Response arg): (.*)" replace="📋 $2">ftp.response.arg</param>
-    <remark match=".*" replace="💡 Authentication successful — client can now issue file commands">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Authentication successful — client can now issue file commands">frame.number</remark>
   </tcp-message>
 
   <!-- 150 Opening Data Connection -->
   <tcp-message style="cerulean">
     <opcode match=".*\((150)\)" replace="📋 FTP $1 Data Connection">ftp.response.code</opcode>
     <param match="(Response arg): (.*)" replace="📋 $2">ftp.response.arg</param>
-    <remark match=".*" replace="💡 Server opening data channel for file transfer or directory listing">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server opening data channel for file transfer or directory listing">frame.number</remark>
   </tcp-message>
 
   <!-- 221 Goodbye -->
   <tcp-message style="forest-green">
     <opcode match=".*\((221)\)" replace="👋 FTP $1 Goodbye">ftp.response.code</opcode>
-    <remark match=".*" replace="💡 Server confirms session end — control connection closes">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server confirms session end — control connection closes">frame.number</remark>
   </tcp-message>
 
   <!-- 250 OK -->
@@ -231,14 +231,14 @@ Emoji story for FTP lifecycle:
   <tcp-message style="amethyst">
     <opcode match=".*\((331)\)" replace="🔐 FTP $1 Need Password">ftp.response.code</opcode>
     <param match="(Response arg): (.*)" replace="📋 $2">ftp.response.arg</param>
-    <remark match=".*" replace="💡 Username accepted — server now requires password to complete login">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Username accepted — server now requires password to complete login">frame.number</remark>
   </tcp-message>
 
   <!-- 234 AUTH OK (TLS negotiation proceed) -->
   <tcp-message style="teal">
     <opcode match=".*\((234)\)" replace="🔒 FTP $1 AUTH OK">ftp.response.code</opcode>
     <param match="(Response arg): (.*)" replace="📋 $2">ftp.response.arg</param>
-    <remark match=".*" replace="💡 TLS negotiation accepted — start TLS handshake now">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] TLS negotiation accepted — start TLS handshake now">frame.number</remark>
   </tcp-message>
 
   <!-- 1xx/2xx Success -->
@@ -258,7 +258,7 @@ Emoji story for FTP lifecycle:
   <tcp-message style="crimson" bookmark="true">
     <opcode match=".*\(([45]\d\d)\)" replace="🚫 FTP $1 Error">ftp.response.code</opcode>
     <param match="(Response arg): (.*)" replace="📋 $2">ftp.response.arg</param>
-    <remark match=".*" replace="💡 Server error — file not found, permission denied, or quota exceeded">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server error — file not found, permission denied, or quota exceeded">frame.number</remark>
   </tcp-message>
 
   <!-- FTP generic response fallback -->
@@ -275,14 +275,14 @@ Emoji story for FTP lifecycle:
     <opcode match=".*Read Request.*" replace="📥 TFTP Read Request">tftp.opcode</opcode>
     <param match="(Source File): (.*)" replace="📄 File: $2">tftp.source_file</param>
     <param match="(Type): (.*)" replace="🔧 Mode: $2">tftp.type</param>
-    <remark match=".*" replace="💡 Client requests file download from TFTP server">tftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Client requests file download from TFTP server">frame.number</remark>
   </udp-message>
 
   <udp-message style="forest-green">
     <opcode match=".*Write Request.*" replace="📤 TFTP Write Request">tftp.opcode</opcode>
     <param match="(Destination File): (.*)" replace="📄 File: $2">tftp.destination_file</param>
     <param match="(Type): (.*)" replace="🔧 Mode: $2">tftp.type</param>
-    <remark match=".*" replace="💡 Client requests file upload to TFTP server">tftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Client requests file upload to TFTP server">frame.number</remark>
   </udp-message>
 
   <udp-message style="cerulean">
@@ -332,12 +332,12 @@ Emoji story for FTP lifecycle:
     <opcode match="Handshake Type: (Client Hello|Server Hello) \(.*\)" replace="🤝 TLS $1">tls.handshake.type</opcode>
     <param>tls.handshake.version</param>
     <param>tls.handshake.ciphersuite</param>
-    <remark match=".*" replace="💡 TLS handshake: client and server negotiate version and cipher suite">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] TLS handshake: client and server negotiate version and cipher suite">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="teal">
     <opcode match="Handshake Type: (Certificate) \(.*\)" replace="🔐 TLS $1">tls.handshake.type</opcode>
-    <remark match=".*" replace="💡 Server presents its X.509 certificate for identity verification">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server presents its X.509 certificate for identity verification">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="teal">
@@ -346,12 +346,12 @@ Emoji story for FTP lifecycle:
 
   <tcp-message style="teal dashed">
     <opcode match=".*Change Cipher Spec.*" replace="🔒 TLS Change Cipher Spec">tls.change_cipher_spec</opcode>
-    <remark match=".*" replace="💡 Switching to negotiated cipher — all subsequent data is encrypted">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Switching to negotiated cipher — all subsequent data is encrypted">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="slate dashed">
     <opcode match=".*" replace="🔒 TLS Application Data">tls.app_data_proto</opcode>
-    <remark match=".*" replace="💡 Encrypted FTP commands and data — contents not visible without TLS keys">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Encrypted FTP commands and data — contents not visible without TLS keys">frame.number</remark>
   </tcp-message>
 
   <!-- ============================================================
@@ -362,30 +362,30 @@ Emoji story for FTP lifecycle:
   <tcpv6-message style="amethyst" bookmark="true">
     <opcode match="Request command: (USER)" replace="👤 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="👤 Username: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 FTP login step 1: client identifies itself">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] FTP login step 1: client identifies itself">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="amethyst" bookmark="true">
     <opcode match="Request command: (PASS)" replace="🔐 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 FTP login step 2: password sent in cleartext (use FTPS for encryption)">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] FTP login step 2: password sent in cleartext (use FTPS for encryption)">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="teal" bookmark="true">
     <opcode match="Request command: (AUTH)" replace="🔒 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="🔐 Method: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Upgrade to TLS/SSL encryption — all subsequent commands and data are protected">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Upgrade to TLS/SSL encryption — all subsequent commands and data are protected">frame.number</remark>
   </tcpv6-message>
 
   <!-- FTP Navigation (IPv6) -->
   <tcpv6-message style="sea-green">
     <opcode match="Request command: (PWD)" replace="📂 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Print current working directory on the server">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Print current working directory on the server">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="sea-green">
     <opcode match="Request command: (CWD)" replace="📂 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📂 Path: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Change to a different directory on the server">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Change to a different directory on the server">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="sea-green">
@@ -401,7 +401,7 @@ Emoji story for FTP lifecycle:
   <tcpv6-message style="cerulean">
     <opcode match="Request command: (LIST)" replace="📋 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📂 Path: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Request directory listing — server opens data connection to send file list">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Request directory listing — server opens data connection to send file list">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="cerulean">
@@ -413,13 +413,13 @@ Emoji story for FTP lifecycle:
   <tcpv6-message style="royal-blue" bookmark="true">
     <opcode match="Request command: (RETR)" replace="📥 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📄 File: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Download file from server — data sent over separate data connection">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Download file from server — data sent over separate data connection">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="forest-green" bookmark="true">
     <opcode match="Request command: (STOR)" replace="📤 FTP $1">ftp.request.command</opcode>
     <param match="(Request arg): (.*)" replace="📄 File: $2">ftp.request.arg</param>
-    <remark match=".*" replace="💡 Upload file to server — data sent over separate data connection">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Upload file to server — data sent over separate data connection">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="forest-green">
@@ -450,7 +450,7 @@ Emoji story for FTP lifecycle:
 
   <tcpv6-message style="cerulean">
     <opcode match="Request command: (EPSV)" replace="🔗 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Extended passive mode (IPv6 compatible): server provides port number only">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Extended passive mode (IPv6 compatible): server provides port number only">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="cerulean">
@@ -490,7 +490,7 @@ Emoji story for FTP lifecycle:
 
   <tcpv6-message style="magenta">
     <opcode match="Request command: (QUIT)" replace="🛑 FTP $1">ftp.request.command</opcode>
-    <remark match=".*" replace="💡 Close FTP session — server responds 221 and drops connection">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Close FTP session — server responds 221 and drops connection">frame.number</remark>
   </tcpv6-message>
 
   <!-- FTP generic command fallback (IPv6) -->
@@ -503,7 +503,7 @@ Emoji story for FTP lifecycle:
   <tcpv6-message style="forest-green" bookmark="true">
     <opcode match=".*\((220)\)" replace="🤝 FTP $1 Ready">ftp.response.code</opcode>
     <param match="(Response arg): (.*)" replace="🏷 $2">ftp.response.arg</param>
-    <remark match=".*" replace="💡 Server is ready — announces software version and capabilities">ftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server is ready — announces software version and capabilities">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="forest-green" bookmark="true">
@@ -578,14 +578,14 @@ Emoji story for FTP lifecycle:
     <opcode match=".*Read Request.*" replace="📥 TFTP Read Request">tftp.opcode</opcode>
     <param match="(Source File): (.*)" replace="📄 File: $2">tftp.source_file</param>
     <param match="(Type): (.*)" replace="🔧 Mode: $2">tftp.type</param>
-    <remark match=".*" replace="💡 Client requests file download from TFTP server">tftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Client requests file download from TFTP server">frame.number</remark>
   </udpv6-message>
 
   <udpv6-message style="forest-green">
     <opcode match=".*Write Request.*" replace="📤 TFTP Write Request">tftp.opcode</opcode>
     <param match="(Destination File): (.*)" replace="📄 File: $2">tftp.destination_file</param>
     <param match="(Type): (.*)" replace="🔧 Mode: $2">tftp.type</param>
-    <remark match=".*" replace="💡 Client requests file upload to TFTP server">tftp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Client requests file upload to TFTP server">frame.number</remark>
   </udpv6-message>
 
   <udpv6-message style="cerulean">
@@ -628,7 +628,7 @@ Emoji story for FTP lifecycle:
     <opcode match="Handshake Type: (Client Hello|Server Hello) \(.*\)" replace="🤝 TLS $1">tls.handshake.type</opcode>
     <param>tls.handshake.version</param>
     <param>tls.handshake.ciphersuite</param>
-    <remark match=".*" replace="💡 TLS handshake: client and server negotiate version and cipher suite">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] TLS handshake: client and server negotiate version and cipher suite">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="teal">
@@ -641,12 +641,12 @@ Emoji story for FTP lifecycle:
 
   <tcpv6-message style="teal dashed">
     <opcode match=".*Change Cipher Spec.*" replace="🔒 TLS Change Cipher Spec">tls.change_cipher_spec</opcode>
-    <remark match=".*" replace="💡 Switching to negotiated cipher — all subsequent data is encrypted">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Switching to negotiated cipher — all subsequent data is encrypted">frame.number</remark>
   </tcpv6-message>
 
   <tcpv6-message style="slate dashed">
     <opcode match=".*" replace="🔒 TLS Application Data">tls.app_data_proto</opcode>
-    <remark match=".*" replace="💡 Encrypted FTP commands and data — contents not visible without TLS keys">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Encrypted FTP commands and data — contents not visible without TLS keys">frame.number</remark>
   </tcpv6-message>
 
   <!-- ============================================================

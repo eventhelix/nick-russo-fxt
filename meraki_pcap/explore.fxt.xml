@@ -15,7 +15,7 @@ Protocols covered:
   - HTTP  (including SSDP/UPnP over UDP)
   - TLS   (encrypted connections)
 -->
-<FXT prefer-higher-layer="true">
+<FXT>
 
   <!-- ============================================================
        mDNS Messages (Multicast DNS, port 5353)
@@ -27,7 +27,7 @@ Protocols covered:
     <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
     <param>dns.qry.type</param>
     <param>dns.count.queries</param>
-    <remark match=".*" replace="💡 mDNS Query — multicast DNS for zero-config service discovery (Bonjour); Meraki devices use mDNS to find cloud management, printers, AirPlay receivers on the local network">mdns</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] mDNS Query — multicast DNS for zero-config service discovery (Bonjour); Meraki devices use mDNS to find cloud management, printers, AirPlay receivers on the local network">frame.number</remark>
   </udp-message>
 
   <!-- mDNS Response -->
@@ -106,16 +106,24 @@ Protocols covered:
        Standard DNS Messages (port 53)
        ============================================================ -->
 
-  <!-- DNS Query -->
+  <!-- DNS Query (IPv4) -->
   <udp-message style="forest-green">
     <opcode match="^Domain Name System \(query\)" replace="🔍 DNS Query">dns</opcode>
     <param>dns.id</param>
     <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
     <param>dns.qry.type</param>
-    <remark match=".*" replace="💡 DNS Query — Meraki devices resolve cloud dashboard URLs (n###.meraki.com) and NTP servers during initialization; DNS failure prevents cloud management">dns</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DNS Query — Meraki devices resolve cloud dashboard URLs (n###.meraki.com) and NTP servers during initialization; DNS failure prevents cloud management">frame.number</remark>
   </udp-message>
 
-  <!-- DNS Response -->
+  <!-- DNS Query (IPv6) -->
+  <udpv6-message style="forest-green">
+    <opcode match="^Domain Name System \(query\)" replace="🔍 DNS Query">dns</opcode>
+    <param>dns.id</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
+    <param>dns.qry.type</param>
+  </udpv6-message>
+
+  <!-- DNS Response (IPv4) -->
   <udp-message style="forest-green dashed">
     <opcode match="^Domain Name System \(response\)" replace="📋 DNS Response">dns</opcode>
     <param>dns.id</param>
@@ -126,12 +134,27 @@ Protocols covered:
     <param>dns.time</param>
   </udp-message>
 
+  <!-- DNS Response (IPv6) -->
+  <udpv6-message style="forest-green dashed">
+    <opcode match="^Domain Name System \(response\)" replace="📋 DNS Response">dns</opcode>
+    <param>dns.id</param>
+    <param match="Name: (.*)" replace="🌐 Name: $1">dns.qry.name</param>
+    <param match="Address: (.*)" replace="🌐 Address: $1">dns.aaaa</param>
+    <param>dns.cname</param>
+    <param match=".*=\s+(.*)" replace="$1">dns.flags.rcode</param>
+    <param>dns.time</param>
+  </udpv6-message>
+
   <!-- ============================================================
        NetBIOS Name Service (NBNS, port 137)
        ============================================================ -->
 
+  <!-- NetBIOS Name Service (NBNS) is IPv4-only by protocol design.
+       The IPv6 equivalent name-resolution mechanisms are LLMNR (RFC
+       4795) and mDNS (RFC 6762), not NBNS-over-v6 — so the v4 NBNS
+       templates below have no twin and opt out via single-stack. -->
   <!-- NBNS Query -->
-  <udp-message style="amber">
+  <udp-message style="amber" single-stack="true">
     <opcode
             match=".*Name query.*"
             replace="🔍 NBNS Query"
@@ -142,7 +165,7 @@ Protocols covered:
   </udp-message>
 
   <!-- NBNS Response -->
-  <udp-message style="amber dashed">
+  <udp-message style="amber dashed" single-stack="true">
     <opcode
             match=".*response.*"
             replace="📋 NBNS Response"
@@ -164,7 +187,7 @@ Protocols covered:
     <param match="Host Name.*: (.*)" replace="🖥 Hostname: $1">dhcp.option.hostname</param>
     <param>dhcp.option.dhcp_server_id</param>
     <param>dhcp.option.ip_address_lease_time</param>
-    <remark match=".*" replace="💡 DHCP — Meraki device obtains IP address, default gateway, and DNS servers; first step in cloud-managed initialization (DORA: Discover→Offer→Request→ACK)">dhcp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DHCP — Meraki device obtains IP address, default gateway, and DNS servers; first step in cloud-managed initialization (DORA: Discover→Offer→Request→ACK)">frame.number</remark>
   </udp-message>
 
   <!-- ============================================================
@@ -205,7 +228,7 @@ Protocols covered:
         >http.request.method</opcode>
     <param>http.host</param>
     <param>http.unknown_header</param>
-    <remark match=".*" replace="💡 SSDP M-SEARCH — UPnP device discovery; Meraki searches for other network devices and services via multicast (239.255.255.250:1900)">ssdp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] SSDP M-SEARCH — UPnP device discovery; Meraki searches for other network devices and services via multicast (239.255.255.250:1900)">frame.number</remark>
   </udp-message>
 
   <!-- SSDP NOTIFY over UDP -->
@@ -298,12 +321,12 @@ Protocols covered:
     <param>tls.handshake.ciphersuites</param>
     <param match="Server Name: (.*)" replace="🌐 SNI: $1">tls.handshake.extensions_server_name</param>
     <param>tls.handshake.extensions_alpn_str</param>
-    <remark match=".*" replace="💡 TLS Client Hello — Meraki device establishes encrypted tunnel to cloud dashboard; SNI shows the Meraki cloud endpoint (n###.meraki.com); required for configuration, monitoring, and firmware updates">tls</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] TLS Client Hello — Meraki device establishes encrypted tunnel to cloud dashboard; SNI shows the Meraki cloud endpoint (n###.meraki.com); required for configuration, monitoring, and firmware updates">frame.number</remark>
   </tcp-message>
 
   <!-- TLS Server Hello -->
   <tcp-message style="sea-green dashed" bookmark="true">
-    <opcode match=".*Server Hello(?!.*Done).*" replace="🤝 TLS Server Hello">tls.record</opcode>
+    <opcode match=".*Server Hello($|[^ ]).*" replace="🤝 TLS Server Hello">tls.record</opcode>
     <param>tls.handshake.version</param>
     <param match="Cipher Suite: (.*)" replace="🔐 Cipher: $1">tls.handshake.ciphersuite</param>
   </tcp-message>
@@ -311,7 +334,7 @@ Protocols covered:
   <!-- TLS Certificate -->
   <tcp-message style="forest-green">
     <opcode
-            match=".*Certificate(?!.*Request|.*Verify|.*Status).*"
+            match=".*Certificate($|[^ ]).*"
             replace="🔐 TLS Certificate"
         >tls.record</opcode>
     <param>tls.handshake.certificate_length</param>
@@ -358,9 +381,9 @@ Protocols covered:
 
   <!-- ============================================================
        TCP Control Messages (SYN, SYN-ACK, FIN, RST)
-       Must be after all application-layer tcp-message templates.
-       prefer-higher-layer ensures these only match when no
-       higher protocol (TLS, HTTP) is present.
+       Must be after all application-layer tcp-message templates so
+       first-match-wins selects the higher-layer label (TLS, HTTP)
+       when one is present; falls through to TCP only otherwise.
        ============================================================ -->
 
   <!-- TCP SYN -->

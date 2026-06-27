@@ -8,7 +8,9 @@ Version keycaps: 5️⃣ v5, 9️⃣ v9 (tests multi-codepoint rendering)
 <FXT>
 
   <!-- NetFlow v5 -->
-  <udp-message style="royal-blue">
+  <!-- NetFlow v5 is IPv4-only by design (RFC 3954 superseded v5 for IPv6
+       coverage with v9 / IPFIX, which have their own templates above). -->
+  <udp-message style="royal-blue" single-stack="true">
     <opcode match="Version: (5)" replace="📊 5️⃣ NetFlow v$1">cflow.version</opcode>
     <param match="(Count): (.*)" replace="🔢 $1: $2">cflow.count</param>
     <param match="(Sequence Number): (.*)" replace="🔢 $1: $2">cflow.sequence</param>

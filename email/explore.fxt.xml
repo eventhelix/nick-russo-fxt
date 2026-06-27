@@ -18,40 +18,40 @@ Emoji story for email lifecycle:
   <tcp-message style="sea-green">
     <opcode match="Command: (ehlo|helo|EHLO|HELO)" replace="🤝 SMTP $1">smtp.req.command</opcode>
     <param match="(Request parameter): (.*)" replace="🏷 Hostname: $2">smtp.req.parameter</param>
-    <remark match=".*" replace="💡 Client introduces itself to the mail server; EHLO enables ESMTP extensions">smtp.req.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Client introduces itself to the mail server; EHLO enables ESMTP extensions">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP MAIL FROM (sender envelope) -->
   <tcp-message style="royal-blue">
     <opcode match="Command: (mail|MAIL)" replace="📨 SMTP MAIL FROM">smtp.req.command</opcode>
     <param match="Request parameter: FROM:&lt;(.*)&gt;.*" replace="📤 From: $1">smtp.req.parameter</param>
-    <remark match=".*" replace="💡 Envelope sender — the return path for bounces (may differ from the From: header)">smtp.req.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Envelope sender — the return path for bounces (may differ from the From: header)">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP RCPT TO (recipient envelope) -->
   <tcp-message style="cerulean">
     <opcode match="Command: (rcpt|RCPT)" replace="📨 SMTP RCPT TO">smtp.req.command</opcode>
     <param match="Request parameter: TO:&lt;(.*)&gt;" replace="📥 To: $1">smtp.req.parameter</param>
-    <remark match=".*" replace="💡 Envelope recipient — server checks if it will accept mail for this address">smtp.req.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Envelope recipient — server checks if it will accept mail for this address">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP DATA (message body) -->
   <tcp-message style="amethyst">
     <opcode match="Command: (data|DATA)" replace="📝 SMTP DATA">smtp.req.command</opcode>
-    <remark match=".*" replace="💡 Client starts sending the message body (headers + content), terminated by CRLF.CRLF">smtp.req.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Client starts sending the message body (headers + content), terminated by CRLF.CRLF">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP End of Message -->
   <tcp-message style="amethyst dashed">
     <opcode match=".*" replace="📝 SMTP End of Message">smtp.eom</opcode>
-    <remark match=".*" replace="💡 Message body complete — server queues the message for delivery">smtp.eom</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Message body complete — server queues the message for delivery">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP VRFY (verify address) -->
   <tcp-message style="teal">
     <opcode match="Command: (VRFY|vrfy)" replace="🔍 SMTP VRFY">smtp.req.command</opcode>
     <param match="(Request parameter): (.*)" replace="👤 Address: $2">smtp.req.parameter</param>
-    <remark match=".*" replace="💡 Verify if a mailbox exists on this server (often disabled for anti-spam)">smtp.req.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Verify if a mailbox exists on this server (often disabled for anti-spam)">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP NOOP -->
@@ -80,13 +80,13 @@ Emoji story for email lifecycle:
   <tcp-message style="forest-green">
     <opcode match=".*(220)\)" replace="🤝 SMTP $1 Ready">smtp.response.code</opcode>
     <param match="(Response parameter): (.*)" replace="🏷 $1: $2">smtp.rsp.parameter</param>
-    <remark match=".*" replace="💡 Server is ready to accept mail — announces its hostname and software">smtp.response.code</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server is ready to accept mail — announces its hostname and software">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP 221 Closing -->
   <tcp-message style="forest-green">
     <opcode match=".*(221)\)" replace="👋 SMTP $1 Closing">smtp.response.code</opcode>
-    <remark match=".*" replace="💡 Server confirms session end — TCP connection will close">smtp.response.code</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server confirms session end — TCP connection will close">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP 250 OK -->
@@ -98,14 +98,14 @@ Emoji story for email lifecycle:
   <!-- SMTP 354 Start mail input -->
   <tcp-message style="sea-green">
     <opcode match=".*(354)\)" replace="📝 SMTP $1 Send Data">smtp.response.code</opcode>
-    <remark match=".*" replace="💡 Server ready to receive message body — send data ending with CRLF.CRLF">smtp.response.code</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Server ready to receive message body — send data ending with CRLF.CRLF">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP 5xx Error -->
   <tcp-message style="crimson">
     <opcode match=".*(5\d\d)\)" replace="🚫 SMTP $1 Error">smtp.response.code</opcode>
     <param match="(Response parameter): (.*)" replace="📋 $1: $2">smtp.rsp.parameter</param>
-    <remark match=".*" replace="💡 Permanent failure — address rejected, policy violation, or server error">smtp.response.code</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Permanent failure — address rejected, policy violation, or server error">frame.number</remark>
   </tcp-message>
 
   <!-- SMTP generic response fallback -->
@@ -122,52 +122,52 @@ Emoji story for email lifecycle:
   <tcp-message style="cerulean">
     <opcode match="Request Command: (CAPABILITY)" replace="📋 IMAP $1">imap.request.command</opcode>
     <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
-    <remark match=".*" replace="💡 Query server capabilities — returns supported extensions (IDLE, UIDPLUS, NAMESPACE, etc.)">imap.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Query server capabilities — returns supported extensions (IDLE, UIDPLUS, NAMESPACE, etc.)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="amethyst">
     <opcode match="Request Command: (LOGIN)" replace="🔐 IMAP $1">imap.request.command</opcode>
     <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
     <param match="(Request Username): (.*)" replace="👤 $1: $2">imap.request.username</param>
-    <remark match=".*" replace="💡 Authenticate to the mail server (credentials sent in cleartext without TLS)">imap.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Authenticate to the mail server (credentials sent in cleartext without TLS)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="royal-blue">
     <opcode match="Request Command: (SELECT)" replace="📂 IMAP $1">imap.request.command</opcode>
     <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
     <param match="(Request Folder): (.*)" replace="📂 $1: $2">imap.request.folder</param>
-    <remark match=".*" replace="💡 Open a mailbox folder for read/write — server returns message count and flags">imap.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Open a mailbox folder for read/write — server returns message count and flags">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request Command: (SEARCH)" replace="🔍 IMAP $1">imap.request.command</opcode>
     <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
     <param match="(Request Folder): (.*)" replace="📂 $1: $2">imap.request.folder</param>
-    <remark match=".*" replace="💡 Search for messages matching criteria — returns list of message sequence numbers">imap.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Search for messages matching criteria — returns list of message sequence numbers">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="royal-blue">
     <opcode match="Request Command: (FETCH)" replace="📬 IMAP $1">imap.request.command</opcode>
     <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
-    <remark match=".*" replace="💡 Download message data (headers, body, or specific parts) from the server">imap.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Download message data (headers, body, or specific parts) from the server">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request Command: (LIST)" replace="📋 IMAP $1">imap.request.command</opcode>
     <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
-    <remark match=".*" replace="💡 List mailbox folders — returns hierarchy delimiter and folder names (INBOX, Sent, Drafts, etc.)">imap.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] List mailbox folders — returns hierarchy delimiter and folder names (INBOX, Sent, Drafts, etc.)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request Command: (NOOP)" replace="💓 IMAP $1">imap.request.command</opcode>
     <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
-    <remark match=".*" replace="💡 Keepalive — also triggers server to report any pending mailbox changes (new mail)">imap.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Keepalive — also triggers server to report any pending mailbox changes (new mail)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="magenta">
     <opcode match="Request Command: (LOGOUT)" replace="🛑 IMAP $1">imap.request.command</opcode>
     <param match="(Request Tag): (.*)" replace="🏷 $1: $2">imap.request_tag</param>
-    <remark match=".*" replace="💡 End IMAP session — server responds with BYE and closes connection">imap.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] End IMAP session — server responds with BYE and closes connection">frame.number</remark>
   </tcp-message>
 
   <!-- IMAP generic client command -->
@@ -192,7 +192,7 @@ Emoji story for email lifecycle:
     <param match="(Response Tag): (.*)" replace="🏷 $1: $2">imap.response_tag</param>
     <param match="(Response Command): (.*)" replace="📋 $1: $2">imap.response.command</param>
     <param match="(Response Time): (.*)" replace="⏱ $1: $2">imap.time</param>
-    <remark match=".*" replace="💡 Command failed — invalid credentials, nonexistent mailbox, or permission denied">imap.response.status</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Command failed — invalid credentials, nonexistent mailbox, or permission denied">frame.number</remark>
   </tcp-message>
 
   <!-- IMAP Server BAD Response (syntax error) -->
@@ -200,7 +200,7 @@ Emoji story for email lifecycle:
     <opcode match="Response Status: (BAD)" replace="🚨 IMAP $1">imap.response.status</opcode>
     <param match="(Response Tag): (.*)" replace="🏷 $1: $2">imap.response_tag</param>
     <param match="(Response Command): (.*)" replace="📋 $1: $2">imap.response.command</param>
-    <remark match=".*" replace="💡 Protocol error — malformed command or unknown command syntax">imap.response.status</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Protocol error — malformed command or unknown command syntax">frame.number</remark>
   </tcp-message>
 
   <!-- IMAP untagged data (server push: * OK, * CAPABILITY, * LIST, etc.) -->
@@ -228,61 +228,61 @@ Emoji story for email lifecycle:
   <tcp-message style="crimson">
     <opcode match=".*-ERR" replace="🚫 POP3 -ERR">pop.response.indicator</opcode>
     <param match="(Response description): (.*)" replace="💬 $2">pop.response.description</param>
-    <remark match=".*" replace="💡 Command failed — authentication error, invalid message number, or server-side issue">pop.response.indicator</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Command failed — authentication error, invalid message number, or server-side issue">frame.number</remark>
   </tcp-message>
 
   <!-- POP3 Client Commands -->
   <tcp-message style="cerulean">
     <opcode match="Request command: (USER)" replace="👤 POP3 $1">pop.request.command</opcode>
     <param match="(Request parameter): (.*)" replace="👤 Username: $2">pop.request.parameter</param>
-    <remark match=".*" replace="💡 POP3 authentication step 1: client sends username">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] POP3 authentication step 1: client sends username">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="amethyst">
     <opcode match="Request command: (PASS)" replace="🔐 POP3 $1">pop.request.command</opcode>
-    <remark match=".*" replace="💡 POP3 authentication step 2: client sends password (sent in cleartext!)">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] POP3 authentication step 2: client sends password (sent in cleartext!)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request command: (LIST)" replace="📋 POP3 $1">pop.request.command</opcode>
-    <remark match=".*" replace="💡 List messages in the mailbox with their sizes (message-number octets)">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] List messages in the mailbox with their sizes (message-number octets)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request command: (STAT)" replace="📊 POP3 $1">pop.request.command</opcode>
-    <remark match=".*" replace="💡 Mailbox status: returns message count and total size in octets">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Mailbox status: returns message count and total size in octets">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="royal-blue">
     <opcode match="Request command: (RETR)" replace="📬 POP3 $1">pop.request.command</opcode>
     <param match="(Request parameter): (.*)" replace="🔢 Message: $2">pop.request.parameter</param>
-    <remark match=".*" replace="💡 Download the full message from the server (headers + body)">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Download the full message from the server (headers + body)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="royal-blue">
     <opcode match="Request command: (DELE)" replace="❌ POP3 $1">pop.request.command</opcode>
     <param match="(Request parameter): (.*)" replace="🔢 Message: $2">pop.request.parameter</param>
-    <remark match=".*" replace="💡 Mark message for deletion — actually removed when session ends with QUIT">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Mark message for deletion — actually removed when session ends with QUIT">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request command: (CAPA)" replace="📋 POP3 $1">pop.request.command</opcode>
-    <remark match=".*" replace="💡 Query server capabilities — returns supported extensions (STLS, TOP, PIPELINING, etc.)">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Query server capabilities — returns supported extensions (STLS, TOP, PIPELINING, etc.)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="cerulean">
     <opcode match="Request command: (UTF8)" replace="🌐 POP3 $1">pop.request.command</opcode>
-    <remark match=".*" replace="💡 Enable UTF-8 support for international mailbox names and message headers">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Enable UTF-8 support for international mailbox names and message headers">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="slate dashed">
     <opcode match="Request command: (NOOP)" replace="💓 POP3 $1">pop.request.command</opcode>
-    <remark match=".*" replace="💡 Keepalive — server responds +OK but takes no action; resets inactivity timer">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] Keepalive — server responds +OK but takes no action; resets inactivity timer">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="magenta">
     <opcode match="Request command: (QUIT)" replace="🛑 POP3 $1">pop.request.command</opcode>
-    <remark match=".*" replace="💡 End session — messages marked DELE are permanently removed; server closes connection">pop.request.command</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] End session — messages marked DELE are permanently removed; server closes connection">frame.number</remark>
   </tcp-message>
 
   <!-- POP3 generic command -->
@@ -305,7 +305,7 @@ Emoji story for email lifecycle:
     <param match="(Time to live): (.*)" replace="⏱ TTL: $2">dns.resp.ttl</param>
     <param match="(Address): (.*)" replace="🌐 Resolved IP: $2">dns.a</param>
     <param match="(Time): (.*)" replace="⏱ Response Time: $2">dns.time</param>
-    <remark match="(Mail Exchange): (.*)" replace="💡📧 MX record found: mail for this domain routes to $2">dns.mx.mail_exchange</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡[Frame $1] 📧 MX record found — see the Mail Server param below for the routing target">frame.number</remark>
   </udp-message>
 
   <!-- DNS MX Query -->
@@ -313,7 +313,7 @@ Emoji story for email lifecycle:
     <opcode match=".*MX.*" replace="🔍📧 DNS MX Query">dns.qry.type</opcode>
     <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
     <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
-    <remark match=".*" replace="💡 MX query: finding the mail server responsible for this domain">dns.qry.name</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] MX query: finding the mail server responsible for this domain">frame.number</remark>
   </udp-message>
 
   <!-- DNS Response (BEFORE Query — responses also have dns.flags.opcode=0) -->

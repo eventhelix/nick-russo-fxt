@@ -63,7 +63,7 @@
     <param match="Transaction ID: (.*)" replace="🔢 XID: $1">openflow_v4.xid</param>
     <param match="Version: (.*)" replace="📋 Version: $1">openflow_v4.version</param>
     <param match="Length: (.*)" replace="📦 Length: $1">openflow_v4.length</param>
-    <remark match=".*" replace="💡 OpenFlow HELLO — controller and switch exchange version negotiation; both sides advertise supported OpenFlow versions; highest common version is selected">openflow_v4</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] OpenFlow HELLO — controller and switch exchange version negotiation; both sides advertise supported OpenFlow versions; highest common version is selected">frame.number</remark>
   </tcp-message>
 
   <!-- =================================================================
@@ -88,7 +88,7 @@
     <param match="Number of buffers: (.*)" replace="📦 Buffers: $1">openflow_v4.switch_features.n_buffers</param>
     <param match="Number of tables: (.*)" replace="📋 Tables: $1">openflow_v4.switch_features.n_tables</param>
     <param>openflow_v4.switch_features.capabilities</param>
-    <remark match=".*" replace="💡 FEATURES_REPLY — switch reports its datapath ID (unique identifier), number of flow tables, buffer capacity, and capabilities (flow stats, table stats, port stats, group stats)">openflow_v4</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] FEATURES_REPLY — switch reports its datapath ID (unique identifier), number of flow tables, buffer capacity, and capabilities (flow stats, table stats, port stats, group stats)">frame.number</remark>
   </tcp-message>
 
   <!-- =================================================================
@@ -137,7 +137,7 @@
     <param match="Total length: (.*)" replace="📦 Length: $1">openflow_v4.packet_in.total_len</param>
     <param match="Reason: (.*)" replace="📋 Reason: $1">openflow_v4.packet_in.reason</param>
     <param match="Table ID: (.*)" replace="📋 Table: $1">openflow_v4.packet_in.table_id</param>
-    <remark match=".*" replace="💡 PACKET_IN — switch sends unmatched packet to controller for decision; reason: no matching flow (table-miss), explicit action, or TTL expiry; controller responds with PACKET_OUT or FLOW_MOD">openflow_v4</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] PACKET_IN — switch sends unmatched packet to controller for decision; reason: no matching flow (table-miss), explicit action, or TTL expiry; controller responds with PACKET_OUT or FLOW_MOD">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="sea-green dashed">
@@ -170,7 +170,7 @@
     <param>openflow_v4.flowmod.buffer_id</param>
     <param>openflow_v4.flowmod.out_port</param>
     <param>openflow_v4.flowmod.out_group</param>
-    <remark match=".*" replace="💡 FLOW_MOD — controller installs/modifies/deletes flow entries in switch tables; match fields define which packets to match, actions define what to do (forward, drop, modify headers)">openflow_v4</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] FLOW_MOD — controller installs/modifies/deletes flow entries in switch tables; match fields define which packets to match, actions define what to do (forward, drop, modify headers)">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="forest-green dashed">
@@ -374,7 +374,7 @@
     <param match="Transaction ID: (.*)" replace="🔢 XID: $1">openflow_v4.xid</param>
     <param match="Type: (.*)" replace="🚨 Error Type: $1">openflow_v4.error.type</param>
     <param match="Code: (.*)" replace="🚨 Error Code: $1">openflow_v4.error.code</param>
-    <remark match=".*" replace="💡 OpenFlow ERROR — switch reports a problem; error type identifies the category (bad request, bad action, bad match, flow mod failed); error code gives the specific reason">openflow_v4</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] OpenFlow ERROR — switch reports a problem; error type identifies the category (bad request, bad action, bad match, flow mod failed); error code gives the specific reason">frame.number</remark>
   </tcp-message>
 
   <!-- =================================================================
@@ -407,7 +407,7 @@
             replace="🔒 OpenFlow $1"
         >openflow_v4.type</opcode>
     <param match="Transaction ID: (.*)" replace="🔢 XID: $1">openflow_v4.xid</param>
-    <remark match=".*" replace="💡 BARRIER — synchronization point; controller sends BARRIER_REQUEST and waits for BARRIER_REPLY to ensure all previous messages (FLOW_MOD, PACKET_OUT) have been processed by the switch">openflow_v4</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] BARRIER — synchronization point; controller sends BARRIER_REQUEST and waits for BARRIER_REPLY to ensure all previous messages (FLOW_MOD, PACKET_OUT) have been processed by the switch">frame.number</remark>
   </tcp-message>
 
   <tcp-message style="graphite dashed">

@@ -30,7 +30,7 @@ Captures: Cisco NSO device and service management via Postman
     <opcode match="(GET)" replace="📡 RESTCONF $1">http.request.method</opcode>
     <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
     <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
-    <remark match=".*" replace="💡 RESTCONF GET = NETCONF get-config — retrieves YANG model data at the specified path; response is JSON-encoded (yang-data+json)">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] RESTCONF GET = NETCONF get-config — retrieves YANG model data at the specified path; response is JSON-encoded (yang-data+json)">frame.number</remark>
   </tcp-message>
 
   <!-- RESTCONF POST — create resource -->
@@ -41,7 +41,7 @@ Captures: Cisco NSO device and service management via Postman
     <param display="brief" match="(application/yang-data.*)" replace="📦 $1">http.content_type</param>
     <param display="brief" match="(.*)" replace="📦 Length: $1">http.content_length</param>
     <param match=".*value: ([a-zA-Z][^:]+):(.*)" replace="📋 $1: $2">json.member_with_value</param>
-    <remark match=".*" replace="💡 RESTCONF POST = NETCONF edit-config create — creates a new resource; request body contains YANG data as JSON; server returns 201 Created with Location header">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] RESTCONF POST = NETCONF edit-config create — creates a new resource; request body contains YANG data as JSON; server returns 201 Created with Location header">frame.number</remark>
   </tcp-message>
 
   <!-- RESTCONF PUT — replace resource -->
@@ -52,7 +52,7 @@ Captures: Cisco NSO device and service management via Postman
     <param display="brief" match="(application/yang-data.*)" replace="📦 $1">http.content_type</param>
     <param display="brief" match="(.*)" replace="📦 Length: $1">http.content_length</param>
     <param match=".*value: ([a-zA-Z][^:]+):(.*)" replace="📋 $1: $2">json.member_with_value</param>
-    <remark match=".*" replace="💡 RESTCONF PUT = NETCONF edit-config replace — replaces the entire resource at the URI; creates if not exists; 204 on success">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] RESTCONF PUT = NETCONF edit-config replace — replaces the entire resource at the URI; creates if not exists; 204 on success">frame.number</remark>
   </tcp-message>
 
   <!-- RESTCONF PATCH — partial update -->
@@ -63,7 +63,7 @@ Captures: Cisco NSO device and service management via Postman
     <param display="brief" match="(application/yang-data.*)" replace="📦 $1">http.content_type</param>
     <param display="brief" match="(.*)" replace="📦 Length: $1">http.content_length</param>
     <param match=".*value: ([a-zA-Z][^:]+):(.*)" replace="📋 $1: $2">json.member_with_value</param>
-    <remark match=".*" replace="💡 RESTCONF PATCH = NETCONF edit-config merge — merges partial changes into existing resource; only specified fields are updated; 204 on success">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] RESTCONF PATCH = NETCONF edit-config merge — merges partial changes into existing resource; only specified fields are updated; 204 on success">frame.number</remark>
   </tcp-message>
 
   <!-- RESTCONF DELETE — remove resource -->
@@ -71,7 +71,7 @@ Captures: Cisco NSO device and service management via Postman
     <opcode match="(DELETE)" replace="🗑 RESTCONF $1">http.request.method</opcode>
     <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
     <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
-    <remark match=".*" replace="💡 RESTCONF DELETE = NETCONF edit-config delete — removes the resource at the URI; 204 No Content on success; fails if resource has dependents">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] RESTCONF DELETE = NETCONF edit-config delete — removes the resource at the URI; 204 No Content on success; fails if resource has dependents">frame.number</remark>
   </tcp-message>
 
   <!-- RESTCONF HEAD — check existence -->
@@ -79,7 +79,7 @@ Captures: Cisco NSO device and service management via Postman
     <opcode match="(HEAD)" replace="🔍 RESTCONF $1">http.request.method</opcode>
     <param display="brief" match="(/restconf/data/.*)" replace="📂 $1">http.request.uri</param>
     <param display="brief" match="(.*)" replace="🏠 Host: $1">http.host</param>
-    <remark match=".*" replace="💡 RESTCONF HEAD — same as GET but returns headers only (no body); used to check if a resource exists and get metadata without transferring data">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] RESTCONF HEAD — same as GET but returns headers only (no body); used to check if a resource exists and get metadata without transferring data">frame.number</remark>
   </tcp-message>
 
   <!-- Generic HTTP request fallback -->
@@ -100,7 +100,7 @@ Captures: Cisco NSO device and service management via Postman
     <param display="brief" match="(.*)" replace="📦 Length: $1">http.content_length</param>
     <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
     <param match="Time since request: (.*)" replace="⏱ $1">http.time</param>
-    <remark match=".*" replace="💡 200 OK — server returns the requested YANG data as JSON; for large responses, Transfer-Encoding: chunked is used">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 200 OK — server returns the requested YANG data as JSON; for large responses, Transfer-Encoding: chunked is used">frame.number</remark>
   </tcp-message>
 
   <!-- 201 Created — resource created (POST) -->
@@ -109,7 +109,7 @@ Captures: Cisco NSO device and service management via Postman
     <param display="brief" match="(http.*)" replace="📂 Location: $1">http.location</param>
     <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
     <param match="Time since request: (.*)" replace="⏱ $1">http.time</param>
-    <remark match=".*" replace="💡 201 Created — new YANG resource created; Location header contains the URI of the new resource for subsequent GET/PUT/DELETE">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 201 Created — new YANG resource created; Location header contains the URI of the new resource for subsequent GET/PUT/DELETE">frame.number</remark>
   </tcp-message>
 
   <!-- 204 No Content — operation success (DELETE, PATCH, PUT) -->
@@ -117,7 +117,7 @@ Captures: Cisco NSO device and service management via Postman
     <opcode match="(204)" replace="✅ RESTCONF $1 No Content">http.response.code</opcode>
     <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
     <param match="Time since request: (.*)" replace="⏱ $1">http.time</param>
-    <remark match=".*" replace="💡 204 No Content — operation succeeded with no response body; typical for PUT/PATCH/DELETE confirming the YANG data was modified">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 204 No Content — operation succeeded with no response body; typical for PUT/PATCH/DELETE confirming the YANG data was modified">frame.number</remark>
   </tcp-message>
 
   <!-- 401 Unauthorized -->
@@ -125,7 +125,7 @@ Captures: Cisco NSO device and service management via Postman
     <opcode match="(401)" replace="🔐 RESTCONF $1 Unauthorized">http.response.code</opcode>
     <param display="brief" match="(.*)" replace="🔐 Auth: $1">http.www_authenticate</param>
     <param display="brief" match="(.*)" replace="🖥 Server: $1">http.server</param>
-    <remark match=".*" replace="💡 401 Unauthorized — server requires authentication; RESTCONF typically uses HTTP Basic or token-based auth; client must retry with credentials">http</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] 401 Unauthorized — server requires authentication; RESTCONF typically uses HTTP Basic or token-based auth; client must retry with credentials">frame.number</remark>
   </tcp-message>
 
   <!-- 4xx/5xx Error -->

@@ -11,7 +11,7 @@ Emoji story for MPLS lifecycle:
   MPLS:   🏷 Label forwarding
   Echo:   📡 Request → ✅ Reply
 -->
-<FXT>
+<FXT auto-v6="true">
 
   <!-- ============================================================
        LDP (Label Distribution Protocol)
@@ -24,7 +24,7 @@ Emoji story for MPLS lifecycle:
     <param match="(Hold Time): (.*)" replace="⏱ $1: $2">ldp.msg.tlv.hello.hold</param>
     <param match=".*Targeted Hello.* (.*)" replace="🎯 Type: $1">ldp.msg.tlv.hello.targeted</param>
     <param match="(Transport Address): (.*)" replace="🌐 $1: $2">ldp.msg.tlv.ipv4.taddr</param>
-    <remark match=".*" replace="💡 LDP Hello — periodic UDP multicast (224.0.0.2) for neighbor discovery; discovered LSRs then open a TCP session to exchange labels and session parameters">ldp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] LDP Hello — periodic UDP multicast (224.0.0.2) for neighbor discovery; discovered LSRs then open a TCP session to exchange labels and session parameters">frame.number</remark>
   </udp-message>
 
   <!-- LDP Hello IPv6 -->
@@ -34,7 +34,7 @@ Emoji story for MPLS lifecycle:
     <param match="(Hold Time): (.*)" replace="⏱ $1: $2">ldp.msg.tlv.hello.hold</param>
     <param match=".*Targeted Hello.* (.*)" replace="🎯 Type: $1">ldp.msg.tlv.hello.targeted</param>
     <param match="(Transport Address): (.*)" replace="🌐 $1: $2">ldp.msg.tlv.ipv6.taddr</param>
-    <remark match=".*" replace="💡 LDP Hello — periodic UDP multicast (224.0.0.2) for neighbor discovery; discovered LSRs then open a TCP session to exchange labels and session parameters">ldp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] LDP Hello — periodic UDP multicast (224.0.0.2) for neighbor discovery; discovered LSRs then open a TCP session to exchange labels and session parameters">frame.number</remark>
   </udpv6-message>
 
   <!-- LDP Notification (over TCP) - before other LDP messages -->
@@ -56,14 +56,14 @@ Emoji story for MPLS lifecycle:
     <param>ldp.msg.tlv.fec.pw.pwtype</param>
     <param>ldp.msg.tlv.fec.type</param>
     <param match="(Root Node Address): (.*)" replace="🌲 $1: $2">ldp.msg.tlv.ldp_p2mp.ipv4_rtnodeaddr</param>
-    <remark match=".*" replace="💡 LDP Label Mapping — advertises a local label binding for a FEC (prefix) to the peer; downstream LSR assigns labels and propagates upstream to build the LSP hop by hop">ldp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] LDP Label Mapping — advertises a local label binding for a FEC (prefix) to the peer; downstream LSR assigns labels and propagates upstream to build the LSP hop by hop">frame.number</remark>
   </tcp-message>
 
   <!-- LDP Initialization (over TCP) -->
   <tcp-message style="teal">
     <opcode match="Message Type: (Initialization Message) \(0x\w+\)" replace="🤝 LDP $1">ldp.msg.type</opcode>
     <param match="(LSR ID): (.*)" replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
-    <remark match=".*" replace="💡 LDP Initialization — negotiates session parameters (keepalive timer, label advertisement mode: DU vs DoD, path vector limit); both LSRs must agree or session is torn down with a Notification">ldp</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] LDP Initialization — negotiates session parameters (keepalive timer, label advertisement mode: DU vs DoD, path vector limit); both LSRs must agree or session is torn down with a Notification">frame.number</remark>
   </tcp-message>
 
   <!-- LDP Label Withdrawal / Release / Request (over TCP) -->
@@ -78,44 +78,12 @@ Emoji story for MPLS lifecycle:
   </tcp-message>
 
   <!-- LDP Notification (over TCPv6) -->
-  <tcpv6-message style="magenta">
-    <opcode match="Message Type: (Notification Message) \(0x\w+\)" replace="⚠️ LDP $1">ldp.msg.type</opcode>
-    <param match="(LSR ID): (.*)" replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
-    <param match=".*= Status Data: (.*)" replace="📋 Status: $1">ldp.msg.tlv.status.data</param>
-    <param>ldp.msg.tlv.pwstatus.code</param>
-  </tcpv6-message>
 
   <!-- LDP Label Mapping (over TCPv6) -->
-  <tcpv6-message style="royal-blue">
-    <opcode match="Message Type: (Label Mapping Message) \(0x\w+\)" replace="🏷 LDP $1">ldp.msg.type</opcode>
-    <param match="(LSR ID): (.*)" replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
-    <param match="(FEC Element.*Prefix): (.*)" replace="🌐 $1: $2">ldp.msg.tlv.fec.pfval</param>
-    <param>ldp.msg.tlv.fec.len</param>
-    <param match=".*Generic Label: (\d+).*" replace="🏷 Label: $1">ldp.msg.tlv.generic.label</param>
-    <param match="(PW ID): (.*)" replace="🔗 $1: $2">ldp.msg.tlv.fec.pw.pwid</param>
-    <param>ldp.msg.tlv.fec.pw.pwtype</param>
-    <param>ldp.msg.tlv.fec.type</param>
-    <param match="(Root Node Address): (.*)" replace="🌲 $1: $2">ldp.msg.tlv.ldp_p2mp.ipv4_rtnodeaddr</param>
-    <remark match=".*" replace="💡 LDP Label Mapping — advertises a local label binding for a FEC (prefix) to the peer; downstream LSR assigns labels and propagates upstream to build the LSP hop by hop">ldp</remark>
-  </tcpv6-message>
 
   <!-- LDP Initialization (over TCPv6) -->
-  <tcpv6-message style="teal">
-    <opcode match="Message Type: (Initialization Message) \(0x\w+\)" replace="🤝 LDP $1">ldp.msg.type</opcode>
-    <param match="(LSR ID): (.*)" replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
-    <remark match=".*" replace="💡 LDP Initialization — negotiates session parameters (keepalive timer, label advertisement mode: DU vs DoD, path vector limit); both LSRs must agree or session is torn down with a Notification">ldp</remark>
-  </tcpv6-message>
 
   <!-- LDP generic (over TCPv6) -->
-  <tcpv6-message style="goldenrod">
-    <opcode match="Message Type: (.*Message) \(0x\w+\)" replace="🔄 LDP $1">ldp.msg.type</opcode>
-    <param match="(LSR ID): (.*)" replace="🆔 $1: $2">ldp.hdr.ldpid.lsr</param>
-    <param match="(FEC Element.*Prefix): (.*)" replace="🌐 $1: $2">ldp.msg.tlv.fec.pfval</param>
-    <param match=".*Generic Label: (\d+).*" replace="🏷 Label: $1">ldp.msg.tlv.generic.label</param>
-    <param match="(PW ID): (.*)" replace="🔗 $1: $2">ldp.msg.tlv.fec.pw.pwid</param>
-    <param>ldp.msg.tlv.fec.type</param>
-    <param match="(Root Node Address): (.*)" replace="🌲 $1: $2">ldp.msg.tlv.ldp_p2mp.ipv4_rtnodeaddr</param>
-  </tcpv6-message>
 
   <!-- ============================================================
        NHRP (Next Hop Resolution Protocol — DMVPN)

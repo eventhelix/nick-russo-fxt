@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<FXT>
+<FXT auto-v6="true">
   <!-- Use this field to select the messages that should be displayed in the sequence diagram:
 
        1. Choose the filter to add by clicking SCTP, TCP, UDP, IP, WIFI, MAC or MSG buttons.
@@ -676,11 +676,6 @@
   </udpv6-message>
 
   <!-- DNS Query over IPv6 -->
-  <udpv6-message style="royal-blue">
-    <opcode display="brief" match="^0$" replace="🔍 DNS Query">dns.flags.opcode</opcode>
-    <param match="(Name): (.*)" replace="🔍 $1: $2">dns.qry.name</param>
-    <param match="(Type): (.*)" replace="🏷 $1: $2">dns.qry.type</param>
-  </udpv6-message>
 
   <!-- Wake-on-LAN -->
   <mac-message style="amethyst">

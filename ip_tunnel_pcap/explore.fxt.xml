@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- IP Tunneling: GRE/DMVPN (NHRP), LISP, AMT, ICMP -->
-<FXT>
+<FXT auto-v6="true">
 
   <!-- ============================================================
        NHRP (before GRE — NHRP carried inside GRE in DMVPN)
@@ -280,15 +280,7 @@
     <param match="(Nonce): (.*)" replace="🔑 $1: $2">lisp.nonce</param>
   </udpv6-message>
 
-  <udpv6-message style="goldenrod">
-    <opcode match=".*Type: (Encapsulated Control Message) \(\d+\)" replace="📨 LISP ECM">lisp.type</opcode>
-  </udpv6-message>
 
-  <udpv6-message style="amethyst">
-    <opcode match=".*Type: (.*) \(\d+\)" replace="🔄 LISP $1">lisp.type</opcode>
-    <param match="(Record Count): (.*)" replace="🔢 $1: $2">lisp.records</param>
-    <param match="(Nonce): (.*)" replace="🔑 $1: $2">lisp.nonce</param>
-  </udpv6-message>
 
   <!-- ============================================================
        AMT (Automatic Multicast Tunneling)
@@ -372,21 +364,8 @@
   </udp-message>
 
   <!-- AMT IPv6 variants -->
-  <udpv6-message style="sea-green">
-    <opcode match=".*Type: (Relay Discovery) \(\d+\)" replace="🔍 AMT $1">amt.type</opcode>
-    <param match="(Nonce): (.*)" replace="🔑 $1: $2">amt.discovery_nonce</param>
-  </udpv6-message>
 
-  <udpv6-message style="forest-green">
-    <opcode match=".*Type: (Relay Advertisement) \(\d+\)" replace="📡 AMT $1">amt.type</opcode>
-    <param match="(Relay Address): (.*)" replace="📍 $1: $2">amt.relay_address.ipv4</param>
-    <param match="(Nonce): (.*)" replace="🔑 $1: $2">amt.discovery_nonce</param>
-  </udpv6-message>
 
-  <udpv6-message style="royal-blue">
-    <opcode match=".*Type: (Request) \(\d+\)" replace="📋 AMT $1">amt.type</opcode>
-    <param match="(Nonce): (.*)" replace="🔑 $1: $2">amt.request_nonce</param>
-  </udpv6-message>
 
   <message style="cerulean">
     <opcode match=".*Type: (Membership Query) \(\d+\)" replace="🔍 AMT $1">amt.type</opcode>
@@ -427,11 +406,6 @@
     </destination>
   </message>
 
-  <udpv6-message style="steel-blue">
-    <opcode match=".*Type: (.*) \(\d+\)" replace="🔄 AMT $1">amt.type</opcode>
-    <param match="(Nonce): (.*)" replace="🔑 $1: $2">amt.request_nonce</param>
-    <param match="(Nonce): (.*)" replace="🔑 $1: $2">amt.discovery_nonce</param>
-  </udpv6-message>
 
   <!-- ============================================================
        ICMPv6 (for IPv6 tunnel traffic)

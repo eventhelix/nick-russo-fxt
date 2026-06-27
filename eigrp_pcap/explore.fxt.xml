@@ -17,7 +17,7 @@ This template shows:
   <ipv6-message style="steel-blue">
     <opcode
         display="brief"
-        match="134"
+        match="^134$"
         replace="ICMPv6 Router Advertisement"
       >icmpv6.type</opcode>
     <param>icmpv6.nd.ra.router_lifetime</param>
@@ -30,7 +30,7 @@ This template shows:
   <ipv6-message style="slate-gray">
     <opcode
         display="brief"
-        match="135"
+        match="^135$"
         replace="ICMPv6 Neighbor Solicitation"
       >icmpv6.type</opcode>
     <param>icmpv6.nd.ns.target_address</param>
@@ -41,7 +41,7 @@ This template shows:
   <ipv6-message style="slate-gray dashed">
     <opcode
         display="brief"
-        match="136"
+        match="^136$"
         replace="ICMPv6 Neighbor Advertisement"
       >icmpv6.type</opcode>
     <param>icmpv6.nd.na.target_address</param>
