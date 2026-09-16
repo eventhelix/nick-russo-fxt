@@ -195,7 +195,7 @@
   <message style="royal-blue">
     <opcode match=".*Type: (Map-Request) \(\d+\)" replace="🔍 LISP $1">lisp.type</opcode>
     <param match="(Source EID.*): (.*)" replace="📤 Source EID: $2">lisp.mreq.srceid.ipv4</param>
-    <param match="(Source EID.*): (.*)" replace="📤 Source EID: $2">lisp.mreq.srceid.ipv6</param>
+    <param match="(Source EID.*): (.*)" replace="📤 Source EID: $2">lisp.mreq.srceid_ipv6</param>
     <param match="(Prefix.*): (.*)" replace="🎯 Query: $2">lisp.mreq.record.prefix.ipv4</param>
     <param match="(Prefix.*): (.*)" replace="🎯 Query: $2">lisp.mreq.record.prefix.ipv6</param>
     <param match="(ITR-RLOC.*): (.*)" replace="📍 ITR-RLOC: $2">lisp.mreq.itr_rloc_ipv4</param>
@@ -257,7 +257,7 @@
   <message style="royal-blue">
     <opcode match=".*Type: (Map-Request) \(\d+\)" replace="🔍 LISP $1">lisp.type</opcode>
     <param match="(Source EID.*): (.*)" replace="📤 Source EID: $2">lisp.mreq.srceid.ipv4</param>
-    <param match="(Source EID.*): (.*)" replace="📤 Source EID: $2">lisp.mreq.srceid.ipv6</param>
+    <param match="(Source EID.*): (.*)" replace="📤 Source EID: $2">lisp.mreq.srceid_ipv6</param>
     <param match="(Prefix.*): (.*)" replace="🎯 Query: $2">lisp.mreq.record.prefix.ipv4</param>
     <param match="(Prefix.*): (.*)" replace="🎯 Query: $2">lisp.mreq.record.prefix.ipv6</param>
     <param match="(Nonce): (.*)" replace="🔑 $1: $2">lisp.nonce</param>

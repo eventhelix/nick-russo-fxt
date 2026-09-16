@@ -61,8 +61,8 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
         >bgp.type</opcode>
     <param match="^(?:[^:]+:\s*)?(.+)$" replace="🎯 $1">bgp.ext_com</param>
     <!-- Standard NLRI -->
-    <param match="^(?:[^:]+:\s*)?(.+)$" replace=". $1">bgp.prefix_length</param>
-    <param match="(.*) \(.*\)" replace=". $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="🌐 NLRI: $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="📏 Prefix Length: $1">bgp.prefix_length</param>
     <param>bgp.withdrawn_prefix</param>
     <param>bgp.Withdrawn route prefix length</param>
     <!-- MP-BGP NLRI -->
@@ -181,8 +181,8 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
     <param>bgp.cap.mp.afi</param>
     <param>bgp.cap.mp.safi</param>
     <param>bgp.update.path_attribute.mp_reach_nlri.next_hop</param>
-    <param match="^(?:[^:]+:\s*)?(.+)$" replace=". $1">bgp.prefix_length</param>
-    <param match="(.*) \(.*\)" replace=". $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="🌐 NLRI: $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="📏 Prefix Length: $1">bgp.prefix_length</param>
     <param>bgp.MP Reach NLRI prefix length</param>
     <param>bgp.MP Reach NLRI prefix</param>
     <param>bgp.Next hop</param>
@@ -230,8 +230,8 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
             replace="📢 BGP $1"
         >bgp.type</opcode>
     <param match="^(?:[^:]+:\s*)?(.+)$" replace="🎯 $1">bgp.ext_com</param>
-    <param match="^(?:[^:]+:\s*)?(.+)$" replace=". $1">bgp.prefix_length</param>
-    <param match="(.*) \(.*\)" replace=". $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="🌐 NLRI: $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="📏 Prefix Length: $1">bgp.prefix_length</param>
     <param>bgp.withdrawn_prefix</param>
     <param>bgp.Withdrawn route prefix length</param>
     <param>bgp.update.path_attribute.mp_reach_nlri.afi</param>
@@ -282,8 +282,8 @@ For session-aware BGP tracking, see bgp_sessions.fxt.xml
     <param>bgp.cap.mp.afi</param>
     <param>bgp.cap.mp.safi</param>
     <param>bgp.update.path_attribute.mp_reach_nlri.next_hop</param>
-    <param match="^(?:[^:]+:\s*)?(.+)$" replace=". $1">bgp.prefix_length</param>
-    <param match="(.*) \(.*\)" replace=". $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="🌐 NLRI: $1">bgp.nlri_prefix</param>
+    <param match="^(?:[^:]+:\s*)?(.+)$" replace="📏 Prefix Length: $1">bgp.prefix_length</param>
     <param>bgp.MP Reach NLRI prefix length</param>
     <param>bgp.MP Reach NLRI prefix</param>
     <param>bgp.Next hop</param>

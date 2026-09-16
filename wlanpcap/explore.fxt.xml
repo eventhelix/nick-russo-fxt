@@ -704,7 +704,7 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
     <param match="Destination address: (.*)" replace="📱 Dst: $1">wlan.da</param>
     <param
             match="Tag interpretation: (.*)"
-            replace="$1"
+            replace="📶 SSID: $1"
         >wlan.ssid</param>
     <param match="Reason code: (.*)" replace="📋 Reason: $1">wlan.fixed.reason_code</param>
     <param match="Status code: (.*)" replace="📋 Status: $1">wlan.fixed.status_code</param>
@@ -741,7 +741,7 @@ Copyright © EventHelix.com Inc. 2014-2025. All Rights Reserved.
     <param>dhcp.hw.mac_addr</param>
     <param match="Your.*IP.*: (.*)" replace="🌐 IP: $1">dhcp.ip.your</param>
     <param match="Host Name.*: (.*)" replace="🖥 Hostname: $1">dhcp.option.hostname</param>
-      <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DHCP — client obtains IP address after 802.11 association and EAPOL key exchange complete; DORA: Discover→Offer→Request→ACK; in WLAN, DHCP may traverse CAPWAP tunnel to WLC">frame.number</remark>
+      <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DHCP — client obtains IP address after 802.11 association and EAPOL key exchange complete; DORA: Discover->Offer->Request->ACK; in WLAN, DHCP may traverse CAPWAP tunnel to WLC">frame.number</remark>
   </udp-message>
 
   <!-- ============================================================

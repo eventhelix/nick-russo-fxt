@@ -225,7 +225,7 @@ Sample PCAPs:
   <tcp-message style="crimson">
     <opcode match=".*ERR Packet.*" replace="⚠️ MySQL Error">mysql.response_code</opcode>
     <param match="(Error Code): (.*)" replace="📋 $1: $2">mysql.error_code</param>
-    <param match="(Error message): (.*)" replace="📋 $1: $2">mysql.error_message</param>
+    <param match="(Error message): (.*)" replace="📋 $1: $2">mysql.error.message</param>
   </tcp-message>
 
   <!-- MySQL Result Set (field definitions and row data) -->

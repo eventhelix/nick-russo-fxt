@@ -127,8 +127,8 @@ Emoji story for SR lifecycle:
   <!-- BGP NOTIFICATION -->
   <tcp-message style="crimson">
     <opcode match="Type: (NOTIFICATION) Message \(\d+\)" replace="🚨 BGP $1">bgp.type</opcode>
-    <param match="(Major Error Code): (.*)" replace="📋 $1: $2">bgp.notification.major_error</param>
-    <param match="(Minor Error Code): (.*)" replace="📋 $1: $2">bgp.notification.minor_error</param>
+    <param match="(Major Error Code): (.*)" replace="📋 $1: $2">bgp.notify.major_error</param>
+    <param match="(Minor Error Code): (.*)" replace="📋 $1: $2">bgp.notify.minor_error</param>
   </tcp-message>
 
   <!-- BGP KEEPALIVE -->

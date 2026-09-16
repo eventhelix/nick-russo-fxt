@@ -187,7 +187,7 @@ Protocols covered:
     <param match="Host Name.*: (.*)" replace="🖥 Hostname: $1">dhcp.option.hostname</param>
     <param>dhcp.option.dhcp_server_id</param>
     <param>dhcp.option.ip_address_lease_time</param>
-    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DHCP — Meraki device obtains IP address, default gateway, and DNS servers; first step in cloud-managed initialization (DORA: Discover→Offer→Request→ACK)">frame.number</remark>
+    <remark match=".*Frame Number: (\d+)" replace="💡 [Frame $1] DHCP — Meraki device obtains IP address, default gateway, and DNS servers; first step in cloud-managed initialization (DORA: Discover->Offer->Request->ACK)">frame.number</remark>
   </udp-message>
 
   <!-- ============================================================
@@ -376,7 +376,7 @@ Protocols covered:
     <param>dhcpv6.xid</param>
     <param>dhcpv6.client_fqdn</param>
     <param>dhcpv6.iaaddr.ip</param>
-    <param>dhcpv6.option.status_code</param>
+    <param>dhcpv6.status_code</param>
   </udpv6-message>
 
   <!-- ============================================================

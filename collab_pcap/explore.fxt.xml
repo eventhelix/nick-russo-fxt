@@ -145,7 +145,7 @@ Protocol Overview:
     <param match="Call-ID: (.*)" replace="🔗 Call-ID: $1">sip.Call-ID</param>
     <param match="CSeq: (.*)" replace="🔢 CSeq: $1">sip.CSeq</param>
     <param match="Refer-To: (.*)" replace="↪ Refer-To: $1">sip.Refer-To</param>
-    <param match="Referred-By: (.*)" replace="↪ Referred-By: $1">sip.Referred-By</param>
+    <param match="Referred-By: (.*)" replace="↪ Referred-By: $1">sip.Referred-by</param>
   </udp-message>
 
   <!-- SIP INFO - Mid-dialog information -->

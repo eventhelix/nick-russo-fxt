@@ -543,10 +543,10 @@ ICMPv6 Types:
             replace="🤝 BGP OPEN"
         >bgp.type</opcode>
     <param>tcp.stream</param>
-    <param>bgp.version</param>
-    <param>bgp.my_as</param>
-    <param>bgp.hold_time</param>
-    <param>bgp.id</param>
+    <param>bgp.open.version</param>
+    <param>bgp.open.myas</param>
+    <param>bgp.open.holdtime</param>
+    <param>bgp.open.identifier</param>
     <param>bgp.cap</param>
     <param>bgp.cap.mp.afi</param>
   </tcpv6-message>
@@ -559,11 +559,11 @@ ICMPv6 Types:
             replace="📢 BGP UPDATE"
         >bgp.type</opcode>
     <param>tcp.stream</param>
-    <param>bgp.origin</param>
+    <param>bgp.update.path_attribute.origin</param>
     <param>bgp.as_path</param>
     <param>bgp.next_hop</param>
-    <param>bgp.local_pref</param>
-    <param>bgp.multi_exit_disc</param>
+    <param>bgp.update.path_attribute.local_pref</param>
+    <param>bgp.update.path_attribute.multi_exit_disc</param>
     <param>bgp.nlri_prefix</param>
     <param>bgp.mp_reach_nlri_ipv6_prefix</param>
   </tcpv6-message>
@@ -594,22 +594,22 @@ ICMPv6 Types:
   <tcpv6-message style="amethyst">
     <opcode match="^Type: (.*)" replace="BGP $1">bgp.type</opcode>
     <param>tcp.stream</param>
-    <param>bgp.version</param>
-    <param>bgp.my_as</param>
-    <param>bgp.hold_time</param>
-    <param>bgp.id</param>
-    <param>bgp.origin</param>
+    <param>bgp.open.version</param>
+    <param>bgp.open.myas</param>
+    <param>bgp.open.holdtime</param>
+    <param>bgp.open.identifier</param>
+    <param>bgp.update.path_attribute.origin</param>
     <param>bgp.as_path</param>
     <param>bgp.next_hop</param>
-    <param>bgp.local_pref</param>
+    <param>bgp.update.path_attribute.local_pref</param>
     <param>bgp.aggregator</param>
-    <param>bgp.communities</param>
-    <param>bgp.originator_id</param>
-    <param>bgp.cluster_list</param>
+    <param>bgp.update.path_attribute.communities</param>
+    <param>bgp.update.path_attribute.originator_id</param>
+    <param>bgp.path_attribute.cluster_list</param>
     <param>bgp.nlri_prefix</param>
     <param>bgp.cap</param>
     <param>bgp.cap.mp.afi</param>
-    <param>bgp.multi_exit_disc</param>
+    <param>bgp.update.path_attribute.multi_exit_disc</param>
   </tcpv6-message>
 
   <!-- ============================================================
@@ -625,8 +625,8 @@ ICMPv6 Types:
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.flags</param>
-    <param>eigrp.sequence</param>
-    <param>eigrp.acknowledge</param>
+    <param>eigrp.seq</param>
+    <param>eigrp.ack</param>
     <param>eigrp.tlv_type</param>
     <param>eigrp.ipv6.nexthop</param>
   </ipv6-message>
@@ -640,8 +640,8 @@ ICMPv6 Types:
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.flags</param>
-    <param>eigrp.sequence</param>
-    <param>eigrp.acknowledge</param>
+    <param>eigrp.seq</param>
+    <param>eigrp.ack</param>
     <param>eigrp.tlv_type</param>
     <param>eigrp.tlv.len</param>
     <param>eigrp.ipv6.nexthop</param>
@@ -657,8 +657,8 @@ ICMPv6 Types:
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.flags</param>
-    <param>eigrp.sequence</param>
-    <param>eigrp.acknowledge</param>
+    <param>eigrp.seq</param>
+    <param>eigrp.ack</param>
     <param>eigrp.tlv_type</param>
     <param>eigrp.tlv.len</param>
     <param>eigrp.ipv6.nexthop</param>
@@ -674,8 +674,8 @@ ICMPv6 Types:
         >eigrp.opcode</opcode>
     <param>eigrp.as</param>
     <param>eigrp.flags</param>
-    <param>eigrp.sequence</param>
-    <param>eigrp.acknowledge</param>
+    <param>eigrp.seq</param>
+    <param>eigrp.ack</param>
     <param>eigrp.tlv_type</param>
     <param>eigrp.tlv.len</param>
     <param>eigrp.ipv6.nexthop</param>
